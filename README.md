@@ -47,5 +47,5 @@ vercel
 
 - Far rivedere i testi di /privacy e /cookie a un consulente: sono una base ragionevole, non un parere legale.
 - Sostituire le foto di repertorio con scatti propri quando disponibili (aggiornare anche `src/data/credits.json`).
-- Aggiornare `public/sitemap.xml` e `robots.txt` con il dominio definitivo (oggi puntano a cosefighe.it).
+- Il sito e online su https://cosefighe.vercel.app (ogni push su `main` aggiorna la produzione). Quando colleghi un dominio tuo, aggiorna `public/sitemap.xml` e `public/robots.txt`.
 - Le esperienze mostrano "Prossimamente": quando aprono le prenotazioni, collegare il pulsante al sistema di booking.
