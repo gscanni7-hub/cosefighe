@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Anton";
+  src: url("/fonts/anton-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Anton", Impact, "Arial Narrow Bold", sans-serif;
+
+  --color-brand-dark: #111111;
+  --color-brand-light: #ffffff;
+  --color-ink: #111111;
+  --color-orange: #ff5500;
+  --color-blue: #0055ff;
+  --color-paper: #fff7f1;
+  --color-cream: #fff1e8;
+
+  --shadow-hard-sm: 3px 3px 0 0 #111111;
+  --shadow-hard: 4px 4px 0 0 #111111;
+  --shadow-hard-lg: 8px 8px 0 0 #111111;
+  --shadow-hard-xl: 12px 12px 0 0 #111111;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --text-display-xl: clamp(3.25rem, 9.5vw, 8.5rem);
+  --text-display-xl--line-height: 0.9;
+  --text-display-lg: clamp(2.5rem, 5.5vw, 5rem);
+  --text-display-lg--line-height: 0.95;
+  --text-display-md: clamp(1.75rem, 3vw, 2.5rem);
+  --text-display-md--line-height: 1;
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+}
+@utility section-y {
+  @apply py-20 md:py-28;
+}
+@utility dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+  body {
+    background-color: var(--color-brand-light);
+    color: var(--color-ink);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-orange);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px var(--color-ink);
+  color: transparent;
+}
+.text-outline-light {
+  -webkit-text-stroke: 2px #ffffff;
+  color: transparent;
+}
+@media (min-width: 768px) {
+  .text-outline,
+  .text-outline-light {
+    -webkit-text-stroke-width: 3px;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-ink);
+  font-weight: 700;
+  box-shadow: var(--shadow-hard);
+  transition: top 150ms;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+  border-radius: 6px;
+  border: 2px solid var(--color-paper);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out-quart);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

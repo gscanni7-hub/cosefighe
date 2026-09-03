@@ -1,0 +1,33 @@
+import { useEffect } from 'react'
+
+interface PageMeta {
+  title: string
+  description: string
+  image?: string
+}
+
+function setMeta(attr: 'name' | 'property', key: string, content: string) {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)
+  if (!el) {
+    el = document.createElement('meta')
+    el.setAttribute(attr, key)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+/** Imposta titolo, description e Open Graph della pagina. */
+export function usePageMeta({ title, description, image }: PageMeta) {
+  useEffect(() => {
+    document.title = title
+    setMeta('name', 'description', description)
+    setMeta('property', 'og:title', title)
+    setMeta('property', 'og:description', description)
+    setMeta('property', 'og:url', window.location.href)
+    if (image) {
+      const abs = new URL(image, window.location.origin).toString()
+      setMeta('property', 'og:image', abs)
+      setMeta('name', 'twitter:image', abs)
+    }
+  }, [title, description, image])
+}
