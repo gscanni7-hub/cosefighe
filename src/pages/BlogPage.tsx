@@ -31,7 +31,7 @@ export default function BlogPage() {
         subtitle="Scritto da chi Napoli la vive ogni giorno. Niente classifiche copiate: posti veri, orari veri, consigli da local."
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[240px]" aria-hidden="true">
-            <FloatingImage src="/meditazione.webp" amplitude={10} />
+            <FloatingImage src="/mascotte-giornalista.webp" amplitude={10} />
           </div>
         }
       />

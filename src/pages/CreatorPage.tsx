@@ -257,7 +257,7 @@ export default function CreatorPage() {
         subtitle="Se hai una passione e vuoi condividerla con chi visita Napoli, vogliamo conoscerti. Niente burocrazia, solo autenticità."
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
-            <FloatingImage src="/mascotte-1.webp" amplitude={10} />
+            <FloatingImage src="/mascotte-creator.webp" amplitude={10} />
           </div>
         }
       />

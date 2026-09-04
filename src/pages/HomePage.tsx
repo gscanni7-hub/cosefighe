@@ -291,7 +291,7 @@ const CreatorBand = () => (
   <section className="section-y overflow-hidden bg-orange text-white">
     <div className="container-x grid items-center gap-10 md:grid-cols-[0.65fr_1.35fr] md:gap-16">
       <div className="relative mx-auto w-[200px] md:w-full md:max-w-[300px]" aria-hidden="true">
-        <FloatingImage src="/cose-beve.webp" amplitude={10} />
+        <FloatingImage src="/mascotte-creator.webp" amplitude={10} />
       </div>
       <Reveal>
         <p className="label text-white/75">Per chi Napoli la conosce</p>

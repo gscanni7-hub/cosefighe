@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { ArrowRight, Check, Instagram, Mail, MapPin, Send } from 'lucide-react'
 import { Page } from '../components/Page'
 import { PageHero } from '../components/ui/PageHero'
+import { FloatingImage } from '../components/Decorations'
 import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { createLead } from '../lib/db'
@@ -75,6 +76,11 @@ export default function ContactPage() {
         title="Scrivici"
 
         subtitle="Domande, idee, partnership o solo voglia di raccontarci la tua Napoli. Rispondiamo entro 24 ore nei giorni feriali."
+        aside={
+          <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
+            <FloatingImage src="/mascotte-contatti.webp" amplitude={10} />
+          </div>
+        }
       />
 
 
