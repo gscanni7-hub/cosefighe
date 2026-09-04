@@ -64,12 +64,12 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/cosefighe"
+                  href="https://www.instagram.com/cosefighe_/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
                 >
-                  <Instagram size={14} /> @cosefighe
+                  <Instagram size={14} /> @cosefighe_
                 </a>
               </li>
               <li className="inline-flex items-center gap-2 text-white/80">

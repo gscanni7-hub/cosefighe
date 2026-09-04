@@ -12,7 +12,7 @@ const topics = ["Voglio prenotare un'esperienza", 'Voglio diventare creator', 'P
 
 const contacts = [
   { icon: Mail, label: 'Email', value: 'ciao@cosefighe.it', href: 'mailto:ciao@cosefighe.it' },
-  { icon: Instagram, label: 'Instagram', value: '@cosefighe', href: 'https://instagram.com/cosefighe' },
+  { icon: Instagram, label: 'Instagram', value: '@cosefighe_', href: 'https://www.instagram.com/cosefighe_/' },
   { icon: MapPin, label: 'Sede', value: 'Napoli, Campania' },
 ]
 
