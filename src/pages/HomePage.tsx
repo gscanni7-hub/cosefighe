@@ -1,8 +1,9 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
-import { motion } from 'motion/react'
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { Page } from '../components/Page'
-import { DragScroll, FloatingImage, MouseParallax } from '../components/Decorations'
+import { DragScroll, FloatingImage } from '../components/Decorations'
 import { ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
@@ -40,49 +41,139 @@ const steps = [
 
 const ease = [0.25, 1, 0.5, 1] as const
 
-const Hero = () => (
-  <section className="relative z-10 bg-paper pt-28 md:pt-36">
-    <div className="container-x grid items-end gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:gap-10">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease }}
-        className="relative z-10 pb-10 md:pb-24"
-      >
-        <p className="label text-orange">Esperienze autentiche a Napoli</p>
-        <h1 className="mt-4 font-display text-display-xl uppercase tracking-tight">
-          Scopri <span className="text-orange">cose fighe</span> da fare a Napoli
-        </h1>
-        <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/65">
-          Tour, laboratori e avventure fuori dai giri turistici, raccontati da creator che la città la vivono ogni
-          giorno.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <ButtonLink to="/esperienze" size="lg">
-            Esplora le esperienze <ArrowRight size={18} />
-          </ButtonLink>
-          <ButtonLink to="/creator" variant="secondary" size="lg">
-            Diventa creator
-          </ButtonLink>
-        </div>
-        <p className="mt-8 text-sm text-ink/50">{totalExperiences} esperienze · 6 categorie · prenotazioni in apertura</p>
-      </motion.div>
+const rise = (delay: number) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease },
+})
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.1, ease }}
-        className="relative -mb-8 md:-mb-14 lg:-mr-12"
-        aria-hidden="true"
-      >
-        <div className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange/20 blur-3xl" />
-        <MouseParallax strength={10} className="relative">
-          <FloatingImage src="/mascotte-1.webp" className="mx-auto w-[260px] sm:w-[320px] md:w-full md:max-w-[520px]" amplitude={8} />
-        </MouseParallax>
-      </motion.div>
-    </div>
-  </section>
-)
+/** Parallasse al mouse sul primo schermo: due strati che si muovono in direzioni opposte. Spento su touch e con "riduci movimento". */
+function useHeroParallax(max = 14) {
+  const ref = useRef<HTMLElement>(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const sx = useSpring(x, { stiffness: 50, damping: 16, mass: 0.5 })
+  const sy = useSpring(y, { stiffness: 50, damping: 16, mass: 0.5 })
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect()
+      x.set(((e.clientX - r.left) / r.width - 0.5) * 2 * max)
+      y.set(((e.clientY - r.top) / r.height - 0.5) * 2 * max)
+    }
+    const onLeave = () => {
+      x.set(0)
+      y.set(0)
+    }
+    el.addEventListener('pointermove', onMove, { passive: true })
+    el.addEventListener('pointerleave', onLeave)
+    return () => {
+      el.removeEventListener('pointermove', onMove)
+      el.removeEventListener('pointerleave', onLeave)
+    }
+  }, [max, x, y])
+
+  return { ref, sx, sy }
+}
+
+const Hero = () => {
+  const { ref, sx, sy } = useHeroParallax(14)
+  const backDepth = -0.35
+  const backX = useTransform(sx, (v) => v * backDepth)
+  const backY = useTransform(sy, (v) => v * backDepth)
+  const mascotX = useTransform(sx, (v) => v)
+  const mascotY = useTransform(sy, (v) => v)
+
+  const sticker = (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.9, ease }}
+      className="absolute left-0 top-[14%] -rotate-[8deg] whitespace-nowrap rounded-full border-2 border-ink bg-white px-3.5 py-2 text-[13px] font-bold shadow-hard-sm max-md:left-auto max-md:right-[62%] max-md:top-[22%]"
+    >
+      <b className="text-orange">{totalExperiences}</b> esperienze · <b className="text-orange">6</b> categorie
+    </motion.div>
+  )
+
+  const mascot = (
+    <motion.div
+      initial={{ opacity: 0, y: 60, rotate: 4 }}
+      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      transition={{ duration: 0.9, delay: 0.24, ease }}
+      className="relative"
+    >
+      <motion.img
+        src="/mascotte-hero.webp"
+        alt=""
+        width={806}
+        height={1000}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+        className="block h-auto w-full drop-shadow-[0_18px_0_rgba(0,0,0,0.12)]"
+      />
+      {sticker}
+    </motion.div>
+  )
+
+  return (
+    <section ref={ref} className="relative overflow-hidden bg-paper">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <motion.div
+              style={{ x: backX, y: backY }}
+              className="absolute right-[-14vw] top-[-8%] aspect-square w-[min(64vw,900px)] max-md:bottom-[-46vw] max-md:right-[-42vw] max-md:top-auto max-md:w-[110vw]"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.08, ease }}
+                className="h-full w-full rounded-full bg-blue"
+              />
+            </motion.div>
+            <motion.div
+              style={{ x: mascotX, y: mascotY }}
+              className="absolute bottom-[-13%] right-[max(1vw,calc((100vw-80rem)/2-60px))] w-[min(48vw,700px)] max-md:bottom-[-7%] max-md:right-[-3vw] max-md:w-[min(66vw,320px)]"
+            >
+              {mascot}
+            </motion.div>
+      </div>
+
+      <div className="container-x relative z-10 grid items-center gap-8 pb-[min(78vw,390px)] pt-28 md:h-[100svh] md:max-h-[780px] md:min-h-[600px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:pb-20 md:pt-28">
+        <div>
+          <motion.p {...rise(0.06)} className="label text-orange">
+            Esperienze autentiche a Napoli
+          </motion.p>
+          <h1 className="mt-4 font-display text-display-xl uppercase tracking-tight">
+            <motion.span {...rise(0.12)} className="block">
+              Scopri <span className="text-orange">cose fighe</span>
+            </motion.span>
+            <motion.span {...rise(0.19)} className="block">
+              da fare a Napoli
+            </motion.span>
+          </h1>
+          <motion.p {...rise(0.28)} className="mt-6 max-w-lg text-lg leading-relaxed text-ink/65">
+            Tour, laboratori e avventure fuori dai giri turistici, raccontati da creator che la città la vivono ogni
+            giorno.
+          </motion.p>
+          <motion.div {...rise(0.34)} className="mt-8 flex flex-wrap items-center gap-3">
+            <ButtonLink to="/esperienze" size="lg">
+              Esplora le esperienze <ArrowRight size={18} />
+            </ButtonLink>
+            <ButtonLink to="/creator" variant="secondary" size="lg">
+              Diventa creator
+            </ButtonLink>
+          </motion.div>
+          <motion.p {...rise(0.4)} className="mt-8 hidden text-sm text-ink/50 md:block">
+            {totalExperiences} esperienze · 6 categorie · prenotazioni in apertura
+          </motion.p>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 const CategoriesStrip = () => (
   <section className="relative bg-white pt-24 pb-16 md:pt-32 md:pb-24">
