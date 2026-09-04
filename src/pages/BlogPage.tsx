@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Page } from '../components/Page'
-import { Band } from '../components/Band'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
 import { Reveal } from '../components/ui/Reveal'
@@ -26,22 +25,17 @@ export default function BlogPage() {
   return (
     <Page>
       <PageHero
-        tone="ink"
-        kicker="Storie, guide e consigli"
-        title={
-          <>
-            Il <span className="text-orange">blog</span>
-          </>
-        }
+        eyebrow="Storie, guide e consigli"
+        title="Il blog"
+
         subtitle="Scritto da chi Napoli la vive ogni giorno. Niente classifiche copiate: posti veri, orari veri, consigli da local."
         aside={
-          <div className="relative mx-auto w-[200px] md:ml-auto md:w-[280px]" aria-hidden="true">
-            <FloatingImage src="/meditazione.webp" />
+          <div className="relative mx-auto w-[180px] md:ml-auto md:w-[240px]" aria-hidden="true">
+            <FloatingImage src="/meditazione.webp" amplitude={10} />
           </div>
         }
       />
 
-      <Band text="FOOD • OUTDOOR • ARTE • LABORATORI • NAPOLI • COSE FIGHE • " tone="orange" tilt={-1} />
 
       <section className="section-y">
         <div className="container-x">
@@ -52,7 +46,7 @@ export default function BlogPage() {
           )}
 
           <Reveal className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display text-display-lg uppercase">
+            <h2 className="heading-lg">
               {showFeatured ? 'Tutti gli articoli' : `Articoli ${filter}`}
             </h2>
             <div role="group" aria-label="Filtra per categoria" className="flex flex-wrap gap-2">
@@ -62,8 +56,8 @@ export default function BlogPage() {
                   type="button"
                   onClick={() => setFilter(c)}
                   aria-pressed={filter === c}
-                  className={`min-h-[40px] rounded-full border-2 border-ink px-4 text-xs font-bold uppercase tracking-wider transition-colors ${
-                    filter === c ? 'bg-ink text-white' : 'bg-white text-ink hover:bg-cream'
+                  className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
+                    filter === c ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
                   }`}
                 >
                   {c}
@@ -80,18 +74,14 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="section-y border-t-4 border-ink bg-orange text-white">
+      <section className="section-y bg-paper">
         <div className="container-x grid items-center gap-10 md:grid-cols-2">
           <Reveal>
-            <h2 className="font-display text-display-lg uppercase">
-              Non perdere <span className="text-outline-light">nessun articolo</span>
-            </h2>
-            <p className="mt-5 max-w-md text-white/85">
-              Lascia la mail: nuove guide su Napoli e la notizia di quando aprono le prenotazioni.
-            </p>
+            <h2 className="heading-lg">Non perdere nessun articolo</h2>
+            <p className="mt-4 max-w-md text-ink/60">Lascia la mail: nuove guide su Napoli e la notizia di quando aprono le prenotazioni.</p>
           </Reveal>
-          <Reveal delay={0.1}>
-            <WaitlistForm source="blog" tone="dark" />
+          <Reveal delay={0.08}>
+            <WaitlistForm source="blog" />
           </Reveal>
         </div>
       </section>

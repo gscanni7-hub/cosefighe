@@ -1,12 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { ArrowRight, Check, Instagram, Send } from 'lucide-react'
 import { Page } from '../components/Page'
-import { Band } from '../components/Band'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
 import { Button, ButtonAnchor } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
-import { Sticker } from '../components/ui/Sticker'
 import { createLead } from '../lib/db'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -29,8 +27,8 @@ const perks = [
 ]
 
 const inputClass =
-  'w-full min-h-[48px] rounded-2xl border-2 border-ink bg-white px-4 py-3 font-sans text-base text-ink placeholder:text-ink/40 transition-colors focus:border-orange focus:outline-none'
-const labelClass = 'mb-2 block text-xs font-bold uppercase tracking-widest text-ink/55'
+  'w-full min-h-[48px] rounded-2xl border border-ink/15 bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
+const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
@@ -89,20 +87,20 @@ function CreatorForm() {
     return (
       <div
         role="status"
-        className="rounded-[2rem] border-4 border-ink bg-orange p-10 text-center text-white shadow-hard-xl md:p-12"
+        className="rounded-3xl border border-ink/10 bg-paper p-10 text-center md:p-12"
       >
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-ink bg-white text-orange shadow-hard-sm">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange text-white">
           <Check size={28} />
         </span>
-        <h3 className="mt-6 font-display text-4xl uppercase">
+        <h3 className="mt-6 heading-md">
           {isSupabaseConfigured ? 'Candidatura inviata' : 'Quasi fatto'}
         </h3>
-        <p className="mx-auto mt-3 max-w-sm text-white/85">
+        <p className="mx-auto mt-3 max-w-sm text-ink/65">
           {isSupabaseConfigured
             ? 'Ti ricontattiamo entro 48 ore. Tieniti pronto a raccontarci la tua Napoli.'
             : 'Si apre la tua app di posta con la candidatura già scritta: inviala e ti rispondiamo entro 48 ore.'}
         </p>
-        <Button variant="dark" className="mt-8" onClick={() => setStatus('idle')}>
+        <Button variant="secondary" className="mt-8" onClick={() => setStatus('idle')}>
           Invia un’altra candidatura
         </Button>
       </div>
@@ -113,13 +111,11 @@ function CreatorForm() {
     <form
       onSubmit={submit}
       noValidate
-      className="overflow-hidden rounded-[2rem] border-4 border-ink bg-white shadow-hard-xl"
+      className="overflow-hidden rounded-3xl border border-ink/10 bg-white"
     >
-      <div className="border-b-4 border-ink bg-orange px-6 py-7 text-white md:px-8">
-        <Sticker tone="ink" rotate={-2}>
-          Candidatura creator
-        </Sticker>
-        <h3 className="mt-4 font-display text-display-md uppercase">Raccontaci la tua Napoli</h3>
+      <div className="border-b border-ink/10 bg-paper px-6 py-6 md:px-8">
+        <p className="label text-orange">Candidatura creator</p>
+        <h3 className="mt-2 heading-md">Raccontaci la tua Napoli</h3>
       </div>
 
       <div className="space-y-6 p-6 md:p-8">
@@ -198,8 +194,8 @@ function CreatorForm() {
                 type="button"
                 onClick={() => setSpecialty(s)}
                 aria-pressed={specialty === s}
-                className={`min-h-[40px] rounded-full border-2 border-ink px-4 text-sm font-bold transition-colors ${
-                  specialty === s ? 'bg-orange text-white' : 'bg-white text-ink hover:bg-ink hover:text-white'
+                className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
+                  specialty === s ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
                 }`}
               >
                 {s}
@@ -225,7 +221,7 @@ function CreatorForm() {
         </div>
 
         {status === 'error' && (
-          <p role="alert" className="rounded-2xl border-2 border-red-500 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          <p role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
             Non siamo riusciti a inviare la candidatura. Riprova tra poco oppure scrivici a{' '}
             <a href="mailto:ciao@cosefighe.it" className="underline">
               ciao@cosefighe.it
@@ -234,7 +230,7 @@ function CreatorForm() {
           </p>
         )}
 
-        <Button type="submit" variant="dark" size="lg" className="w-full" disabled={status === 'sending'}>
+        <Button type="submit" size="lg" className="w-full" disabled={status === 'sending'}>
           {status === 'sending' ? 'Invio in corso...' : 'Invia la candidatura'} <Send size={16} />
         </Button>
       </div>
@@ -252,39 +248,33 @@ export default function CreatorPage() {
   return (
     <Page>
       <PageHero
-        tone="ink"
-        kicker="Le persone dietro le esperienze"
+        eyebrow="Le persone dietro le esperienze"
         title={
           <>
-            Diventa
-            <br />
-            <span className="text-orange">creator</span>
+            Diventa <span className="text-orange">creator</span>
           </>
         }
         subtitle="Se hai una passione e vuoi condividerla con chi visita Napoli, vogliamo conoscerti. Niente burocrazia, solo autenticità."
         aside={
-          <div className="relative mx-auto w-[200px] md:ml-auto md:w-[300px]" aria-hidden="true">
-            <FloatingImage src="/mascotte-1.webp" />
+          <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
+            <FloatingImage src="/mascotte-1.webp" amplitude={10} />
           </div>
         }
       />
 
-      <Band text="CREATOR • GUIDE LOCALI • NAPOLI • ESPERIENZE AUTENTICHE • " tone="orange" tilt={-1} />
 
       <section className="section-y">
         <div className="container-x grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <Reveal className="md:sticky md:top-32 md:self-start">
-            <h2 className="font-display text-display-lg uppercase">
-              Sei un <span className="text-orange">creator?</span>
-            </h2>
-            <p className="mt-5 max-w-md text-lg text-ink/65">
+            <h2 className="heading-lg">Sei un creator?</h2>
+            <p className="mt-4 max-w-md text-ink/60">
               Guide, cuochi, artigiani, artisti, sportivi. Chiunque abbia qualcosa di vero da far vivere.
             </p>
             <ul className="mt-8 space-y-4">
               {perks.map((p) => (
-                <li key={p} className="flex items-start gap-3 font-medium">
-                  <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border-2 border-ink bg-orange text-white">
-                    <Check size={14} />
+                <li key={p} className="flex items-start gap-3 text-[15px]">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange text-white">
+                    <Check size={13} />
                   </span>
                   {p}
                 </li>
@@ -292,7 +282,7 @@ export default function CreatorPage() {
             </ul>
             <p className="mt-8 text-sm text-ink/55">
               Domande prima di candidarti?{' '}
-              <ButtonAnchor href="mailto:ciao@cosefighe.it" variant="white" size="sm" className="ml-1">
+              <ButtonAnchor href="mailto:ciao@cosefighe.it" variant="link" className="ml-1">
                 Scrivici <ArrowRight size={14} />
               </ButtonAnchor>
             </p>

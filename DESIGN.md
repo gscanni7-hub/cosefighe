@@ -15,20 +15,18 @@ Strategia: "full palette". Arancio e blu portano ciascuno intere sezioni; il ner
 
 ## Tipografia
 
-- Display: Anton, maiuscolo, `leading-[0.9]`, tracking stretto. Scala fluida con `clamp()`:
-  - `display-xl`: clamp(3.5rem, 10vw, 8.5rem) (primo schermo)
-  - `display-lg`: clamp(2.75rem, 6vw, 5rem) (titoli di sezione)
-  - `display-md`: clamp(1.75rem, 3vw, 2.5rem) (titoli card)
-- Testo: Inter 400/500/600/700, 16px base, max 65ch.
-- Etichette: Inter 700, 11-12px, maiuscolo, tracking 0.14em. Una sola etichetta "kicker" per sezione, non su ogni blocco.
+- Firma: Anton, maiuscolo, solo per il titolo principale di ogni pagina, il marchio nel piè di pagina e i numeri di accento (prezzi, contatori, passi). Scala fluida `display-xl`: clamp(2.75rem, 5.5vw, 5.25rem).
+- Tutto il resto: Rubik variabile (300-900), self-hosted. Titoli di sezione `heading-lg` (800, tracking -0.02em, clamp 1.75-2.5rem), titoli minori `heading-md` (700), testo 400/500 a 15-17px, max 65ch.
+- Etichette: `label` (600, 12px, maiuscolo, tracking 0.08em). Una per pagina, non una per sezione.
+- Le foto usano la classe `img-warm` (leggera desaturazione, contrasto, viraggio caldo) per avere un tono comune anche se provengono da fotografi diversi.
 
 ## Componenti (src/components/ui)
 
-- `Button` / `ButtonLink`: pill con bordo 2px nero, ombra dura 4px, hover alza di 2px e allunga l'ombra, active azzera l'ombra e trasla. Varianti: `primary` (arancio), `dark`, `white`, `ghost-light` (contorno bianco su fondo scuro).
-- `Sticker`: etichetta con bordo nero, ombra 3px e rotazione -2/+2 gradi. Per badge "Prossimamente", prezzi, kicker del primo schermo.
-- `PageHero`: apertura di pagina con colore pieno, kicker, titolo con una parola in outline, sottotitolo.
-- `ExperienceCard`: foto 4:3 con bordo inferiore nero, corpo colorato (`orange`/`blue`/`white`), badge tag e prezzo, riga meta, rating, etichetta "Prossimamente".
-- `Marquee`: fascia scorrevole; `light` per fondo scuro.
+- `Button` / `ButtonLink`: pill in minuscolo. Solo `primary` (arancio) ha bordo nero 2px e ombra dura: è la firma cartoon. `secondary` bianco con bordo, `dark`, `ghost-light` su fondo scuro, `link` testuale con freccia.
+- `Sticker`: piccola pillola per tag e categorie (toni cream, orange, ink, white, outline). Niente rotazioni né ombre.
+- `PageHero`: apertura di pagina su fondo carta o bianco: etichetta, titolo in Anton, sottotitolo, eventuale illustrazione a destra.
+- `ExperienceCard`: card bianca, bordo sottile, foto 4:3 (o a sinistra con `layout="row"`), tag, titolo, riga meta, prezzo in Anton arancio, valutazione, nota "Prossimamente".
+- `DragScroll`: striscia orizzontale trascinabile (categorie in home). `MouseParallax`: la mascotte del primo schermo segue leggermente il mouse.
 - `WaitlistForm`: campo email + pulsante, salva in `leads` con source `waitlist`.
 
 ## Spaziatura e layout

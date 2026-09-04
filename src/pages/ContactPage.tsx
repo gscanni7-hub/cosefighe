@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { ArrowRight, Check, Instagram, Mail, MapPin, Send } from 'lucide-react'
 import { Page } from '../components/Page'
-import { Band } from '../components/Band'
 import { PageHero } from '../components/ui/PageHero'
 import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
@@ -18,8 +17,8 @@ const contacts = [
 ]
 
 const inputClass =
-  'w-full min-h-[48px] rounded-2xl border-2 border-ink bg-white px-4 py-3 font-sans text-base text-ink placeholder:text-ink/40 transition-colors focus:border-orange focus:outline-none'
-const labelClass = 'mb-2 block text-xs font-bold uppercase tracking-widest text-ink/55'
+  'w-full min-h-[48px] rounded-2xl border border-ink/15 bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
+const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
@@ -72,54 +71,44 @@ export default function ContactPage() {
   return (
     <Page>
       <PageHero
-        tone="ink"
-        kicker="Parliamo"
-        title={
-          <>
-            Scrivici
-            <br />
-            <span className="text-orange">sul serio</span>
-          </>
-        }
+        eyebrow="Parliamo"
+        title="Scrivici"
+
         subtitle="Domande, idee, partnership o solo voglia di raccontarci la tua Napoli. Rispondiamo entro 24 ore nei giorni feriali."
       />
 
-      <Band text="CONTATTI • NAPOLI • SCRIVICI • COSE FIGHE • " tone="orange" tilt={1} />
 
       <section className="section-y">
         <div className="container-x grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <Reveal>
-            <h2 className="font-display text-display-lg uppercase">
-              Siamo pronti <span className="text-orange">ad ascoltarti</span>
-            </h2>
+            <h2 className="heading-lg">Siamo pronti ad ascoltarti</h2>
             <ul className="mt-10 space-y-6">
               {contacts.map((c) => (
                 <li key={c.label} className="flex items-center gap-4">
-                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-ink bg-ink text-white">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-cream text-ink">
                     <c.icon size={18} />
                   </span>
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-widest text-ink/50">{c.label}</p>
+                    <p className="text-xs text-ink/50">{c.label}</p>
                     {c.href ? (
                       <a
                         href={c.href}
                         target={c.href.startsWith('http') ? '_blank' : undefined}
                         rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="text-lg font-medium underline-offset-4 hover:underline"
+                        className="font-medium underline-offset-4 hover:underline"
                       >
                         {c.value}
                       </a>
                     ) : (
-                      <p className="text-lg font-medium">{c.value}</p>
+                      <p className="font-medium">{c.value}</p>
                     )}
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="mt-12 rounded-[2rem] border-4 border-ink bg-orange p-8 text-white shadow-hard-lg">
-              <p className="font-display text-2xl uppercase">Rispondiamo entro</p>
-              <p className="font-display text-7xl leading-none">24h</p>
-              <p className="mt-2 text-sm text-white/85">Nei giorni feriali. Il weekend siamo in giro per Napoli.</p>
+            <div className="mt-12 border-t border-ink/10 pt-6">
+              <p className="font-display text-4xl text-orange">24h</p>
+              <p className="mt-1 text-sm text-ink/60">Tempo di risposta nei giorni feriali. Il weekend siamo in giro per Napoli.</p>
             </div>
           </Reveal>
 
@@ -127,20 +116,20 @@ export default function ContactPage() {
             {status === 'done' ? (
               <div
                 role="status"
-                className="flex h-full flex-col items-center justify-center rounded-[2rem] border-4 border-ink bg-blue p-10 text-center text-white shadow-hard-xl md:p-12"
+                className="flex h-full flex-col items-center justify-center rounded-3xl border border-ink/10 bg-paper p-10 text-center md:p-12"
               >
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-ink bg-white text-blue shadow-hard-sm">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-orange text-white">
                   <Check size={28} />
                 </span>
-                <h3 className="mt-6 font-display text-4xl uppercase">
+                <h3 className="mt-6 heading-md">
                   {isSupabaseConfigured ? 'Messaggio inviato' : 'Quasi fatto'}
                 </h3>
-                <p className="mt-3 max-w-sm text-white/85">
+                <p className="mt-3 max-w-sm text-ink/65">
                   {isSupabaseConfigured
                     ? 'Ti rispondiamo entro 24 ore. Nel frattempo esplora le esperienze.'
                     : 'Si apre la tua app di posta con il messaggio già scritto: invialo e ti rispondiamo entro 24 ore.'}
                 </p>
-                <ButtonLink to="/esperienze" variant="white" className="mt-8">
+                <ButtonLink to="/esperienze" variant="secondary" className="mt-8">
                   Esplora <ArrowRight size={14} />
                 </ButtonLink>
               </div>
@@ -148,9 +137,9 @@ export default function ContactPage() {
               <form
                 onSubmit={submit}
                 noValidate
-                className="space-y-6 rounded-[2rem] border-4 border-ink bg-white p-6 shadow-hard-xl md:p-8"
+                className="space-y-6 rounded-3xl border border-ink/10 bg-white p-6 md:p-8"
               >
-                <h3 className="font-display text-display-md uppercase">Il tuo messaggio</h3>
+                <h3 className="heading-md">Il tuo messaggio</h3>
                 <fieldset>
                   <legend className={labelClass}>Di cosa si tratta?</legend>
                   <div className="flex flex-wrap gap-2">
@@ -160,8 +149,8 @@ export default function ContactPage() {
                         type="button"
                         onClick={() => setTopic(t)}
                         aria-pressed={topic === t}
-                        className={`min-h-[40px] rounded-full border-2 border-ink px-4 text-sm font-bold transition-colors ${
-                          topic === t ? 'bg-orange text-white' : 'bg-white text-ink hover:bg-ink hover:text-white'
+                        className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
+                          topic === t ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
                         }`}
                       >
                         {t}
@@ -217,7 +206,7 @@ export default function ContactPage() {
                   {errors.message && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.message}</p>}
                 </div>
                 {status === 'error' && (
-                  <p role="alert" className="rounded-2xl border-2 border-red-500 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                  <p role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
                     Non siamo riusciti a inviare il messaggio. Riprova tra poco oppure scrivici a{' '}
                     <a href="mailto:ciao@cosefighe.it" className="underline">
                       ciao@cosefighe.it

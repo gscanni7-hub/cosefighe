@@ -1,52 +1,28 @@
 import { motion } from 'motion/react'
-import { CircleCheckBig, Clock, MapPin, Star, Users } from 'lucide-react'
-import type { Experience, ExperienceColor } from '../../types'
+import { CircleCheckBig, Clock, Star } from 'lucide-react'
+import type { Experience } from '../../types'
 import { Sticker } from './Sticker'
-
-const tones: Record<
-  ExperienceColor,
-  { body: string; muted: string; star: string; tag: 'ink' | 'white' | 'orange'; soon: string }
-> = {
-  orange: {
-    body: 'bg-orange text-white',
-    muted: 'text-white/80',
-    star: 'text-white',
-    tag: 'ink',
-    soon: 'border-white/70 text-white',
-  },
-  blue: {
-    body: 'bg-blue text-white',
-    muted: 'text-white/80',
-    star: 'text-white',
-    tag: 'white',
-    soon: 'border-white/70 text-white',
-  },
-  white: {
-    body: 'bg-white text-ink',
-    muted: 'text-ink/60',
-    star: 'text-orange',
-    tag: 'orange',
-    soon: 'border-ink text-ink',
-  },
-}
 
 interface ExperienceCardProps {
   exp: Experience
   index?: number
+  /** column: foto sopra (default). row: foto a sinistra, per liste compatte. */
+  layout?: 'column' | 'row'
 }
 
-export function ExperienceCard({ exp, index = 0 }: ExperienceCardProps) {
-  const t = tones[exp.color]
+export function ExperienceCard({ exp, index = 0, layout = 'column' }: ExperienceCardProps) {
+  const row = layout === 'row'
   return (
     <motion.article
-      initial={{ y: 18 }}
+      initial={{ y: 12 }}
       whileInView={{ y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.5, delay: Math.min(index, 5) * 0.06, ease: [0.25, 1, 0.5, 1] }}
-      whileHover={{ y: -6 }}
-      className="group flex h-full flex-col overflow-hidden rounded-[2rem] border-4 border-ink bg-white shadow-hard-lg transition-shadow duration-200 hover:shadow-hard-xl"
+      transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.05, ease: [0.25, 1, 0.5, 1] }}
+      className={`group flex h-full overflow-hidden rounded-3xl border border-ink/10 bg-white transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
+        row ? 'flex-row' : 'flex-col'
+      }`}
     >
-      <div className="relative aspect-[4/3] overflow-hidden border-b-4 border-ink bg-cream">
+      <div className={`relative overflow-hidden bg-cream ${row ? 'w-2/5 shrink-0' : 'aspect-[4/3]'}`}>
         <img
           src={exp.image}
           alt={exp.title}
@@ -54,52 +30,35 @@ export function ExperienceCard({ exp, index = 0 }: ExperienceCardProps) {
           height={600}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-105"
+          className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
         />
         <div className="absolute left-3 top-3">
-          <Sticker tone={t.tag} rotate={-2}>
-            {exp.tag}
-          </Sticker>
-        </div>
-        <div className="absolute right-3 top-3">
-          <Sticker tone="white" rotate={2} className="text-sm normal-case tracking-normal">
-            {exp.price}
-          </Sticker>
+          <Sticker tone="white">{exp.tag}</Sticker>
         </div>
       </div>
 
-      <div className={`flex flex-1 flex-col p-5 md:p-6 ${t.body}`}>
-        <h3 className="mb-4 flex-1 font-display text-xl uppercase leading-[1.05] md:text-2xl">{exp.title}</h3>
-        <ul className={`mb-5 space-y-1.5 text-xs md:text-[13px] ${t.muted}`}>
-          <li className="flex items-center gap-1.5">
-            <MapPin size={12} className="flex-shrink-0" />
-            <span>{exp.location}</span>
-          </li>
-          <li className="flex items-center gap-1.5">
-            <CircleCheckBig size={12} className="flex-shrink-0" />
+      <div className={`flex flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className={`font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>{exp.title}</h3>
+          <span className="shrink-0 font-display text-xl text-orange">{exp.price}</span>
+        </div>
+        <p className="mt-2 text-sm text-ink/60">
+          {exp.location} · {exp.duration} · {exp.group} pers.
+        </p>
+        {!row && (
+          <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink/60">
+            <CircleCheckBig size={14} className="mt-0.5 shrink-0" />
             <span>{exp.included}</span>
-          </li>
-          <li className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5">
-              <Clock size={12} />
-              {exp.duration}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Users size={12} />
-              {exp.group} pers.
-            </span>
-          </li>
-        </ul>
-        <div className="flex items-center justify-between gap-3">
-          <span className={`flex items-center gap-1 text-sm font-bold ${t.star}`}>
-            <Star size={13} fill="currentColor" />
+          </p>
+        )}
+        <div className={`mt-auto flex items-center justify-between text-sm ${row ? 'pt-3' : 'pt-5'}`}>
+          <span className="flex items-center gap-1 font-semibold">
+            <Star size={14} className="text-orange" fill="currentColor" />
             {exp.rating.toLocaleString('it-IT')}
-            <span className={`text-xs font-normal ${t.muted}`}>({exp.reviews.toLocaleString('it-IT')})</span>
+            <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
           </span>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] ${t.soon}`}
-          >
-            <Clock size={10} /> Prossimamente
+          <span className="flex items-center gap-1.5 text-xs font-medium text-ink/50">
+            <Clock size={12} /> Prossimamente
           </span>
         </div>
       </div>

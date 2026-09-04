@@ -36,25 +36,17 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
       return
     }
     setStatus('sending')
-    const ok = await createLead({
-      name: '',
-      email: value,
-      topic: "Lista d'attesa",
-      message: `Iscrizione dalla sezione: ${source}`,
-      source,
-    })
+    const ok = await createLead({ name: '', email: value, topic: "Lista d'attesa", message: `Iscrizione dalla sezione: ${source}`, source })
     setStatus(ok ? 'done' : 'error')
   }
 
   if (status === 'done') {
     return (
       <div
-        className={`flex items-center gap-3 rounded-2xl border-2 border-ink px-5 py-4 font-sans text-sm font-medium ${
-          dark ? 'bg-white text-ink' : 'bg-cream text-ink'
-        } ${className}`}
         role="status"
+        className={`flex items-center gap-3 rounded-2xl px-5 py-4 text-sm font-medium ${dark ? 'bg-white/10 text-white' : 'bg-cream text-ink'} ${className}`}
       >
-        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orange text-white">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange text-white">
           <Check size={16} />
         </span>
         {isSupabaseConfigured
@@ -64,6 +56,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
     )
   }
 
+  const invalid = status === 'invalid'
   return (
     <form onSubmit={submit} noValidate className={className}>
       <label htmlFor={id} className="sr-only">
@@ -78,26 +71,26 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
-            if (status === 'invalid') setStatus('idle')
+            if (invalid) setStatus('idle')
           }}
           placeholder="la-tua@email.it"
-          aria-invalid={status === 'invalid'}
-          aria-describedby={status === 'invalid' || status === 'error' ? `${id}-msg` : undefined}
-          className={`min-h-[48px] flex-1 rounded-full border-2 px-5 font-sans text-base text-ink placeholder:text-ink/40 focus:outline-none focus-visible:ring-0 ${
-            status === 'invalid' ? 'border-red-500' : 'border-ink'
-          } ${dark ? 'bg-white' : 'bg-white'}`}
+          aria-invalid={invalid}
+          aria-describedby={invalid || status === 'error' ? `${id}-msg` : undefined}
+          className={`min-h-[48px] flex-1 rounded-full border bg-white px-5 text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none ${
+            invalid ? 'border-red-500' : 'border-ink/15'
+          }`}
         />
-        <Button type="submit" variant="primary" disabled={status === 'sending'}>
+        <Button type="submit" disabled={status === 'sending'}>
           {status === 'sending' ? 'Un attimo...' : 'Avvisami'} <ArrowRight size={16} />
         </Button>
       </div>
-      {status === 'invalid' && (
-        <p id={`${id}-msg`} className={`mt-2 text-sm font-medium ${dark ? 'text-white' : 'text-red-600'}`}>
+      {invalid && (
+        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-red-600'}`}>
           Controlla l'indirizzo email: sembra incompleto.
         </p>
       )}
       {status === 'error' && (
-        <p id={`${id}-msg`} className={`mt-2 text-sm font-medium ${dark ? 'text-white' : 'text-red-600'}`}>
+        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-red-600'}`}>
           Non siamo riusciti a salvare l'iscrizione. Scrivici a{' '}
           <a href="mailto:ciao@cosefighe.it" className="underline">
             ciao@cosefighe.it

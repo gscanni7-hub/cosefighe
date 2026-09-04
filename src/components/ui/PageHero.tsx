@@ -1,59 +1,51 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router'
+import { ArrowLeft } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Sticker } from './Sticker'
-
-type Tone = 'orange' | 'blue' | 'ink' | 'paper'
-
-const tones: Record<Tone, string> = {
-  orange: 'bg-orange text-white',
-  blue: 'bg-blue text-white',
-  ink: 'bg-ink text-white',
-  paper: 'bg-paper text-ink',
-}
 
 interface PageHeroProps {
-  tone?: Tone
-  kicker?: string
+  tone?: 'paper' | 'white'
+  eyebrow?: string
   title: ReactNode
   subtitle?: ReactNode
   actions?: ReactNode
   aside?: ReactNode
-  backdrop?: ReactNode
+  back?: { to: string; label: string }
 }
 
-/** Apertura di pagina: colore pieno, etichetta, titolo enorme a sinistra, elemento illustrativo a destra. */
-export function PageHero({ tone = 'orange', kicker, title, subtitle, actions, aside, backdrop }: PageHeroProps) {
-  const light = tone !== 'paper'
+/** Apertura di pagina: titolo a sinistra, eventuale illustrazione a destra, fondo chiaro. */
+export function PageHero({ tone = 'paper', eyebrow, title, subtitle, actions, aside, back }: PageHeroProps) {
   return (
-    <section className={`relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24 ${tones[tone]}`}>
-      {backdrop}
-      <div className={`pointer-events-none absolute inset-0 dots ${light ? 'text-white/15' : 'text-ink/10'}`} aria-hidden="true" />
-      <div className="container-x relative grid items-end gap-10 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+    <section className={`${tone === 'paper' ? 'bg-paper' : 'bg-white'} pt-28 pb-12 md:pt-36 md:pb-16`}>
+      <div
+        className={`container-x grid items-center gap-10 ${
+          aside ? 'md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]' : ''
+        }`}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+          transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
         >
-          {kicker && (
-            <div className="mb-6">
-              <Sticker tone={light ? 'white' : 'orange'} rotate={-2}>
-                {kicker}
-              </Sticker>
-            </div>
+          {back && (
+            <Link
+              to={back.to}
+              viewTransition
+              className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink/60 transition-colors hover:text-ink"
+            >
+              <ArrowLeft size={14} /> {back.label}
+            </Link>
           )}
+          {eyebrow && <p className="label mb-4 text-orange">{eyebrow}</p>}
           <h1 className="font-display text-display-xl uppercase tracking-tight">{title}</h1>
-          {subtitle && (
-            <p className={`mt-6 max-w-xl text-lg leading-relaxed md:text-xl ${light ? 'text-white/80' : 'text-ink/65'}`}>
-              {subtitle}
-            </p>
-          )}
-          {actions && <div className="mt-8 flex flex-wrap items-center gap-4">{actions}</div>}
+          {subtitle && <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink/65">{subtitle}</p>}
+          {actions && <div className="mt-8 flex flex-wrap items-center gap-3">{actions}</div>}
         </motion.div>
         {aside && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.6, delay: 0.08, ease: [0.25, 1, 0.5, 1] }}
             className="relative"
           >
             {aside}

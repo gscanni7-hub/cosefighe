@@ -2,15 +2,14 @@ import { Link } from 'react-router'
 import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { Page } from '../components/Page'
-import { Band } from '../components/Band'
-import { FloatingImage, Parallax } from '../components/Decorations'
+import { DragScroll, FloatingImage, MouseParallax } from '../components/Decorations'
 import { ButtonLink } from '../components/ui/Button'
-import { Sticker } from '../components/ui/Sticker'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
+import { ArticleCard } from '../components/ui/ArticleCard'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
+import { ARTICLES_BY_DATE } from '../data/articles'
 import { usePageMeta } from '../hooks/usePageMeta'
-import type { Category } from '../types'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -42,140 +41,134 @@ const steps = [
 const ease = [0.25, 1, 0.5, 1] as const
 
 const Hero = () => (
-  <section className="relative overflow-hidden bg-paper pt-32 pb-16 md:pt-40 md:pb-24">
-    <div className="pointer-events-none absolute inset-0 dots text-ink/[0.07]" aria-hidden="true" />
-    <div className="container-x relative grid items-center gap-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-      <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
-        <Sticker tone="orange" rotate={-2}>
-          Napoli, come un local
-        </Sticker>
-        <h1 className="mt-6 font-display text-display-xl uppercase tracking-tight text-orange">
-          Scopri <span className="text-outline">cose fighe</span> da fare a Napoli
+  <section className="relative z-10 bg-paper pt-28 md:pt-36">
+    <div className="container-x grid items-end gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:gap-10">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease }}
+        className="relative z-10 pb-10 md:pb-24"
+      >
+        <p className="label text-orange">Esperienze autentiche a Napoli</p>
+        <h1 className="mt-4 font-display text-display-xl uppercase tracking-tight">
+          Scopri <span className="text-orange">cose fighe</span> da fare a Napoli
         </h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/65 md:text-xl">
+        <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/65">
           Tour, laboratori e avventure fuori dai giri turistici, raccontati da creator che la città la vivono ogni
           giorno.
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <ButtonLink to="/esperienze" size="lg">
             Esplora le esperienze <ArrowRight size={18} />
           </ButtonLink>
-          <ButtonLink to="/creator" variant="white" size="lg">
+          <ButtonLink to="/creator" variant="secondary" size="lg">
             Diventa creator
           </ButtonLink>
         </div>
-        <p className="mt-8 text-sm font-medium text-ink/55">
-          {totalExperiences} esperienze · 6 categorie · creator napoletani
-        </p>
+        <p className="mt-8 text-sm text-ink/50">{totalExperiences} esperienze · 6 categorie · prenotazioni in apertura</p>
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.1, ease }}
-        className="relative mx-auto aspect-square w-full max-w-[340px] md:max-w-[520px]"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.1, ease }}
+        className="relative -mb-8 md:-mb-14 lg:-mr-12"
         aria-hidden="true"
       >
-        <div className="absolute inset-[9%] rounded-full border-4 border-ink bg-orange shadow-hard-lg" />
-        <div className="absolute inset-[9%] rounded-full dots text-ink/20" />
-        <FloatingImage src="/mascotte-1.webp" className="absolute left-1/2 top-1/2 w-[54%] -translate-x-1/2 -translate-y-1/2" />
-        <FloatingImage src="/meditazione.webp" className="absolute left-[-3%] top-[4%] w-[30%]" delay={1} />
-        <FloatingImage src="/cose-beve.webp" className="absolute right-[-3%] top-[14%] w-[30%]" delay={2} />
-        <FloatingImage src="/trekking.webp" className="absolute bottom-[-2%] left-[8%] w-[30%]" delay={1.5} />
-        <div className="absolute bottom-[10%] right-[0%]">
-          <Sticker tone="white" rotate={3}>
-            Prossimamente
-          </Sticker>
-        </div>
+        <div className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange/20 blur-3xl" />
+        <MouseParallax strength={10} className="relative">
+          <FloatingImage src="/mascotte-1.webp" className="mx-auto w-[260px] sm:w-[320px] md:w-full md:max-w-[520px]" amplitude={8} />
+        </MouseParallax>
       </motion.div>
     </div>
   </section>
 )
 
-const CategoryTile = ({ cat, wide }: { cat: Category; wide: boolean }) => (
-  <Link
-    to={`/categoria/${cat.slug}`}
-    viewTransition
-    className={`group flex h-full overflow-hidden rounded-[2rem] border-4 border-ink bg-white shadow-hard-lg transition-[transform,box-shadow] duration-200 ease-out-quart hover:-translate-y-1.5 hover:shadow-hard-xl ${
-      wide ? 'col-span-2 flex-row' : 'flex-col'
-    }`}
-  >
-    <div
-      className={`overflow-hidden bg-cream ${wide ? 'w-1/2 flex-shrink-0 border-r-4 border-ink' : 'aspect-square border-b-4 border-ink'}`}
-    >
-      <img
-        src={categoryImages[cat.slug]}
-        alt={`Categoria ${cat.label}`}
-        width={900}
-        height={900}
-        loading="lazy"
-        decoding="async"
-        className="h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-105"
-      />
-    </div>
-    <div className={`flex flex-1 flex-col justify-end gap-3 p-4 md:p-6 ${wide ? 'justify-between' : ''}`}>
-      {wide && (
-        <span className="hidden text-xs font-bold uppercase tracking-widest text-ink/50 md:block">
-          {cat.experiences.length} esperienze
-        </span>
-      )}
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <h3 className="font-display text-2xl uppercase leading-none md:text-3xl">{cat.label}</h3>
-          <p className="mt-1.5 text-xs text-ink/55 md:text-sm">{cat.subtitle}</p>
-        </div>
-        <span className="hidden h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-ink transition-colors group-hover:border-orange group-hover:bg-orange group-hover:text-white md:flex">
-          <ArrowRight size={16} />
-        </span>
+const CategoriesStrip = () => (
+  <section className="relative bg-white pt-24 pb-16 md:pt-32 md:pb-24">
+    <div className="container-x flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div className="max-w-xl">
+        <h2 className="heading-lg">Sei modi di vivere Napoli</h2>
+        <p className="mt-3 text-ink/60">Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.</p>
       </div>
+      <p className="hidden text-sm text-ink/45 md:block">Trascina per scorrere</p>
     </div>
-  </Link>
+    <DragScroll
+      ariaLabel="Categorie"
+      className="mt-10 flex gap-5 overflow-x-auto pb-4 pl-5 pr-5 sm:pl-8 sm:pr-8 md:gap-6 lg:pl-[calc((100vw-80rem)/2+2.5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {CATEGORY_LIST.map((cat) => (
+        <Link
+          key={cat.slug}
+          to={`/categoria/${cat.slug}`}
+          viewTransition
+          className="group w-[220px] shrink-0 sm:w-[260px] md:w-[300px]"
+          draggable={false}
+        >
+          <div className="aspect-square overflow-hidden rounded-[2rem] bg-cream transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
+            <img
+              src={categoryImages[cat.slug]}
+              alt={`Categoria ${cat.label}`}
+              width={900}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
+            />
+          </div>
+          <div className="mt-4 flex items-baseline justify-between gap-3">
+            <h3 className="text-lg font-bold">{cat.label}</h3>
+            <span className="text-sm text-ink/45">{cat.experiences.length} esperienze</span>
+          </div>
+          <p className="mt-1 text-sm text-ink/55">{cat.subtitle}</p>
+        </Link>
+      ))}
+    </DragScroll>
+  </section>
 )
 
-const CategoriesSection = () => (
-  <section className="section-y bg-white">
+const FeaturedSection = () => (
+  <section className="section-y bg-paper">
     <div className="container-x">
-      <Reveal className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <h2 className="max-w-2xl font-display text-display-lg uppercase">Scegli la tua esperienza alternativa</h2>
-        <p className="max-w-sm text-ink/60 md:text-right">
-          Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.
-        </p>
+      <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-xl">
+          <h2 className="heading-lg">Le più richieste</h2>
+          <p className="mt-3 text-ink/60">Tre esperienze per capire lo spirito di Cose Fighe. Le prenotazioni aprono presto.</p>
+        </div>
+        <ButtonLink to="/esperienze" variant="link">
+          Tutte le {totalExperiences} esperienze <ArrowRight size={15} />
+        </ButtonLink>
       </Reveal>
-      <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-        {CATEGORY_LIST.map((cat) => (
-          <CategoryTile key={cat.slug} cat={cat} wide={cat.slug === 'food' || cat.slug === 'spettacoli'} />
-        ))}
+      <div className="mt-10 grid gap-5 md:gap-6 lg:grid-cols-[1.3fr_1fr]">
+        <ExperienceCard exp={featured[0]} index={0} />
+        <div className="grid gap-5 md:gap-6">
+          <ExperienceCard exp={featured[1]} index={1} layout="row" />
+          <ExperienceCard exp={featured[2]} index={2} layout="row" />
+        </div>
       </div>
     </div>
   </section>
 )
 
 const HowItWorks = () => (
-  <section className="section-y border-y-4 border-ink bg-paper">
-    <div className="container-x grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+  <section className="section-y bg-ink text-white">
+    <div className="container-x grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
       <Reveal>
-        <Sticker tone="orange" rotate={-2}>
-          Come funziona
-        </Sticker>
-        <h2 className="mt-5 font-display text-display-lg uppercase">Tre mosse e sei in giro</h2>
-        <p className="mt-5 max-w-md text-ink/65">
-          Niente app da scaricare, niente pacchetti turistici. Solo persone del posto che ti portano dove vale la
-          pena.
+        <h2 className="heading-lg">Tre mosse e sei in giro</h2>
+        <p className="mt-4 max-w-sm text-white/60">
+          Niente app da scaricare, niente pacchetti turistici. Solo persone del posto che ti portano dove vale la pena.
         </p>
       </Reveal>
-      <Reveal delay={0.1}>
-        <ol className="relative grid gap-10 sm:grid-cols-3 sm:gap-6">
-          <span
-            className="absolute left-7 top-7 hidden h-0 w-[calc(100%-3.5rem)] border-t-4 border-dashed border-ink/30 sm:block"
-            aria-hidden="true"
-          />
+      <Reveal delay={0.08}>
+        <ol className="divide-y divide-white/10">
           {steps.map((s, i) => (
-            <li key={s.title} className="relative">
-              <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-4 border-ink bg-orange font-display text-2xl text-white shadow-hard-sm">
-                {i + 1}
-              </span>
-              <h3 className="mt-5 font-display text-3xl uppercase">{s.title}</h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/65">{s.text}</p>
+            <li key={s.title} className="grid grid-cols-[3.5rem_1fr] gap-4 py-6 first:pt-0 last:pb-0">
+              <span className="font-display text-3xl leading-none text-orange">0{i + 1}</span>
+              <div>
+                <h3 className="text-lg font-bold">{s.title}</h3>
+                <p className="mt-1.5 max-w-md text-white/60">{s.text}</p>
+              </div>
             </li>
           ))}
         </ol>
@@ -184,58 +177,47 @@ const HowItWorks = () => (
   </section>
 )
 
-const FeaturedSection = () => (
-  <section className="section-y bg-blue text-white">
+const BlogTeaser = () => (
+  <section className="section-y bg-white">
     <div className="container-x">
-      <Reveal className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <h2 className="max-w-3xl font-display text-display-lg uppercase">
-          Vivi la città <span className="text-outline-light">come un vero local</span>
-        </h2>
-        <p className="max-w-sm text-white/75 md:text-right">
-          Tre tra le più richieste. Le prenotazioni aprono presto: lascia la mail in fondo alla pagina e ti avvisiamo.
-        </p>
-      </Reveal>
-      <div className="grid gap-6 md:grid-cols-3">
-        {featured.map((exp, i) => (
-          <ExperienceCard key={exp.title} exp={exp} index={i} />
-        ))}
-      </div>
-      <div className="mt-12 flex flex-wrap items-center gap-4">
-        <ButtonLink to="/esperienze" variant="white">
-          Vedi tutte le {totalExperiences} esperienze <ArrowRight size={16} />
+      <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-xl">
+          <h2 className="heading-lg">Dal blog</h2>
+          <p className="mt-3 text-ink/60">Guide scritte da chi Napoli la vive ogni giorno: posti veri, orari veri.</p>
+        </div>
+        <ButtonLink to="/blog" variant="link">
+          Tutti gli articoli <ArrowRight size={15} />
         </ButtonLink>
+      </Reveal>
+      <div className="mt-10">
+        <ArticleCard article={ARTICLES_BY_DATE[0]} featured />
       </div>
     </div>
   </section>
 )
 
 const CreatorBand = () => (
-  <section className="section-y relative overflow-hidden border-t-4 border-ink bg-orange text-white">
-    <div className="pointer-events-none absolute inset-0 dots text-white/15" aria-hidden="true" />
-    <div className="container-x relative grid items-center gap-10 md:grid-cols-[1.2fr_0.8fr]">
+  <section className="section-y overflow-hidden bg-orange text-white">
+    <div className="container-x grid items-center gap-10 md:grid-cols-[0.65fr_1.35fr] md:gap-16">
+      <div className="relative mx-auto w-[200px] md:w-full md:max-w-[300px]" aria-hidden="true">
+        <FloatingImage src="/cose-beve.webp" amplitude={10} />
+      </div>
       <Reveal>
-        <Sticker tone="ink" rotate={-2}>
-          Per chi Napoli la conosce
-        </Sticker>
-        <h2 className="mt-5 font-display text-display-lg uppercase">
-          Sai raccontare Napoli meglio di una guida? <span className="text-outline-light">Diventa creator</span>
-        </h2>
+        <p className="label text-white/75">Per chi Napoli la conosce</p>
+        <h2 className="heading-lg mt-4">Sai raccontare Napoli meglio di una guida?</h2>
         <p className="mt-5 max-w-lg text-white/85">
           Proponi la tua esperienza, decidi tu prezzo e date, guadagni a ogni prenotazione. Ti aiutiamo a costruire il
           profilo.
         </p>
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-8 flex flex-wrap gap-3">
           <ButtonLink to="/creator" variant="dark" size="lg">
-            Candidati ora <ArrowRight size={18} />
+            Candidati come creator <ArrowRight size={18} />
           </ButtonLink>
           <ButtonLink to="/chi-siamo" variant="ghost-light" size="lg">
             Chi siamo
           </ButtonLink>
         </div>
       </Reveal>
-      <Parallax speed={0.6} className="relative mx-auto w-full max-w-[240px] md:max-w-[340px]">
-        <FloatingImage src="/cose-beve.webp" />
-      </Parallax>
     </div>
   </section>
 )
@@ -250,10 +232,10 @@ export default function HomePage() {
   return (
     <Page>
       <Hero />
-      <Band text="FOOD • OUTDOOR • SPORT • ARTE • LABORATORI • SPETTACOLI • " tone="orange" tilt={-1} className="-mt-6" />
-      <CategoriesSection />
-      <HowItWorks />
+      <CategoriesStrip />
       <FeaturedSection />
+      <HowItWorks />
+      <BlogTeaser />
       <CreatorBand />
     </Page>
   )

@@ -11,13 +11,13 @@
  },
  "naples-market": {
   "term": "",
-  "title": "File:PortaNola.jpg",
-  "page": "https://commons.wikimedia.org/wiki/File:PortaNola.jpg",
-  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/PortaNola.jpg/1280px-PortaNola.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "artist": "Ken Mayer",
-  "license": "CC BY 2.0",
-  "w": 2500,
-  "h": 1875
+  "title": "File:MercatoPignasecca.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:MercatoPignasecca.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/MercatoPignasecca.jpg/1280px-MercatoPignasecca.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "IlSistemone",
+  "license": "CC BY-SA 3.0",
+  "w": 2592,
+  "h": 1944
  },
  "naples-wine": {
   "term": "Vigneti Campania",
@@ -60,14 +60,14 @@
   "h": 3120
  },
  "campi-flegrei": {
-  "term": "Solfatara Pozzuoli",
-  "title": "File:Solfatara - Pozzuoli - Campania - Italy - July 11th 2013 - 03.jpg",
-  "page": "https://commons.wikimedia.org/wiki/File:Solfatara_-_Pozzuoli_-_Campania_-_Italy_-_July_11th_2013_-_03.jpg",
-  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Solfatara_-_Pozzuoli_-_Campania_-_Italy_-_July_11th_2013_-_03.jpg/1280px-Solfatara_-_Pozzuoli_-_Campania_-_Italy_-_July_11th_2013_-_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "artist": "Norbert Nagel",
+  "term": "",
+  "title": "File:Lago d'Averno 1.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Lago_d%27Averno_1.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Lago_d%27Averno_1.jpg/1280px-Lago_d%27Averno_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Mentnafunangann",
   "license": "CC BY-SA 3.0",
-  "w": 4802,
-  "h": 4132
+  "w": 2048,
+  "h": 1536
  },
  "posillipo-sea": {
   "term": "Gaiola Posillipo",
@@ -120,14 +120,14 @@
   "h": 2492
  },
  "climb-faito": {
-  "term": "Monte Faito",
-  "title": "File:Monte Faito 1.jpg",
-  "page": "https://commons.wikimedia.org/wiki/File:Monte_Faito_1.jpg",
-  "thumb": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Monte_Faito_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-  "artist": "Mentnafunangann",
-  "license": "CC BY-SA 3.0",
-  "w": 1024,
-  "h": 768
+  "term": "",
+  "title": "File:Pizzo San Michele.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pizzo_San_Michele.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Pizzo_San_Michele.jpg/1280px-Pizzo_San_Michele.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "91Paolo91",
+  "license": "CC BY-SA 4.0",
+  "w": 4501,
+  "h": 2531
  },
  "running-napoli": {
   "term": "",
@@ -250,14 +250,14 @@
   "h": 1110
  },
  "mandolino-napoli": {
-  "term": "Mandolino napoletano",
-  "title": "File:Mandoline à quatre choeurs.JPG",
-  "page": "https://commons.wikimedia.org/wiki/File:Mandoline_%C3%A0_quatre_choeurs.JPG",
-  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Mandoline_%C3%A0_quatre_choeurs.JPG/1280px-Mandoline_%C3%A0_quatre_choeurs.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "artist": "LPLT",
-  "license": "CC BY-SA 3.0",
-  "w": 3072,
-  "h": 2304
+  "term": "",
+  "title": "File:Redhead Mandocello by Nevin Fahs (luthier) - 3. back.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Redhead_Mandocello_by_Nevin_Fahs_(luthier)_-_3._back.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Redhead_Mandocello_by_Nevin_Fahs_%28luthier%29_-_3._back.jpg/1280px-Redhead_Mandocello_by_Nevin_Fahs_%28luthier%29_-_3._back.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Joseph Brent",
+  "license": "CC BY-SA 2.0",
+  "w": 4752,
+  "h": 3168
  },
  "pittura-napoli": {
   "term": "Golfo di Napoli dipinto",
@@ -291,13 +291,13 @@
  },
  "pulcinella-show": {
   "term": "",
-  "title": "File:Estreno del ballet Pulcinella de Stravinsky en el Teatro Solis - 20210820dicmouyaf000600.jpg",
-  "page": "https://commons.wikimedia.org/wiki/File:Estreno_del_ballet_Pulcinella_de_Stravinsky_en_el_Teatro_Solis_-_20210820dicmouyaf000600.jpg",
-  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Estreno_del_ballet_Pulcinella_de_Stravinsky_en_el_Teatro_Solis_-_20210820dicmouyaf000600.jpg/1280px-Estreno_del_ballet_Pulcinella_de_Stravinsky_en_el_Teatro_Solis_-_20210820dicmouyaf000600.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "artist": "",
+  "title": "File:La maschera napoletana di Pulcinella.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:La_maschera_napoletana_di_Pulcinella.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/La_maschera_napoletana_di_Pulcinella.jpg/1280px-La_maschera_napoletana_di_Pulcinella.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Roberto Barone ph",
   "license": "CC BY-SA 4.0",
-  "w": 3000,
-  "h": 2001
+  "w": 5612,
+  "h": 3741
  },
  "jazz-napoli": {
   "term": "Golfo di Napoli tramonto",

@@ -19,7 +19,7 @@ export const Navbar = () => {
   const location = useLocation()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    const onScroll = () => setScrolled(window.scrollY > 16)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -46,29 +46,23 @@ export const Navbar = () => {
         Vai al contenuto
       </a>
       <header
-        className={`fixed top-0 z-50 w-full transition-[padding,background-color,box-shadow] duration-300 ease-out-quart ${
-          scrolled ? 'bg-white/95 py-2 shadow-[0_2px_0_0_#111111] backdrop-blur-md' : 'py-3'
+        className={`fixed top-0 z-50 w-full transition-[background-color,box-shadow,padding] duration-300 ease-out-quart ${
+          scrolled ? 'bg-white/90 py-2 shadow-[0_1px_0_0_rgba(17,17,17,0.08)] backdrop-blur-md' : 'py-4'
         }`}
       >
         <div className="container-x flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-          <Link to="/" viewTransition className="flex-shrink-0" aria-label="Cose Fighe, home">
+          <Link to="/" viewTransition className="shrink-0" aria-label="Cose Fighe, home">
             <img
-              src="/logo-2.webp"
+              src="/logo-mark.webp"
               alt=""
-              width={644}
-              height={800}
-              className={`w-auto object-contain transition-[height] duration-300 ease-out-quart ${
-                scrolled ? 'h-10 md:h-12' : 'h-14 md:h-[76px]'
-              }`}
+              width={407}
+              height={329}
+              className={`w-auto object-contain transition-[height] duration-300 ease-out-quart ${scrolled ? 'h-8' : 'h-9 md:h-11'}`}
             />
           </Link>
 
           <nav aria-label="Principale" className="hidden lg:block">
-            <ul
-              className={`flex items-center gap-1 rounded-full border-2 border-ink p-1.5 transition-[background-color,box-shadow] duration-300 ${
-                scrolled ? 'bg-white shadow-hard' : 'bg-white/90 shadow-[4px_4px_0_0_rgba(17,17,17,0.35)] backdrop-blur-sm'
-              }`}
-            >
+            <ul className="flex items-center gap-0.5 rounded-full border border-ink/10 bg-white/90 p-1 backdrop-blur-sm">
               {navItems.map((item) => {
                 const active = isActive(item.to)
                 return (
@@ -77,20 +71,11 @@ export const Navbar = () => {
                       to={item.to}
                       viewTransition
                       aria-current={active ? 'page' : undefined}
-                      className={`relative block overflow-hidden rounded-full px-4 py-2 font-sans text-xs font-bold uppercase tracking-widest transition-colors duration-200 ${
-                        active ? 'bg-orange text-white' : 'text-ink hover:text-white'
+                      className={`block rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                        active ? 'bg-ink text-white' : 'text-ink/75 hover:bg-cream hover:text-ink'
                       }`}
                     >
-                      {!active && (
-                        <motion.span
-                          className="absolute inset-0 origin-left rounded-full bg-orange"
-                          initial={{ scaleX: 0 }}
-                          whileHover={{ scaleX: 1 }}
-                          transition={{ duration: 0.18, ease: 'easeOut' }}
-                          aria-hidden="true"
-                        />
-                      )}
-                      <span className="relative z-10">{item.label}</span>
+                      {item.label}
                     </Link>
                   </li>
                 )
@@ -99,12 +84,12 @@ export const Navbar = () => {
           </nav>
 
           <div className="flex items-center justify-end gap-3">
-            <ButtonLink to="/contatti" variant="dark" size="sm" className="hidden lg:inline-flex">
+            <ButtonLink to="/contatti" size="sm" className="hidden lg:inline-flex">
               Scrivici <ArrowRight size={14} />
             </ButtonLink>
             <button
               type="button"
-              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink bg-ink text-white shadow-[3px_3px_0_0_#ff5500] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-cream lg:hidden"
               onClick={() => setOpen(!open)}
               aria-label={open ? 'Chiudi il menu' : 'Apri il menu'}
               aria-expanded={open}
@@ -120,14 +105,14 @@ export const Navbar = () => {
             <motion.nav
               id="mobile-menu"
               aria-label="Menu"
-              initial={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
               className="container-x mt-3 lg:hidden"
             >
-              <ul className="overflow-hidden rounded-[1.75rem] border-2 border-ink bg-white shadow-hard-lg">
-                {navItems.map((item, i) => {
+              <ul className="overflow-hidden rounded-3xl border border-ink/10 bg-white p-2 shadow-soft">
+                {navItems.map((item) => {
                   const active = isActive(item.to)
                   return (
                     <li key={item.to}>
@@ -135,16 +120,21 @@ export const Navbar = () => {
                         to={item.to}
                         viewTransition
                         aria-current={active ? 'page' : undefined}
-                        className={`flex items-center justify-between px-6 py-4 font-display text-2xl uppercase transition-colors ${
-                          active ? 'bg-orange text-white' : 'hover:bg-cream'
-                        } ${i < navItems.length - 1 ? 'border-b-2 border-ink' : ''}`}
+                        className={`flex items-center justify-between rounded-2xl px-4 py-3.5 text-base font-semibold transition-colors ${
+                          active ? 'bg-ink text-white' : 'hover:bg-cream'
+                        }`}
                       >
                         {item.label}
-                        <ArrowRight size={18} />
+                        <ArrowRight size={16} className={active ? 'text-white/70' : 'text-ink/40'} />
                       </Link>
                     </li>
                   )
                 })}
+                <li className="p-2 pt-3">
+                  <ButtonLink to="/contatti" className="w-full">
+                    Scrivici <ArrowRight size={14} />
+                  </ButtonLink>
+                </li>
               </ul>
             </motion.nav>
           )}
