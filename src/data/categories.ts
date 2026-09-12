@@ -21,6 +21,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/naples-streetfood.webp',
         location: 'Quartieri Spagnoli',
         included: 'Degustazioni incluse',
+        days: [2, 4, 6],
       },
       {
         title: 'Lezione di pizza napoletana con pranzo e visita al forno',
@@ -34,6 +35,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/naples-pizza.webp',
         location: 'Centro Storico',
         included: 'Ingredienti + pizza da portare a casa',
+        days: [1, 3, 5, 6],
       },
       {
         title: 'Mercato di Porta Nolana: pesce fresco e prodotti locali',
@@ -47,6 +49,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/naples-market.webp',
         location: 'Porta Nolana',
         included: 'Guida locale inclusa',
+        days: [2, 4, 6],
       },
       {
         title: 'Degustazione di vini campani con sommelier certificato',
@@ -60,6 +63,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/naples-wine.webp',
         location: 'Enoteca storica, Via Chiaia',
         included: '5 vini + tagliere campano',
+        days: [4, 5, 6],
       },
       {
         title: 'Colazione napoletana: sfogliatelle, caffè e storia al bar',
@@ -86,6 +90,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/naples-pastry.webp',
         location: 'Pasticceria artigianale, Chiaia',
         included: 'Ricette + dolci da portare a casa',
+        days: [6, 0],
       },
     ],
   },
@@ -109,6 +114,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/vesuvio-trek.webp',
         location: 'Parco Nazionale del Vesuvio',
         included: 'Trasporto + guida + ingresso',
+        days: [6, 0],
       },
       {
         title: 'Escursione ai Campi Flegrei: crateri e laghi vulcanici',
@@ -122,6 +128,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/campi-flegrei.webp',
         location: "Pozzuoli – Lago d'Averno",
         included: 'Guida naturalista + trasporto',
+        days: [0],
       },
       {
         title: 'Snorkeling e kayak nella Baia di Posillipo',
@@ -148,6 +155,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/sentiero-dei.webp',
         location: 'Costiera Amalfitana',
         included: 'Trasporto + guida + assicurazione',
+        days: [3, 6],
       },
       {
         title: 'Kayak al tramonto nel Golfo di Napoli',
@@ -197,6 +205,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/surf-cuma.webp',
         location: 'Spiaggia di Cuma, Pozzuoli',
         included: 'Tavola + muta + istruttore',
+        days: [6, 0],
       },
       {
         title: 'Arrampicata sportiva sul Monte Faito con guida UIAA',
@@ -210,6 +219,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/climb-faito.webp',
         location: 'Monte Faito, Vico Equense',
         included: 'Attrezzatura + guida + trasporto',
+        days: [6],
       },
       {
         title: 'Running tour: storia di Napoli di corsa tra i vicoli',
@@ -236,6 +246,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/padel-napoli.webp',
         location: 'Parco Virgiliano, Posillipo',
         included: 'Campo + racchette + istruttore',
+        days: [1, 2, 3, 4, 5],
       },
       {
         title: 'Partitella di calcio autentica nei Quartieri Spagnoli',
@@ -249,6 +260,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/calcio-quartieri.webp',
         location: 'Oratorio dei Quartieri Spagnoli',
         included: 'Campo + pallone + divise',
+        days: [5, 0],
       },
       {
         title: 'Yoga al tramonto sul Lungomare Caracciolo',
@@ -262,6 +274,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/yoga-lungomare.webp',
         location: 'Lungomare Caracciolo',
         included: 'Tappetino + istruttore certificato',
+        days: [1, 3, 5],
       },
     ],
   },
@@ -298,6 +311,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/mann-napoli.webp',
         location: 'Piazza Museo Nazionale',
         included: 'Biglietto + guida accreditata',
+        days: [1, 2, 4, 5, 6, 0],
       },
       {
         title: 'Street art tour ai Quartieri Spagnoli con artista locale',
@@ -324,6 +338,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/presepe-napoli.webp',
         location: 'Via San Gregorio Armeno',
         included: 'Materiali + statuina da portare',
+        days: [2, 4, 6],
       },
       {
         title: 'Capodimonte: visita guidata al museo e ai giardini reali',
@@ -373,6 +388,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/ceramica-napoli.webp',
         location: 'Laboratorio storico, Capodimonte',
         included: 'Materiali + opera da portare a casa',
+        days: [2, 4, 6],
       },
       {
         title: 'Sartoria napoletana: crea il tuo accessorio con un sarto',
@@ -386,6 +402,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/sartoria-napoli.webp',
         location: 'Via Chiaia – Sartoria storica',
         included: 'Materiali + prodotto finito',
+        days: [3, 6],
       },
       {
         title: 'Laboratorio di mosaico romano: tecnica antica e moderna',
@@ -412,6 +429,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/mandolino-napoli.webp',
         location: 'Liuteria Artigiana, Spaccanapoli',
         included: 'Strumento semilavorato da completare',
+        days: [6],
       },
       {
         title: 'Laboratorio di stampa tipografica con caratteri in piombo',
@@ -425,6 +443,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/tipografia-napoli.webp',
         location: 'Officina Tipografica, Chiaia',
         included: 'Stampe da portare a casa',
+        days: [5, 6],
       },
       {
         title: 'Corso di pittura: il paesaggio del Golfo a olio su tela',
@@ -461,6 +480,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/san-carlo.webp',
         location: 'Teatro San Carlo, Piazza Trieste',
         included: 'Biglietto + tour dietro le quinte',
+        days: [5, 6, 0],
       },
       {
         title: 'Tarantella live: spettacolo di musica e danza tradizionale',
@@ -474,6 +494,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/tarantella-show.webp',
         location: 'Corte storica, Quartieri Spagnoli',
         included: 'Spettacolo + degustazione vini',
+        days: [4, 5, 6],
       },
       {
         title: "Commedia dell'Arte napoletana: Pulcinella in scena",
@@ -500,6 +521,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/jazz-napoli.webp',
         location: 'Terrazza panoramica, Vomero',
         included: 'Biglietto + cocktail di benvenuto',
+        days: [5, 6],
       },
       {
         title: 'Visita serale al Teatro Romano di Neapolis con attori',
@@ -526,6 +548,7 @@ export const CATEGORIES: Record<string, Category> = {
         image: '/img/tango-napoli.webp',
         location: 'Ristorante con terrazza, Mergellina',
         included: 'Cena + lezione di tango + show',
+        days: [5, 6],
       },
     ],
   },

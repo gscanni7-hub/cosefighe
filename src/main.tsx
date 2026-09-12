@@ -6,6 +6,7 @@ import './index.css'
 import { AdminProvider } from './context/AdminContext'
 import HomePage from './pages/HomePage'
 import ExperiencesPage from './pages/ExperiencesPage'
+import WhatsOnPage from './pages/WhatsOnPage'
 import CreatorPage from './pages/CreatorPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/esperienze', element: <ExperiencesPage /> },
+      { path: '/cosa-fare', element: <WhatsOnPage /> },
       { path: '/creator', element: <CreatorPage /> },
       { path: '/chi-siamo', element: <AboutPage /> },
       { path: '/contatti', element: <ContactPage /> },

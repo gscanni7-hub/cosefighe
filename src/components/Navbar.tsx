@@ -7,6 +7,7 @@ import { ButtonLink } from './ui/Button'
 const navItems = [
   { label: 'Home', to: '/' },
   { label: 'Esperienze', to: '/esperienze' },
+  { label: 'Cosa fare', to: '/cosa-fare' },
   { label: 'Blog', to: '/blog' },
   { label: 'Creator', to: '/creator' },
   { label: 'Chi siamo', to: '/chi-siamo' },

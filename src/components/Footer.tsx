@@ -7,6 +7,7 @@ const columns = [
     title: 'Esplora',
     links: [
       { label: 'Esperienze', to: '/esperienze' },
+      { label: 'Cosa fare a Napoli', to: '/cosa-fare' },
       { label: 'Blog', to: '/blog' },
       { label: 'Diventa creator', to: '/creator' },
     ],

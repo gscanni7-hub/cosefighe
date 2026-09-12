@@ -1,15 +1,18 @@
-import { useEffect, useRef } from 'react'
-import { Link } from 'react-router'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Clock, MapPin } from 'lucide-react'
 import { Page } from '../components/Page'
 import { DragScroll, FloatingImage } from '../components/Decorations'
-import { ButtonLink } from '../components/ui/Button'
+import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { ArticleCard } from '../components/ui/ArticleCard'
+import { DateRange, type DateRangeValue } from '../components/ui/DateRange'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
+import { EVENT_CATEGORY_LABELS, eventEnd, upcomingEvents } from '../data/events'
+import { addDays, dayParts, formatRange, todayISO } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const categoryImages: Record<string, string> = {
@@ -23,21 +26,6 @@ const categoryImages: Record<string, string> = {
 
 const featured = [CATEGORIES.food.experiences[0], CATEGORIES.outdoor.experiences[0], CATEGORIES.arte.experiences[0]]
 const totalExperiences = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length, 0)
-
-const steps = [
-  {
-    title: 'Scegli',
-    text: `Sei categorie, ${totalExperiences} esperienze. Cibo, mare, arte, laboratori: filtra per quello che ti va davvero.`,
-  },
-  {
-    title: 'Prenota',
-    text: 'Gruppi piccoli e date chiare. Le prenotazioni aprono presto: lascia la mail e ti avvisiamo per primo.',
-  },
-  {
-    title: 'Vivi',
-    text: 'Un creator napoletano ti porta dove le guide non arrivano. Torni a casa con storie, non solo foto.',
-  },
-]
 
 const ease = [0.25, 1, 0.5, 1] as const
 
@@ -88,17 +76,6 @@ const Hero = () => {
   const mascotX = useTransform(sx, (v) => v)
   const mascotY = useTransform(sy, (v) => v)
 
-  const sticker = (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.9, ease }}
-      className="absolute left-0 top-[14%] -rotate-[8deg] whitespace-nowrap rounded-full border-2 border-ink bg-white px-3.5 py-2 text-[13px] font-bold shadow-hard-sm max-md:left-auto max-md:right-[62%] max-md:top-[22%]"
-    >
-      <b className="text-orange">{totalExperiences}</b> esperienze · <b className="text-orange">6</b> categorie
-    </motion.div>
-  )
-
   const mascot = (
     <motion.div
       initial={{ opacity: 0, y: 60, rotate: 4 }}
@@ -115,7 +92,6 @@ const Hero = () => {
         transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
         className="block h-auto w-full drop-shadow-[0_18px_0_rgba(0,0,0,0.12)]"
       />
-      {sticker}
     </motion.div>
   )
 
@@ -162,13 +138,10 @@ const Hero = () => {
             <ButtonLink to="/esperienze" size="lg">
               Esplora le esperienze <ArrowRight size={18} />
             </ButtonLink>
-            <ButtonLink to="/creator" variant="secondary" size="lg">
-              Diventa creator
+            <ButtonLink to="/cosa-fare" variant="secondary" size="lg">
+              Cosa fare a Napoli
             </ButtonLink>
           </motion.div>
-          <motion.p {...rise(0.4)} className="mt-8 hidden text-sm text-ink/50 md:block">
-            {totalExperiences} esperienze · 6 categorie · prenotazioni in apertura
-          </motion.p>
         </div>
       </div>
     </section>
@@ -219,6 +192,74 @@ const CategoriesStrip = () => (
   </section>
 )
 
+const WhatsOnBand = () => {
+  const navigate = useNavigate()
+  const [range, setRange] = useState<DateRangeValue>(() => ({ from: todayISO(), to: addDays(todayISO(), 6) }))
+  const upcoming = upcomingEvents(4)
+  const go = () => navigate(`/cosa-fare?dal=${range.from}&al=${range.to}`, { viewTransition: true })
+  return (
+    <section className="section-y bg-blue text-white">
+      <div className="container-x grid gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
+        <Reveal>
+          <p className="label text-white/75">Il programma</p>
+          <h2 className="heading-lg mt-4">Cosa fare a Napoli nei giorni in cui ci sei</h2>
+          <p className="mt-4 max-w-md text-white/80">
+            Feste, concerti, mercati, mostre: scegli le date e ti diciamo cosa succede in città e quali esperienze puoi prenotare.
+          </p>
+          <div className="mt-8">
+            <DateRange value={range} onChange={setRange} tone="dark" compact />
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Button onClick={go}>
+              Vedi il programma {formatRange(range.from, range.to)} <ArrowRight size={16} />
+            </Button>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <p className="mb-2 text-sm font-semibold text-white/75">I prossimi in città</p>
+          <ul className="divide-y divide-white/15 border-y border-white/15">
+            {upcoming.map((e) => {
+              const p = dayParts(e.start)
+              return (
+                <li key={e.slug}>
+                  <Link
+                    to={`/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`}
+                    viewTransition
+                    className="group grid grid-cols-[3.25rem_1fr_auto] items-center gap-4 py-4 transition-colors hover:bg-white/5"
+                  >
+                    <span className="flex flex-col items-center leading-none">
+                      <span className="font-display text-3xl">{p.day}</span>
+                      <span className="mt-1 text-[11px] font-semibold uppercase text-white/70">{p.mon}</span>
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate font-bold">{e.title}</span>
+                      <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-white/70">
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin size={12} /> {e.place}
+                        </span>
+                        {e.time && (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock size={12} /> {e.time}
+                          </span>
+                        )}
+                        <span className="text-white/50">{EVENT_CATEGORY_LABELS[e.category]}</span>
+                      </span>
+                    </span>
+                    <ArrowRight size={16} className="text-white/60 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+          <ButtonLink to="/cosa-fare" variant="link" className="mt-6 text-white decoration-white/40 hover:text-white hover:decoration-white">
+            Tutto il programma <ArrowRight size={15} />
+          </ButtonLink>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
 const FeaturedSection = () => (
   <section className="section-y bg-paper">
     <div className="container-x">
@@ -238,32 +279,6 @@ const FeaturedSection = () => (
           <ExperienceCard exp={featured[2]} index={2} layout="row" />
         </div>
       </div>
-    </div>
-  </section>
-)
-
-const HowItWorks = () => (
-  <section className="section-y bg-ink text-white">
-    <div className="container-x grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-      <Reveal>
-        <h2 className="heading-lg">Tre mosse e sei in giro</h2>
-        <p className="mt-4 max-w-sm text-white/60">
-          Niente app da scaricare, niente pacchetti turistici. Solo persone del posto che ti portano dove vale la pena.
-        </p>
-      </Reveal>
-      <Reveal delay={0.08}>
-        <ol className="divide-y divide-white/10">
-          {steps.map((s, i) => (
-            <li key={s.title} className="grid grid-cols-[3.5rem_1fr] gap-4 py-6 first:pt-0 last:pb-0">
-              <span className="font-display text-3xl leading-none text-orange">0{i + 1}</span>
-              <div>
-                <h3 className="text-lg font-bold">{s.title}</h3>
-                <p className="mt-1.5 max-w-md text-white/60">{s.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Reveal>
     </div>
   </section>
 )
@@ -325,7 +340,7 @@ export default function HomePage() {
       <Hero />
       <CategoriesStrip />
       <FeaturedSection />
-      <HowItWorks />
+      <WhatsOnBand />
       <BlogTeaser />
       <CreatorBand />
     </Page>

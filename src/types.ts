@@ -12,6 +12,28 @@ export interface Experience {
   image: string
   location: string
   included: string
+  /** Giorni della settimana in cui si fa (0 = domenica ... 6 = sabato). Assente = tutti i giorni. */
+  days?: number[]
+}
+
+export type EventCategory = 'food' | 'outdoor' | 'sport' | 'arte' | 'laboratori' | 'spettacoli' | 'citta'
+
+/** Evento in città a data fissa (festa, concerto, mercato, mostra...). */
+export interface CityEvent {
+  slug: string
+  title: string
+  category: EventCategory
+  /** Data di inizio, formato AAAA-MM-GG. */
+  start: string
+  /** Data di fine, se dura più giorni. */
+  end?: string
+  time?: string
+  place: string
+  area: string
+  price: string
+  blurb: string
+  url?: string
+  featured?: boolean
 }
 
 export interface Category {
