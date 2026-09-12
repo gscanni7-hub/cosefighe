@@ -9,6 +9,10 @@ prodotto non le rispetta, non entra nemmeno tra le bozze.
 - Ogni proposta assegnata a una sola categoria del sito.
 - Le 36 esperienze oggi sul sito sono esempi: le proposte approvate le sostituiranno. Mai pubblicare: solo bozze.
 
+PRIORITÀ NELLA SCELTA
+- A parità di regole, vengono prima le attività con più recensioni e più vendute (le piattaforme le segnalano come "bestseller", "più prenotate", "top venduto"): ordinare i candidati per numero di recensioni e volume di prenotazioni, e proporre i primi di ogni categoria.
+- Indicare nella proposta il numero di recensioni e, se disponibile, il segnale di vendita della piattaforma.
+
 ## Regole dure (meccaniche: passa o non passa)
 - Zona: Napoli città e provincia (Pozzuoli, Campi Flegrei, Ercolano, Vesuvio, Sorrento, isole). Escluse: Amalfi, Pompei da sola, Roma.
 - Prezzo a persona: da 10 a 120 euro.
