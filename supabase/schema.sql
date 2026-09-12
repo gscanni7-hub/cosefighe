@@ -146,3 +146,15 @@ alter table public.experience_drafts enable row level security;
 create policy "team all agent_runs" on public.agent_runs for all to authenticated using (true) with check (true);
 create policy "team all drafts" on public.experience_drafts for all to authenticated using (true) with check (true);
 -- Gli agenti scrivono con la chiave "service role" (salta le policy): mai nel sito, solo negli script.
+
+-- Impostazioni degli agenti, modificabili dal pannello (sezione "Agenti").
+-- Gli agenti le leggono prima di lavorare: se `enabled` è falso non partono.
+create table if not exists public.agent_settings (
+  agent text primary key,
+  enabled boolean not null default true,
+  cadence text not null default 'settimanale' check (cadence in ('manuale', 'giornaliera', 'settimanale', 'mensile')),
+  rules text,
+  updated_at timestamptz default now()
+);
+alter table public.agent_settings enable row level security;
+create policy "team all agent_settings" on public.agent_settings for all to authenticated using (true) with check (true);

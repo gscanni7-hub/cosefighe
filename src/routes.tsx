@@ -26,6 +26,7 @@ const AdminArticleForm = lazy(() => import('./pages/admin/AdminArticleForm'))
 const AdminLeads = lazy(() => import('./pages/admin/AdminLeads'))
 const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics'))
 const AdminDrafts = lazy(() => import('./pages/admin/AdminDrafts'))
+const AdminAgents = lazy(() => import('./pages/admin/AdminAgents'))
 
 const AdminFallback = () => (
   <div className="flex min-h-screen items-center justify-center bg-paper font-sans text-sm text-ink/50">Caricamento del pannello...</div>
@@ -85,6 +86,7 @@ export const routes: RouteObject[] = [
       { path: '/admin/lead', element: admin(<AdminLeads />) },
       { path: '/admin/dati', element: admin(<AdminAnalytics />) },
       { path: '/admin/bozze', element: admin(<AdminDrafts />) },
+      { path: '/admin/agenti', element: admin(<AdminAgents />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

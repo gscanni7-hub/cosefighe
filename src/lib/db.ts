@@ -250,3 +250,26 @@ export async function fetchAgentRuns(limit = 20): Promise<AgentRun[]> {
   }
   return data as AgentRun[]
 }
+
+/* ---- Impostazioni degli agenti (sezione "Agenti" del pannello) ---- */
+
+import type { AgentSettings } from '../data/agents'
+
+export async function fetchAgentSettings(): Promise<{ rows: AgentSettings[]; available: boolean }> {
+  const supabase = await getSupabase()
+  if (!supabase) return { rows: [], available: false }
+  const { data, error } = await supabase.from('agent_settings').select('*')
+  if (error) {
+    console.error(error)
+    return { rows: [], available: false }
+  }
+  return { rows: (data ?? []) as AgentSettings[], available: true }
+}
+
+export async function saveAgentSettings(s: AgentSettings): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const { error } = await supabase.from('agent_settings').upsert({ ...s, updated_at: new Date().toISOString() }, { onConflict: 'agent' })
+  if (error) console.error(error)
+  return !error
+}

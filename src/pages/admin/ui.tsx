@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { Link, Navigate, useLocation } from 'react-router'
-import { BarChart3, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, Sparkles, Users } from 'lucide-react'
+import { BarChart3, Bot, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, Sparkles, Users } from 'lucide-react'
 import { useAdmin } from '../../context/AdminContext'
 
 /*
@@ -18,6 +18,7 @@ const groups = [
       { to: '/admin/articoli', label: 'Articoli', icon: FileText },
     ],
   },
+  { label: 'Squadra', items: [{ to: '/admin/agenti', label: 'Agenti', icon: Bot }] },
   { label: 'Persone', items: [{ to: '/admin/lead', label: 'Lead', icon: Users }] },
 ]
 
