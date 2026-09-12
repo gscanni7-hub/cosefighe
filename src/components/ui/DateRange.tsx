@@ -28,18 +28,12 @@ export function DateRange({ value, onChange, tone = 'light', compact = false, ho
   const days = useMemo(() => Array.from({ length: horizon }, (_, i) => addDays(today, i)), [today, horizon])
 
   const chip = (active: boolean) =>
-    `inline-flex min-h-[38px] shrink-0 items-center rounded-full border px-4 text-sm font-medium transition-colors ${
-      dark
-        ? active
-          ? 'border-white bg-white text-blue'
-          : 'border-white/40 text-white hover:border-white'
-        : active
-          ? 'border-ink bg-ink text-white'
-          : 'border-ink/15 text-ink/75 hover:border-ink hover:text-ink'
-    }`
+    dark
+      ? `chip border-white/40 text-white hover:border-white hover:text-white ${active ? 'border-white bg-white text-blue hover:text-blue' : ''}`
+      : `chip ${active ? 'chip-on' : ''}`
 
   const input = `min-h-[40px] rounded-full border px-3 text-sm font-medium tabular-nums outline-none focus-visible:ring-[3px] focus-visible:ring-orange/60 ${
-    dark ? 'border-white/40 bg-white/10 text-white [color-scheme:dark]' : 'border-ink/15 bg-white text-ink'
+    dark ? 'border-white/40 bg-white/10 text-white [color-scheme:dark]' : 'border-line bg-white text-ink'
   }`
 
   const pickDay = (iso: string) => {

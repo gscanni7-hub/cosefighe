@@ -63,7 +63,7 @@ export const Navbar = () => {
           </Link>
 
           <nav aria-label="Principale" className="hidden lg:block">
-            <ul className="flex items-center gap-0.5 rounded-full border border-ink/10 bg-white/90 p-1 backdrop-blur-sm">
+            <ul className="flex items-center gap-0.5 rounded-full border border-line bg-white/90 p-1 backdrop-blur-sm">
               {navItems.map((item) => {
                 const active = isActive(item.to)
                 return (
@@ -90,7 +90,7 @@ export const Navbar = () => {
             </ButtonLink>
             <button
               type="button"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-cream lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-cream lg:hidden"
               onClick={() => setOpen(!open)}
               aria-label={open ? 'Chiudi il menu' : 'Apri il menu'}
               aria-expanded={open}
@@ -112,7 +112,7 @@ export const Navbar = () => {
               transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
               className="container-x mt-3 lg:hidden"
             >
-              <ul className="overflow-hidden rounded-3xl border border-ink/10 bg-white p-2 shadow-soft">
+              <ul className="overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-soft">
                 {navItems.map((item) => {
                   const active = isActive(item.to)
                   return (
@@ -131,11 +131,6 @@ export const Navbar = () => {
                     </li>
                   )
                 })}
-                <li className="p-2 pt-3">
-                  <ButtonLink to="/contatti" className="w-full">
-                    Scrivici <ArrowRight size={14} />
-                  </ButtonLink>
-                </li>
               </ul>
             </motion.nav>
           )}

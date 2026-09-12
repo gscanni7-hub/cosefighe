@@ -8,6 +8,7 @@ import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { DateRange, type DateRangeValue } from '../components/ui/DateRange'
 import { EventCard } from '../components/ui/EventCard'
+import { EmptyState } from '../components/ui/EmptyState'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { CATEGORY_LIST } from '../data/categories'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween } from '../data/events'
@@ -92,10 +93,7 @@ export default function WhatsOnPage() {
     return c
   }, [range.from, range.to])
 
-  const chip = (active: boolean) =>
-    `inline-flex min-h-[38px] shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-medium transition-colors ${
-      active ? 'border-ink bg-ink text-white' : 'border-ink/15 text-ink/75 hover:border-ink hover:text-ink'
-    }`
+  const chip = (active: boolean) => `chip ${active ? 'chip-on' : ''}`
 
   return (
     <Page>
@@ -110,7 +108,7 @@ export default function WhatsOnPage() {
         }
       />
 
-      <section className="border-b border-ink/10 bg-white py-8 md:py-10" aria-label="Scegli le date">
+      <section className="border-b border-line bg-white py-8 md:py-10" aria-label="Scegli le date">
         <div className="container-x">
           <DateRange value={range} onChange={(v) => update(v)} />
           <div className="mt-6 flex flex-wrap items-center gap-2" role="group" aria-label="Categorie">
@@ -149,17 +147,12 @@ export default function WhatsOnPage() {
           </Reveal>
 
           {groups.length === 0 ? (
-            <div className="mt-10 grid items-center gap-8 rounded-3xl border border-ink/10 bg-white p-8 md:grid-cols-[0.7fr_1.3fr] md:p-12">
-              <div className="mx-auto w-[150px] md:w-[200px]" aria-hidden="true">
-                <FloatingImage src="/mascotte-binocolo.webp" amplitude={8} />
-              </div>
-              <div>
-                <h3 className="heading-md">Niente in programma in questi giorni</h3>
-                <p className="mt-3 max-w-md text-ink/60">
-                  Non abbiamo ancora segnalato eventi per queste date. Prova ad allargare il periodo oppure guarda le esperienze qui sotto:
-                  quelle si fanno quasi ogni giorno.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
+            <EmptyState
+              className="mt-10"
+              title="Niente in programma in questi giorni"
+              text="Non abbiamo ancora segnalato eventi per queste date. Prova ad allargare il periodo oppure guarda le esperienze qui sotto: quelle si fanno quasi ogni giorno."
+              actions={
+                <>
                   <Button onClick={() => update({ from: todayISO(), to: addDays(todayISO(), 29), cat: null })}>
                     Prossimi 30 giorni <ArrowRight size={15} />
                   </Button>
@@ -168,9 +161,9 @@ export default function WhatsOnPage() {
                       Tutte le categorie
                     </Button>
                   )}
-                </div>
-              </div>
-            </div>
+                </>
+              }
+            />
           ) : (
             <div className="mt-10 flex flex-col gap-12">
               {groups.map((g, gi) => {
@@ -203,8 +196,7 @@ export default function WhatsOnPage() {
               <div className="max-w-xl">
                 <h2 className="heading-lg">Esperienze prenotabili {nDays === 1 ? formatShortInline(range.from) : 'in questi giorni'}</h2>
                 <p className="mt-3 text-ink/60">
-                  {experiences.length} esperienze dei nostri creator si fanno {nDays === 1 ? 'quel giorno' : 'in almeno uno di questi giorni'}. Le
-                  prenotazioni aprono presto.
+                  {experiences.length} esperienze dei nostri creator si fanno {nDays === 1 ? 'quel giorno' : 'in almeno uno di questi giorni'}.
                 </p>
               </div>
               <ButtonLink to="/esperienze" variant="link">

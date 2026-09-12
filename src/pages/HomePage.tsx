@@ -266,7 +266,7 @@ const FeaturedSection = () => (
       <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
           <h2 className="heading-lg">Le più richieste</h2>
-          <p className="mt-3 text-ink/60">Tre esperienze per capire lo spirito di Cose Fighe. Le prenotazioni aprono presto.</p>
+          <p className="mt-3 text-ink/60">Tre esperienze per capire lo spirito di Cose Fighe.</p>
         </div>
         <ButtonLink to="/esperienze" variant="link">
           Tutte le {totalExperiences} esperienze <ArrowRight size={15} />

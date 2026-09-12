@@ -6,7 +6,6 @@ import { Page } from '../components/Page'
 import { ButtonLink } from '../components/ui/Button'
 import { Sticker } from '../components/ui/Sticker'
 import { ArticleCard } from '../components/ui/ArticleCard'
-import { WaitlistForm } from '../components/ui/WaitlistForm'
 import { getArticleBySlug, getRelatedArticles } from '../data/articles'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { Article, ArticleSection } from '../types'
@@ -114,18 +113,14 @@ function ArticleView({ article }: { article: Article }) {
 
       <header className="bg-paper pt-28 md:pt-32">
         <div className="container-x pb-10">
-          <nav aria-label="Percorso" className="flex flex-wrap items-center gap-2 text-sm text-ink/55">
-            <Link to="/" viewTransition className="hover:text-ink">
-              Home
-            </Link>
-            <span aria-hidden="true">/</span>
-            <Link to="/blog" viewTransition className="hover:text-ink">
-              Blog
-            </Link>
-            <span aria-hidden="true">/</span>
-            <span className="text-ink/40">{article.category}</span>
-          </nav>
-          <div className="mt-8">
+          <Link
+            to="/blog"
+            viewTransition
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/60 transition-colors hover:text-ink"
+          >
+            <ArrowLeft size={14} /> Tutti gli articoli
+          </Link>
+          <div className="mt-6">
             <Sticker tone="orange">{article.category}</Sticker>
           </div>
           <motion.h1
@@ -159,7 +154,7 @@ function ArticleView({ article }: { article: Article }) {
           </div>
         </div>
         <div className="container-x">
-          <div className="translate-y-12 overflow-hidden rounded-[2rem] border border-ink/10 bg-cream">
+          <div className="translate-y-12 overflow-hidden rounded-[2rem] border border-line bg-cream">
             <img
               src={article.coverImage}
               alt={article.title}
@@ -176,9 +171,9 @@ function ArticleView({ article }: { article: Article }) {
           <p className="mb-10 text-xl leading-relaxed text-ink/70">{article.excerpt}</p>
           <ArticleBody sections={article.body} />
 
-          <ul className="mt-12 flex flex-wrap gap-2 border-t-2 border-ink/10 pt-8" aria-label="Tag">
+          <ul className="mt-12 flex flex-wrap gap-2 border-t border-line pt-8" aria-label="Tag">
             {article.tags.map((tag) => (
-              <li key={tag} className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 text-xs font-medium text-ink/70">
+              <li key={tag} className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-ink/70">
                 <Tag size={10} /> {tag}
               </li>
             ))}
@@ -208,14 +203,14 @@ function ArticleView({ article }: { article: Article }) {
 
         <aside className="mt-12 space-y-6 md:sticky md:top-28 md:mt-0">
           {headings.length > 0 && (
-            <nav aria-label="In questo articolo" className="rounded-3xl border border-ink/10 bg-white p-6">
+            <nav aria-label="In questo articolo" className="rounded-3xl border border-line bg-white p-6">
               <p className="label mb-4 text-ink/50">In questo articolo</p>
               <ol className="space-y-1">
                 {headings.map((h) => (
                   <li key={h.i}>
                     <a
                       href={`#h-${h.i}`}
-                      className="block border-b border-ink/10 py-2 text-sm leading-snug text-ink/70 transition-colors last:border-0 hover:text-orange"
+                      className="block border-b border-line py-2 text-sm leading-snug text-ink/70 transition-colors last:border-0 hover:text-orange"
                     >
                       {h.content}
                     </a>
@@ -235,7 +230,7 @@ function ArticleView({ article }: { article: Article }) {
       </div>
 
       {related.length > 0 && (
-        <section className="border-t border-ink/10 bg-paper py-20">
+        <section className="border-t border-line bg-paper py-20">
           <div className="container-x">
             <div className="mb-10 flex items-end justify-between gap-6">
               <h2 className="heading-lg">Leggi anche</h2>
@@ -252,15 +247,6 @@ function ArticleView({ article }: { article: Article }) {
         </section>
       )}
 
-      <section className="section-y">
-        <div className="container-x grid items-center gap-10 md:grid-cols-2">
-          <div>
-            <h2 className="heading-lg">Altre storie in arrivo</h2>
-            <p className="mt-4 max-w-md text-ink/60">Lascia la mail e ricevi le nuove guide su Napoli appena escono.</p>
-          </div>
-          <WaitlistForm source="articolo" />
-        </div>
-      </section>
     </Page>
   )
 }

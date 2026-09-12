@@ -77,7 +77,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           aria-invalid={invalid}
           aria-describedby={invalid || status === 'error' ? `${id}-msg` : undefined}
           className={`min-h-[48px] flex-1 rounded-full border bg-white px-5 text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none ${
-            invalid ? 'border-red-500' : 'border-ink/15'
+            invalid ? 'border-error' : 'border-line'
           }`}
         />
         <Button type="submit" disabled={status === 'sending'}>
@@ -85,12 +85,12 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
         </Button>
       </div>
       {invalid && (
-        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-red-600'}`}>
+        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-error'}`}>
           Controlla l'indirizzo email: sembra incompleto.
         </p>
       )}
       {status === 'error' && (
-        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-red-600'}`}>
+        <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-error'}`}>
           Non siamo riusciti a salvare l'iscrizione. Scrivici a{' '}
           <a href="mailto:ciao@cosefighe.it" className="underline">
             ciao@cosefighe.it

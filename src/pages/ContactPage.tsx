@@ -18,7 +18,7 @@ const contacts = [
 ]
 
 const inputClass =
-  'w-full min-h-[48px] rounded-2xl border border-ink/15 bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
+  'w-full min-h-[48px] rounded-2xl border border-line bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
 const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
@@ -112,8 +112,8 @@ export default function ContactPage() {
                 </li>
               ))}
             </ul>
-            <div className="mt-12 border-t border-ink/10 pt-6">
-              <p className="font-display text-4xl text-orange">24h</p>
+            <div className="mt-12 border-t border-line pt-6">
+              <p className="font-display text-4xl text-ink">24h</p>
               <p className="mt-1 text-sm text-ink/60">Tempo di risposta nei giorni feriali. Il weekend siamo in giro per Napoli.</p>
             </div>
           </Reveal>
@@ -122,7 +122,7 @@ export default function ContactPage() {
             {status === 'done' ? (
               <div
                 role="status"
-                className="flex h-full flex-col items-center justify-center rounded-3xl border border-ink/10 bg-paper p-10 text-center md:p-12"
+                className="flex h-full flex-col items-center justify-center rounded-3xl border border-line bg-paper p-10 text-center md:p-12"
               >
                 <span className="flex h-14 w-14 items-center justify-center rounded-full bg-orange text-white">
                   <Check size={28} />
@@ -143,7 +143,7 @@ export default function ContactPage() {
               <form
                 onSubmit={submit}
                 noValidate
-                className="space-y-6 rounded-3xl border border-ink/10 bg-white p-6 md:p-8"
+                className="space-y-6 rounded-3xl border border-line bg-white p-6 md:p-8"
               >
                 <h3 className="heading-md">Il tuo messaggio</h3>
                 <fieldset>
@@ -155,9 +155,7 @@ export default function ContactPage() {
                         type="button"
                         onClick={() => setTopic(t)}
                         aria-pressed={topic === t}
-                        className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
-                          topic === t ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
-                        }`}
+                        className={`chip ${topic === t ? 'chip-on' : ''}`}
                       >
                         {t}
                       </button>
@@ -175,9 +173,9 @@ export default function ContactPage() {
                     onChange={(e) => set('name', e.target.value)}
                     placeholder="Il tuo nome"
                     aria-invalid={!!errors.name}
-                    className={`${inputClass} ${errors.name ? 'border-red-500' : ''}`}
+                    className={inputClass}
                   />
-                  {errors.name && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.name}</p>}
+                  {errors.name && <p className="mt-1.5 text-sm font-medium text-error">{errors.name}</p>}
                 </div>
                 <div>
                   <label htmlFor="ct-email" className={labelClass}>
@@ -192,9 +190,9 @@ export default function ContactPage() {
                     onChange={(e) => set('email', e.target.value)}
                     placeholder="la-tua@email.it"
                     aria-invalid={!!errors.email}
-                    className={`${inputClass} ${errors.email ? 'border-red-500' : ''}`}
+                    className={inputClass}
                   />
-                  {errors.email && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.email}</p>}
+                  {errors.email && <p className="mt-1.5 text-sm font-medium text-error">{errors.email}</p>}
                 </div>
                 <div>
                   <label htmlFor="ct-message" className={labelClass}>
@@ -207,12 +205,12 @@ export default function ContactPage() {
                     onChange={(e) => set('message', e.target.value)}
                     placeholder="Raccontaci tutto..."
                     aria-invalid={!!errors.message}
-                    className={`${inputClass} resize-none ${errors.message ? 'border-red-500' : ''}`}
+                    className={`${inputClass} resize-none`}
                   />
-                  {errors.message && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.message}</p>}
+                  {errors.message && <p className="mt-1.5 text-sm font-medium text-error">{errors.message}</p>}
                 </div>
                 {status === 'error' && (
-                  <p role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                  <p role="alert" className="rounded-2xl bg-error/5 px-4 py-3 text-sm text-error">
                     Non siamo riusciti a inviare il messaggio. Riprova tra poco oppure scrivici a{' '}
                     <a href="mailto:ciao@cosefighe.it" className="underline">
                       ciao@cosefighe.it

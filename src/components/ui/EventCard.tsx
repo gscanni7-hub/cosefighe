@@ -23,13 +23,13 @@ export function EventCard({ event, index = 0, shownOn }: EventCardProps) {
       whileInView={{ y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.05, ease: [0.25, 1, 0.5, 1] }}
-      className={`grid h-full grid-cols-[4.25rem_1fr] gap-4 rounded-3xl border bg-white p-4 transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft md:p-5 ${
-        event.featured ? 'border-ink' : 'border-ink/10'
+      className={`card grid h-full grid-cols-[4.25rem_1fr] gap-4 p-4 transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft md:p-5 ${
+        event.featured ? 'border-ink' : ''
       }`}
     >
       <div className="flex flex-col items-center justify-start rounded-2xl bg-paper py-3 text-center">
         <span className="text-[11px] font-semibold uppercase text-ink/50">{start.wd}</span>
-        <span className="font-display text-3xl leading-none text-orange">{start.day}</span>
+        <span className="font-display text-3xl leading-none text-ink">{start.day}</span>
         <span className="text-[11px] font-semibold uppercase text-ink/50">{start.mon}</span>
         {multi && <span className="mt-2 text-[10px] leading-tight text-ink/45">fino al {dayParts(event.end!).day}</span>}
       </div>

@@ -26,10 +26,14 @@
   --color-blue: #0055ff;
   --color-paper: #fff7f1;
   --color-cream: #fff1e8;
+  --color-success: #1f8a4c;
+  --color-error: #d2321f;
+  --color-line: rgba(17, 17, 17, 0.08);
 
   --shadow-hard-sm: 3px 3px 0 0 #111111;
   --shadow-hard: 4px 4px 0 0 #111111;
   --shadow-soft: 0 12px 32px -14px rgba(17, 17, 17, 0.18);
+  --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.04), 0 8px 24px -12px rgba(17, 17, 17, 0.12);
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 
@@ -45,16 +49,31 @@
   @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
 }
 @utility section-y {
-  @apply py-16 md:py-24;
+  @apply py-20 md:py-28;
 }
 @utility label {
   @apply text-xs font-semibold uppercase tracking-[0.08em];
 }
 @utility heading-lg {
-  @apply font-sans text-display-lg font-extrabold tracking-[-0.02em];
+  @apply font-sans text-display-lg font-bold tracking-[-0.025em];
 }
 @utility heading-md {
-  @apply font-sans text-display-md font-bold tracking-[-0.01em];
+  @apply font-sans text-display-md font-semibold tracking-[-0.015em];
+}
+/* Campo di testo: pillola bianca, bordo sottile, anello arancio al focus. Uguale in tutti i moduli. */
+@utility field {
+  @apply w-full min-h-[48px] rounded-2xl border border-line bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-[border-color,box-shadow] duration-200 focus:border-ink focus:outline-none aria-[invalid=true]:border-error;
+}
+/* Pillola di filtro: 44px al tocco, 38px con il mouse. */
+@utility chip {
+  @apply inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full border border-line px-4 text-sm font-medium text-ink/75 transition-colors hover:border-ink hover:text-ink md:min-h-[38px];
+}
+@utility chip-on {
+  @apply border-ink bg-ink text-white hover:text-white;
+}
+/* Superficie: card bianca senza bordo pesante, ombra leggerissima. */
+@utility card {
+  @apply rounded-3xl border border-line bg-white shadow-card;
 }
 @utility img-warm {
   filter: saturate(0.9) contrast(1.04) sepia(0.08);

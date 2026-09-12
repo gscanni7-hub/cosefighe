@@ -6,7 +6,7 @@ import { PageHero } from '../components/ui/PageHero'
 import { ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
-import { WaitlistForm } from '../components/ui/WaitlistForm'
+import { NextStep } from '../components/ui/NextStep'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { fetchExperiencesByCategory, mapDbExperience } from '../lib/db'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -46,13 +46,9 @@ function CategoryView({ cat }: { cat: Category }) {
         back={{ to: '/esperienze', label: 'Tutte le categorie' }}
         eyebrow={cat.subtitle}
         title={cat.label}
-        subtitle={`${experiences.length} esperienze a Napoli. Le prenotazioni aprono presto.`}
+        subtitle={`${experiences.length} esperienze a Napoli, scelte da chi la città la vive.`}
         aside={
-          <div
-            className="mx-auto w-[200px] overflow-hidden rounded-[2rem] border-2 border-ink shadow-hard md:ml-auto md:w-[280px]"
-            style={{ backgroundColor: cat.accent }}
-            aria-hidden="true"
-          >
+          <div className="mx-auto w-[200px] overflow-hidden rounded-[2rem] md:ml-auto md:w-[280px]" style={{ backgroundColor: cat.accent }} aria-hidden="true">
             <img src={categoryImages[cat.slug]} alt="" width={900} height={900} className="h-full w-full object-cover" />
           </div>
         }
@@ -65,7 +61,7 @@ function CategoryView({ cat }: { cat: Category }) {
               <ExperienceCard key={exp.title} exp={exp} index={i} />
             ))}
           </div>
-          <Reveal className="mt-14 border-t border-ink/10 pt-8">
+          <Reveal className="mt-14 border-t border-line pt-8">
             <p className="label text-ink/50">Altre categorie</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {others.map((c) => (
@@ -80,17 +76,12 @@ function CategoryView({ cat }: { cat: Category }) {
         </div>
       </section>
 
-      <section className="section-y bg-paper">
-        <div className="container-x grid items-center gap-10 md:grid-cols-2">
-          <Reveal>
-            <h2 className="heading-lg">Ti avvisiamo quando si parte</h2>
-            <p className="mt-4 max-w-md text-ink/60">Le esperienze {cat.label} aprono presto. Lascia la mail e sei tra i primi.</p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <WaitlistForm source={`categoria-${cat.slug}`} />
-          </Reveal>
-        </div>
-      </section>
+      <NextStep
+        title="Cosa succede in città in questi giorni?"
+        text="Feste, mercati, concerti e mostre a Napoli, giorno per giorno. Scegli le date e guarda cosa c'è."
+        primary={{ to: '/cosa-fare', label: 'Cosa fare a Napoli' }}
+        secondary={{ to: '/esperienze', label: 'Tutte le esperienze' }}
+      />
     </Page>
   )
 }

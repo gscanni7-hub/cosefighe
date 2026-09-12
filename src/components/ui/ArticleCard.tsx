@@ -18,7 +18,7 @@ export function ArticleCard({ article, index = 0, featured = false }: { article:
       <Link
         to={`/blog/${article.slug}`}
         viewTransition
-        className={`group flex h-full overflow-hidden rounded-3xl border border-ink/10 bg-white transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
+        className={`group flex h-full overflow-hidden rounded-3xl border border-line bg-white transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
           featured ? 'flex-col md:flex-row' : 'flex-col'
         }`}
       >

@@ -27,7 +27,7 @@ const perks = [
 ]
 
 const inputClass =
-  'w-full min-h-[48px] rounded-2xl border border-ink/15 bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
+  'w-full min-h-[48px] rounded-2xl border border-line bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
 const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
@@ -87,7 +87,7 @@ function CreatorForm() {
     return (
       <div
         role="status"
-        className="rounded-3xl border border-ink/10 bg-paper p-10 text-center md:p-12"
+        className="rounded-3xl border border-line bg-paper p-10 text-center md:p-12"
       >
         <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange text-white">
           <Check size={28} />
@@ -111,9 +111,9 @@ function CreatorForm() {
     <form
       onSubmit={submit}
       noValidate
-      className="overflow-hidden rounded-3xl border border-ink/10 bg-white"
+      className="overflow-hidden rounded-3xl border border-line bg-white"
     >
-      <div className="border-b border-ink/10 bg-paper px-6 py-6 md:px-8">
+      <div className="border-b border-line bg-paper px-6 py-6 md:px-8">
         <p className="label text-orange">Candidatura creator</p>
         <h3 className="mt-2 heading-md">Raccontaci la tua Napoli</h3>
       </div>
@@ -131,9 +131,9 @@ function CreatorForm() {
               onChange={(e) => set('name', e.target.value)}
               placeholder="Il tuo nome"
               aria-invalid={!!errors.name}
-              className={`${inputClass} ${errors.name ? 'border-red-500' : ''}`}
+              className={inputClass}
             />
-            {errors.name && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.name}</p>}
+            {errors.name && <p className="mt-1.5 text-sm font-medium text-error">{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="cr-surname" className={labelClass}>
@@ -146,9 +146,9 @@ function CreatorForm() {
               onChange={(e) => set('surname', e.target.value)}
               placeholder="Il tuo cognome"
               aria-invalid={!!errors.surname}
-              className={`${inputClass} ${errors.surname ? 'border-red-500' : ''}`}
+              className={inputClass}
             />
-            {errors.surname && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.surname}</p>}
+            {errors.surname && <p className="mt-1.5 text-sm font-medium text-error">{errors.surname}</p>}
           </div>
         </div>
 
@@ -166,9 +166,9 @@ function CreatorForm() {
               onChange={(e) => set('email', e.target.value)}
               placeholder="la-tua@email.it"
               aria-invalid={!!errors.email}
-              className={`${inputClass} ${errors.email ? 'border-red-500' : ''}`}
+              className={inputClass}
             />
-            {errors.email && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.email}</p>}
+            {errors.email && <p className="mt-1.5 text-sm font-medium text-error">{errors.email}</p>}
           </div>
           <div>
             <label htmlFor="cr-social" className={labelClass}>
@@ -194,9 +194,7 @@ function CreatorForm() {
                 type="button"
                 onClick={() => setSpecialty(s)}
                 aria-pressed={specialty === s}
-                className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
-                  specialty === s ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
-                }`}
+                className={`chip ${specialty === s ? 'chip-on' : ''}`}
               >
                 {s}
               </button>
@@ -215,13 +213,13 @@ function CreatorForm() {
             onChange={(e) => set('about', e.target.value)}
             placeholder="Cosa ami di Napoli? Cosa vorresti far vivere alle persone? Hai già esperienze da proporre?"
             aria-invalid={!!errors.about}
-            className={`${inputClass} resize-none ${errors.about ? 'border-red-500' : ''}`}
+            className={`${inputClass} resize-none`}
           />
-          {errors.about && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.about}</p>}
+          {errors.about && <p className="mt-1.5 text-sm font-medium text-error">{errors.about}</p>}
         </div>
 
         {status === 'error' && (
-          <p role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          <p role="alert" className="rounded-2xl bg-error/5 px-4 py-3 text-sm text-error">
             Non siamo riusciti a inviare la candidatura. Riprova tra poco oppure scrivici a{' '}
             <a href="mailto:ciao@cosefighe.it" className="underline">
               ciao@cosefighe.it
@@ -249,11 +247,7 @@ export default function CreatorPage() {
     <Page>
       <PageHero
         eyebrow="Le persone dietro le esperienze"
-        title={
-          <>
-            Diventa <span className="text-orange">creator</span>
-          </>
-        }
+        title="Diventa creator"
         subtitle="Se hai una passione e vuoi condividerla con chi visita Napoli, vogliamo conoscerti. Niente burocrazia, solo autenticità."
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">

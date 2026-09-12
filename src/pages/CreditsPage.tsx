@@ -29,7 +29,7 @@ export default function CreditsPage() {
         <div className="container-x">
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {entries.map(([key, c]) => (
-              <li key={key} className="flex min-w-0 gap-4 overflow-hidden rounded-2xl border border-ink/10 bg-white p-3">
+              <li key={key} className="flex min-w-0 gap-4 overflow-hidden rounded-2xl border border-line bg-white p-3">
                 <img
                   src={`/img/${key}.webp`}
                   alt=""

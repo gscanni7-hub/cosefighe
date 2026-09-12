@@ -26,7 +26,7 @@ export default function NotFoundPage() {
             </div>
           </div>
           <div className="mx-auto w-[180px] md:w-[260px]" aria-hidden="true">
-            <FloatingImage src="/meditazione.webp" amplitude={10} />
+            <FloatingImage src="/mascotte-404.webp" amplitude={10} />
           </div>
         </div>
       </section>

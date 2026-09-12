@@ -4,7 +4,7 @@ import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
 import { Reveal } from '../components/ui/Reveal'
 import { ArticleCard } from '../components/ui/ArticleCard'
-import { WaitlistForm } from '../components/ui/WaitlistForm'
+import { NextStep } from '../components/ui/NextStep'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -56,9 +56,7 @@ export default function BlogPage() {
                   type="button"
                   onClick={() => setFilter(c)}
                   aria-pressed={filter === c}
-                  className={`min-h-[38px] rounded-full border px-4 text-sm font-medium transition-colors ${
-                    filter === c ? 'border-ink bg-ink text-white' : 'border-ink/15 bg-white text-ink/75 hover:border-ink hover:text-ink'
-                  }`}
+                  className={`chip ${filter === c ? 'chip-on' : ''}`}
                 >
                   {c}
                 </button>
@@ -74,17 +72,12 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="section-y bg-paper">
-        <div className="container-x grid items-center gap-10 md:grid-cols-2">
-          <Reveal>
-            <h2 className="heading-lg">Non perdere nessun articolo</h2>
-            <p className="mt-4 max-w-md text-ink/60">Lascia la mail: nuove guide su Napoli e la notizia di quando aprono le prenotazioni.</p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <WaitlistForm source="blog" />
-          </Reveal>
-        </div>
-      </section>
+      <NextStep
+        title="Letto abbastanza? Ora vivilo"
+        text="Le esperienze dei nostri creator partono dagli stessi posti di cui scriviamo."
+        primary={{ to: '/esperienze', label: 'Esplora le esperienze' }}
+        secondary={{ to: '/cosa-fare', label: 'Cosa fare a Napoli' }}
+      />
     </Page>
   )
 }

@@ -7,7 +7,7 @@ const tones: Record<Tone, string> = {
   orange: 'bg-orange text-white',
   ink: 'bg-ink text-white',
   white: 'bg-white/95 text-ink shadow-[0_1px_2px_rgba(17,17,17,0.08)]',
-  outline: 'bg-transparent text-ink/70 border border-ink/15',
+  outline: 'bg-transparent text-ink/70 border border-line',
 }
 
 interface StickerProps {

@@ -18,7 +18,7 @@ export function ExperienceCard({ exp, index = 0, layout = 'column' }: Experience
       whileInView={{ y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.05, ease: [0.25, 1, 0.5, 1] }}
-      className={`group flex h-full overflow-hidden rounded-3xl border border-ink/10 bg-white transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
+      className={`card group flex h-full overflow-hidden transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
         row ? 'flex-row' : 'flex-col'
       }`}
     >
