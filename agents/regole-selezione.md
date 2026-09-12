@@ -3,6 +3,12 @@
 Da compilare insieme. Lo scout le legge prima di proporre qualsiasi cosa: se un
 prodotto non le rispetta, non entra nemmeno tra le bozze.
 
+## Obiettivo della prima ricerca
+- 10-12 attività da GetYourGuide e 10-12 da Viator, in totale 20-24.
+- Distribuite nelle sei categorie del sito (food, outdoor, sport, arte, laboratori, spettacoli): circa 2 per categoria per piattaforma, nessuna categoria vuota, nessuna oltre 5.
+- Ogni proposta assegnata a una sola categoria del sito.
+- Le 36 esperienze oggi sul sito sono esempi: le proposte approvate le sostituiranno. Mai pubblicare: solo bozze.
+
 ## Regole dure (meccaniche: passa o non passa)
 - Zona: Napoli città e provincia (Pozzuoli, Campi Flegrei, Ercolano, Vesuvio, Sorrento, isole). Escluse: Amalfi, Pompei da sola, Roma.
 - Prezzo a persona: da 10 a 120 euro.

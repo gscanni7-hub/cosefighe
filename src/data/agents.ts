@@ -55,7 +55,13 @@ export const AGENTS: AgentDef[] = [
     command: '/scout-esperienze',
     defaultCadence: 'settimanale',
     reportsTo: 'Tu approvi o scarti ogni bozza.',
-    defaultRules: `REGOLE DURE (passa o non passa)
+    defaultRules: `OBIETTIVO DELLA PRIMA RICERCA
+- 10-12 attività da GetYourGuide e 10-12 da Viator, in totale 20-24.
+- Distribuite nelle sei categorie del sito: food, outdoor, sport, arte, laboratori, spettacoli (circa 2 per categoria per piattaforma). Nessuna categoria vuota, nessuna oltre 5.
+- Ogni proposta va assegnata a una sola categoria del sito.
+- Le 36 esperienze oggi sul sito sono esempi: le proposte approvate le sostituiranno. Non pubblicare mai: solo bozze.
+
+REGOLE DURE (passa o non passa)
 - Zona: Napoli città e provincia (Pozzuoli, Campi Flegrei, Ercolano, Vesuvio, Sorrento, isole). Escluse: Amalfi, Pompei da sola, Roma.
 - Prezzo a persona: da 10 a 120 euro.
 - Valutazione minima sulla piattaforma: 4,6 su 5 con almeno 50 recensioni.
