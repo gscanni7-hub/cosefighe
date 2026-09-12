@@ -19,8 +19,8 @@ import type { EventCategory, Experience } from '../types'
 const MAX_DAYS = 90
 const MAX_EXPERIENCES = 6
 
-const allExperiences: (Experience & { categorySlug: string })[] = CATEGORY_LIST.flatMap((c) =>
-  c.experiences.map((e) => ({ ...e, categorySlug: c.slug })),
+const allExperiences: (Experience & { categorySlug: string; categoryLabel: string })[] = CATEGORY_LIST.flatMap((c) =>
+  c.experiences.map((e) => ({ ...e, categorySlug: c.slug, categoryLabel: c.label })),
 )
 
 function readRange(params: URLSearchParams): DateRangeValue {
@@ -205,7 +205,7 @@ export default function WhatsOnPage() {
             </Reveal>
             <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
               {experiences.slice(0, MAX_EXPERIENCES).map((exp, i) => (
-                <ExperienceCard key={exp.title} exp={exp} index={i} />
+                <ExperienceCard key={exp.title} exp={exp} category={exp.categoryLabel} index={i} />
               ))}
             </div>
           </div>

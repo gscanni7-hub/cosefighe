@@ -24,7 +24,11 @@ const categoryImages: Record<string, string> = {
   spettacoli: '/spettacoli.webp',
 }
 
-const featured = [CATEGORIES.food.experiences[0], CATEGORIES.outdoor.experiences[0], CATEGORIES.arte.experiences[0]]
+const featured = [
+  { exp: CATEGORIES.food.experiences[0], cat: CATEGORIES.food.label },
+  { exp: CATEGORIES.outdoor.experiences[0], cat: CATEGORIES.outdoor.label },
+  { exp: CATEGORIES.arte.experiences[0], cat: CATEGORIES.arte.label },
+]
 const totalExperiences = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length, 0)
 
 const ease = [0.25, 1, 0.5, 1] as const
@@ -273,10 +277,10 @@ const FeaturedSection = () => (
         </ButtonLink>
       </Reveal>
       <div className="mt-10 grid gap-5 md:gap-6 lg:grid-cols-[1.3fr_1fr]">
-        <ExperienceCard exp={featured[0]} index={0} />
+        <ExperienceCard exp={featured[0].exp} category={featured[0].cat} index={0} />
         <div className="grid gap-5 md:gap-6">
-          <ExperienceCard exp={featured[1]} index={1} layout="row" />
-          <ExperienceCard exp={featured[2]} index={2} layout="row" />
+          <ExperienceCard exp={featured[1].exp} category={featured[1].cat} index={1} layout="row" />
+          <ExperienceCard exp={featured[2].exp} category={featured[2].cat} index={2} layout="row" />
         </div>
       </div>
     </div>

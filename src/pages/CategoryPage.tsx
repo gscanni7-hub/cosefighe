@@ -58,7 +58,7 @@ function CategoryView({ cat }: { cat: Category }) {
         <div className="container-x">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
             {experiences.map((exp, i) => (
-              <ExperienceCard key={exp.title} exp={exp} index={i} />
+              <ExperienceCard key={exp.title} exp={exp} category={cat.label} index={i} />
             ))}
           </div>
           <Reveal className="mt-14 border-t border-line pt-8">

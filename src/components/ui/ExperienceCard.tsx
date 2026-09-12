@@ -1,17 +1,29 @@
 import { motion } from 'motion/react'
-import { CircleCheckBig, Clock, Star } from 'lucide-react'
+import { CircleCheckBig, Clock, Heart, Star } from 'lucide-react'
 import type { Experience } from '../../types'
 import { Sticker } from './Sticker'
+import { useSaved } from '../../lib/saved'
 
 interface ExperienceCardProps {
   exp: Experience
+  /** Nome della categoria, mostrato nella riga sopra il titolo. */
+  category?: string
   index?: number
   /** column: foto sopra (default). row: foto a sinistra, per liste compatte. */
   layout?: 'column' | 'row'
 }
 
-export function ExperienceCard({ exp, index = 0, layout = 'column' }: ExperienceCardProps) {
+const groupMax = (group: string) => {
+  const nums = group.match(/\d+/g)
+  return nums ? nums[nums.length - 1] : null
+}
+
+export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: ExperienceCardProps) {
   const row = layout === 'row'
+  const { has, toggle } = useSaved()
+  const saved = has(exp.title)
+  const max = groupMax(exp.group)
+
   return (
     <motion.article
       initial={{ y: 12 }}
@@ -35,31 +47,52 @@ export function ExperienceCard({ exp, index = 0, layout = 'column' }: Experience
         <div className="absolute left-3 top-3">
           <Sticker tone="white">{exp.tag}</Sticker>
         </div>
+        <button
+          type="button"
+          onClick={() => toggle(exp.title)}
+          aria-pressed={saved}
+          aria-label={saved ? `Togli "${exp.title}" dalle salvate` : `Salva "${exp.title}"`}
+          className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-[0_1px_2px_rgba(17,17,17,0.12)] transition-[transform,color] duration-200 ease-out-quart hover:scale-105 active:scale-95 ${
+            saved ? 'text-orange' : 'text-ink'
+          }`}
+        >
+          <Heart size={16} fill={saved ? 'currentColor' : 'none'} strokeWidth={2.2} />
+        </button>
       </div>
 
-      <div className={`flex flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
-        <div className="flex items-start justify-between gap-3">
-          <h3 className={`font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>{exp.title}</h3>
-          <span className="shrink-0 font-display text-xl text-orange">{exp.price}</span>
-        </div>
+      <div className={`flex min-w-0 flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
+        <p className="label text-ink/45">
+          {category ? `${category} · ` : ''}
+          {exp.duration}
+        </p>
+        <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>{exp.title}</h3>
         <p className="mt-2 text-sm text-ink/60">
-          {exp.location} · {exp.duration} · {exp.group} pers.
+          {exp.location}
+          {max ? ` · fino a ${max} persone` : ''}
         </p>
         {!row && (
           <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink/60">
-            <CircleCheckBig size={14} className="mt-0.5 shrink-0" />
+            <CircleCheckBig size={14} className="mt-0.5 shrink-0 text-success" />
             <span>{exp.included}</span>
           </p>
         )}
-        <div className={`mt-auto flex items-center justify-between text-sm ${row ? 'pt-3' : 'pt-5'}`}>
-          <span className="flex items-center gap-1 font-semibold">
-            <Star size={14} className="text-orange" fill="currentColor" />
-            {exp.rating.toLocaleString('it-IT')}
-            <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
-          </span>
-          <span className="flex items-center gap-1.5 text-xs font-medium text-ink/50">
-            <Clock size={12} /> Prossimamente
-          </span>
+
+        <div className={`mt-auto flex items-end justify-between gap-3 ${row ? 'pt-3' : 'pt-5'}`}>
+          <div className="text-sm">
+            <span className="flex items-center gap-1 font-semibold">
+              <Star size={14} className="text-orange" fill="currentColor" />
+              {exp.rating.toLocaleString('it-IT')}
+              <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
+            </span>
+            <span className="mt-1 flex items-center gap-1 text-xs text-ink/45">
+              <Clock size={11} /> Prenotazioni in arrivo
+            </span>
+          </div>
+          <div className="text-right leading-none">
+            <span className="text-[11px] font-medium text-ink/45">da</span>
+            <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
+            <span className="block text-[11px] text-ink/45">a persona</span>
+          </div>
         </div>
       </div>
     </motion.article>
