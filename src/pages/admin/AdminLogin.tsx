@@ -1,11 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Navigate } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { motion } from 'motion/react'
-import { ArrowRight, Lock } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useAdmin } from '../../context/AdminContext'
-
-const inputClass =
-  'w-full min-h-[48px] rounded-xl border-2 border-black bg-white px-4 py-3 font-sans text-sm focus:border-[#FF5500] focus:outline-none'
 
 export default function AdminLogin() {
   const { isAdmin, ready, mode, login } = useAdmin()
@@ -15,7 +12,7 @@ export default function AdminLogin() {
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    document.title = 'Admin Login — Cose Fighe'
+    document.title = 'Accesso · Pannello Cose Fighe'
   }, [])
 
   if (!ready) return null
@@ -31,61 +28,39 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-[#111111] px-6 selection:bg-[#FF5500] selection:text-white">
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: 'repeating-linear-gradient(45deg, #FF5500 0, #FF5500 1px, transparent 0, transparent 50%)',
-          backgroundSize: '20px 20px',
-        }}
-        aria-hidden="true"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-paper px-5 font-sans text-ink">
       <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ type: 'spring', duration: 0.6 }}
-        className="relative z-10 w-full max-w-md"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
+        className="w-full max-w-sm"
       >
-        <form
-          onSubmit={submit}
-          className="rounded-[2rem] border-4 border-black bg-white p-10 shadow-[12px_12px_0px_0px_rgba(255,85,0,1)]"
-        >
-          <div className="mb-8 text-center">
-            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-black bg-[#FF5500] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <Lock size={24} className="text-white" />
-            </div>
-            <div className="font-display text-3xl uppercase text-[#FF5500]">Cose Fighe</div>
-            <div className="mt-1 font-sans text-xs uppercase tracking-widest text-black/40">Area amministrazione</div>
-          </div>
+        <Link to="/" className="mb-6 flex justify-center">
+          <img src="/logo-mark.webp" alt="Cose Fighe" width={407} height={329} className="h-12 w-auto" />
+        </Link>
+        <form onSubmit={submit} className="card p-8">
+          <h1 className="text-xl font-bold tracking-[-0.02em]">Pannello</h1>
+          <p className="mt-1 text-sm text-ink/55">Solo per il team di Cose Fighe.</p>
 
           {mode === 'none' ? (
-            <div className="rounded-xl border-2 border-black bg-[#f5f5f5] p-4 text-sm text-black/70">
-              <p className="font-bold text-black">Accesso non configurato.</p>
-              <p className="mt-2">
-                Imposta <code>VITE_ADMIN_PASSWORD</code> (almeno 8 caratteri) nel file <code>.env</code>, oppure collega
-                Supabase e crea un utente in Authentication.
+            <div className="mt-6 rounded-2xl bg-paper px-4 py-3 text-sm text-ink/70">
+              <p className="font-semibold text-ink">Accesso non configurato.</p>
+              <p className="mt-1">
+                Imposta <code>VITE_ADMIN_PASSWORD</code> (almeno 8 caratteri) oppure collega Supabase e crea un utente in Authentication.
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="mt-6 space-y-4">
               {mode === 'supabase' && (
                 <div>
-                  <label htmlFor="adm-email" className="mb-2 block text-xs font-bold uppercase tracking-widest text-black/50">
+                  <label htmlFor="adm-email" className="mb-1.5 block text-sm font-medium text-ink/70">
                     Email
                   </label>
-                  <input
-                    id="adm-email"
-                    type="email"
-                    autoComplete="username"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className={inputClass}
-                  />
+                  <input id="adm-email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required className="field" />
                 </div>
               )}
               <div>
-                <label htmlFor="adm-password" className="mb-2 block text-xs font-bold uppercase tracking-widest text-black/50">
+                <label htmlFor="adm-password" className="mb-1.5 block text-sm font-medium text-ink/70">
                   Password
                 </label>
                 <input
@@ -95,26 +70,22 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className={inputClass}
+                  className="field"
                 />
               </div>
               {error && (
-                <p role="alert" className="rounded-xl border-2 border-red-500 bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
+                <p role="alert" className="rounded-2xl bg-error/5 px-4 py-3 text-sm font-medium text-error">
                   {error}
                 </p>
               )}
               <button
                 type="submit"
                 disabled={busy}
-                className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-black bg-[#FF5500] py-4 text-sm font-bold uppercase tracking-wider text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] disabled:opacity-60"
+                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-orange text-[15px] font-semibold text-white transition-colors hover:bg-[#e64d00] disabled:opacity-60"
               >
-                {busy ? 'Accesso...' : 'Entra nel pannello'} <ArrowRight size={16} />
+                {busy ? 'Un attimo...' : 'Entra'} <ArrowRight size={16} />
               </button>
-              {mode === 'password' && (
-                <p className="text-center text-xs text-black/40">
-                  Accesso con password condivisa. Per un accesso per utente collega Supabase Auth.
-                </p>
-              )}
+              {mode === 'password' && <p className="text-center text-xs text-ink/45">Password condivisa. Con Supabase Auth ognuno ha il suo accesso.</p>}
             </div>
           )}
         </form>

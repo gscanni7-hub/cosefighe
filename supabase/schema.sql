@@ -67,3 +67,82 @@ create policy "public insert leads" on public.leads for insert to anon with chec
 create policy "team all experiences" on public.experiences for all to authenticated using (true) with check (true);
 create policy "team all articles" on public.articles for all to authenticated using (true) with check (true);
 create policy "team all leads" on public.leads for all to authenticated using (true) with check (true);
+
+-- ---------------------------------------------------------------------------
+-- Misurazione senza cookie (cruscotto "Dati" del pannello).
+-- I visitatori possono solo inserire eventi; il team li legge.
+-- ---------------------------------------------------------------------------
+create table if not exists public.analytics_events (
+  id bigint generated always as identity primary key,
+  ts timestamptz not null default now(),
+  session text not null,
+  type text not null check (type in ('pageview', 'click', 'scroll', 'dwell', 'leave', 'event')),
+  path text not null,
+  name text,
+  value numeric,
+  meta jsonb
+);
+create index if not exists analytics_events_ts on public.analytics_events (ts desc);
+create index if not exists analytics_events_type on public.analytics_events (type, ts desc);
+
+alter table public.analytics_events enable row level security;
+create policy "public insert analytics" on public.analytics_events for insert to anon with check (true);
+create policy "team read analytics" on public.analytics_events for select to authenticated using (true);
+create policy "team delete analytics" on public.analytics_events for delete to authenticated using (true);
+
+-- ---------------------------------------------------------------------------
+-- Affiliazione e agenti.
+-- ---------------------------------------------------------------------------
+alter table public.experiences add column if not exists provider text default 'cosefighe' check (provider in ('getyourguide', 'viator', 'cosefighe'));
+alter table public.experiences add column if not exists provider_id text;
+alter table public.experiences add column if not exists affiliate_url text;
+alter table public.experiences add column if not exists languages text[];
+alter table public.experiences add column if not exists cancellation text;
+
+-- Registro delle esecuzioni degli agenti (scout, redattore, controllore).
+create table if not exists public.agent_runs (
+  id uuid primary key default gen_random_uuid(),
+  agent text not null,
+  started_at timestamptz default now(),
+  finished_at timestamptz,
+  status text default 'in corso' check (status in ('in corso', 'ok', 'errore')),
+  summary text,
+  items integer default 0
+);
+
+-- Esperienze proposte dallo scout, in attesa di revisione nel pannello (sezione "Bozze").
+create table if not exists public.experience_drafts (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz default now(),
+  agent_run_id uuid references public.agent_runs (id) on delete set null,
+  provider text not null check (provider in ('getyourguide', 'viator', 'cosefighe')),
+  provider_id text not null,
+  source_url text not null,
+  affiliate_url text not null,
+  original_title text not null,
+  title text not null,
+  description text not null,
+  category_slug text not null,
+  price text,
+  duration text,
+  group_size text,
+  languages text[],
+  cancellation text,
+  image text,
+  location text,
+  included text,
+  rating numeric,
+  reviews integer,
+  score integer,
+  reason text,
+  rule_matched text,
+  status text not null default 'bozza' check (status in ('bozza', 'approvata', 'scartata', 'pubblicata')),
+  notes text,
+  unique (provider, provider_id)
+);
+
+alter table public.agent_runs enable row level security;
+alter table public.experience_drafts enable row level security;
+create policy "team all agent_runs" on public.agent_runs for all to authenticated using (true) with check (true);
+create policy "team all drafts" on public.experience_drafts for all to authenticated using (true) with check (true);
+-- Gli agenti scrivono con la chiave "service role" (salta le policy): mai nel sito, solo negli script.

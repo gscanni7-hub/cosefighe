@@ -1,10 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { CircleCheckBig, FileText, Mail, Plus, Users, Zap } from 'lucide-react'
-import { AdminLayout, Card, PageHeader } from './ui'
+import { ArrowRight, BarChart3, FileText, Inbox, Plus, Sparkles, Users } from 'lucide-react'
+import { AdminLayout, Badge, Card, Notice, PageHeader, Stat } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { fetchLeads, fetchStats, type Stats } from '../../lib/db'
 import type { Lead } from '../../types'
+
+const shortcuts = [
+  { to: '/admin/bozze', label: 'Approva le bozze', icon: Inbox },
+  { to: '/admin/esperienze/new', label: 'Nuova esperienza', icon: Sparkles },
+  { to: '/admin/articoli/new', label: 'Nuovo articolo', icon: FileText },
+  { to: '/admin/lead', label: 'Leggi i lead', icon: Users },
+  { to: '/admin/dati', label: 'Guarda i dati', icon: BarChart3 },
+]
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats>({ experiences: 0, articles: 0, leads: 0, unread: 0 })
@@ -12,7 +20,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    document.title = 'Dashboard — Admin Cose Fighe'
+    document.title = 'Pannello · Cose Fighe'
     if (!isSupabaseConfigured) {
       setLoading(false)
       return
@@ -24,110 +32,66 @@ export default function AdminDashboard() {
     })
   }, [])
 
-  const tiles = [
-    { label: 'Esperienze', value: stats.experiences, icon: Zap, color: 'bg-[#FF5500]', to: '/admin/esperienze' },
-    { label: 'Articoli', value: stats.articles, icon: FileText, color: 'bg-[#0055FF]', to: '/admin/articoli' },
-    { label: 'Lead totali', value: stats.leads, icon: Users, color: 'bg-[#111111]', to: '/admin/lead' },
-    { label: 'Lead non letti', value: stats.unread, icon: Mail, color: 'bg-black', to: '/admin/lead' },
-  ]
+  const v = (n: number) => (loading ? '–' : n.toLocaleString('it-IT'))
 
   return (
     <AdminLayout>
-      <PageHeader title="Dashboard" subtitle="Benvenuto nel pannello di amministrazione di Cose Fighe" />
+      <PageHeader title="Buongiorno" subtitle="Ecco come sta il sito oggi." />
 
       {!isSupabaseConfigured && (
-        <Card className="mb-8 bg-yellow-50 border-yellow-400">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center flex-shrink-0 text-black font-bold">
-              !
-            </div>
-            <div>
-              <h3 className="font-bold uppercase text-sm mb-1">Supabase non configurato</h3>
-              <p className="text-sm text-black/60 mb-3">
-                Aggiungi le variabili d'ambiente nel file{' '}
-                <code className="bg-yellow-100 px-1 rounded">.env</code> per attivare il database.
-              </p>
-              <pre className="bg-yellow-100 rounded-lg p-3 text-xs font-mono">
-                {`VITE_SUPABASE_URL=https://xxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJ...`}
-              </pre>
-              <p className="text-xs text-black/40 mt-2">
-                Poi esegui lo schema SQL in <code>supabase/schema.sql</code> nel tuo progetto Supabase.
-              </p>
-            </div>
-          </div>
-        </Card>
+        <Notice title="Database non collegato">
+          Il pannello funziona in anteprima. Per salvare esperienze, articoli e lead servono le due variabili di Supabase nel file <code className="rounded bg-white px-1">.env</code> e su Vercel, poi lo schema in <code className="rounded bg-white px-1">supabase/schema.sql</code>.
+        </Notice>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {tiles.map((t) => (
-          <Link key={t.label} to={t.to}>
-            <Card className={`${t.color} text-white border-black hover:-translate-y-1 transition-transform cursor-pointer`}>
-              <t.icon size={24} className="mb-3 opacity-80" />
-              <div className="font-display text-4xl mb-1">{loading ? '—' : t.value}</div>
-              <div className="font-sans text-xs font-bold uppercase tracking-wider opacity-70">{t.label}</div>
-            </Card>
-          </Link>
-        ))}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Stat label="Esperienze" value={v(stats.experiences)} />
+        <Stat label="Articoli" value={v(stats.articles)} />
+        <Stat label="Lead" value={v(stats.leads)} />
+        <Stat label="Da leggere" value={v(stats.unread)} hint={stats.unread > 0 ? 'ci sono messaggi nuovi' : undefined} />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <Card>
-          <h2 className="font-display text-2xl uppercase mb-4">Azioni rapide</h2>
-          <div className="space-y-3">
-            <Link
-              to="/admin/esperienze/new"
-              className="flex items-center gap-3 w-full px-5 py-3 rounded-xl border-2 border-black bg-[#FF5500] text-white font-bold uppercase text-xs tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all"
-            >
-              <Plus size={14} /> Nuova Esperienza
-            </Link>
-            <Link
-              to="/admin/articoli/new"
-              className="flex items-center gap-3 w-full px-5 py-3 rounded-xl border-2 border-black bg-[#0055FF] text-white font-bold uppercase text-xs tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all"
-            >
-              <Plus size={14} /> Nuovo Articolo
-            </Link>
-            <Link
-              to="/admin/lead"
-              className="flex items-center gap-3 w-full px-5 py-3 rounded-xl border-2 border-black bg-white text-black font-bold uppercase text-xs tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all"
-            >
-              <Users size={14} /> Gestisci Lead
-            </Link>
-          </div>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <Card className="p-2">
+          <p className="px-4 pb-1 pt-3 text-sm font-semibold">Scorciatoie</p>
+          <ul>
+            {shortcuts.map((s) => (
+              <li key={s.to}>
+                <Link to={s.to} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors hover:bg-paper">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cream text-orange">
+                    <s.icon size={15} />
+                  </span>
+                  <span className="flex-1">{s.label}</span>
+                  {s.to.endsWith('/new') ? <Plus size={15} className="text-ink/35" /> : <ArrowRight size={15} className="text-ink/35" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Card>
 
-        <Card>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-display text-2xl uppercase">Lead recenti</h2>
-            <Link to="/admin/lead" className="text-xs font-bold uppercase tracking-wider text-[#FF5500] hover:underline">
+        <Card className="p-0">
+          <div className="flex items-center justify-between px-6 pt-5">
+            <p className="text-sm font-semibold">Ultimi lead</p>
+            <Link to="/admin/lead" className="text-sm font-medium text-orange hover:underline">
               Vedi tutti
             </Link>
           </div>
-          {isSupabaseConfigured ? (
-            recentLeads.length === 0 ? (
-              <p className="text-sm text-black/40">Nessun lead ancora</p>
-            ) : (
-              <div className="space-y-3">
-                {recentLeads.map((lead) => (
-                  <div key={lead.id} className="flex items-center gap-3 py-2 border-b border-black/10 last:border-0">
-                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${lead.read ? 'bg-black/20' : 'bg-[#FF5500]'}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm truncate">{lead.name || 'Anonimo'}</p>
-                      <p className="text-xs text-black/40 truncate">{lead.email}</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      {lead.read ? (
-                        <CircleCheckBig size={14} className="text-black/30" />
-                      ) : (
-                        <span className="text-xs bg-[#FF5500] text-white px-2 py-0.5 rounded-full font-bold">Nuovo</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )
+          {!isSupabaseConfigured ? (
+            <p className="px-6 py-8 text-sm text-ink/45">I messaggi dei moduli compariranno qui.</p>
+          ) : recentLeads.length === 0 ? (
+            <p className="px-6 py-8 text-sm text-ink/45">Nessun lead ancora.</p>
           ) : (
-            <p className="text-sm text-black/40">Supabase non configurato</p>
+            <ul className="mt-3 divide-y divide-line">
+              {recentLeads.map((lead) => (
+                <li key={lead.id} className="flex items-center gap-3 px-6 py-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">{lead.name || 'Senza nome'}</p>
+                    <p className="truncate text-xs text-ink/45">{lead.email}</p>
+                  </div>
+                  {lead.read ? <Badge>Letto</Badge> : <Badge tone="orange">Nuovo</Badge>}
+                </li>
+              ))}
+            </ul>
           )}
         </Card>
       </div>

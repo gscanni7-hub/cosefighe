@@ -14,6 +14,7 @@ import { CATEGORY_LIST } from '../data/categories'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween } from '../data/events'
 import { ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, todayISO, weekday } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useHydrated } from '../hooks/useHydrated'
 import type { EventCategory, Experience } from '../types'
 
 const MAX_DAYS = 90
@@ -40,6 +41,7 @@ function readCategory(params: URLSearchParams): EventCategory | null {
 }
 
 export default function WhatsOnPage() {
+  const hydrated = useHydrated()
   const [params, setParams] = useSearchParams()
   const range = readRange(params)
   const category = readCategory(params)
@@ -108,6 +110,14 @@ export default function WhatsOnPage() {
         }
       />
 
+      {!hydrated ? (
+        <section className="section-y bg-white" aria-busy="true">
+          <div className="container-x">
+            <p className="text-ink/60">Feste, concerti, mercati, mostre e le esperienze prenotabili, giorno per giorno. Scegli le date per vedere il programma.</p>
+          </div>
+        </section>
+      ) : (
+        <>
       <section className="border-b border-line bg-white py-8 md:py-10" aria-label="Scegli le date">
         <div className="container-x">
           <DateRange value={range} onChange={(v) => update(v)} />
@@ -210,6 +220,8 @@ export default function WhatsOnPage() {
             </div>
           </div>
         </section>
+      )}
+        </>
       )}
     </Page>
   )

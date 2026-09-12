@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
-import { CircleCheckBig, Clock, Heart, Star } from 'lucide-react'
-import type { Experience } from '../../types'
+import { ArrowUpRight, CircleCheckBig, Clock, Heart, Star } from 'lucide-react'
+import { PROVIDER_LABEL, type Experience } from '../../types'
+import { track } from '../../lib/track'
 import { Sticker } from './Sticker'
 import { useSaved } from '../../lib/saved'
 
@@ -84,9 +85,22 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
               {exp.rating.toLocaleString('it-IT')}
               <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
             </span>
-            <span className="mt-1 flex items-center gap-1 text-xs text-ink/45">
-              <Clock size={11} /> Prenotazioni in arrivo
-            </span>
+            {exp.affiliateUrl && exp.provider && exp.provider !== 'cosefighe' ? (
+              <a
+                href={exp.affiliateUrl}
+                target="_blank"
+                rel="sponsored noopener noreferrer"
+                data-track={`prenota:${exp.title}`}
+                onClick={() => track('prenota', { provider: exp.provider ?? '', title: exp.title })}
+                className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-ink underline decoration-ink/25 underline-offset-[4px] transition-colors hover:text-orange hover:decoration-orange"
+              >
+                Prenota su {PROVIDER_LABEL[exp.provider]} <ArrowUpRight size={12} />
+              </a>
+            ) : (
+              <span className="mt-1 flex items-center gap-1 text-xs text-ink/45">
+                <Clock size={11} /> Prenotazioni in arrivo
+              </span>
+            )}
           </div>
           <div className="text-right leading-none">
             <span className="text-[11px] font-medium text-ink/45">da</span>

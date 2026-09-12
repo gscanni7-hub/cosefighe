@@ -1,5 +1,5 @@
 import { getSupabase } from './supabase'
-import type { DbArticle, DbExperience, Experience, Lead } from '../types'
+import type { AgentRun, DbArticle, DbExperience, DraftStatus, Experience, ExperienceDraft, Lead } from '../types'
 
 export function mapDbExperience(e: DbExperience): Experience {
   return {
@@ -14,6 +14,11 @@ export function mapDbExperience(e: DbExperience): Experience {
     image: e.image ?? '',
     location: e.location ?? '',
     included: e.included ?? '',
+    provider: e.provider,
+    providerId: e.provider_id,
+    affiliateUrl: e.affiliate_url,
+    languages: e.languages,
+    cancellation: e.cancellation,
   }
 }
 
@@ -184,4 +189,64 @@ export async function fetchStats(): Promise<Stats> {
     leads: leads.count ?? 0,
     unread: unread.count ?? 0,
   }
+}
+
+/* ---- Bozze proposte dagli agenti ---- */
+
+export async function fetchDrafts(status?: DraftStatus): Promise<ExperienceDraft[]> {
+  const supabase = await getSupabase()
+  if (!supabase) return []
+  let q = supabase.from('experience_drafts').select('*').order('created_at', { ascending: false })
+  if (status) q = q.eq('status', status)
+  const { data, error } = await q
+  if (error) {
+    console.error(error)
+    return []
+  }
+  return data as ExperienceDraft[]
+}
+
+export async function setDraftStatus(id: string, status: DraftStatus, notes?: string): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const { error } = await supabase.from('experience_drafts').update({ status, notes: notes ?? null }).eq('id', id)
+  if (error) console.error(error)
+  return !error
+}
+
+/** Approva una bozza: la copia tra le esperienze (non ancora pubblicata) e la segna come approvata. */
+export async function approveDraft(d: ExperienceDraft): Promise<boolean> {
+  const saved = await saveExperience({
+    title: d.title,
+    category_slug: d.category_slug,
+    duration: d.duration ?? '',
+    group_size: d.group_size ?? '',
+    rating: d.rating ?? 4.8,
+    reviews: d.reviews ?? 0,
+    price: d.price ?? '',
+    tag: '',
+    color: 'white',
+    image: d.image ?? '',
+    location: d.location ?? '',
+    included: d.included ?? '',
+    published: false,
+    provider: d.provider,
+    provider_id: d.provider_id,
+    affiliate_url: d.affiliate_url,
+    languages: d.languages ?? undefined,
+    cancellation: d.cancellation ?? undefined,
+  })
+  if (!saved) return false
+  return setDraftStatus(d.id, 'approvata')
+}
+
+export async function fetchAgentRuns(limit = 20): Promise<AgentRun[]> {
+  const supabase = await getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase.from('agent_runs').select('*').order('started_at', { ascending: false }).limit(limit)
+  if (error) {
+    console.error(error)
+    return []
+  }
+  return data as AgentRun[]
 }

@@ -25,7 +25,9 @@ const AdminContext = createContext<AdminContextValue>({
 })
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => mode === 'password' && sessionStorage.getItem(SESSION_KEY) === '1')
+  const [isAdmin, setIsAdmin] = useState<boolean>(
+    () => mode === 'password' && typeof sessionStorage !== 'undefined' && sessionStorage.getItem(SESSION_KEY) === '1',
+  )
   const [ready, setReady] = useState(mode !== 'supabase')
 
   useEffect(() => {

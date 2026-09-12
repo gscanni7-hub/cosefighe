@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react'
-import { AdminLayout, Button, Card, PageHeader } from './ui'
+import { AdminEmpty, AdminLayout, Badge, Button, Card, Notice, PageHeader, td, th } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { deleteArticle, fetchAllArticles, saveArticle } from '../../lib/db'
 import type { DbArticle } from '../../types'
@@ -45,7 +45,7 @@ export default function AdminArticles() {
         subtitle={`${items.length} articoli nel database`}
         action={
           <Link to="/admin/articoli/new">
-            <Button variant="primary">
+            <Button>
               <Plus size={14} /> Nuovo
             </Button>
           </Link>
@@ -53,91 +53,68 @@ export default function AdminArticles() {
       />
 
       {!isSupabaseConfigured && (
-        <Card className="mb-6 bg-yellow-50 border-yellow-400">
-          <p className="text-sm font-bold">Configura Supabase nel .env per gestire gli articoli.</p>
-        </Card>
+        <Notice title="Database non collegato">Configura Supabase nel .env per gestire gli articoli.</Notice>
       )}
 
       {loading ? (
-        <Card>
-          <p className="text-black/40 text-sm">Caricamento...</p>
-        </Card>
+        <p className="text-sm text-ink/45">Caricamento...</p>
       ) : items.length === 0 ? (
-        <Card className="text-center py-16">
-          <p className="font-display text-3xl uppercase text-black/20 mb-4">Nessun articolo</p>
-          <Link to="/admin/articoli/new">
-            <Button variant="primary">
-              <Plus size={14} /> Crea il primo
-            </Button>
-          </Link>
-        </Card>
+        <AdminEmpty title="Nessun articolo" action={<Link to="/admin/articoli/new"><Button><Plus size={14} /> Crea il primo</Button></Link>} />
       ) : (
-        <Card className="p-0 overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-[#111111] text-white">
+        <Card className="p-0 overflow-x-auto">
+          <table className="w-full min-w-[640px]">
+            <thead className="border-b border-line">
               <tr>
-                <th className="text-left px-6 py-4 font-sans text-xs uppercase tracking-widest">Articolo</th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden md:table-cell">
+                <th className={`${th}`}>Articolo</th>
+                <th className={`${th} hidden md:table-cell`}>
                   Categoria
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden lg:table-cell">
+                <th className={`${th} hidden lg:table-cell`}>
                   Data
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden lg:table-cell">
+                <th className={`${th} hidden lg:table-cell`}>
                   Autore
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest">Stato</th>
-                <th className="px-4 py-4" />
+                <th className={`${th}`}>Stato</th>
+                <th className={th} />
               </tr>
             </thead>
-            <tbody className="divide-y-2 divide-black/10">
+            <tbody className="divide-y divide-line">
               {items.map((a) => (
-                <tr key={a.id} className="hover:bg-[#f5f5f5] transition-colors">
-                  <td className="px-6 py-4">
+                <tr key={a.id} className="transition-colors hover:bg-paper/60">
+                  <td className={td}>
                     <div className="flex items-center gap-3">
                       {a.cover_image && (
                         <img
                           src={a.cover_image}
                           alt=""
-                          className="w-12 h-12 rounded-xl object-cover border-2 border-black flex-shrink-0"
+                          className="h-11 w-11 shrink-0 rounded-xl border border-line object-cover"
                         />
                       )}
                       <div>
-                        <p className="font-bold text-sm leading-tight max-w-xs">{a.title}</p>
-                        <p className="text-xs text-black/40 mt-0.5 font-mono">/blog/{a.slug}</p>
+                        <p className="text-sm font-medium leading-tight max-w-xs">{a.title}</p>
+                        <p className="mt-0.5 text-xs text-ink/45 font-mono">/blog/{a.slug}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 hidden md:table-cell">
-                    <span className="px-3 py-1 rounded-full border-2 border-black text-xs font-bold uppercase">
+                  <td className={`${td} hidden md:table-cell`}>
+                    <Badge>
                       {a.category || '—'}
-                    </span>
+                    </Badge>
                   </td>
-                  <td className="px-4 py-4 hidden lg:table-cell text-sm text-black/60">
+                  <td className={`${td} hidden lg:table-cell text-ink/60`}>
                     {a.date ? new Date(a.date).toLocaleDateString('it-IT') : '—'}
                   </td>
-                  <td className="px-4 py-4 hidden lg:table-cell text-sm text-black/60">{a.author || '—'}</td>
-                  <td className="px-4 py-4">
-                    <button
-                      onClick={() => togglePublished(a)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-black text-xs font-bold uppercase transition-all ${
-                        a.published ? 'bg-green-500 text-white' : 'bg-[#f5f5f5] text-black/50'
-                      }`}
-                    >
-                      {a.published ? <Eye size={11} /> : <EyeOff size={11} />}
-                      {a.published ? 'Pub' : 'Bozza'}
-                    </button>
+                  <td className={`${td} hidden lg:table-cell text-ink/60`}>{a.author || '—'}</td>
+                  <td className={`${td}`}>
+                    <button type="button" onClick={() => togglePublished(a)} className="inline-flex" title="Cambia stato">{a.published ? <Badge tone="success"><Eye size={11} /> Online</Badge> : <Badge><EyeOff size={11} /> Bozza</Badge>}</button>
                   </td>
-                  <td className="px-4 py-4">
+                  <td className={`${td}`}>
                     <div className="flex items-center gap-2 justify-end">
                       <Link to={`/admin/articoli/${a.id}`}>
-                        <Button variant="secondary" className="py-1.5 px-3">
-                          <Pencil size={12} />
-                        </Button>
+                        <Button variant="secondary" className="h-9 w-9 px-0" title="Modifica"><Pencil size={14} /></Button>
                       </Link>
-                      <Button variant="danger" className="py-1.5 px-3" onClick={() => handleDelete(a.id as string, a.title)}>
-                        <Trash2 size={12} />
-                      </Button>
+                      <Button variant="danger" className="h-9 w-9 px-0" title="Elimina" onClick={() => handleDelete(a.id as string, a.title)}><Trash2 size={14} /></Button>
                     </div>
                   </td>
                 </tr>

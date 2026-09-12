@@ -14,6 +14,7 @@ import { ARTICLES_BY_DATE } from '../data/articles'
 import { EVENT_CATEGORY_LABELS, eventEnd, upcomingEvents } from '../data/events'
 import { addDays, dayParts, formatRange, todayISO } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useHydrated } from '../hooks/useHydrated'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -198,6 +199,7 @@ const CategoriesStrip = () => (
 
 const WhatsOnBand = () => {
   const navigate = useNavigate()
+  const hydrated = useHydrated()
   const [range, setRange] = useState<DateRangeValue>(() => ({ from: todayISO(), to: addDays(todayISO(), 6) }))
   const upcoming = upcomingEvents(4)
   const go = () => navigate(`/cosa-fare?dal=${range.from}&al=${range.to}`, { viewTransition: true })
@@ -210,19 +212,29 @@ const WhatsOnBand = () => {
           <p className="mt-4 max-w-md text-white/80">
             Feste, concerti, mercati, mostre: scegli le date e ti diciamo cosa succede in città e quali esperienze puoi prenotare.
           </p>
-          <div className="mt-8">
-            <DateRange value={range} onChange={setRange} tone="dark" compact />
-          </div>
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <Button onClick={go}>
-              Vedi il programma {formatRange(range.from, range.to)} <ArrowRight size={16} />
-            </Button>
-          </div>
+          {hydrated ? (
+            <>
+              <div className="mt-8">
+                <DateRange value={range} onChange={setRange} tone="dark" compact />
+              </div>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <Button onClick={go}>
+                  Vedi il programma {formatRange(range.from, range.to)} <ArrowRight size={16} />
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="mt-8 min-h-[180px]">
+              <ButtonLink to="/cosa-fare">
+                Vedi il programma <ArrowRight size={16} />
+              </ButtonLink>
+            </div>
+          )}
         </Reveal>
         <Reveal delay={0.08}>
           <p className="mb-2 text-sm font-semibold text-white/75">I prossimi in città</p>
           <ul className="divide-y divide-white/15 border-y border-white/15">
-            {upcoming.map((e) => {
+            {(hydrated ? upcoming : []).map((e) => {
               const p = dayParts(e.start)
               return (
                 <li key={e.slug}>

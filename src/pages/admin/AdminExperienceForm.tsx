@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { ArrowLeft, Save } from 'lucide-react'
-import { AdminLayout, Button, Card, Input, PageHeader, Select, Textarea } from './ui'
+import { AdminLayout, Button, Card, Input, Notice, PageHeader, Select, Textarea, Toggle } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { fetchAllExperiences, saveExperience } from '../../lib/db'
 import { CATEGORIES } from '../../data/categories'
@@ -10,8 +10,8 @@ import type { DbExperience, ExperienceColor } from '../../types'
 const categoryOptions = Object.values(CATEGORIES).map((c) => ({ slug: c.slug, label: c.label }))
 
 const colorOptions: { value: ExperienceColor; label: string; cls: string }[] = [
-  { value: 'orange', label: 'Arancione', cls: 'bg-[#FF5500]' },
-  { value: 'blue', label: 'Blu', cls: 'bg-[#0055FF]' },
+  { value: 'orange', label: 'Arancione', cls: 'bg-orange' },
+  { value: 'blue', label: 'Blu', cls: 'bg-blue' },
   { value: 'white', label: 'Bianco', cls: 'bg-white border border-black' },
 ]
 
@@ -85,16 +85,14 @@ export default function AdminExperienceForm() {
       />
 
       {!isSupabaseConfigured && (
-        <Card className="mb-6 bg-yellow-50 border-yellow-400">
-          <p className="text-sm font-bold">Configura Supabase nel .env per salvare i dati.</p>
-        </Card>
+        <Notice title="Database non collegato">Configura Supabase nel .env per salvare i dati.</Notice>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Informazioni principali</h2>
+              <h2 className="text-sm font-semibold mb-5">Informazioni principali</h2>
               <div className="space-y-4">
                 <Input
                   label="Titolo *"
@@ -118,7 +116,7 @@ export default function AdminExperienceForm() {
                   type="url"
                 />
                 {form.image && (
-                  <div className="rounded-xl overflow-hidden border-2 border-black h-40">
+                  <div className="rounded-xl overflow-hidden border border-line h-40">
                     <img src={form.image} alt="preview" className="w-full h-full object-cover" />
                   </div>
                 )}
@@ -126,7 +124,7 @@ export default function AdminExperienceForm() {
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Dettagli</h2>
+              <h2 className="text-sm font-semibold mb-5">Dettagli</h2>
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="Durata"
@@ -180,7 +178,7 @@ export default function AdminExperienceForm() {
 
           <div className="space-y-6">
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Categoria</h2>
+              <h2 className="text-sm font-semibold mb-5">Categoria</h2>
               <Select
                 label="Categoria *"
                 value={form.category_slug ?? 'food'}
@@ -195,7 +193,7 @@ export default function AdminExperienceForm() {
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Colore card</h2>
+              <h2 className="text-sm font-semibold mb-5">Colore card</h2>
               <div className="space-y-2">
                 {colorOptions.map((c) => (
                   <button
@@ -203,28 +201,28 @@ export default function AdminExperienceForm() {
                     type="button"
                     onClick={() => set('color', c.value)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
-                      form.color === c.value ? 'border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]' : 'border-black/30'
+                      form.color === c.value ? 'border-black ' : 'border-line'
                     }`}
                   >
                     <span className={`w-5 h-5 rounded-full ${c.cls} flex-shrink-0`} />
                     <span className="font-bold text-sm">{c.label}</span>
-                    {form.color === c.value && <span className="ml-auto text-xs font-bold text-[#FF5500]">✓</span>}
+                    {form.color === c.value && <span className="ml-auto text-xs font-bold text-orange">✓</span>}
                   </button>
                 ))}
               </div>
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Pubblicazione</h2>
+              <h2 className="text-sm font-semibold mb-5">Pubblicazione</h2>
               <label className="flex items-center gap-3 cursor-pointer">
                 <div
                   onClick={() => set('published', !form.published)}
-                  className={`w-12 h-6 rounded-full border-2 border-black transition-colors relative cursor-pointer ${
-                    form.published ? 'bg-[#FF5500]' : 'bg-[#f5f5f5]'
+                  className={`w-12 h-6 rounded-full border border-line transition-colors relative cursor-pointer ${
+                    form.published ? 'bg-orange' : 'bg-paper'
                   }`}
                 >
                   <div
-                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white border-2 border-black transition-all ${
+                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white border border-line transition-all ${
                       form.published ? 'left-6' : 'left-0.5'
                     }`}
                   />
@@ -236,13 +234,13 @@ export default function AdminExperienceForm() {
         </div>
 
         {error && (
-          <div className="bg-red-50 border-2 border-red-500 rounded-xl px-4 py-3 text-sm text-red-600 font-bold">
+          <div className="rounded-2xl bg-error/5 px-4 py-3 text-sm font-medium text-error">
             {error}
           </div>
         )}
 
         <div className="flex gap-4">
-          <Button type="submit" variant="primary" disabled={saving}>
+          <Button type="submit" disabled={saving}>
             <Save size={14} /> {saving ? 'Salvataggio...' : 'Salva esperienza'}
           </Button>
           <Button variant="ghost" onClick={() => navigate('/admin/esperienze')}>

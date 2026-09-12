@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { ArrowLeft, ChevronDown, ChevronUp, GripVertical, Plus, Save, Trash2 } from 'lucide-react'
-import { AdminLayout, Button, Card, Input, PageHeader, Select, Textarea } from './ui'
+import { AdminLayout, Button, Card, Input, Notice, PageHeader, Select, Textarea, Toggle } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { fetchAllArticles, saveArticle } from '../../lib/db'
 import { CATEGORIES } from '../../data/categories'
@@ -46,9 +46,9 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
   const items = section.items ?? ['']
 
   return (
-    <div className="rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] bg-white overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-[#f5f5f5] border-b-2 border-black">
-        <GripVertical size={14} className="text-black/30" />
+    <div className="rounded-xl border border-line  bg-white overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-paper border-b-2 border-black">
+        <GripVertical size={14} className="text-ink/30" />
         <div className="flex gap-1 flex-wrap flex-1">
           {sectionTypes.map((t) => (
             <button
@@ -56,7 +56,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
               type="button"
               onClick={() => onUpdate({ type: t.value, items: t.value === 'list' ? (section.items ?? ['']) : undefined })}
               className={`px-2 py-0.5 rounded-full text-xs font-bold border transition-all ${
-                section.type === t.value ? 'bg-[#FF5500] text-white border-[#FF5500]' : 'border-black/30 hover:border-black'
+                section.type === t.value ? 'bg-orange text-white border-orange' : 'border-line hover:border-black'
               }`}
             >
               {t.icon} {t.label}
@@ -68,7 +68,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
             type="button"
             onClick={() => onMove(-1)}
             disabled={idx === 0}
-            className="w-6 h-6 flex items-center justify-center rounded border border-black/20 hover:border-black disabled:opacity-30"
+            className="w-6 h-6 flex items-center justify-center rounded border border-line hover:border-black disabled:opacity-30"
           >
             <ChevronUp size={12} />
           </button>
@@ -76,14 +76,14 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
             type="button"
             onClick={() => onMove(1)}
             disabled={idx === total - 1}
-            className="w-6 h-6 flex items-center justify-center rounded border border-black/20 hover:border-black disabled:opacity-30"
+            className="w-6 h-6 flex items-center justify-center rounded border border-line hover:border-black disabled:opacity-30"
           >
             <ChevronDown size={12} />
           </button>
           <button
             type="button"
             onClick={onDelete}
-            className="w-6 h-6 flex items-center justify-center rounded border border-red-200 hover:border-red-500 hover:text-red-500 text-red-400"
+            className="w-6 h-6 flex items-center justify-center rounded border border-error/40 hover:border-error/40 hover:text-error text-error"
           >
             <Trash2 size={11} />
           </button>
@@ -94,7 +94,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
         {section.type === 'list' ? (
           <>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-black/40 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-ink/40 mb-1">
                 Titolo lista (opzionale)
               </label>
               <input
@@ -102,11 +102,11 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
                 value={section.content}
                 onChange={(e) => onUpdate({ content: e.target.value })}
                 placeholder="Es. Cosa portare nello zaino:"
-                className="w-full border-2 border-black/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#FF5500]"
+                className="w-full border-2 border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-black/40 mb-2">Elementi lista</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-ink/40 mb-2">Elementi lista</label>
               <div className="space-y-2">
                 {items.map((item, i) => (
                   <div key={i} className="flex gap-2">
@@ -119,7 +119,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
                         onUpdate({ items: next })
                       }}
                       placeholder={`Elemento ${i + 1}`}
-                      className="flex-1 border-2 border-black/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#FF5500]"
+                      className="flex-1 border-2 border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange"
                     />
                     <button
                       type="button"
@@ -127,7 +127,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
                         const next = items.filter((_, j) => j !== i)
                         onUpdate({ items: next.length ? next : [''] })
                       }}
-                      className="w-8 h-9 flex items-center justify-center rounded-lg border-2 border-black/20 hover:border-red-500 hover:text-red-500 text-black/30"
+                      className="w-8 h-9 flex items-center justify-center rounded-lg border-2 border-line hover:border-error/40 hover:text-error text-ink/30"
                     >
                       <Trash2 size={12} />
                     </button>
@@ -136,7 +136,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
                 <button
                   type="button"
                   onClick={() => onUpdate({ items: [...items, ''] })}
-                  className="flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:underline"
+                  className="flex items-center gap-1.5 text-xs font-bold text-orange hover:underline"
                 >
                   <Plus size={11} /> Aggiungi elemento
                 </button>
@@ -145,7 +145,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
           </>
         ) : (
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-black/40 mb-1">{current?.label}</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-ink/40 mb-1">{current?.label}</label>
             <textarea
               value={section.content}
               onChange={(e) => onUpdate({ content: e.target.value })}
@@ -159,7 +159,7 @@ function SectionEditor({ section, idx, total, onUpdate, onDelete, onMove }: Sect
                       ? '"La citazione da evidenziare..."'
                       : 'Scrivi il testo qui...'
               }
-              className="w-full border-2 border-black/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#FF5500] resize-none"
+              className="w-full border-2 border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange resize-none"
             />
           </div>
         )}
@@ -287,16 +287,14 @@ export default function AdminArticleForm() {
       />
 
       {!isSupabaseConfigured && (
-        <Card className="mb-6 bg-yellow-50 border-yellow-400">
-          <p className="text-sm font-bold">Configura Supabase nel .env per salvare i dati.</p>
-        </Card>
+        <Notice title="Database non collegato">Configura Supabase nel .env per salvare i dati.</Notice>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Intestazione</h2>
+              <h2 className="text-sm font-semibold mb-5">Intestazione</h2>
               <div className="space-y-4">
                 <Input
                   label="Titolo *"
@@ -314,7 +312,7 @@ export default function AdminArticleForm() {
                     }}
                     placeholder="slug-url-articolo"
                   />
-                  <p className="text-xs text-black/40 mt-1">URL: /blog/{form.slug || 'slug-articolo'}</p>
+                  <p className="text-xs text-ink/40 mt-1">URL: /blog/{form.slug || 'slug-articolo'}</p>
                 </div>
                 <Textarea
                   label="Estratto / Descrizione"
@@ -331,7 +329,7 @@ export default function AdminArticleForm() {
                   placeholder="https://..."
                 />
                 {form.cover_image && (
-                  <div className="rounded-xl overflow-hidden border-2 border-black h-40">
+                  <div className="rounded-xl overflow-hidden border border-line h-40">
                     <img src={form.cover_image} alt="preview" className="w-full h-full object-cover" />
                   </div>
                 )}
@@ -339,8 +337,8 @@ export default function AdminArticleForm() {
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-2">Corpo dell'articolo</h2>
-              <p className="text-xs text-black/40 mb-5">
+              <h2 className="text-sm font-semibold mb-2">Corpo dell'articolo</h2>
+              <p className="text-xs text-ink/40 mb-5">
                 Aggiungi sezioni nell'ordine che preferisci. Usa i tasti freccia per riordinarle.
               </p>
               <div className="space-y-3">
@@ -356,15 +354,15 @@ export default function AdminArticleForm() {
                   />
                 ))}
               </div>
-              <div className="mt-4 pt-4 border-t-2 border-dashed border-black/20">
-                <p className="text-xs font-bold uppercase tracking-wider text-black/40 mb-3">Aggiungi sezione</p>
+              <div className="mt-4 pt-4 border-t-2 border-dashed border-line">
+                <p className="text-xs font-bold uppercase tracking-wider text-ink/40 mb-3">Aggiungi sezione</p>
                 <div className="flex flex-wrap gap-2">
                   {sectionTypes.map((t) => (
                     <button
                       key={t.value}
                       type="button"
                       onClick={() => addSection(t.value)}
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-full border-2 border-black text-xs font-bold uppercase tracking-wider hover:bg-[#FF5500] hover:text-white hover:border-[#FF5500] transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-line text-xs font-bold uppercase tracking-wider hover:bg-orange hover:text-white hover:border-orange transition-all "
                     >
                       <Plus size={11} /> {t.icon} {t.label}
                     </button>
@@ -376,7 +374,7 @@ export default function AdminArticleForm() {
 
           <div className="space-y-6">
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Autore</h2>
+              <h2 className="text-sm font-semibold mb-5">Autore</h2>
               <div className="space-y-3">
                 <Input
                   label="Nome autore"
@@ -400,7 +398,7 @@ export default function AdminArticleForm() {
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Metadati</h2>
+              <h2 className="text-sm font-semibold mb-5">Metadati</h2>
               <div className="space-y-3">
                 <Select label="Categoria" value={form.category_slug ?? 'food'} onChange={(e) => setCategory(e.target.value)}>
                   {categoryOptions.map((c) => (
@@ -423,7 +421,7 @@ export default function AdminArticleForm() {
                   onChange={(e) => set('reading_time', parseInt(e.target.value))}
                 />
                 <div>
-                  <label className="block font-sans text-xs font-bold uppercase tracking-widest mb-2 text-black/50">
+                  <label className="block font-sans text-xs font-bold uppercase tracking-widest mb-2 text-ink/50">
                     Tag (separati da virgola)
                   </label>
                   <input
@@ -431,30 +429,30 @@ export default function AdminArticleForm() {
                     value={tagsInput}
                     onChange={(e) => setTagsInput(e.target.value)}
                     placeholder="napoli, food, local"
-                    className="w-full border-2 border-black rounded-xl px-4 py-3 font-sans text-sm focus:outline-none focus:border-[#FF5500] transition-colors"
+                    className="w-full border border-line rounded-xl px-4 py-3 font-sans text-sm focus:outline-none focus:border-orange transition-colors"
                   />
                 </div>
               </div>
             </Card>
 
             <Card>
-              <h2 className="font-display text-xl uppercase mb-5">Pubblicazione</h2>
+              <h2 className="text-sm font-semibold mb-5">Pubblicazione</h2>
               <label className="flex items-center gap-3 cursor-pointer mb-3">
                 <div
                   onClick={() => set('published', !form.published)}
-                  className={`w-12 h-6 rounded-full border-2 border-black transition-colors relative cursor-pointer ${
-                    form.published ? 'bg-[#FF5500]' : 'bg-[#f5f5f5]'
+                  className={`w-12 h-6 rounded-full border border-line transition-colors relative cursor-pointer ${
+                    form.published ? 'bg-orange' : 'bg-paper'
                   }`}
                 >
                   <div
-                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white border-2 border-black transition-all ${
+                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white border border-line transition-all ${
                       form.published ? 'left-6' : 'left-0.5'
                     }`}
                   />
                 </div>
                 <span className="font-bold text-sm">{form.published ? 'Pubblicato' : 'Bozza'}</span>
               </label>
-              <p className="text-xs text-black/40">
+              <p className="text-xs text-ink/40">
                 {form.published ? 'Visibile sul sito a /blog/' + (form.slug || '...') : 'Non visibile sul sito pubblico'}
               </p>
             </Card>
@@ -462,13 +460,13 @@ export default function AdminArticleForm() {
         </div>
 
         {error && (
-          <div className="bg-red-50 border-2 border-red-500 rounded-xl px-4 py-3 text-sm text-red-600 font-bold">
+          <div className="rounded-2xl bg-error/5 px-4 py-3 text-sm font-medium text-error">
             {error}
           </div>
         )}
 
         <div className="flex gap-4">
-          <Button type="submit" variant="primary" disabled={saving}>
+          <Button type="submit" disabled={saving}>
             <Save size={14} /> {saving ? 'Salvataggio...' : 'Salva articolo'}
           </Button>
           <Button variant="ghost" onClick={() => navigate('/admin/articoli')}>

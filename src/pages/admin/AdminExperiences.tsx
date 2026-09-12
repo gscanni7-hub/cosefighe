@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react'
-import { AdminLayout, Button, Card, PageHeader } from './ui'
+import { AdminEmpty, AdminLayout, Badge, Button, Card, Notice, PageHeader, td, th } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { deleteExperience, fetchAllExperiences, saveExperience } from '../../lib/db'
 import { CATEGORIES } from '../../data/categories'
@@ -10,9 +10,9 @@ import type { DbExperience, ExperienceColor } from '../../types'
 const categoryOptions = Object.values(CATEGORIES).map((c) => ({ slug: c.slug, label: c.label }))
 
 const colorBadge: Record<ExperienceColor, string> = {
-  orange: 'bg-[#FF5500] text-white',
-  blue: 'bg-[#0055FF] text-white',
-  white: 'bg-white text-black border border-black',
+  orange: 'bg-orange text-white',
+  blue: 'bg-blue text-white',
+  white: 'bg-white border border-line',
 }
 
 export default function AdminExperiences() {
@@ -54,7 +54,7 @@ export default function AdminExperiences() {
         subtitle={`${items.length} esperienze nel database`}
         action={
           <Link to="/admin/esperienze/new">
-            <Button variant="primary">
+            <Button>
               <Plus size={14} /> Nuova
             </Button>
           </Link>
@@ -62,103 +62,70 @@ export default function AdminExperiences() {
       />
 
       {!isSupabaseConfigured && (
-        <Card className="mb-6 bg-yellow-50 border-yellow-400">
-          <p className="text-sm font-bold">Configura Supabase nel file .env per gestire le esperienze.</p>
-        </Card>
+        <Notice title="Database non collegato">Configura Supabase nel file .env per gestire le esperienze.</Notice>
       )}
 
       {loading ? (
-        <Card>
-          <p className="text-black/40 text-sm">Caricamento...</p>
-        </Card>
+        <p className="text-sm text-ink/45">Caricamento...</p>
       ) : items.length === 0 ? (
-        <Card className="text-center py-16">
-          <p className="font-display text-3xl uppercase text-black/20 mb-4">Nessuna esperienza</p>
-          <Link to="/admin/esperienze/new">
-            <Button variant="primary">
-              <Plus size={14} /> Crea la prima
-            </Button>
-          </Link>
-        </Card>
+        <AdminEmpty title="Nessuna esperienza" action={<Link to="/admin/esperienze/new"><Button><Plus size={14} /> Crea la prima</Button></Link>} />
       ) : (
-        <Card className="p-0 overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-[#111111] text-white">
+        <Card className="p-0 overflow-x-auto">
+          <table className="w-full min-w-[640px]">
+            <thead className="border-b border-line">
               <tr>
-                <th className="text-left px-6 py-4 font-sans text-xs uppercase tracking-widest">Esperienza</th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden md:table-cell">
+                <th className={`${th}`}>Esperienza</th>
+                <th className={`${th} hidden md:table-cell`}>
                   Categoria
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden lg:table-cell">
+                <th className={`${th} hidden lg:table-cell`}>
                   Prezzo
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest hidden lg:table-cell">
+                <th className={`${th} hidden lg:table-cell`}>
                   Colore
                 </th>
-                <th className="text-left px-4 py-4 font-sans text-xs uppercase tracking-widest">Stato</th>
-                <th className="px-4 py-4" />
+                <th className={`${th}`}>Stato</th>
+                <th className={th} />
               </tr>
             </thead>
-            <tbody className="divide-y-2 divide-black/10">
+            <tbody className="divide-y divide-line">
               {items.map((exp) => (
-                <tr key={exp.id} className="hover:bg-[#f5f5f5] transition-colors">
-                  <td className="px-6 py-4">
+                <tr key={exp.id} className="transition-colors hover:bg-paper/60">
+                  <td className={td}>
                     <div className="flex items-center gap-3">
                       {exp.image && (
                         <img
                           src={exp.image}
                           alt=""
-                          className="w-12 h-12 rounded-xl object-cover border-2 border-black flex-shrink-0"
+                          className="h-11 w-11 shrink-0 rounded-xl border border-line object-cover"
                         />
                       )}
                       <div>
-                        <p className="font-bold text-sm leading-tight">{exp.title}</p>
-                        <p className="text-xs text-black/40 mt-0.5">{exp.location}</p>
+                        <p className="text-sm font-medium leading-tight">{exp.title}</p>
+                        <p className="mt-0.5 text-xs text-ink/45">{exp.location}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 hidden md:table-cell">
-                    <span className="px-3 py-1 rounded-full border-2 border-black text-xs font-bold uppercase">
+                  <td className={`${td} hidden md:table-cell`}>
+                    <Badge>
                       {categoryOptions.find((c) => c.slug === exp.category_slug)?.label ?? exp.category_slug}
-                    </span>
+                    </Badge>
                   </td>
-                  <td className="px-4 py-4 hidden lg:table-cell">
-                    <span className="font-bold text-sm">{exp.price || '—'}</span>
+                  <td className={`${td} hidden lg:table-cell`}>
+                    <span className="text-sm font-medium tabular-nums">{exp.price || '—'}</span>
                   </td>
-                  <td className="px-4 py-4 hidden lg:table-cell">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                        (exp.color && colorBadge[exp.color]) ?? ''
-                      }`}
-                    >
-                      {exp.color}
-                    </span>
+                  <td className={`${td} hidden lg:table-cell`}>
+                    <span className={`inline-block h-4 w-4 rounded-full ${(exp.color && colorBadge[exp.color]) ?? ''}`} title={exp.color} />
                   </td>
-                  <td className="px-4 py-4">
-                    <button
-                      onClick={() => togglePublished(exp)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-black text-xs font-bold uppercase transition-all ${
-                        exp.published ? 'bg-green-500 text-white' : 'bg-[#f5f5f5] text-black/50'
-                      }`}
-                    >
-                      {exp.published ? <Eye size={11} /> : <EyeOff size={11} />}
-                      {exp.published ? 'Pub' : 'Bozza'}
-                    </button>
+                  <td className={`${td}`}>
+                    <button type="button" onClick={() => togglePublished(exp)} className="inline-flex" title="Cambia stato">{exp.published ? <Badge tone="success"><Eye size={11} /> Online</Badge> : <Badge><EyeOff size={11} /> Bozza</Badge>}</button>
                   </td>
-                  <td className="px-4 py-4">
+                  <td className={`${td}`}>
                     <div className="flex items-center gap-2 justify-end">
                       <Link to={`/admin/esperienze/${exp.id}`}>
-                        <Button variant="secondary" className="py-1.5 px-3">
-                          <Pencil size={12} />
-                        </Button>
+                        <Button variant="secondary" className="h-9 w-9 px-0" title="Modifica"><Pencil size={14} /></Button>
                       </Link>
-                      <Button
-                        variant="danger"
-                        className="py-1.5 px-3"
-                        onClick={() => handleDelete(exp.id as string, exp.title)}
-                      >
-                        <Trash2 size={12} />
-                      </Button>
+                      <Button variant="danger" className="h-9 w-9 px-0" title="Elimina" onClick={() => handleDelete(exp.id as string, exp.title)}><Trash2 size={14} /></Button>
                     </div>
                   </td>
                 </tr>

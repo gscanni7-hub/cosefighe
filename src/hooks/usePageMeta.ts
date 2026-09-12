@@ -23,7 +23,15 @@ export function usePageMeta({ title, description, image }: PageMeta) {
     setMeta('name', 'description', description)
     setMeta('property', 'og:title', title)
     setMeta('property', 'og:description', description)
-    setMeta('property', 'og:url', window.location.href)
+    const canonical = window.location.origin + window.location.pathname
+    setMeta('property', 'og:url', canonical)
+    let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!link) {
+      link = document.createElement('link')
+      link.rel = 'canonical'
+      document.head.appendChild(link)
+    }
+    link.href = canonical
     if (image) {
       const abs = new URL(image, window.location.origin).toString()
       setMeta('property', 'og:image', abs)
