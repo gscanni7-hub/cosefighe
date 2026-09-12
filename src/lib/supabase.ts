@@ -1,7 +1,16 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL ?? ''
-const supabaseAnonKey: string = import.meta.env.VITE_SUPABASE_ANON_KEY ?? ''
+/*
+ * Indirizzo e chiave "anon" del progetto Supabase. Sono valori pubblici per natura
+ * (finiscono comunque nel sito): stanno qui così il deploy non dipende dalle
+ * variabili di Vercel. Una variabile d'ambiente, se presente, ha la precedenza.
+ */
+const DEFAULT_URL = 'https://uayjzwdbcfyinhzwwdje.supabase.co'
+const DEFAULT_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVheWp6d2RiY2Z5aW5oend3ZGplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyMzI2ODgsImV4cCI6MjEwNDgwODY4OH0.-iEny83grtTVwbDWwUNKqMF3BMC4APcVw_t4FACiuoA'
+
+export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL || DEFAULT_URL
+export const supabaseAnonKey: string = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_ANON_KEY
 
 export const isSupabaseConfigured = supabaseUrl.length > 10 && supabaseAnonKey.length > 10
 

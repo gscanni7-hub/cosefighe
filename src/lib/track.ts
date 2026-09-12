@@ -5,9 +5,11 @@ import type { DataRouter } from 'react-router'
  * persistente. Un id di sessione casuale vive solo finché la scheda è aperta.
  * Gli eventi vanno nella tabella `analytics_events` di Supabase.
  */
-const URL_BASE: string = import.meta.env.VITE_SUPABASE_URL ?? ''
-const KEY: string = import.meta.env.VITE_SUPABASE_ANON_KEY ?? ''
-const ENABLED = URL_BASE.length > 10 && KEY.length > 10
+import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from './supabase'
+
+const URL_BASE = supabaseUrl
+const KEY = supabaseAnonKey
+const ENABLED = isSupabaseConfigured
 
 export type TrackType = 'pageview' | 'click' | 'scroll' | 'dwell' | 'leave' | 'event'
 
@@ -16,9 +18,9 @@ export interface TrackEvent {
   session: string
   type: TrackType
   path: string
-  name?: string
-  value?: number
-  meta?: Record<string, string | number | boolean>
+  name: string | null
+  value: number | null
+  meta: Record<string, string | number | boolean> | null
 }
 
 let session = ''
@@ -47,8 +49,9 @@ function sid(): string {
   return session
 }
 
-function push(type: TrackType, name?: string, value?: number, meta?: TrackEvent['meta']) {
-  const ev: TrackEvent = { ts: new Date().toISOString(), session: sid(), type, path: currentPath, name, value, meta }
+function push(type: TrackType, name?: string, value?: number, meta?: Record<string, string | number | boolean>) {
+  // Tutte le chiavi sempre presenti: un lotto con chiavi diverse viene rifiutato dal database.
+  const ev: TrackEvent = { ts: new Date().toISOString(), session: sid(), type, path: currentPath, name: name ?? null, value: value ?? null, meta: meta ?? null }
   buffer.push(ev)
   if (!ENABLED && import.meta.env.DEV) console.debug('[track]', ev)
   if (buffer.length >= 20) flush()
@@ -59,12 +62,14 @@ function flush() {
   const batch = buffer
   buffer = []
   if (!ENABLED) return
+  const body = JSON.stringify(batch)
   try {
+    // keepalive: la richiesta sopravvive alla chiusura della pagina (sendBeacon non va: Supabase vuole JSON e il beacon non può fare il preflight CORS).
     void fetch(`${URL_BASE}/rest/v1/analytics_events`, {
       method: 'POST',
       keepalive: true,
       headers: { 'Content-Type': 'application/json', apikey: KEY, Authorization: `Bearer ${KEY}`, Prefer: 'return=minimal' },
-      body: JSON.stringify(batch),
+      body,
     })
   } catch {
     /* rete assente: si perde il lotto, nessun errore all'utente */
@@ -115,7 +120,7 @@ function enterPage(path: string, first: boolean) {
   pageStart = performance.now()
   maxScroll = 0
   const params = new URLSearchParams(window.location.search)
-  const meta: TrackEvent['meta'] = { device: device(), w: window.innerWidth }
+  const meta: Record<string, string | number | boolean> = { device: device(), w: window.innerWidth }
   if (first) {
     try {
       const ref = document.referrer ? new URL(document.referrer).hostname : ''
@@ -125,9 +130,11 @@ function enterPage(path: string, first: boolean) {
     }
     for (const k of ['utm_source', 'utm_medium', 'utm_campaign']) if (params.get(k)) meta[k] = params.get(k)!
   }
-  push('pageview', document.title.slice(0, 80), undefined, meta)
-  // Le sezioni compaiono dopo il render: aspetta un attimo.
-  window.setTimeout(observeSections, 400)
+  // Il titolo viene impostato dalla pagina subito dopo il render: aspetta un attimo.
+  window.setTimeout(() => {
+    push('pageview', document.title.slice(0, 80), undefined, meta)
+    observeSections()
+  }, 400)
 }
 
 function onScroll() {
@@ -152,7 +159,7 @@ function onClick(e: MouseEvent) {
 }
 
 /** Evento su misura (es. "salva esperienza", "filtro prezzo"). */
-export function track(name: string, meta?: TrackEvent['meta'], value?: number) {
+export function track(name: string, meta?: Record<string, string | number | boolean>, value?: number) {
   if (!started) return
   push('event', name, value, meta)
 }
@@ -172,12 +179,14 @@ export function startTracking(router: DataRouter) {
   })
   window.addEventListener('scroll', onScroll, { passive: true })
   document.addEventListener('click', onClick, { capture: true })
+  const onHide = () => {
+    leavePage()
+    pageStart = performance.now()
+  }
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-      leavePage()
-      pageStart = performance.now()
-    }
+    if (document.visibilityState === 'hidden') onHide()
   })
+  window.addEventListener('pagehide', onHide)
   window.setInterval(flush, 10000)
 
   if (import.meta.env.PROD) {
