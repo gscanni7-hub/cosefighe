@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Bot, Check, ChevronDown, Crown, FileText, Search, ShieldCheck } from 'lucide-react'
+import { Bot, CalendarDays, Check, ChevronDown, Crown, FileText, Pause, Play, Search, ShieldCheck } from 'lucide-react'
 import { AdminLayout, Badge, Button, Card, Notice, PageHeader, Toggle } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
-import { fetchAgentRuns, fetchAgentSettings, saveAgentSettings } from '../../lib/db'
-import { AGENTS, CADENCE_LABEL, type AgentDef, type AgentSettings, type Cadence } from '../../data/agents'
+import { fetchAgentRuns, fetchAgentSettings, fetchSiteSettings, saveAgentSettings, saveSiteSetting } from '../../lib/db'
+import { AGENTS, CADENCE_LABEL, RUN_HOUR_LABEL, WEEKDAY_LABEL, type AgentDef, type AgentSettings, type Cadence } from '../../data/agents'
 import type { AgentRun } from '../../types'
 
-const ICONS: Record<string, typeof Bot> = { 'scout-esperienze': Search, 'scrivi-articolo': FileText, 'controllo-seo': ShieldCheck }
+const ICONS: Record<string, typeof Bot> = { 'scout-esperienze': Search, 'scout-eventi': CalendarDays, 'scrivi-articolo': FileText, 'controllo-seo': ShieldCheck }
 
 const when = (iso: string) => new Date(iso).toLocaleString('it-IT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 
-const defaults = (a: AgentDef): AgentSettings => ({ agent: a.id, enabled: true, cadence: a.defaultCadence, rules: a.defaultRules })
+const defaults = (a: AgentDef): AgentSettings => ({ agent: a.id, enabled: true, cadence: a.defaultCadence, weekday: 1, monthday: 1, rules: a.defaultRules })
 
 function AgentCard({ def, settings, lastRun, canSave, onSave }: { def: AgentDef; settings: AgentSettings; lastRun?: AgentRun; canSave: boolean; onSave: (s: AgentSettings) => Promise<boolean> }) {
   const [local, setLocal] = useState<AgentSettings>(settings)
@@ -77,6 +77,25 @@ function AgentCard({ def, settings, lastRun, canSave, onSave }: { def: AgentDef;
               </option>
             ))}
           </select>
+          {local.cadence === 'settimanale' && (
+            <select value={local.weekday ?? 1} onChange={(e) => setLocal({ ...local, weekday: Number(e.target.value) })} className="field mt-2" aria-label="Giorno della settimana">
+              {WEEKDAY_LABEL.map((w, i) => (
+                <option key={w} value={i}>
+                  ogni {w}
+                </option>
+              ))}
+            </select>
+          )}
+          {local.cadence === 'mensile' && (
+            <select value={local.monthday ?? 1} onChange={(e) => setLocal({ ...local, monthday: Number(e.target.value) })} className="field mt-2" aria-label="Giorno del mese">
+              {Array.from({ length: 28 }, (_, i) => i + 1).map((d) => (
+                <option key={d} value={d}>
+                  il giorno {d} del mese
+                </option>
+              ))}
+            </select>
+          )}
+          {local.cadence !== 'manuale' && <p className="mt-1 text-xs text-ink/45">Parte {RUN_HOUR_LABEL}, ora italiana.</p>}
           <p className="label mb-1 mt-4 text-[11px] text-ink/40">Ultima esecuzione</p>
           <p className="text-ink/75">
             {lastRun ? (
@@ -135,6 +154,7 @@ export default function AdminAgents() {
   const [settings, setSettings] = useState<Record<string, AgentSettings>>(Object.fromEntries(AGENTS.map((a) => [a.id, defaults(a)])))
   const [runs, setRuns] = useState<AgentRun[]>([])
   const [canSave, setCanSave] = useState(false)
+  const [automation, setAutomation] = useState<boolean | null>(null)
 
   useEffect(() => {
     document.title = 'Agenti · Pannello Cose Fighe'
@@ -144,7 +164,13 @@ export default function AdminAgents() {
       if (rows.length) setSettings((prev) => ({ ...prev, ...Object.fromEntries(rows.map((r) => [r.agent, { ...prev[r.agent], ...r, rules: r.rules ?? prev[r.agent]?.rules ?? null }])) }))
     })
     fetchAgentRuns(50).then(setRuns)
+    fetchSiteSettings().then((st) => setAutomation(st.automation_enabled !== 'false'))
   }, [])
+
+  const toggleAutomation = async () => {
+    const next = !(automation ?? true)
+    if (await saveSiteSetting('automation_enabled', String(next))) setAutomation(next)
+  }
 
   const onSave = async (s: AgentSettings) => {
     const ok = await saveAgentSettings(s)
@@ -167,6 +193,23 @@ export default function AdminAgents() {
           </Notice>
         )
       )}
+
+      <Card className="mb-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${automation === false ? 'bg-paper text-ink/40' : 'bg-success/10 text-success'}`}>
+            {automation === false ? <Pause size={20} /> : <Play size={20} />}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">Automazione {automation === false ? 'in pausa' : 'attiva'}</p>
+            <p className="text-sm text-ink/60">
+              Interruttore generale: in pausa, nessun agente lavora, qualunque sia la sua impostazione. Ogni agente ha poi il suo interruttore, la frequenza e il giorno.
+            </p>
+          </div>
+          <Button variant={automation === false ? 'primary' : 'secondary'} onClick={toggleAutomation} disabled={automation === null}>
+            {automation === false ? 'Riattiva tutto' : 'Metti tutto in pausa'}
+          </Button>
+        </div>
+      </Card>
 
       {/* Organigramma */}
       <div className="mb-8">

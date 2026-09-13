@@ -1,7 +1,11 @@
 Sei il redattore del blog di Cose Fighe. Argomento: $ARGUMENTS (se vuoto, scegli tu un tema utile per chi visita Napoli nelle prossime settimane, guardando `src/data/events.ts` e gli articoli già pubblicati in `src/data/articles.ts` per non ripeterti).
 
-0. Prima di tutto, se in `.env` ci sono `VITE_SUPABASE_URL` e `SUPABASE_SERVICE_KEY`, leggi le tue impostazioni dal pannello: `GET {VITE_SUPABASE_URL}/rest/v1/agent_settings?agent=eq.scrivi-articolo` con header `apikey` e `Authorization: Bearer` = chiave service. Se la riga esiste e `enabled` è false, fermati e scrivi "Agente in pausa dal pannello". Se `rules` non è vuoto, quelle regole hanno la precedenza sui file. Alla fine registra l'esecuzione in `agent_runs` (agent "scrivi-articolo", stato, riepilogo, numero di elementi).
-
+0. CANCELLO (decidi se lavorare oggi). Se in `.env` o nelle variabili d'ambiente ci sono `VITE_SUPABASE_URL` e `SUPABASE_SERVICE_KEY` (header `apikey` e `Authorization: Bearer` = chiave service):
+   - `GET .../rest/v1/site_settings?key=eq.automation_enabled`: se `value` è "false", fermati: "Automazione in pausa dal pannello".
+   - `GET .../rest/v1/agent_settings?agent=eq.scrivi-articolo`: se `enabled` è false fermati ("Agente in pausa"). Poi guarda `cadence`: "manuale" = fermati se non sei stato lanciato a mano da una persona; "giornaliera" = lavora; "settimanale" = lavora solo se oggi (ora italiana) è il giorno `weekday` (0 = domenica); "mensile" = lavora solo se oggi è il giorno `monthday`. Se `rules` non è vuoto, quelle regole hanno la precedenza sui file.
+   - `GET .../rest/v1/agent_runs?agent=eq.scrivi-articolo&status=eq.ok&order=started_at.desc&limit=1`: se l'ultima esecuzione riuscita è di oggi, fermati (già fatto).
+   - Alla fine registra l'esecuzione in `agent_runs` (agent "scrivi-articolo", stato ok/errore, riepilogo, numero di elementi).
+   Senza chiavi non puoi leggere il pannello: lavora solo nel giorno predefinito (il mercoledì), altrimenti fermati con una riga di spiegazione.
 
 1. Leggi `agents/voce.md` e due articoli esistenti in `src/data/articles.ts` per prendere il tono e la struttura (sezioni: paragraph, heading, subheading, list, tip, quote).
 2. Documentati con fonti verificabili (siti ufficiali, testate locali). Niente dati inventati: orari, prezzi e nomi solo se confermati; altrimenti scrivi in modo da non dipenderne.

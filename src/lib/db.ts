@@ -269,7 +269,15 @@ export async function fetchAgentSettings(): Promise<{ rows: AgentSettings[]; ava
 export async function saveAgentSettings(s: AgentSettings): Promise<boolean> {
   const supabase = await getSupabase()
   if (!supabase) return false
-  const { error } = await supabase.from('agent_settings').upsert({ ...s, updated_at: new Date().toISOString() }, { onConflict: 'agent' })
+  const payload = { ...s, updated_at: new Date().toISOString() }
+  let { error } = await supabase.from('agent_settings').upsert(payload, { onConflict: 'agent' })
+  if (error && /weekday|monthday/.test(error.message)) {
+    // Colonne del giorno non ancora create nel database: salva il resto.
+    const { weekday: _w, monthday: _m, ...rest } = payload
+    void _w
+    void _m
+    ;({ error } = await supabase.from('agent_settings').upsert(rest, { onConflict: 'agent' }))
+  }
   if (error) console.error(error)
   return !error
 }

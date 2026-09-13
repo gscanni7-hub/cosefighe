@@ -34,9 +34,18 @@ export interface AgentSettings {
   agent: string
   enabled: boolean
   cadence: Cadence
+  /** Giorno della settimana per la cadenza settimanale (0 = domenica ... 6 = sabato). */
+  weekday?: number
+  /** Giorno del mese per la cadenza mensile (1-28). */
+  monthday?: number
   rules: string | null
   updated_at?: string
 }
+
+export const WEEKDAY_LABEL = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato']
+
+/** Ora fissa in cui il "tic" quotidiano nel cloud interroga il pannello. */
+export const RUN_HOUR_LABEL = 'alle 6:00'
 
 export const AGENTS: AgentDef[] = [
   {

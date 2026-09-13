@@ -213,3 +213,7 @@ create table if not exists public.site_settings (
 );
 alter table public.site_settings enable row level security;
 create policy "team all site_settings" on public.site_settings for all to authenticated using (true) with check (true);
+-- Controllo dell'automazione dal pannello: giorno di esecuzione per agente e interruttore generale.
+alter table public.agent_settings add column if not exists weekday integer default 1 check (weekday between 0 and 6);
+alter table public.agent_settings add column if not exists monthday integer default 1 check (monthday between 1 and 28);
+insert into public.site_settings (key, value) values ('automation_enabled', 'true') on conflict (key) do nothing;
