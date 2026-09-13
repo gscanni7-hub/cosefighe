@@ -24,6 +24,14 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
   const { has, toggle } = useSaved()
   const saved = has(exp.title)
   const max = groupMax(exp.group)
+  const bookable = !!exp.affiliateUrl && !!exp.provider && exp.provider !== 'cosefighe'
+  const providerLabel = exp.provider === 'viator' ? 'Viator' : 'GetYourGuide'
+  const linkProps = {
+    href: exp.affiliateUrl,
+    target: '_blank',
+    rel: 'sponsored noopener noreferrer',
+    onClick: () => track('prenota', { provider: exp.provider ?? '', title: exp.title }),
+  }
 
   return (
     <motion.article
@@ -36,15 +44,29 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
       }`}
     >
       <div className={`relative overflow-hidden bg-cream ${row ? 'w-2/5 shrink-0' : 'aspect-[4/3]'}`}>
-        <img
-          src={exp.image}
-          alt={exp.title}
-          width={800}
-          height={600}
-          loading="lazy"
-          decoding="async"
-          className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
-        />
+        {bookable ? (
+          <a {...linkProps} data-track={`prenota:${exp.title}`} aria-label={`Prenota "${exp.title}" su ${providerLabel}`} className="block h-full w-full">
+            <img
+              src={exp.image}
+              alt={exp.title}
+              width={800}
+              height={600}
+              loading="lazy"
+              decoding="async"
+              className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
+            />
+          </a>
+        ) : (
+          <img
+            src={exp.image}
+            alt={exp.title}
+            width={800}
+            height={600}
+            loading="lazy"
+            decoding="async"
+            className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
+          />
+        )}
         <div className="absolute left-3 top-3">
           <Sticker tone="white">{exp.tag}</Sticker>
         </div>
@@ -66,7 +88,15 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           {category ? `${category} · ` : ''}
           {exp.duration}
         </p>
-        <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>{exp.title}</h3>
+        <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>
+          {bookable ? (
+            <a {...linkProps} data-track={`prenota:${exp.title}`} className="transition-colors hover:text-orange">
+              {exp.title}
+            </a>
+          ) : (
+            exp.title
+          )}
+        </h3>
         <p className="mt-2 text-sm text-ink/60">
           {exp.location}
           {max ? ` · fino a ${max} persone` : ''}
@@ -85,14 +115,11 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
               {exp.rating.toLocaleString('it-IT')}
               <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
             </span>
-            {exp.affiliateUrl && exp.provider && exp.provider !== 'cosefighe' ? (
+            {bookable ? (
               <a
-                href={exp.affiliateUrl}
-                target="_blank"
-                rel="sponsored noopener noreferrer"
+                {...linkProps}
                 data-track={`prenota:${exp.title}`}
-                aria-label={`Prenota "${exp.title}" su ${exp.provider === 'viator' ? 'Viator' : 'GetYourGuide'}`}
-                onClick={() => track('prenota', { provider: exp.provider ?? '', title: exp.title })}
+                aria-label={`Prenota "${exp.title}" su ${providerLabel}`}
                 className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-ink underline decoration-ink/25 underline-offset-[4px] transition-colors hover:text-orange hover:decoration-orange"
               >
                 Prenota <ArrowUpRight size={12} />
