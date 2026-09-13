@@ -137,7 +137,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           </div>
           <div className="text-right leading-none">
             <span className="text-[11px] font-medium text-ink/45">da</span>
-            <span className="ml-1 text-xl font-bold tracking-tight text-ink">{exp.price}</span>
+            <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
             <span className="block text-[11px] text-ink/45">a persona</span>
           </div>
         </div>
