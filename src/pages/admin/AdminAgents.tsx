@@ -225,7 +225,7 @@ export default function AdminAgents() {
           </div>
         </div>
         <div className="mx-auto h-6 w-px bg-line" />
-        <div className="relative mx-auto grid max-w-4xl grid-cols-3 gap-4 before:absolute before:left-[16.66%] before:right-[16.66%] before:top-0 before:h-px before:bg-line">
+        <div className="relative mx-auto grid max-w-4xl grid-cols-2 gap-4 before:absolute before:left-[25%] before:right-[25%] before:top-0 before:h-px before:bg-line md:grid-cols-4 md:before:left-[12.5%] md:before:right-[12.5%]">
           {AGENTS.map((a) => {
             const Icon = ICONS[a.id] ?? Bot
             const on = settings[a.id]?.enabled
