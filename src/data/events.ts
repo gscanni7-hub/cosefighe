@@ -257,8 +257,19 @@ export function eventsBetween(from: string, to: string, category?: EventCategory
 }
 
 /** I prossimi eventi da oggi in poi. */
+/** Vero se l'evento dura più di una settimana (mostre, rassegne): nelle liste brevi va in coda. */
+export function isLongRunning(e: CityEvent): boolean {
+  return !!e.end && eachDayCount(e.start, e.end) > 7
+}
+
+function eachDayCount(from: string, to: string): number {
+  return Math.round((Date.parse(to) - Date.parse(from)) / 86400000) + 1
+}
+
+/** I prossimi eventi a data fissa; le mostre e le rassegne lunghe solo se manca altro. */
 export function upcomingEvents(limit = 4, today = todayISO()): CityEvent[] {
-  return EVENTS.filter((e) => eventEnd(e) >= today)
-    .sort((a, b) => a.start.localeCompare(b.start))
-    .slice(0, limit)
+  const live = EVENTS.filter((e) => eventEnd(e) >= today)
+  const dated = live.filter((e) => !isLongRunning(e)).sort((a, b) => a.start.localeCompare(b.start))
+  const long = live.filter(isLongRunning).sort((a, b) => eventEnd(a).localeCompare(eventEnd(b)))
+  return [...dated, ...long].slice(0, limit)
 }

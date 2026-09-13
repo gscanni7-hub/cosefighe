@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
-import { ArrowRight, Clock, MapPin } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Page } from '../components/Page'
 import { DragScroll, FloatingImage } from '../components/Decorations'
 import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { ArticleCard } from '../components/ui/ArticleCard'
-import { DateRange, type DateRangeValue } from '../components/ui/DateRange'
+import { Segmented } from '../components/ui/Segmented'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
-import { EVENT_CATEGORY_LABELS, eventEnd, upcomingEvents } from '../data/events'
-import { addDays, dayParts, formatRange, todayISO } from '../lib/dates'
+import { eventEnd, upcomingEvents } from '../data/events'
+import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useHydrated } from '../hooks/useHydrated'
 
@@ -197,42 +197,40 @@ const CategoriesStrip = () => (
   </section>
 )
 
+const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => ({ key: p.key, label: p.key === '7' ? '7 giorni' : p.key === 'weekend' ? 'Weekend' : p.label }))
+
 const WhatsOnBand = () => {
   const navigate = useNavigate()
   const hydrated = useHydrated()
-  const [range, setRange] = useState<DateRangeValue>(() => ({ from: todayISO(), to: addDays(todayISO(), 6) }))
+  const [preset, setPreset] = useState('7')
   const upcoming = upcomingEvents(4)
-  const go = () => navigate(`/cosa-fare?dal=${range.from}&al=${range.to}`, { viewTransition: true })
+  const go = () => {
+    const r = DATE_PRESETS.find((p) => p.key === preset)!.range()
+    navigate(`/cosa-fare?dal=${r.from}&al=${r.to}`, { viewTransition: true })
+  }
   return (
     <section className="section-y bg-blue text-white">
-      <div className="container-x grid gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
+      <div className="container-x grid gap-12 md:grid-cols-[1fr_1.15fr] md:gap-16">
         <Reveal>
           <p className="label text-white/75">Il programma</p>
           <h2 className="heading-lg mt-4">Cosa fare a Napoli nei giorni in cui ci sei</h2>
-          <p className="mt-4 max-w-md text-white/80">
-            Feste, concerti, mercati, mostre: scegli le date e ti diciamo cosa succede in città e quali esperienze puoi prenotare.
-          </p>
-          {hydrated ? (
-            <>
-              <div className="mt-8">
-                <DateRange value={range} onChange={setRange} tone="dark" compact />
-              </div>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
+          <p className="mt-4 max-w-md text-white/80">Feste, concerti, mercati, mostre: scegli quando e ti diciamo cosa succede in città e cosa puoi prenotare.</p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {hydrated ? (
+              <>
+                <Segmented options={BAND_PRESETS} value={preset} onChange={setPreset} tone="dark" label="Quando" />
                 <Button onClick={go}>
-                  Vedi il programma {formatRange(range.from, range.to)} <ArrowRight size={16} />
+                  Vedi il programma <ArrowRight size={16} />
                 </Button>
-              </div>
-            </>
-          ) : (
-            <div className="mt-8 min-h-[180px]">
+              </>
+            ) : (
               <ButtonLink to="/cosa-fare">
                 Vedi il programma <ArrowRight size={16} />
               </ButtonLink>
-            </div>
-          )}
+            )}
+          </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <p className="mb-2 text-sm font-semibold text-white/75">I prossimi in città</p>
           <ul className="divide-y divide-white/15 border-y border-white/15">
             {(hydrated ? upcoming : []).map((e) => {
               const p = dayParts(e.start)
@@ -241,24 +239,17 @@ const WhatsOnBand = () => {
                   <Link
                     to={`/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`}
                     viewTransition
-                    className="group grid grid-cols-[3.25rem_1fr_auto] items-center gap-4 py-4 transition-colors hover:bg-white/5"
+                    className="group grid grid-cols-[3.5rem_1fr_auto] items-center gap-4 py-4 transition-colors hover:bg-white/5"
                   >
                     <span className="flex flex-col items-center leading-none">
-                      <span className="font-display text-3xl">{p.day}</span>
+                      <span className="text-2xl font-bold tabular-nums">{p.day}</span>
                       <span className="mt-1 text-[11px] font-semibold uppercase text-white/70">{p.mon}</span>
                     </span>
                     <span className="min-w-0">
-                      <span className="block truncate font-bold">{e.title}</span>
-                      <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-white/70">
-                        <span className="inline-flex items-center gap-1">
-                          <MapPin size={12} /> {e.place}
-                        </span>
-                        {e.time && (
-                          <span className="inline-flex items-center gap-1">
-                            <Clock size={12} /> {e.time}
-                          </span>
-                        )}
-                        <span className="text-white/50">{EVENT_CATEGORY_LABELS[e.category]}</span>
+                      <span className="block truncate font-semibold">{e.title}</span>
+                      <span className="mt-0.5 block truncate text-sm text-white/70">
+                        {e.place}
+                        {e.time ? ` · ${e.time}` : ''}
                       </span>
                     </span>
                     <ArrowRight size={16} className="text-white/60 transition-transform group-hover:translate-x-0.5" />
