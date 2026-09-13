@@ -17,7 +17,6 @@ const columns = [
     links: [
       { label: 'Chi siamo', to: '/chi-siamo' },
       { label: 'Contatti', to: '/contatti' },
-      { label: 'Crediti fotografici', to: '/crediti' },
     ],
   },
 ]

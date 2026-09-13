@@ -13,7 +13,6 @@ import BlogPage from './pages/BlogPage'
 import BlogArticlePage from './pages/BlogArticlePage'
 import PrivacyPage from './pages/PrivacyPage'
 import CookiePage from './pages/CookiePage'
-import CreditsPage from './pages/CreditsPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 // L'area admin viene scaricata solo quando serve.
@@ -78,7 +77,6 @@ export const routes: RouteObject[] = [
       { path: '/blog/:slug', element: <BlogArticlePage /> },
       { path: '/privacy', element: <PrivacyPage /> },
       { path: '/cookie', element: <CookiePage /> },
-      { path: '/crediti', element: <CreditsPage /> },
       { path: '/admin/login', element: admin(<AdminLogin />) },
       { path: '/admin', element: admin(<AdminDashboard />) },
       { path: '/admin/esperienze', element: admin(<AdminExperiences />) },

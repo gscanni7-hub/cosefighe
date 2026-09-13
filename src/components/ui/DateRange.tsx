@@ -29,7 +29,7 @@ export function DateRange({ value, onChange, tone = 'light', compact = false, ho
 
   const chip = (active: boolean) =>
     dark
-      ? `chip border-white/40 text-white hover:border-white hover:text-white ${active ? 'border-white bg-white text-blue hover:text-blue' : ''}`
+      ? `chip ${active ? 'border-white bg-white font-semibold text-blue shadow-hard-sm hover:text-blue' : 'border-white/40 text-white hover:border-white hover:text-white'}`
       : `chip ${active ? 'chip-on' : ''}`
 
   const input = `min-h-[40px] rounded-full border px-3 text-sm font-medium tabular-nums outline-none focus-visible:ring-[3px] focus-visible:ring-orange/60 ${

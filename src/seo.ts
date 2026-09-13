@@ -137,10 +137,6 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: '/img/napoli-skyline.webp', jsonLd: [] }
   if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: '/img/napoli-skyline.webp', jsonLd: [] }
-  if (clean === '/crediti') {
-    return { title: 'Crediti fotografici · Cose Fighe', description: 'Le fotografie del sito provengono da Wikimedia Commons con licenze libere. Autori e licenze.', image: '/img/napoli-skyline.webp', jsonLd: [] }
-  }
-
   const cat = clean.match(/^\/categoria\/([^/]+)$/)
   if (cat) {
     const c = CATEGORY_LIST.find((x) => x.slug === cat[1])
@@ -208,7 +204,6 @@ export function publicPaths(): string[] {
     '/blog',
     '/privacy',
     '/cookie',
-    '/crediti',
     ...CATEGORY_LIST.map((c) => `/categoria/${c.slug}`),
     ...ARTICLES_BY_DATE.map((a) => `/blog/${a.slug}`),
   ]

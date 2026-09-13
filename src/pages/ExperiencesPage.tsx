@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { ArrowRight, Heart } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowRight, Check, ChevronDown, Heart, SlidersHorizontal, X } from 'lucide-react'
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
@@ -29,22 +29,28 @@ const DURATION: { key: DurationKey; label: string; test: (h: number) => boolean 
   { key: 'long', label: 'Mezza giornata o più', test: (h) => h > 4 },
 ]
 
-type SortKey = 'consigliati' | 'prezzo-asc' | 'prezzo-desc' | 'durata'
-const SORT: { key: SortKey; label: string }[] = [
-  { key: 'consigliati', label: 'Consigliate' },
-  { key: 'prezzo-asc', label: 'Prezzo: dal più basso' },
-  { key: 'prezzo-desc', label: 'Prezzo: dal più alto' },
-  { key: 'durata', label: 'Durata: dalle più brevi' },
+type SortKey = 'consigliati' | 'prezzo-asc' | 'prezzo-desc' | 'durata' | 'recensioni'
+const SORT: { key: SortKey; label: string; short: string }[] = [
+  { key: 'consigliati', label: 'Consigliate', short: 'Consigliate' },
+  { key: 'recensioni', label: 'Più recensite', short: 'Più recensite' },
+  { key: 'prezzo-asc', label: 'Prezzo: dal più basso', short: 'Prezzo ↑' },
+  { key: 'prezzo-desc', label: 'Prezzo: dal più alto', short: 'Prezzo ↓' },
+  { key: 'durata', label: 'Durata: dalle più brevi', short: 'Più brevi' },
 ]
 
-const priceOf = (e: Experience) => Number(e.price.replace(/[^\d]/g, '')) || 0
-const hoursOf = (e: Experience) => Number(e.duration.replace(',', '.').replace(/[^\d.]/g, '')) || 0
+const priceOf = (e: Experience) => Number(e.price.replace(',', '.').replace(/[^\d.]/g, '')) || 0
+const hoursOf = (e: Experience) => {
+  const m = e.duration.replace(',', '.').match(/[\d.]+/g)
+  if (!m) return 0
+  const n = Number(m[0])
+  return /min/i.test(e.duration) && !/or[ae]/i.test(e.duration) ? n / 60 : n
+}
 
 const allExperiences = CATEGORY_LIST.flatMap((c) => c.experiences.map((e) => ({ ...e, category: c })))
 
 function CategorySection({ cat }: { cat: Category }) {
   return (
-    <section id={`cat-${cat.slug}`} className="scroll-mt-32 border-t border-line py-12 md:py-16">
+    <section id={`cat-${cat.slug}`} className="scroll-mt-36 border-t border-line py-12 md:py-16">
       <Reveal className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="heading-lg">{cat.label}</h2>
@@ -65,6 +71,26 @@ function CategorySection({ cat }: { cat: Category }) {
   )
 }
 
+/** Riga di scelte esclusive dentro il pannello filtri (un solo valore attivo, ricliccando si toglie). */
+function Choice<K extends string>({ label, options, value, onChange }: { label: string; options: { key: K; label: string }[]; value: K | null; onChange: (k: K | null) => void }) {
+  return (
+    <fieldset className="min-w-0">
+      <legend className="label mb-3 text-ink/50">{label}</legend>
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => {
+          const on = value === o.key
+          return (
+            <button key={o.key} type="button" aria-pressed={on} className={`chip ${on ? 'chip-on' : ''}`} onClick={() => onChange(on ? null : o.key)}>
+              {on && <Check size={13} strokeWidth={2.5} />}
+              {o.label}
+            </button>
+          )
+        })}
+      </div>
+    </fieldset>
+  )
+}
+
 export default function ExperiencesPage() {
   usePageMeta({
     title: 'Esperienze a Napoli · Cose Fighe',
@@ -75,8 +101,12 @@ export default function ExperiencesPage() {
   const [duration, setDuration] = useState<DurationKey | null>(null)
   const [sort, setSort] = useState<SortKey>('consigliati')
   const [onlySaved, setOnlySaved] = useState(false)
+  const [open, setOpen] = useState(false)
+  const panelRef = useRef<HTMLDivElement>(null)
   const { saved } = useSaved()
-  const filtering = price !== null || duration !== null || sort !== 'consigliati' || onlySaved
+
+  const activeCount = (price ? 1 : 0) + (duration ? 1 : 0) + (onlySaved ? 1 : 0)
+  const filtering = activeCount > 0 || sort !== 'consigliati'
 
   const results = useMemo(() => {
     if (!filtering) return []
@@ -88,6 +118,7 @@ export default function ExperiencesPage() {
     if (sort === 'prezzo-asc') list.sort((a, b) => priceOf(a) - priceOf(b))
     if (sort === 'prezzo-desc') list.sort((a, b) => priceOf(b) - priceOf(a))
     if (sort === 'durata') list.sort((a, b) => hoursOf(a) - hoursOf(b))
+    if (sort === 'recensioni') list.sort((a, b) => b.reviews - a.reviews)
     return list
   }, [filtering, price, duration, sort, onlySaved, saved])
 
@@ -97,6 +128,30 @@ export default function ExperiencesPage() {
     setSort('consigliati')
     setOnlySaved(false)
   }
+
+  // Il pannello si chiude con Esc o cliccando fuori.
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    const onClick = (e: MouseEvent) => {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onClick)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onClick)
+    }
+  }, [open])
+
+  const activeChips: { label: string; clear: () => void }[] = [
+    price ? { label: PRICE.find((p) => p.key === price)!.label, clear: () => setPrice(null) } : null,
+    duration ? { label: DURATION.find((d) => d.key === duration)!.label, clear: () => setDuration(null) } : null,
+    onlySaved ? { label: 'Solo salvate', clear: () => setOnlySaved(false) } : null,
+    sort !== 'consigliati' ? { label: SORT.find((s) => s.key === sort)!.label, clear: () => setSort('consigliati') } : null,
+  ].filter((x): x is { label: string; clear: () => void } => !!x)
+
+  const sortLabel = SORT.find((s) => s.key === sort)!
 
   return (
     <Page>
@@ -111,99 +166,135 @@ export default function ExperiencesPage() {
         }
       />
 
-      <nav aria-label="Categorie" className="sticky top-[56px] z-40 border-b border-line bg-white/90 backdrop-blur-md md:top-[60px]">
-        <div className="container-x">
-          <ul className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {CATEGORY_LIST.map((cat) => (
-              <li key={cat.slug} className="shrink-0">
-                <a href={`#cat-${cat.slug}`} className="chip" onClick={reset}>
-                  {cat.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+      {/* Barra unica: categorie a sinistra, filtri e ordine a destra. Resta in alto scorrendo. */}
+      <div className={`sticky top-[56px] border-b border-line bg-white/92 backdrop-blur-md md:top-[60px] ${open ? 'z-[60]' : 'z-40'}`}>
+        <div className="container-x relative" ref={panelRef}>
+          <div className="flex items-center gap-3 py-2.5">
+            <nav aria-label="Categorie" className="min-w-0 flex-1">
+              <ul className="-mx-1 flex gap-2 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {CATEGORY_LIST.map((cat) => (
+                  <li key={cat.slug} className="shrink-0">
+                    <a
+                      href={`#cat-${cat.slug}`}
+                      className="chip"
+                      onClick={() => {
+                        reset()
+                        setOpen(false)
+                      }}
+                    >
+                      {cat.label}
+                      <span className="text-ink/40">{cat.experiences.length}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex shrink-0 items-center gap-2 border-l border-line pl-3">
+              <label className="chip hidden cursor-pointer gap-1.5 pr-2 md:inline-flex">
+                <span className="text-ink/55">Ordina</span>
+                <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="max-w-[170px] bg-transparent font-medium text-ink outline-none" aria-label="Ordina le esperienze">
+                  {SORT.map((s) => (
+                    <option key={s.key} value={s.key}>
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="button"
+                aria-expanded={open}
+                aria-controls="filtri"
+                onClick={() => setOpen(!open)}
+                className={`chip ${activeCount ? 'chip-on' : ''}`}
+              >
+                <SlidersHorizontal size={14} />
+                Filtri
+                {activeCount > 0 && (
+                  <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-[11px] font-bold text-ink">{activeCount}</span>
+                )}
+                <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+          </div>
+
+          {open && (
+            <>
+              <div className="fixed inset-0 z-40 bg-ink/30 md:hidden" aria-hidden="true" onClick={() => setOpen(false)} />
+              <div
+                id="filtri"
+                role="dialog"
+                aria-label="Filtri"
+                className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-line bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-soft md:absolute md:inset-x-auto md:bottom-auto md:right-5 md:top-full md:mt-2 md:max-h-[75vh] md:w-[460px] md:rounded-3xl md:border md:p-6 sm:md:right-8"
+              >
+                <div className="mb-5 flex items-center justify-between">
+                  <p className="font-semibold">Filtra le esperienze</p>
+                  <button type="button" onClick={() => setOpen(false)} aria-label="Chiudi i filtri" className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70 hover:text-ink">
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="grid gap-6">
+                  <Choice label="Prezzo a persona" options={PRICE} value={price} onChange={setPrice} />
+                  <Choice label="Durata" options={DURATION} value={duration} onChange={setDuration} />
+                  <fieldset className="md:hidden">
+                    <legend className="label mb-3 text-ink/50">Ordina per</legend>
+                    <div className="flex flex-wrap gap-2">
+                      {SORT.map((s) => (
+                        <button key={s.key} type="button" aria-pressed={sort === s.key} className={`chip ${sort === s.key ? 'chip-on' : ''}`} onClick={() => setSort(s.key)}>
+                          {s.short}
+                        </button>
+                      ))}
+                    </div>
+                  </fieldset>
+                  <button type="button" aria-pressed={onlySaved} onClick={() => setOnlySaved(!onlySaved)} className="flex items-center justify-between rounded-2xl border border-line px-4 py-3 text-left transition-colors hover:border-ink/40">
+                    <span className="flex items-center gap-2 font-medium">
+                      <Heart size={15} fill={onlySaved ? 'currentColor' : 'none'} className={onlySaved ? 'text-orange' : 'text-ink/60'} />
+                      Solo le salvate
+                      <span className="text-sm font-normal text-ink/45">{saved.length ? `(${saved.length})` : ''}</span>
+                    </span>
+                    <span className={`relative h-6 w-11 rounded-full transition-colors ${onlySaved ? 'bg-orange' : 'bg-ink/15'}`} aria-hidden="true">
+                      <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${onlySaved ? 'left-0.5 translate-x-5' : 'left-0.5'}`} />
+                    </span>
+                  </button>
+                </div>
+                <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
+                  <button type="button" onClick={reset} className="text-sm font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline" disabled={!filtering}>
+                    Azzera
+                  </button>
+                  <Button size="sm" onClick={() => setOpen(false)}>
+                    {filtering ? `Mostra ${results.length} ${results.length === 1 ? 'esperienza' : 'esperienze'}` : 'Chiudi'}
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      </nav>
+      </div>
 
       <div className="container-x pb-8">
-        <div className="flex flex-col gap-4 py-8 md:flex-row md:flex-wrap md:items-center md:gap-x-8">
-          <div role="group" aria-label="Prezzo" className="-mx-5 flex items-center gap-2 overflow-x-auto px-5 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
-            <span className="mr-1 shrink-0 text-sm font-medium text-ink/55">Prezzo</span>
-            {PRICE.map((p) => (
-              <button
-                key={p.key}
-                type="button"
-                aria-pressed={price === p.key}
-                className={`chip ${price === p.key ? 'chip-on' : ''}`}
-                onClick={() => setPrice(price === p.key ? null : p.key)}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-          <div role="group" aria-label="Durata" className="-mx-5 flex items-center gap-2 overflow-x-auto px-5 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
-            <span className="mr-1 shrink-0 text-sm font-medium text-ink/55">Durata</span>
-            {DURATION.map((d) => (
-              <button
-                key={d.key}
-                type="button"
-                aria-pressed={duration === d.key}
-                className={`chip ${duration === d.key ? 'chip-on' : ''}`}
-                onClick={() => setDuration(duration === d.key ? null : d.key)}
-              >
-                {d.label}
-              </button>
-            ))}
-          </div>
-          <div className="-mx-5 flex items-center gap-2 overflow-x-auto px-5 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden md:ml-auto">
-            <button
-              type="button"
-              aria-pressed={onlySaved}
-              className={`chip ${onlySaved ? 'chip-on' : ''}`}
-              onClick={() => setOnlySaved(!onlySaved)}
-            >
-              <Heart size={14} fill={onlySaved ? 'currentColor' : 'none'} /> Salvate{saved.length ? ` (${saved.length})` : ''}
-            </button>
-            <label className="chip shrink-0 cursor-pointer gap-2 pr-2">
-              <span className="text-ink/55">Ordina</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortKey)}
-                className="bg-transparent font-medium text-ink outline-none"
-                aria-label="Ordina le esperienze"
-              >
-                {SORT.map((s) => (
-                  <option key={s.key} value={s.key}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-        </div>
-
         {filtering ? (
-          <section className="border-t border-line py-12 md:py-16" aria-live="polite">
-            <Reveal className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <section className="py-10 md:py-14" aria-live="polite">
+            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <h2 className="heading-lg">
                   {results.length} {results.length === 1 ? 'esperienza' : 'esperienze'}
                 </h2>
-                <p className="mt-2 text-ink/60">
-                  {[
-                    onlySaved ? 'Salvate' : null,
-                    PRICE.find((p) => p.key === price)?.label,
-                    DURATION.find((d) => d.key === duration)?.label,
-                    sort !== 'consigliati' ? SORT.find((s) => s.key === sort)?.label : null,
-                  ]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  {activeChips.map((c) => (
+                    <button key={c.label} type="button" onClick={c.clear} className="chip chip-on gap-1.5 pr-2.5" aria-label={`Togli il filtro ${c.label}`}>
+                      {c.label}
+                      <X size={13} />
+                    </button>
+                  ))}
+                  <button type="button" onClick={reset} className="text-sm font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline">
+                    Togli tutto
+                  </button>
+                </div>
               </div>
-              <Button variant="secondary" size="sm" onClick={reset}>
-                Togli i filtri
-              </Button>
-            </Reveal>
+              <p className="text-sm text-ink/50">
+                Ordinate per <span className="font-medium text-ink/75">{sortLabel.label.toLowerCase()}</span>
+              </p>
+            </div>
             {results.length === 0 ? (
               <EmptyState
                 title={onlySaved && !saved.length ? 'Non hai ancora salvato niente' : 'Nessuna esperienza con questi filtri'}
