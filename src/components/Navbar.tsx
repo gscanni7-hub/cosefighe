@@ -62,7 +62,7 @@ export const Navbar = () => {
           </Link>
 
           <nav aria-label="Principale" className="hidden lg:block">
-            <ul className="flex items-center gap-0.5 rounded-full border border-line bg-white/90 p-1 backdrop-blur-sm">
+            <ul className="flex items-center gap-0.5 rounded-full border border-line bg-white p-1">
               {navItems.map((item) => {
                 const active = isActive(item.to)
                 return (
