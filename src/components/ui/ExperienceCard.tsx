@@ -67,7 +67,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
             className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
           />
         )}
-        <div className="absolute left-3 right-14 top-3 hidden md:block">
+        <div className={`absolute left-3 right-14 top-3 ${row ? 'hidden md:block' : ''}`}>
           <Sticker tone="white" className="max-w-full">
             <span className="truncate">{exp.tag}</span>
           </Sticker>
@@ -86,9 +86,12 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
       </div>
 
       <div className={`flex min-w-0 flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
-        <p className="label text-ink/45">
-          {category ? `${category} · ` : ''}
-          {exp.duration}
+        <p className="label flex flex-wrap items-center gap-x-2 gap-y-1 text-ink/45">
+          {row && exp.tag && <span className="rounded-full bg-paper px-2 py-0.5 text-ink/70 md:hidden">{exp.tag}</span>}
+          <span>
+            {category ? `${category} · ` : ''}
+            {exp.duration}
+          </span>
         </p>
         <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>
           {bookable ? (

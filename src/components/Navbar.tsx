@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
 import { ArrowRight, Menu, Search, X } from 'lucide-react'
+import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
 
 const navItems = [
@@ -80,20 +81,24 @@ export const Navbar = () => {
                   </li>
                 )
               })}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setSearch(true)}
+                  aria-label="Cerca nel sito"
+                  title="Cerca (⌘K)"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-ink/75 transition-colors hover:bg-cream hover:text-ink"
+                >
+                  <Search size={16} />
+                </button>
+              </li>
             </ul>
           </nav>
 
           <div className="flex items-center justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => setSearch(true)}
-              className="flex h-11 items-center gap-2 rounded-full border border-line bg-white px-3 text-sm font-medium text-ink/75 transition-colors hover:border-ink hover:text-ink lg:px-4"
-              aria-label="Cerca nel sito"
-            >
-              <Search size={16} />
-              <span className="hidden lg:inline">Cerca</span>
-              <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 text-[11px] text-ink/45 lg:inline">⌘K</kbd>
-            </button>
+            <ButtonLink to="/contatti" size="sm" className="hidden lg:inline-flex">
+              Scrivici <ArrowRight size={14} />
+            </ButtonLink>
             <button
               type="button"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-cream lg:hidden"
@@ -119,6 +124,19 @@ export const Navbar = () => {
               className="container-x mt-3 lg:hidden"
             >
               <ul className="overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-soft">
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false)
+                      setSearch(true)
+                    }}
+                    className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-paper px-4 py-3.5 text-left text-base text-ink/60"
+                  >
+                    <Search size={18} />
+                    Cerca un'esperienza, un evento, un articolo
+                  </button>
+                </li>
                 {navItems.map((item) => {
                   const active = isActive(item.to)
                   return (
