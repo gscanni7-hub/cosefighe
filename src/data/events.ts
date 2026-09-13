@@ -1,12 +1,13 @@
 import type { CityEvent, EventCategory } from '../types'
 import { overlaps, todayISO } from '../lib/dates'
+import generated from './generated.json'
 
 /**
  * DATI DI ESEMPIO. Servono a vedere la sezione funzionare: quando il back end
  * sarà pronto, gli eventi verranno inseriti dal pannello admin e questo file
  * farà solo da riserva. Date e dettagli vanno verificati prima di pubblicare.
  */
-export const EVENTS: CityEvent[] = [
+const SAMPLE_EVENTS: CityEvent[] = [
   {
     slug: 'street-food-weekend-municipio',
     title: 'Street Food Weekend a Piazza Municipio',
@@ -197,6 +198,40 @@ export const EVENTS: CityEvent[] = [
     url: 'https://www.napolisotterranea.org',
   },
 ]
+
+interface DbEvent {
+  slug: string
+  title: string
+  category: EventCategory
+  start_date: string
+  end_date?: string | null
+  time?: string | null
+  place?: string | null
+  area?: string | null
+  price?: string | null
+  blurb?: string | null
+  url?: string | null
+  featured?: boolean | null
+}
+
+const dbEvents: CityEvent[] = ((generated.events as DbEvent[]) ?? []).map((e) => ({
+  slug: e.slug,
+  title: e.title,
+  category: e.category,
+  start: e.start_date,
+  end: e.end_date ?? undefined,
+  time: e.time ?? undefined,
+  place: e.place ?? '',
+  area: e.area ?? '',
+  price: e.price ?? '',
+  blurb: e.blurb ?? '',
+  url: e.url ?? undefined,
+  featured: e.featured ?? false,
+}))
+
+/** Eventi pubblicati nel database; finché non ce ne sono, restano gli esempi. */
+export const EVENTS: CityEvent[] = dbEvents.length ? dbEvents : SAMPLE_EVENTS
+export const HAS_DB_EVENTS = dbEvents.length > 0
 
 export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
   food: 'Food',

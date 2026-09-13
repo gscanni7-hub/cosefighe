@@ -53,7 +53,7 @@ export const AGENTS: AgentDef[] = [
     needs: ['Id partner GetYourGuide', 'Chiave Viator', 'Le regole qui sotto'],
     produces: 'Bozze nella sezione Bozze, con registro dell’esecuzione.',
     command: '/scout-esperienze',
-    defaultCadence: 'settimanale',
+    defaultCadence: 'mensile',
     reportsTo: 'Tu approvi o scarti ogni bozza.',
     defaultRules: `OBIETTIVO DELLA PRIMA RICERCA
 - 10-12 attività da GetYourGuide e 10-12 da Viator, in totale 20-24.
@@ -80,6 +80,36 @@ GIUDIZIO (0-100, spiegato in due righe)
 - Si porta a casa qualcosa (una ricetta, un pezzo fatto a mano, un posto che non trovi da solo)?
 - Sta bene accanto alle esperienze già sul sito, senza doppioni?
 - Sotto 60: non proporre. 60-79: bozza da revisionare. 80 e oltre: bozza consigliata.`,
+  },
+  {
+    id: 'scout-eventi',
+    name: 'Scout eventi',
+    role: 'Calendario della città',
+    mission: 'Trova cosa succede a Napoli nelle prossime settimane e lo propone per la sezione Cosa fare.',
+    duties: [
+      'Legge le fonti indicate: Comune, teatri, musei, testate locali, Eventbrite.',
+      'Estrae data, orario, luogo, prezzo e link; scarta i doppioni e gli eventi già passati.',
+      'Scrive una descrizione di due frasi nella voce di Cose Fighe.',
+      'Segnala "da non perdere" solo per gli eventi grandi o rari.',
+    ],
+    needs: ['Le fonti qui sotto'],
+    produces: 'Eventi in bozza nella sezione Eventi; online la notte dopo l\u2019approvazione.',
+    command: '/scout-eventi',
+    defaultCadence: 'settimanale',
+    reportsTo: 'Tu approvi nella sezione Eventi (o in automatico per le fonti fidate).',
+    defaultRules: `FONTI (aggiungi o togli righe)
+- comune.napoli.it (eventi e manifestazioni)
+- teatrosancarlo.it, teatrobellini.it, teatroaugusteo.it
+- mann-napoli.it, capodimonte.cultura.gov.it, museomadre.it
+- napolitoday.it/eventi, napoli.repubblica.it/tempo-libero
+- eventbrite.it (Napoli), palapartenope.it, arenaflegrea.it
+
+REGOLE
+- Solo Napoli e provincia; solo eventi con data certa nelle prossime 8 settimane.
+- Niente eventi già online o già scartati (controlla titolo e data).
+- Categorie: food, outdoor, sport, arte, laboratori, spettacoli, oppure "In città" per feste e mercati.
+- Prezzo scritto come sul sito: "Gratis", "€12", "da €25".
+- "Da non perdere" al massimo per 2 eventi a settimana.`,
   },
   {
     id: 'scrivi-articolo',

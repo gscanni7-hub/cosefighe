@@ -1,0 +1,17 @@
+# Da copiare in .github/workflows/pubblicazione-notturna.yml dal sito GitHub (Add file), perché il token locale non può creare workflow.
+# Ogni notte alle 3 (ora italiana) chiede a Vercel di ricostruire il sito:
+# la build scarica dal database i contenuti approvati e li pre-genera.
+# Serve il segreto VERCEL_DEPLOY_HOOK (Settings → Secrets and variables → Actions).
+name: Pubblicazione notturna
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Avvia il deploy su Vercel
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then echo "Manca il segreto VERCEL_DEPLOY_HOOK"; exit 1; fi
+          curl -sS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"

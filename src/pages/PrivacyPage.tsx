@@ -5,7 +5,7 @@ export default function PrivacyPage() {
     <LegalPage
       title="Privacy"
       kicker="Informativa"
-      updated="3 settembre 2026"
+      updated="13 settembre 2026"
       description="Come Cose Fighe raccoglie e usa i dati personali inviati tramite i moduli del sito."
     >
       <section>
@@ -23,7 +23,20 @@ export default function PrivacyPage() {
           <li>Candidatura creator: nome, cognome, email, profilo social, specialità e presentazione.</li>
           <li>Lista d'attesa: indirizzo email.</li>
         </ul>
-        <p>Non raccogliamo dati di navigazione a fini di profilazione e non usiamo strumenti di analisi di terze parti.</p>
+        <p>
+          Raccogliamo inoltre, in forma anonima e senza cookie, dati statistici sull'uso del sito: pagine visitate, click sui
+          pulsanti, quanto si scorre una pagina, tipo di dispositivo, sito di provenienza. Non contengono nome, email, indirizzo
+          IP completo o identificativi persistenti: un codice casuale di sessione vive solo finché la scheda del browser è
+          aperta. Servono a capire cosa interessa ai visitatori e non permettono di riconoscere una persona.
+        </p>
+      </section>
+      <section>
+        <h2>Link di affiliazione</h2>
+        <p>
+          Alcune esperienze rimandano a piattaforme di prenotazione partner (GetYourGuide e Viator) con un link di affiliazione.
+          Se prenoti da lì, riceviamo una commissione dalla piattaforma; il prezzo per te non cambia. La prenotazione, il
+          pagamento e i dati che inserisci sono gestiti dalla piattaforma secondo la sua informativa: noi non li riceviamo.
+        </p>
       </section>
       <section>
         <h2>Perché li usiamo</h2>
@@ -35,8 +48,8 @@ export default function PrivacyPage() {
       <section>
         <h2>Dove li conserviamo e per quanto</h2>
         <p>
-          I dati sono conservati su infrastruttura Supabase, con server nell'Unione Europea, e nella casella email del
-          titolare. Li conserviamo per il tempo necessario a gestire la richiesta e comunque non oltre 24 mesi dall'ultimo
+          I dati dei moduli e le statistiche anonime sono conservati su infrastruttura Supabase, con server nell'Unione
+          Europea; il sito è pubblicato tramite Vercel, che può registrare dati tecnici di traffico in forma aggregata. Li conserviamo per il tempo necessario a gestire la richiesta e comunque non oltre 24 mesi dall'ultimo
           contatto, salvo obblighi di legge.
         </p>
       </section>

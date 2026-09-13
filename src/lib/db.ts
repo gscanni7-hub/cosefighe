@@ -273,3 +273,98 @@ export async function saveAgentSettings(s: AgentSettings): Promise<boolean> {
   if (error) console.error(error)
   return !error
 }
+
+/* ---- Eventi in città ---- */
+
+import type { EventCategory, Provider } from '../types'
+
+export interface DbEvent {
+  id?: string
+  slug: string
+  title: string
+  category: EventCategory
+  start_date: string
+  end_date?: string | null
+  time?: string | null
+  place?: string | null
+  area?: string | null
+  price?: string | null
+  blurb?: string | null
+  url?: string | null
+  featured?: boolean | null
+  source?: string | null
+  status: 'bozza' | 'approvato' | 'scartato'
+  published: boolean
+  created_at?: string
+}
+
+export async function fetchEvents(): Promise<DbEvent[]> {
+  const supabase = await getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase.from('events').select('*').order('start_date', { ascending: true })
+  if (error) {
+    console.error(error)
+    return []
+  }
+  return data as DbEvent[]
+}
+
+export async function saveEvent(e: DbEvent): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const payload = { ...e, updated_at: new Date().toISOString() }
+  const q = e.id ? supabase.from('events').update(payload).eq('id', e.id) : supabase.from('events').insert(payload)
+  const { error } = await q
+  if (error) console.error(error)
+  return !error
+}
+
+export async function deleteEvent(id: string): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const { error } = await supabase.from('events').delete().eq('id', id)
+  return !error
+}
+
+/* ---- Commissioni e impostazioni del sito ---- */
+
+export interface Commission {
+  id?: string
+  month: string
+  provider: Provider
+  bookings: number
+  amount: number
+  notes?: string | null
+}
+
+export async function fetchCommissions(): Promise<Commission[]> {
+  const supabase = await getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase.from('commissions').select('*').order('month', { ascending: false })
+  if (error) return []
+  return data as Commission[]
+}
+
+export async function saveCommission(c: Commission): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const { error } = await supabase.from('commissions').upsert(c, { onConflict: 'month,provider' })
+  if (error) console.error(error)
+  return !error
+}
+
+export async function fetchSiteSettings(): Promise<Record<string, string>> {
+  const supabase = await getSupabase()
+  if (!supabase) return {}
+  const { data, error } = await supabase.from('site_settings').select('key,value')
+  if (error) return {}
+  return Object.fromEntries((data as { key: string; value: string }[]).map((r) => [r.key, r.value]))
+}
+
+export async function saveSiteSetting(key: string, value: string): Promise<boolean> {
+  const supabase = await getSupabase()
+  if (!supabase) return false
+  const { error } = await supabase.from('site_settings').upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+  if (error) console.error(error)
+  return !error
+}

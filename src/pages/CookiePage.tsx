@@ -5,7 +5,7 @@ export default function CookiePage() {
     <LegalPage
       title="Cookie"
       kicker="Informativa"
-      updated="3 settembre 2026"
+      updated="13 settembre 2026"
       description="Quali cookie e tecnologie simili usa il sito Cose Fighe."
     >
       <section>
@@ -19,6 +19,18 @@ export default function CookiePage() {
         <h2>Cosa salviamo sul tuo dispositivo</h2>
         <ul>
           <li>Font e immagini sono serviti direttamente dal nostro sito, senza chiamate a servizi esterni.</li>
+          <li>
+            Le esperienze che salvi con il cuore restano nella memoria del tuo browser (localStorage), solo sul tuo
+            dispositivo: è una funzione che hai chiesto tu, non un tracciamento. Puoi svuotarla cancellando i dati del sito.
+          </li>
+          <li>
+            Le statistiche di visita usano un codice casuale di sessione salvato nel browser finché la scheda è aperta
+            (sessionStorage). Non è un cookie, non ti identifica e sparisce quando chiudi la scheda.
+          </li>
+          <li>
+            I link di prenotazione verso GetYourGuide e Viator portano sui loro siti, che applicano le loro informative sui
+            cookie: niente viene impostato finché resti su Cose Fighe.
+          </li>
           <li>
             L'area di amministrazione, riservata al team, salva nel browser una chiave di sessione tecnica necessaria al
             funzionamento dell'accesso. Non riguarda i visitatori.

@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { Link, Navigate, useLocation } from 'react-router'
-import { BarChart3, Bot, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, Sparkles, Users } from 'lucide-react'
+import { BarChart3, Bot, CalendarDays, Coins, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, Sparkles, Users } from 'lucide-react'
 import { useAdmin } from '../../context/AdminContext'
 
 /*
@@ -9,13 +9,21 @@ import { useAdmin } from '../../context/AdminContext'
  */
 
 const groups = [
-  { label: 'Panoramica', items: [{ to: '/admin', label: 'Home', icon: LayoutDashboard, exact: true }, { to: '/admin/dati', label: 'Dati', icon: BarChart3 }] },
+  {
+    label: 'Panoramica',
+    items: [
+      { to: '/admin', label: 'Home', icon: LayoutDashboard, exact: true },
+      { to: '/admin/dati', label: 'Dati', icon: BarChart3 },
+      { to: '/admin/affiliazione', label: 'Affiliazione', icon: Coins },
+    ],
+  },
   {
     label: 'Contenuti',
     items: [
       { to: '/admin/bozze', label: 'Bozze', icon: Inbox },
       { to: '/admin/esperienze', label: 'Esperienze', icon: Sparkles },
       { to: '/admin/articoli', label: 'Articoli', icon: FileText },
+      { to: '/admin/eventi', label: 'Eventi', icon: CalendarDays },
     ],
   },
   { label: 'Squadra', items: [{ to: '/admin/agenti', label: 'Agenti', icon: Bot }] },

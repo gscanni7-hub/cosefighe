@@ -1,6 +1,8 @@
-import type { Category } from '../types'
+import type { Category, DbExperience, Experience } from '../types'
+import generated from './generated.json'
 
-export const CATEGORIES: Record<string, Category> = {
+/** Contenuti di riserva scritti nel codice: valgono finché la categoria non ha esperienze pubblicate nel database. */
+const STATIC_CATEGORIES: Record<string, Category> = {
   food: {
     slug: 'food',
     label: 'Food',
@@ -554,4 +556,43 @@ export const CATEGORIES: Record<string, Category> = {
   },
 }
 
+function fromDb(e: DbExperience): Experience {
+  return {
+    title: e.title,
+    duration: e.duration ?? '',
+    group: e.group_size ?? '',
+    rating: e.rating ?? 4.8,
+    reviews: e.reviews ?? 0,
+    price: e.price ?? '',
+    tag: e.tag ?? '',
+    color: e.color ?? 'white',
+    image: e.image ?? '',
+    location: e.location ?? '',
+    included: e.included ?? '',
+    days: (e as { days?: number[] }).days ?? undefined,
+    provider: e.provider,
+    providerId: e.provider_id,
+    affiliateUrl: e.affiliate_url,
+    languages: e.languages,
+    cancellation: e.cancellation,
+  }
+}
+
+const dbExperiences = (generated.experiences as DbExperience[]) ?? []
+
+/**
+ * Categorie del sito. Se nel database ci sono esperienze pubblicate per una
+ * categoria, quelle sostituiscono le esperienze di riserva di quella categoria.
+ * Il file generated.json viene riempito a ogni build da scripts/fetch-content.mjs.
+ */
+export const CATEGORIES: Record<string, Category> = Object.fromEntries(
+  Object.entries(STATIC_CATEGORIES).map(([slug, cat]) => {
+    const fromDbRows = dbExperiences.filter((e) => e.category_slug === slug).map(fromDb)
+    return [slug, fromDbRows.length ? { ...cat, experiences: fromDbRows } : cat]
+  }),
+)
+
 export const CATEGORY_LIST: Category[] = Object.values(CATEGORIES)
+
+/** Vero se almeno una categoria mostra esperienze dal database. */
+export const HAS_DB_EXPERIENCES = dbExperiences.length > 0

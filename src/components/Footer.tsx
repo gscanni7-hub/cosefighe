@@ -81,7 +81,12 @@ export const Footer = () => {
         </div>
 
         <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/45 md:flex-row md:items-center">
-          <span>© {year} Cose Fighe. Tutti i diritti riservati.</span>
+          <span>
+            © {year} Cose Fighe. Tutti i diritti riservati.
+            <span className="mt-1 block max-w-md text-white/35">
+              Alcuni link di prenotazione sono di affiliazione (GetYourGuide, Viator): se prenoti da lì riceviamo una piccola commissione, per te il prezzo non cambia.
+            </span>
+          </span>
           <nav aria-label="Legale" className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link to="/privacy" viewTransition className="transition-colors hover:text-white">
               Privacy

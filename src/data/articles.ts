@@ -1,4 +1,5 @@
-import type { Article } from '../types'
+import type { Article, DbArticle } from '../types'
+import generated from './generated.json'
 
 const AUTHORS = {
   alessia: { author: 'Alessia Morra', authorRole: 'Head of Experiences', authorImage: '/meditazione.webp' },
@@ -6,7 +7,7 @@ const AUTHORS = {
   gennaro: { author: 'Gennaro Iovine', authorRole: 'Fondatore & CEO', authorImage: '/cose-beve.webp' },
 }
 
-export const ARTICLES: Article[] = [
+const STATIC_ARTICLES: Article[] = [
   {
     slug: 'street-food-napoli-guida-completa',
     title: 'Street food napoletano: la guida completa per mangiare come un local',
@@ -436,6 +437,28 @@ export const ARTICLES: Article[] = [
     ],
   },
 ]
+
+function fromDb(a: DbArticle): Article {
+  return {
+    slug: a.slug,
+    title: a.title,
+    excerpt: a.excerpt ?? '',
+    category: a.category ?? 'Napoli',
+    categorySlug: a.category_slug ?? 'citta',
+    author: a.author ?? 'Cose Fighe',
+    authorRole: a.author_role ?? 'Redazione',
+    authorImage: a.author_image ?? '/mascotte-giornalista.webp',
+    date: a.date ?? new Date().toISOString().slice(0, 10),
+    readingTime: a.reading_time ?? 5,
+    coverImage: a.cover_image ?? '/img/napoli-skyline.webp',
+    tags: a.tags ?? [],
+    body: a.body ?? [],
+  }
+}
+
+/** Articoli pubblicati nel database più quelli di riserva nel codice; a parità di slug vince il database. */
+const dbArticles = ((generated.articles as DbArticle[]) ?? []).map(fromDb)
+export const ARTICLES: Article[] = [...dbArticles, ...STATIC_ARTICLES.filter((s) => !dbArticles.some((d) => d.slug === s.slug))]
 
 export const ARTICLES_BY_DATE = [...ARTICLES].sort((a, b) => (a.date < b.date ? 1 : -1))
 

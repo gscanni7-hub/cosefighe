@@ -27,6 +27,8 @@ const AdminLeads = lazy(() => import('./pages/admin/AdminLeads'))
 const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics'))
 const AdminDrafts = lazy(() => import('./pages/admin/AdminDrafts'))
 const AdminAgents = lazy(() => import('./pages/admin/AdminAgents'))
+const AdminAffiliation = lazy(() => import('./pages/admin/AdminAffiliation'))
+const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'))
 
 const AdminFallback = () => (
   <div className="flex min-h-screen items-center justify-center bg-paper font-sans text-sm text-ink/50">Caricamento del pannello...</div>
@@ -87,6 +89,8 @@ export const routes: RouteObject[] = [
       { path: '/admin/dati', element: admin(<AdminAnalytics />) },
       { path: '/admin/bozze', element: admin(<AdminDrafts />) },
       { path: '/admin/agenti', element: admin(<AdminAgents />) },
+      { path: '/admin/affiliazione', element: admin(<AdminAffiliation />) },
+      { path: '/admin/eventi', element: admin(<AdminEvents />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
