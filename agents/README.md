@@ -21,3 +21,10 @@ Bozze) o da una pull request su GitHub, e va online solo dopo l'approvazione.
 2. Immagini: nostre o con licenza libera e credito (Wikimedia Commons), mai scaricate dalle pagine delle piattaforme.
 3. Link di prenotazione sempre con il codice partner e `rel="sponsored"`.
 4. Ogni esecuzione lascia traccia: riga in `agent_runs` (se Supabase) o nota nella pull request.
+
+## Dove girano
+Gli agenti girano **dal Mac** con Claude Code (abbonamento), ogni giorno alle 6:00 se il Mac è acceso:
+`agents/esegui-tutti.sh` prova i quattro agenti; ognuno legge il pannello (interruttori, cadenza, giorno) e decide se lavorare.
+Programmazione: `~/Library/LaunchAgents/com.cosefighe.agenti.plist` (copia in `agents/`). Log in `agents/log/`.
+Per lanciare un agente a mano, saltando cadenza e giorno: `agents/esegui-agente.sh scout-eventi manuale`.
+Il cloud di Claude Code ha la rete chiusa (non raggiunge Supabase né le piattaforme): lì resta solo la routine "Pubblicazione notturna", che fa un commit vuoto e fa ricostruire il sito.

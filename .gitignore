@@ -8,3 +8,4 @@ dist
 dist-ssr
 dist-dev
 dist-ssr-dev
+agents/log
