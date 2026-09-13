@@ -67,8 +67,10 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
             className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
           />
         )}
-        <div className="absolute left-3 top-3">
-          <Sticker tone="white">{exp.tag}</Sticker>
+        <div className="absolute left-3 right-14 top-3">
+          <Sticker tone="white" className="max-w-full">
+            <span className="truncate">{exp.tag}</span>
+          </Sticker>
         </div>
         <button
           type="button"

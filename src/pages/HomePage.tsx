@@ -101,7 +101,7 @@ const Hero = () => {
   )
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-paper">
+    <section ref={ref} className="relative overflow-hidden bg-sand">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             <motion.div
               style={{ x: backX, y: backY }}
