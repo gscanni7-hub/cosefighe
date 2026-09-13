@@ -6,7 +6,7 @@ const tones: Record<Tone, string> = {
   cream: 'bg-cream text-ink',
   orange: 'bg-orange text-white',
   ink: 'bg-ink text-white',
-  white: 'bg-white/95 text-ink shadow-[0_1px_2px_rgba(17,17,17,0.08)]',
+  white: 'bg-white/85 text-ink backdrop-blur-sm',
   outline: 'bg-transparent text-ink/70 border border-line',
 }
 

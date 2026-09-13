@@ -9,7 +9,7 @@ const columns = [
       { label: 'Esperienze', to: '/esperienze' },
       { label: 'Cosa fare a Napoli', to: '/cosa-fare' },
       { label: 'Blog', to: '/blog' },
-      { label: 'Diventa creator', to: '/creator' },
+      { label: 'Proponi la tua esperienza', to: '/creator' },
     ],
   },
   {
@@ -30,11 +30,11 @@ export const Footer = () => {
           <div>
             <p className="font-display text-display-lg uppercase leading-none">Cose Fighe</p>
             <p className="mt-4 max-w-sm text-white/65">
-              Esperienze autentiche a Napoli, curate da creator locali. Le prenotazioni aprono presto.
+              Le cose fighe da fare a Napoli, scelte una per una. Prenoti sulle piattaforme, ai loro prezzi.
             </p>
           </div>
           <div>
-            <p className="mb-3 text-sm font-semibold">Avvisami quando aprono le prenotazioni</p>
+            <p className="mb-3 text-sm font-semibold">Le novità di Napoli, una volta a settimana</p>
             <WaitlistForm source="footer" tone="dark" />
           </div>
         </div>

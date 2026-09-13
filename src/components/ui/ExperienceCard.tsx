@@ -1,8 +1,9 @@
 import { motion } from 'motion/react'
-import { ArrowUpRight, CircleCheckBig, Clock, Star } from 'lucide-react'
+import { ArrowUpRight, CircleCheckBig, Clock, Heart, Star } from 'lucide-react'
 import type { Experience } from '../../types'
 import { track } from '../../lib/track'
 import { Sticker } from './Sticker'
+import { useSaved } from '../../lib/saved'
 
 interface ExperienceCardProps {
   exp: Experience
@@ -21,6 +22,8 @@ const groupMax = (group: string) => {
 export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: ExperienceCardProps) {
   const row = layout === 'row'
   const max = groupMax(exp.group)
+  const { has, toggle } = useSaved()
+  const saved = has(exp.title)
   const bookable = !!exp.affiliateUrl && !!exp.provider && exp.provider !== 'cosefighe'
   const providerLabel = exp.provider === 'viator' ? 'Viator' : 'GetYourGuide'
   const linkProps = {
@@ -64,11 +67,22 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
             className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
           />
         )}
-        <div className="absolute left-3 right-3 top-3">
+        <div className="absolute left-3 right-14 top-3 hidden md:block">
           <Sticker tone="white" className="max-w-full">
             <span className="truncate">{exp.tag}</span>
           </Sticker>
         </div>
+        <button
+          type="button"
+          onClick={() => toggle(exp.title)}
+          aria-pressed={saved}
+          aria-label={saved ? `Togli "${exp.title}" dalle salvate` : `Salva "${exp.title}"`}
+          className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 backdrop-blur-sm transition-[transform,color] duration-200 ease-out-quart hover:scale-105 active:scale-95 ${
+            saved ? 'text-orange' : 'text-ink'
+          }`}
+        >
+          <Heart size={16} fill={saved ? 'currentColor' : 'none'} strokeWidth={2.2} />
+        </button>
       </div>
 
       <div className={`flex min-w-0 flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
@@ -120,7 +134,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           </div>
           <div className="text-right leading-none">
             <span className="text-[11px] font-medium text-ink/45">da</span>
-            <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
+            <span className="ml-1 text-xl font-bold tracking-tight text-ink">{exp.price}</span>
             <span className="block text-[11px] text-ink/45">a persona</span>
           </div>
         </div>

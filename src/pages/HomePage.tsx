@@ -136,8 +136,7 @@ const Hero = () => {
             </motion.span>
           </h1>
           <motion.p {...rise(0.28)} className="mt-6 max-w-lg text-lg leading-relaxed text-ink/65">
-            Tour, laboratori e avventure fuori dai giri turistici, raccontati da creator che la città la vivono ogni
-            giorno.
+            Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.
           </motion.p>
           <motion.div {...rise(0.34)} className="mt-8 flex flex-wrap items-center gap-3">
             <ButtonLink to="/esperienze" size="lg">

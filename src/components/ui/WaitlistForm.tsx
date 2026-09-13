@@ -29,14 +29,14 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
       return
     }
     if (!isSupabaseConfigured) {
-      const subject = encodeURIComponent("Lista d'attesa Cose Fighe")
-      const body = encodeURIComponent(`Avvisatemi quando aprono le prenotazioni.\nEmail: ${value}`)
+      const subject = encodeURIComponent("Newsletter Cose Fighe")
+      const body = encodeURIComponent(`Iscrivetemi alle novità di Napoli.\nEmail: ${value}`)
       window.location.href = `mailto:ciao@cosefighe.it?subject=${subject}&body=${body}`
       setStatus('done')
       return
     }
     setStatus('sending')
-    const ok = await createLead({ name: '', email: value, topic: "Lista d'attesa", message: `Iscrizione dalla sezione: ${source}`, source })
+    const ok = await createLead({ name: '', email: value, topic: 'Newsletter', message: `Iscrizione dalla sezione: ${source}`, source })
     setStatus(ok ? 'done' : 'error')
   }
 
@@ -81,7 +81,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           }`}
         />
         <Button type="submit" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Un attimo...' : 'Avvisami'} <ArrowRight size={16} />
+          {status === 'sending' ? 'Un attimo...' : 'Iscrivimi'} <ArrowRight size={16} />
         </Button>
       </div>
       {invalid && (

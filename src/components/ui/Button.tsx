@@ -9,10 +9,10 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'border-2 border-ink bg-orange text-white shadow-hard-sm hover:-translate-y-0.5 hover:shadow-hard active:translate-x-px active:translate-y-px active:shadow-none',
-  secondary: 'border-2 border-ink bg-white text-ink hover:bg-cream',
-  dark: 'border-2 border-ink bg-ink text-white hover:bg-ink/85',
-  'ghost-light': 'border-2 border-white/80 bg-transparent text-white hover:bg-white/10',
+    'bg-orange text-white shadow-[0_1px_2px_rgba(17,17,17,0.08),0_8px_20px_-8px_rgba(255,85,0,0.55)] hover:-translate-y-0.5 hover:bg-[#eb4e00] active:translate-y-0 active:shadow-none',
+  secondary: 'border border-line bg-white text-ink hover:border-ink',
+  dark: 'bg-ink text-white hover:bg-ink/85',
+  'ghost-light': 'border border-white/60 bg-transparent text-white hover:bg-white/10',
   link: 'rounded-none px-0 text-ink underline decoration-ink/25 underline-offset-[6px] hover:text-orange hover:decoration-orange',
 }
 

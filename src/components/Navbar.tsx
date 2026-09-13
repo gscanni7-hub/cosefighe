@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, Menu, X } from 'lucide-react'
-import { ButtonLink } from './ui/Button'
+import { ArrowRight, Menu, Search, X } from 'lucide-react'
+import { SearchDialog } from './SearchDialog'
 
 const navItems = [
-  { label: 'Home', to: '/' },
   { label: 'Esperienze', to: '/esperienze' },
   { label: 'Cosa fare', to: '/cosa-fare' },
   { label: 'Blog', to: '/blog' },
-  { label: 'Creator', to: '/creator' },
   { label: 'Chi siamo', to: '/chi-siamo' },
   { label: 'Contatti', to: '/contatti' },
 ]
@@ -17,6 +15,7 @@ const navItems = [
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -85,9 +84,16 @@ export const Navbar = () => {
           </nav>
 
           <div className="flex items-center justify-end gap-3">
-            <ButtonLink to="/contatti" size="sm" className="hidden lg:inline-flex">
-              Scrivici <ArrowRight size={14} />
-            </ButtonLink>
+            <button
+              type="button"
+              onClick={() => setSearch(true)}
+              className="flex h-11 items-center gap-2 rounded-full border border-line bg-white px-3 text-sm font-medium text-ink/75 transition-colors hover:border-ink hover:text-ink lg:px-4"
+              aria-label="Cerca nel sito"
+            >
+              <Search size={16} />
+              <span className="hidden lg:inline">Cerca</span>
+              <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 text-[11px] text-ink/45 lg:inline">⌘K</kbd>
+            </button>
             <button
               type="button"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-cream lg:hidden"
@@ -136,6 +142,7 @@ export const Navbar = () => {
           )}
         </AnimatePresence>
       </header>
+      <SearchDialog open={search} onClose={() => setSearch(false)} onOpen={() => setSearch(true)} />
     </>
   )
 }

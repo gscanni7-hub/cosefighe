@@ -1,7 +1,7 @@
 import type { Article, DbArticle } from '../types'
 import generated from './generated.json'
 
-const GIANLUCA = { author: 'Gianluca Scanni', authorRole: 'Fondatore di Cose Fighe', authorImage: '/cose-beve.webp' }
+const GIANLUCA = { author: 'Gianluca Scanni', authorRole: 'Fondatore', authorImage: '/cose-beve.webp' }
 const AUTHORS = { alessia: GIANLUCA, fabio: GIANLUCA, gennaro: GIANLUCA }
 
 const STATIC_ARTICLES: Article[] = [
@@ -443,7 +443,7 @@ function fromDb(a: DbArticle): Article {
     category: a.category ?? 'Napoli',
     categorySlug: a.category_slug ?? 'citta',
     author: a.author ?? 'Gianluca Scanni',
-    authorRole: a.author_role ?? 'Fondatore di Cose Fighe',
+    authorRole: a.author_role ?? 'Fondatore',
     authorImage: a.author_image ?? '/cose-beve.webp',
     date: a.date ?? new Date().toISOString().slice(0, 10),
     readingTime: a.reading_time ?? 5,

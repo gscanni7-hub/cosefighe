@@ -70,7 +70,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/') {
     return {
       title: 'Cose Fighe · Esperienze autentiche a Napoli',
-      description: 'Tour, laboratori, sport e spettacoli a Napoli fuori dai giri turistici, curati da creator locali. Scopri cose fighe da fare in città e cosa succede giorno per giorno.',
+      description: 'Tour, laboratori, sport e spettacoli a Napoli scelti uno per uno, con i prezzi delle piattaforme. Scopri cose fighe da fare in città e cosa succede giorno per giorno.',
       image: '/img/napoli-skyline.webp',
       preloadImage: '/mascotte-hero.webp',
       jsonLd: graph(organization, website),
@@ -79,7 +79,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/esperienze') {
     return {
       title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori · Cose Fighe`,
-      description: `${total} esperienze in 6 categorie, scelte da creator napoletani: street food, Vesuvio, kayak, ceramica, San Carlo. Prezzi da €15.`,
+      description: `${total} esperienze in 6 categorie, scelte una per una: street food, Vesuvio, barca, laboratori, sotterranei. Prezzi da €10.`,
       image: '/img/naples-streetfood.webp',
       jsonLd: graph(
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }]),
@@ -119,7 +119,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/contatti') {
     return {
       title: 'Contatti · Cose Fighe',
-      description: 'Scrivici per prenotare un’esperienza, diventare creator o proporre una partnership. Rispondiamo entro 24 ore nei giorni feriali.',
+      description: 'Scrivici per una domanda, per proporre la tua esperienza o una collaborazione. Rispondiamo entro 24 ore nei giorni feriali.',
       image: '/mascotte-contatti.webp',
       jsonLd: graph({ '@type': 'ContactPage', name: 'Contatti Cose Fighe', url: abs('/contatti') }, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Contatti', path: '/contatti' }])),
     }
@@ -143,7 +143,7 @@ export function routeSeo(path: string): RouteSeo {
     if (c) {
       return {
         title: `${c.label} a Napoli: ${c.experiences.length} esperienze · Cose Fighe`,
-        description: `${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 4).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli curate da creator locali.`,
+        description: `${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 4).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli scelte una per una.`,
         image: c.experiences[0]?.image ?? '/img/napoli-skyline.webp',
         jsonLd: graph(
           breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }, { name: c.label, path: clean }]),

@@ -77,7 +77,7 @@
   @apply rounded-3xl border border-line bg-white shadow-card;
 }
 @utility img-warm {
-  filter: saturate(0.9) contrast(1.04) sepia(0.08);
+  filter: none;
 }
 
 @layer base {
@@ -118,7 +118,7 @@
   top: -100px;
   z-index: 100;
   padding: 0.75rem 1.25rem;
-  border: 2px solid var(--color-ink);
+  border: 1px solid var(--color-line);
   border-radius: 999px;
   background: #fff;
   color: var(--color-ink);

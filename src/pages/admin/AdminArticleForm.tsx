@@ -175,7 +175,7 @@ const emptyArticle: DbArticle = {
   category: 'Food',
   category_slug: 'food',
   author: 'Gianluca Scanni',
-  author_role: 'Fondatore di Cose Fighe',
+  author_role: 'Fondatore',
   author_image: '/cose-beve.webp',
   date: new Date().toISOString().split('T')[0],
   reading_time: 5,

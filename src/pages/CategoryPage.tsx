@@ -27,7 +27,7 @@ function CategoryView({ cat }: { cat: Category }) {
 
   usePageMeta({
     title: `${cat.label} a Napoli · Cose Fighe`,
-    description: `${cat.subtitle}. ${cat.experiences.length} esperienze ${cat.label.toLowerCase()} a Napoli curate da creator locali.`,
+    description: `${cat.subtitle}. ${cat.experiences.length} esperienze ${cat.label.toLowerCase()} a Napoli, scelte una per una.`,
     image: categoryImages[cat.slug],
   })
 

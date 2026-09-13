@@ -93,7 +93,7 @@ function Choice<K extends string>({ label, options, value, onChange }: { label: 
 export default function ExperiencesPage() {
   usePageMeta({
     title: 'Esperienze a Napoli · Cose Fighe',
-    description: `${total} esperienze in 6 categorie: food, outdoor, sport, arte, laboratori e spettacoli. Curate da creator napoletani.`,
+    description: `${total} esperienze in 6 categorie: food, outdoor, sport, arte, laboratori e spettacoli. Scelte una per una.`,
   })
 
   const [price, setPrice] = useState<PriceKey | null>(null)
