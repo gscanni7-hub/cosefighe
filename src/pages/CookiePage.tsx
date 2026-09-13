@@ -20,10 +20,6 @@ export default function CookiePage() {
         <ul>
           <li>Font e immagini sono serviti direttamente dal nostro sito, senza chiamate a servizi esterni.</li>
           <li>
-            Le esperienze che salvi con il cuore restano nella memoria del tuo browser (localStorage), solo sul tuo
-            dispositivo: è una funzione che hai chiesto tu, non un tracciamento. Puoi svuotarla cancellando i dati del sito.
-          </li>
-          <li>
             Le statistiche di visita usano un codice casuale di sessione salvato nel browser finché la scheda è aperta
             (sessionStorage). Non è un cookie, non ti identifica e sparisce quando chiudi la scheda.
           </li>

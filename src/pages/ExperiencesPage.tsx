@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Check, ChevronDown, Heart, SlidersHorizontal, X } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
@@ -10,7 +10,6 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { NextStep } from '../components/ui/NextStep'
 import { CATEGORY_LIST } from '../data/categories'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { useSaved } from '../lib/saved'
 import type { Category, Experience } from '../types'
 
 const total = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length, 0)
@@ -100,12 +99,10 @@ export default function ExperiencesPage() {
   const [price, setPrice] = useState<PriceKey | null>(null)
   const [duration, setDuration] = useState<DurationKey | null>(null)
   const [sort, setSort] = useState<SortKey>('consigliati')
-  const [onlySaved, setOnlySaved] = useState(false)
   const [open, setOpen] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
-  const { saved } = useSaved()
 
-  const activeCount = (price ? 1 : 0) + (duration ? 1 : 0) + (onlySaved ? 1 : 0)
+  const activeCount = (price ? 1 : 0) + (duration ? 1 : 0)
   const filtering = activeCount > 0 || sort !== 'consigliati'
 
   const results = useMemo(() => {
@@ -113,20 +110,19 @@ export default function ExperiencesPage() {
     const p = PRICE.find((x) => x.key === price)
     const d = DURATION.find((x) => x.key === duration)
     const list = allExperiences.filter(
-      (e) => (!p || p.test(priceOf(e))) && (!d || d.test(hoursOf(e))) && (!onlySaved || saved.includes(e.title)),
+      (e) => (!p || p.test(priceOf(e))) && (!d || d.test(hoursOf(e))),
     )
     if (sort === 'prezzo-asc') list.sort((a, b) => priceOf(a) - priceOf(b))
     if (sort === 'prezzo-desc') list.sort((a, b) => priceOf(b) - priceOf(a))
     if (sort === 'durata') list.sort((a, b) => hoursOf(a) - hoursOf(b))
     if (sort === 'recensioni') list.sort((a, b) => b.reviews - a.reviews)
     return list
-  }, [filtering, price, duration, sort, onlySaved, saved])
+  }, [filtering, price, duration, sort])
 
   const reset = () => {
     setPrice(null)
     setDuration(null)
     setSort('consigliati')
-    setOnlySaved(false)
   }
 
   // Il pannello si chiude con Esc o cliccando fuori.
@@ -147,7 +143,6 @@ export default function ExperiencesPage() {
   const activeChips: { label: string; clear: () => void }[] = [
     price ? { label: PRICE.find((p) => p.key === price)!.label, clear: () => setPrice(null) } : null,
     duration ? { label: DURATION.find((d) => d.key === duration)!.label, clear: () => setDuration(null) } : null,
-    onlySaved ? { label: 'Solo salvate', clear: () => setOnlySaved(false) } : null,
     sort !== 'consigliati' ? { label: SORT.find((s) => s.key === sort)!.label, clear: () => setSort('consigliati') } : null,
   ].filter((x): x is { label: string; clear: () => void } => !!x)
 
@@ -246,16 +241,6 @@ export default function ExperiencesPage() {
                       ))}
                     </div>
                   </fieldset>
-                  <button type="button" aria-pressed={onlySaved} onClick={() => setOnlySaved(!onlySaved)} className="flex items-center justify-between rounded-2xl border border-line px-4 py-3 text-left transition-colors hover:border-ink/40">
-                    <span className="flex items-center gap-2 font-medium">
-                      <Heart size={15} fill={onlySaved ? 'currentColor' : 'none'} className={onlySaved ? 'text-orange' : 'text-ink/60'} />
-                      Solo le salvate
-                      <span className="text-sm font-normal text-ink/45">{saved.length ? `(${saved.length})` : ''}</span>
-                    </span>
-                    <span className={`relative h-6 w-11 rounded-full transition-colors ${onlySaved ? 'bg-orange' : 'bg-ink/15'}`} aria-hidden="true">
-                      <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${onlySaved ? 'left-0.5 translate-x-5' : 'left-0.5'}`} />
-                    </span>
-                  </button>
                 </div>
                 <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
                   <button type="button" onClick={reset} className="text-sm font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline" disabled={!filtering}>
@@ -297,12 +282,9 @@ export default function ExperiencesPage() {
             </div>
             {results.length === 0 ? (
               <EmptyState
-                title={onlySaved && !saved.length ? 'Non hai ancora salvato niente' : 'Nessuna esperienza con questi filtri'}
-                text={
-                  onlySaved && !saved.length
-                    ? 'Tocca il cuore su una card e la ritrovi qui, anche la prossima volta che torni.'
-                    : 'Prova a cambiare prezzo o durata, oppure guarda tutte le categorie.'
-                }
+                title="Nessuna esperienza con questi filtri"
+                text="Prova a cambiare prezzo o durata, oppure guarda tutte le categorie."
+
                 actions={<Button onClick={reset}>Togli i filtri</Button>}
               />
             ) : (
