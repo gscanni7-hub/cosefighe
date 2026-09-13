@@ -40,10 +40,10 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.05, ease: [0.25, 1, 0.5, 1] }}
       className={`card group flex h-full overflow-hidden transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
-        row ? 'flex-row' : 'flex-col'
+        row ? 'flex-col md:flex-row' : 'flex-col'
       }`}
     >
-      <div className={`relative overflow-hidden bg-cream ${row ? 'w-2/5 shrink-0' : 'aspect-[4/3]'}`}>
+      <div className={`relative overflow-hidden bg-cream ${row ? 'aspect-[4/3] md:aspect-auto md:w-2/5 md:shrink-0' : 'aspect-[4/3]'}`}>
         {bookable ? (
           <a {...linkProps} data-track={`prenota:${exp.title}`} aria-label={`Prenota "${exp.title}" su ${providerLabel}`} className="block h-full w-full">
             <img
@@ -67,7 +67,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
             className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
           />
         )}
-        <div className={`absolute left-3 right-14 top-3 ${row ? 'hidden md:block' : ''}`}>
+        <div className="absolute left-3 right-14 top-3">
           <Sticker tone="white" className="max-w-full">
             <span className="truncate">{exp.tag}</span>
           </Sticker>
@@ -85,15 +85,12 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
         </button>
       </div>
 
-      <div className={`flex min-w-0 flex-1 flex-col ${row ? 'p-4 md:p-5' : 'p-5'}`}>
-        <p className="label flex flex-wrap items-center gap-x-2 gap-y-1 text-ink/45">
-          {row && exp.tag && <span className="rounded-full bg-paper px-2 py-0.5 text-ink/70 md:hidden">{exp.tag}</span>}
-          <span>
-            {category ? `${category} · ` : ''}
-            {exp.duration}
-          </span>
+      <div className="flex min-w-0 flex-1 flex-col p-5">
+        <p className="label text-ink/45">
+          {category ? `${category} · ` : ''}
+          {exp.duration}
         </p>
-        <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[15px] md:text-base' : 'text-[17px]'}`}>
+        <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[17px] md:text-base' : 'text-[17px]'}`}>
           {bookable ? (
             <a {...linkProps} data-track={`prenota:${exp.title}`} className="transition-colors hover:text-orange">
               {exp.title}
@@ -106,14 +103,12 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           {exp.location}
           {max ? ` · fino a ${max} persone` : ''}
         </p>
-        {!row && (
-          <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink/60">
-            <CircleCheckBig size={14} className="mt-0.5 shrink-0 text-success" />
-            <span>{exp.included}</span>
-          </p>
-        )}
+        <p className={`mt-1.5 flex items-start gap-1.5 text-sm text-ink/60 ${row ? 'md:hidden' : ''}`}>
+          <CircleCheckBig size={14} className="mt-0.5 shrink-0 text-success" />
+          <span>{exp.included}</span>
+        </p>
 
-        <div className={`mt-auto flex items-end justify-between gap-3 ${row ? 'pt-3' : 'pt-5'}`}>
+        <div className={`mt-auto flex items-end justify-between gap-3 ${row ? 'pt-4 md:pt-3' : 'pt-5'}`}>
           <div className="text-sm">
             <span className="flex items-center gap-1 font-semibold">
               <Star size={14} className="text-orange" fill="currentColor" />

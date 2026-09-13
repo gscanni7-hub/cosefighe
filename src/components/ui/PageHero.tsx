@@ -16,9 +16,9 @@ interface PageHeroProps {
 /** Apertura di pagina: titolo a sinistra, eventuale illustrazione a destra, fondo chiaro. */
 export function PageHero({ tone = 'paper', eyebrow, title, subtitle, actions, aside, back }: PageHeroProps) {
   return (
-    <section className={`${tone === 'paper' ? 'bg-sand' : 'bg-white'} pt-28 pb-12 md:pt-36 md:pb-16`}>
+    <section className={`${tone === 'paper' ? 'bg-sand' : 'bg-white'} pt-24 pb-10 md:pt-36 md:pb-16`}>
       <div
-        className={`container-x grid items-center gap-10 ${
+        className={`container-x grid items-center gap-6 md:gap-10 ${
           aside ? 'md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]' : ''
         }`}
       >

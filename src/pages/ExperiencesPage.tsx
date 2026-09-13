@@ -63,9 +63,16 @@ function CategorySection({ cat }: { cat: Category }) {
       </Reveal>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
         {cat.experiences.map((exp, i) => (
-          <ExperienceCard key={exp.title} exp={exp} category={cat.label} index={i} />
+          <div key={exp.title} className={`h-full ${i > 2 ? 'hidden md:block' : ''}`}>
+            <ExperienceCard exp={exp} category={cat.label} index={i} />
+          </div>
         ))}
       </div>
+      {cat.experiences.length > 3 && (
+        <ButtonLink to={`/categoria/${cat.slug}`} variant="secondary" className="mt-6 w-full md:hidden">
+          Vedi tutte le {cat.experiences.length} <ArrowRight size={15} />
+        </ButtonLink>
+      )}
     </section>
   )
 }
@@ -178,14 +185,14 @@ export default function ExperiencesPage() {
                       }}
                     >
                       {cat.label}
-                      <span className="text-ink/40">{cat.experiences.length}</span>
+                      <span className="hidden text-ink/40 md:inline">{cat.experiences.length}</span>
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
 
-            <div className="flex shrink-0 items-center gap-2 border-l border-line pl-3">
+            <div className="relative flex shrink-0 items-center gap-2 before:pointer-events-none before:absolute before:-left-6 before:top-0 before:h-full before:w-6 before:bg-gradient-to-r before:from-white/0 before:to-white before:content-[''] md:border-l md:border-line md:pl-3 md:before:hidden">
               <label className="chip hidden cursor-pointer gap-1.5 pr-2 md:inline-flex">
                 <span className="text-ink/55">Ordina</span>
                 <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="max-w-[170px] bg-transparent font-medium text-ink outline-none" aria-label="Ordina le esperienze">

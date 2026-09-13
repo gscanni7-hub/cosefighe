@@ -49,7 +49,7 @@ export default function BlogPage() {
             <h2 className="heading-lg">
               {showFeatured ? 'Tutti gli articoli' : `Articoli ${filter}`}
             </h2>
-            <div role="group" aria-label="Filtra per categoria" className="flex flex-wrap gap-2">
+            <div role="group" aria-label="Filtra per categoria" className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:-mx-8 sm:px-8 md:mx-0 md:flex-wrap md:px-0 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {categories.map((c) => (
                 <button
                   key={c}

@@ -203,7 +203,7 @@ function ArticleView({ article }: { article: Article }) {
 
         <aside className="mt-12 space-y-6 md:sticky md:top-28 md:mt-0">
           {headings.length > 0 && (
-            <nav aria-label="In questo articolo" className="rounded-3xl border border-line bg-white p-6">
+            <nav aria-label="In questo articolo" className="hidden rounded-3xl border border-line bg-white p-6 md:block">
               <p className="label mb-4 text-ink/50">In questo articolo</p>
               <ol className="space-y-1">
                 {headings.map((h) => (

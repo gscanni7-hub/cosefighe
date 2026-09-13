@@ -50,7 +50,7 @@
   @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
 }
 @utility section-y {
-  @apply py-20 md:py-28;
+  @apply py-14 md:py-28;
 }
 @utility label {
   @apply text-xs font-semibold uppercase tracking-[0.08em];

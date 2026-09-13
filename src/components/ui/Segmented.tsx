@@ -1,6 +1,8 @@
 export interface SegmentedOption<K extends string> {
   key: K
   label: string
+  /** Versione corta usata sugli schermi stretti. */
+  short?: string
 }
 
 interface SegmentedProps<K extends string> {
@@ -42,7 +44,14 @@ export function Segmented<K extends string>({ options, value, onChange, tone = '
                   : 'text-ink/65 hover:text-ink'
             }`}
           >
-            {o.label}
+            {o.short ? (
+              <>
+                <span className="sm:hidden">{o.short}</span>
+                <span className="hidden sm:inline">{o.label}</span>
+              </>
+            ) : (
+              o.label
+            )}
           </button>
         )
       })}

@@ -122,7 +122,7 @@ const Hero = () => {
             </motion.div>
       </div>
 
-      <div className="container-x relative z-10 grid items-center gap-8 pb-[min(78vw,390px)] pt-28 md:h-[100svh] md:max-h-[780px] md:min-h-[600px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:pb-20 md:pt-28">
+      <div className="container-x relative z-10 grid items-center gap-8 pb-[min(78vw,380px)] pt-24 md:h-[100svh] md:max-h-[780px] md:min-h-[600px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:pb-20 md:pt-28">
         <div>
           <motion.p {...rise(0.06)} className="label text-orange">
             Esperienze autentiche a Napoli
@@ -153,7 +153,7 @@ const Hero = () => {
 }
 
 const CategoriesStrip = () => (
-  <section className="relative bg-white pt-24 pb-16 md:pt-32 md:pb-24">
+  <section className="relative bg-white pb-10 pt-14 md:pb-24 md:pt-32">
     <div className="container-x flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="max-w-xl">
         <h2 className="heading-lg">Sei modi di vivere Napoli</h2>
@@ -163,17 +163,17 @@ const CategoriesStrip = () => (
     </div>
     <DragScroll
       ariaLabel="Categorie"
-      className="mt-10 flex gap-5 overflow-x-auto pb-4 pl-5 pr-5 sm:pl-8 sm:pr-8 md:gap-6 lg:pl-[calc((100vw-80rem)/2+2.5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="mt-8 grid grid-cols-2 gap-4 px-5 sm:px-8 md:mt-10 md:flex md:gap-6 md:overflow-x-auto md:pb-4 md:pl-8 md:pr-8 lg:pl-[calc((100vw-80rem)/2+2.5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {CATEGORY_LIST.map((cat) => (
         <Link
           key={cat.slug}
           to={`/categoria/${cat.slug}`}
           viewTransition
-          className="group w-[220px] shrink-0 sm:w-[260px] md:w-[300px]"
+          className="group w-full md:w-[300px] md:shrink-0"
           draggable={false}
         >
-          <div className="aspect-square overflow-hidden rounded-[2rem] bg-cream transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
+          <div className="aspect-square overflow-hidden rounded-3xl bg-cream md:rounded-[2rem] transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
             <img
               src={categoryImages[cat.slug]}
               alt={`Categoria ${cat.label}`}
@@ -185,18 +185,22 @@ const CategoriesStrip = () => (
               className="h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
             />
           </div>
-          <div className="mt-4 flex items-baseline justify-between gap-3">
-            <h3 className="text-lg font-bold">{cat.label}</h3>
-            <span className="text-sm text-ink/45">{cat.experiences.length} esperienze</span>
+          <div className="mt-3 flex items-baseline justify-between gap-2 md:mt-4">
+            <h3 className="text-base font-bold md:text-lg">{cat.label}</h3>
+            <span className="shrink-0 text-xs text-ink/45 md:text-sm">{cat.experiences.length}</span>
           </div>
-          <p className="mt-1 text-sm text-ink/55">{cat.subtitle}</p>
+          <p className="mt-1 hidden text-sm text-ink/55 md:block">{cat.subtitle}</p>
         </Link>
       ))}
     </DragScroll>
   </section>
 )
 
-const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => ({ key: p.key, label: p.key === '7' ? '7 giorni' : p.key === 'weekend' ? 'Weekend' : p.label }))
+const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => ({
+  key: p.key,
+  label: p.key === '7' ? '7 giorni' : p.key === 'weekend' ? 'Weekend' : p.label,
+  short: p.key === '7' ? '7 gg' : undefined,
+}))
 
 const WhatsOnBand = () => {
   const navigate = useNavigate()

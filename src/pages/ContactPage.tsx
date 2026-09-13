@@ -86,7 +86,7 @@ export default function ContactPage() {
 
       <section className="section-y">
         <div className="container-x grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
-          <Reveal>
+          <Reveal className="order-2 md:order-1">
             <h2 className="heading-lg">Siamo pronti ad ascoltarti</h2>
             <ul className="mt-10 space-y-6">
               {contacts.map((c) => (
@@ -118,7 +118,7 @@ export default function ContactPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="order-1 md:order-2">
             {status === 'done' ? (
               <div
                 role="status"

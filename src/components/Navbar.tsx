@@ -96,9 +96,11 @@ export const Navbar = () => {
           </nav>
 
           <div className="flex items-center justify-end gap-3">
-            <ButtonLink to="/contatti" size="sm" className="hidden lg:inline-flex">
-              Scrivici <ArrowRight size={14} />
-            </ButtonLink>
+            <div className="hidden lg:block">
+              <ButtonLink to="/contatti" size="sm">
+                Scrivici <ArrowRight size={14} />
+              </ButtonLink>
+            </div>
             <button
               type="button"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-cream lg:hidden"
@@ -155,6 +157,11 @@ export const Navbar = () => {
                     </li>
                   )
                 })}
+                <li className="px-2 pb-1 pt-3">
+                  <ButtonLink to="/contatti" className="w-full">
+                    Scrivici <ArrowRight size={16} />
+                  </ButtonLink>
+                </li>
               </ul>
             </motion.nav>
           )}

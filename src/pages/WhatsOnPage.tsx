@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import { ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
@@ -22,6 +22,7 @@ const MAX_EXPERIENCES = 6
 const PRESETS = DATE_PRESETS.map((p) => ({
   key: p.key,
   label: p.key === 'weekend' ? 'Weekend' : p.key === '7' ? '7 giorni' : p.key === '30' ? '30 giorni' : p.label,
+  short: p.key === '7' ? '7 gg' : p.key === '30' ? '30 gg' : undefined,
 }))
 
 const allExperiences: (Experience & { categorySlug: string; categoryLabel: string })[] = CATEGORY_LIST.flatMap((c) =>
@@ -35,6 +36,7 @@ interface Range {
 
 function readRange(params: URLSearchParams): Range {
   const today = todayISO()
+  const [sheet, setSheet] = useState(false)
   let from = params.get('dal') ?? ''
   let to = params.get('al') ?? ''
   if (!ISO_RE.test(from)) from = today
@@ -102,6 +104,7 @@ export default function WhatsOnPage() {
   const range = readRange(params)
   const category = readCategory(params)
   const today = todayISO()
+  const [sheet, setSheet] = useState(false)
 
   const update = (next: Partial<Range> & { cat?: EventCategory | null }) => {
     const p = new URLSearchParams(params)
@@ -178,15 +181,15 @@ export default function WhatsOnPage() {
         <>
           {/* Una riga di comandi: quando, date precise, categoria. */}
           <section className="sticky top-[56px] z-30 border-b border-line bg-white/92 backdrop-blur-md md:top-[60px]" aria-label="Scegli le date">
-            <div className="container-x flex flex-wrap items-center gap-x-4 gap-y-3 py-3">
+            <div className="container-x flex items-center gap-3 py-3 md:flex-wrap md:gap-x-4 md:gap-y-3">
               <Segmented
                 options={PRESETS}
                 value={preset}
                 onChange={(k) => update({ ...DATE_PRESETS.find((p) => p.key === k)!.range() })}
                 label="Quando"
-                className="max-w-full"
+                className="min-w-0 flex-1 md:max-w-full md:flex-none"
               />
-              <div className="flex items-center gap-2 text-sm text-ink/55">
+              <div className="hidden items-center gap-2 text-sm text-ink/55 md:flex">
                 <label className="inline-flex items-center gap-1.5">
                   dal
                   <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
@@ -196,7 +199,7 @@ export default function WhatsOnPage() {
                   <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
                 </label>
               </div>
-              <label className="relative ml-auto inline-flex items-center">
+              <label className="relative ml-auto hidden items-center md:inline-flex">
                 <span className="sr-only">Categoria</span>
                 <select
                   value={category ?? ''}
@@ -213,8 +216,66 @@ export default function WhatsOnPage() {
                 </select>
                 <ChevronDown size={14} className="pointer-events-none absolute right-3 text-ink/50" />
               </label>
+              <button
+                type="button"
+                onClick={() => setSheet(true)}
+                aria-haspopup="dialog"
+                className={`chip shrink-0 md:hidden ${category ? 'chip-on' : ''}`}
+              >
+                <SlidersHorizontal size={14} />
+                {category ? EVENT_CATEGORY_LABELS[category] : 'Filtri'}
+              </button>
             </div>
           </section>
+
+          {sheet && (
+            <div className="fixed inset-0 z-[60] bg-ink/35 md:hidden" onClick={() => setSheet(false)}>
+              <div
+                role="dialog"
+                aria-label="Date e categoria"
+                onClick={(e) => e.stopPropagation()}
+                className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-soft"
+              >
+                <div className="mb-5 flex items-center justify-between">
+                  <p className="font-semibold">Date e categoria</p>
+                  <button type="button" onClick={() => setSheet(false)} aria-label="Chiudi" className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70">
+                    <X size={16} />
+                  </button>
+                </div>
+                <p className="label mb-3 text-ink/50">Giorni</p>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-ink/55">
+                  <label className="inline-flex items-center gap-1.5">
+                    dal
+                    <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
+                  </label>
+                  <label className="inline-flex items-center gap-1.5">
+                    al
+                    <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
+                  </label>
+                </div>
+                <p className="label mb-3 mt-6 text-ink/50">Categoria</p>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" aria-pressed={!category} className={`chip ${!category ? 'chip-on' : ''}`} onClick={() => update({ cat: null })}>
+                    Tutte
+                  </button>
+                  {EVENT_CATEGORIES.map((c) => (
+                    <button key={c} type="button" aria-pressed={category === c} className={`chip ${category === c ? 'chip-on' : ''}`} onClick={() => update({ cat: category === c ? null : c })}>
+                      {EVENT_CATEGORY_LABELS[c]}
+                      {counts[c] ? <span className="text-xs opacity-60">{counts[c]}</span> : null}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
+                  <button type="button" onClick={() => update({ from: today, to: addDays(today, 6), cat: null })} className="text-sm font-medium text-ink/60">
+                    Azzera
+                  </button>
+                  <Button size="sm" onClick={() => setSheet(false)}>
+                    Mostra {nEvents} {nEvents === 1 ? 'evento' : 'eventi'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <section className="section-y bg-white">
             <div className="container-x">
