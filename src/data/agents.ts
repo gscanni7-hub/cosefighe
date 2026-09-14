@@ -112,6 +112,11 @@ GIUDIZIO (0-100, spiegato in due righe)
 - mann-napoli.it, capodimonte.cultura.gov.it, museomadre.it
 - napolitoday.it/eventi, napoli.repubblica.it/tempo-libero
 - eventbrite.it (Napoli), palapartenope.it, arenaflegrea.it
+- grandenapoli.it, napolidavivere.it (agende della città: ottime per scoprire cosa c'è)
+
+DALLE FONTI SI PRENDONO SOLO I FATTI
+- Da testate e agende (napolitoday, grandenapoli, napolidavivere) prendi solo data, orario, luogo, prezzo e il link dell'organizzatore: mai copiare o parafrasare le loro frasi. La descrizione la scrivi tu, in due frasi nostre.
+- Quando puoi, verifica alla fonte originale (organizzatore, teatro, museo, Comune) e linka quella, non la testata.
 
 REGOLE
 - Solo Napoli e provincia; solo eventi con data certa nelle prossime 8 settimane.
