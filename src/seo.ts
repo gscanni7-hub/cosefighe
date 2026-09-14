@@ -1,6 +1,7 @@
 import { CATEGORY_LIST } from './data/categories'
 import { ARTICLES_BY_DATE } from './data/articles'
 import { COSA_FARE_FAQ } from './data/faq'
+import { GUIDE, GUIDE_TITLE } from './data/guida'
 import { eventEnd, eventsBetween } from './data/events'
 import generated from './data/generated.json'
 import { BUILD_DAY } from './lib/buildDay'
@@ -122,6 +123,14 @@ const eventSchema = (e: CityEvent) => {
   }
 }
 
+const guideList = {
+  '@type': 'ItemList',
+  name: GUIDE_TITLE,
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  numberOfItems: GUIDE.length,
+  itemListElement: GUIDE.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.title, url: abs('/cosa-fare#' + g.slug) })),
+}
+
 const faqPage = {
   '@type': 'FAQPage',
   mainEntity: COSA_FARE_FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
@@ -164,12 +173,13 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/cosa-fare') {
     return {
-      title: 'Cosa fare a Napoli: eventi ed esperienze per date · Cose Fighe',
-      description: 'Scegli le date e guarda cosa succede a Napoli: feste, concerti, mercati, mostre e le esperienze prenotabili in quei giorni. Programma controllato dalla redazione, aggiornato ogni mattina.',
+      title: 'Cosa fare a Napoli: le 25 cose da fare, eventi e programma per date · Cose Fighe',
+      description: 'Cosa fare a Napoli: il programma dei prossimi giorni controllato dalla redazione, le 25 cose da fare scelte da chi ci vive e le esperienze prenotabili, con i prezzi delle piattaforme. Aggiornato ogni mattina.',
       image: OG_HOME,
       updated: BUILD_DAY,
       jsonLd: graph(
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }]),
+        guideList,
         faqPage,
         ...eventsBetween(BUILD_DAY, addDays(BUILD_DAY, 29)).map(eventSchema),
       ),

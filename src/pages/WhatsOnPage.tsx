@@ -11,6 +11,8 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { CATEGORY_LIST } from '../data/categories'
 import { COSA_FARE_FAQ } from '../data/faq'
+import { GUIDE, GUIDE_INTRO, GUIDE_TITLE } from '../data/guida'
+import { track } from '../lib/track'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween, isLongRunning } from '../data/events'
 import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -56,6 +58,9 @@ function readCategory(params: URLSearchParams): EventCategory | null {
 }
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
+/** L'esperienza da proporre per una voce della guida: prima quella con lo stesso inizio di titolo, altrimenti niente. */
+const guideExperience = (prefix?: string) => (prefix ? allExperiences.find((e) => e.title.startsWith(prefix)) : undefined)
 
 /** Una riga della lista: orario, titolo e luogo, prezzo. Tutta la riga è un link se l'evento ne ha uno. */
 function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
@@ -180,7 +185,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
         ? `Cosa fare a Napoli oggi, ${formatLong(today)} · Cose Fighe`
         : fixed === 'weekend'
           ? `Cosa fare a Napoli questo weekend (${rangeLabel}) · Cose Fighe`
-          : `Cosa fare a Napoli ${rangeLabel} · Cose Fighe`,
+          : 'Cosa fare a Napoli: le 25 cose da fare, eventi e programma per date · Cose Fighe',
     description:
       fixed === 'oggi'
         ? 'Gli eventi di oggi a Napoli, controllati dalla redazione, e le esperienze che puoi prenotare anche all’ultimo. Si aggiorna ogni mattina.'
@@ -421,6 +426,56 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                 <ExperienceCard key={exp.title} exp={exp} category={exp.categoryLabel} index={i} />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* La guida: le 25 cose da fare, solo sulla pagina guida. */}
+      {!fixed && (
+        <section className="section-y border-t border-line bg-white" id="guida">
+          <div className="container-x">
+            <Reveal className="max-w-2xl">
+              <p className="label text-orange">La guida</p>
+              <h2 className="heading-lg mt-3">{GUIDE_TITLE}</h2>
+              <p className="mt-4 text-ink/65">{GUIDE_INTRO}</p>
+            </Reveal>
+            <ol className="mt-12 grid gap-x-10 gap-y-12 md:grid-cols-2">
+              {GUIDE.map((g, i) => {
+                const exp = guideExperience(g.experience)
+                const cat = CATEGORY_LIST.find((c) => c.slug === g.category)
+                return (
+                  <li key={g.slug} id={g.slug} className="grid grid-cols-[4.5rem_1fr] gap-4 md:grid-cols-[6rem_1fr] md:gap-5">
+                    <img src={g.image} alt={g.title} loading="lazy" decoding="async" width={96} height={96} className="aspect-square w-full rounded-2xl object-cover" />
+                    <div className="min-w-0">
+                      <p className="label text-ink/45">
+                        {i + 1} · {cat?.label ?? g.category}
+                        {g.free ? ' · gratis' : ''}
+                      </p>
+                      <h3 className="mt-1 text-lg font-semibold leading-snug">{g.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-ink/65">{g.text}</p>
+                      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                        {exp && (
+                          <a
+                            href={exp.affiliateUrl ?? `/categoria/${g.category}`}
+                            target={exp.affiliateUrl ? '_blank' : undefined}
+                            rel={exp.affiliateUrl ? 'sponsored noopener noreferrer' : undefined}
+                            onClick={() => track('prenota', { provider: exp.provider ?? '', title: exp.title, from: 'guida' })}
+                            className="inline-flex items-center gap-1 font-medium text-orange hover:underline"
+                          >
+                            Prenota: {exp.title} · {exp.price} <ArrowUpRight size={14} />
+                          </a>
+                        )}
+                        {cat && (
+                          <Link to={`/categoria/${cat.slug}`} viewTransition className="text-ink/55 underline decoration-ink/25 underline-offset-4 hover:text-ink">
+                            Tutte le esperienze {cat.label.toLowerCase()}
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
           </div>
         </section>
       )}

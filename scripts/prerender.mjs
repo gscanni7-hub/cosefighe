@@ -87,3 +87,21 @@ ${paths
 `
 await writeFile(join(dist, 'sitemap.xml'), sitemap)
 console.log(`Pre-generate ${ok} pagine, sitemap con ${paths.length - 2} indirizzi.`)
+
+// IndexNow: avvisa Bing (e chi lo usa) degli indirizzi aggiornati. Solo nelle build su Vercel;
+// la chiave è pubblica per protocollo (public/<chiave>.txt).
+const INDEXNOW_KEY = 'f9e928b5c09f1cd00f1c528d72161979'
+if (process.env.VERCEL && !process.env.SKIP_INDEXNOW) {
+  const host = new URL(SITE_URL).host
+  const urlList = paths.filter((p) => !['/privacy', '/cookie'].includes(p)).map((p) => SITE_URL + (p === '/' ? '/' : p))
+  try {
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ host, key: INDEXNOW_KEY, keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`, urlList }),
+    })
+    console.log(`IndexNow: ${res.status} per ${urlList.length} indirizzi.`)
+  } catch (e) {
+    console.warn('IndexNow non raggiungibile:', e.message)
+  }
+}
