@@ -69,6 +69,8 @@ export const routes: RouteObject[] = [
       { path: '/', element: <HomePage /> },
       { path: '/esperienze', element: <ExperiencesPage /> },
       { path: '/cosa-fare', element: <WhatsOnPage /> },
+      { path: '/cosa-fare/oggi', element: <WhatsOnPage fixed="oggi" /> },
+      { path: '/cosa-fare/weekend', element: <WhatsOnPage fixed="weekend" /> },
       { path: '/creator', element: <CreatorPage /> },
       { path: '/chi-siamo', element: <AboutPage /> },
       { path: '/contatti', element: <ContactPage /> },

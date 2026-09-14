@@ -6,7 +6,7 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/app"
     }
   ],
@@ -78,6 +78,12 @@
       ],
       "destination": "https://www.cosefighenapoli.it/$1",
       "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/rebuild",
+      "schedule": "0 3 * * *"
     }
   ]
 }

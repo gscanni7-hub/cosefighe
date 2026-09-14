@@ -14,7 +14,7 @@ import { ARTICLES_BY_DATE } from '../data/articles'
 import { eventEnd, upcomingEvents } from '../data/events'
 import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { useHydrated } from '../hooks/useHydrated'
+import { useToday } from '../hooks/useToday'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -204,11 +204,11 @@ const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].include
 
 const WhatsOnBand = () => {
   const navigate = useNavigate()
-  const hydrated = useHydrated()
+  const today = useToday()
   const [preset, setPreset] = useState('7')
-  const upcoming = upcomingEvents(4)
+  const upcoming = upcomingEvents(4, today)
   const go = () => {
-    const r = DATE_PRESETS.find((p) => p.key === preset)!.range()
+    const r = DATE_PRESETS.find((p) => p.key === preset)!.range(today)
     navigate(`/cosa-fare?dal=${r.from}&al=${r.to}`, { viewTransition: true })
   }
   return (
@@ -219,23 +219,15 @@ const WhatsOnBand = () => {
           <h2 className="heading-lg mt-4">Cosa fare a Napoli nei giorni in cui ci sei</h2>
           <p className="mt-4 max-w-md text-white/80">Feste, concerti, mercati, mostre: scegli quando e ti diciamo cosa succede in città e cosa puoi prenotare.</p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            {hydrated ? (
-              <>
-                <Segmented options={BAND_PRESETS} value={preset} onChange={setPreset} tone="dark" label="Quando" />
-                <Button onClick={go}>
-                  Vedi il programma <ArrowRight size={16} />
-                </Button>
-              </>
-            ) : (
-              <ButtonLink to="/cosa-fare">
-                Vedi il programma <ArrowRight size={16} />
-              </ButtonLink>
-            )}
+            <Segmented options={BAND_PRESETS} value={preset} onChange={setPreset} tone="dark" label="Quando" />
+            <Button onClick={go}>
+              Vedi il programma <ArrowRight size={16} />
+            </Button>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
           <ul className="divide-y divide-white/15 border-y border-white/15">
-            {(hydrated ? upcoming : []).map((e) => {
+            {upcoming.map((e) => {
               const p = dayParts(e.start)
               return (
                 <li key={e.slug}>
@@ -340,10 +332,9 @@ const CreatorBand = () => (
 
 export default function HomePage() {
   usePageMeta({
-    title: 'Cose Fighe · Esperienze autentiche a Napoli',
+    title: 'Cosa fare a Napoli: esperienze, eventi e idee di local · Cose Fighe',
     description:
-      'Tour, laboratori, sport e spettacoli a Napoli fuori dai giri turistici, curati da creator locali. Scopri cose fighe da fare in città.',
-    image: '/img/napoli-skyline.webp',
+      'Cosa fare a Napoli oggi, nel weekend e nei giorni in cui ci sei: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi delle piattaforme.',
   })
   return (
     <Page>

@@ -1,5 +1,11 @@
 import { CATEGORY_LIST } from './data/categories'
 import { ARTICLES_BY_DATE } from './data/articles'
+import { COSA_FARE_FAQ } from './data/faq'
+import { eventEnd, eventsBetween } from './data/events'
+import generated from './data/generated.json'
+import { BUILD_DAY } from './lib/buildDay'
+import { addDays, weekendRange } from './lib/dates'
+import type { CityEvent, Experience } from './types'
 
 /** Indirizzo pubblico del sito. Quando arriverà il dominio, cambia solo qui. */
 export const SITE_URL = 'https://www.cosefighenapoli.it'
@@ -13,6 +19,18 @@ export interface RouteSeo {
   jsonLd: Record<string, unknown>[]
   /** Immagine da precaricare (quella più grande sopra la piega). */
   preloadImage?: string
+  /** Ultima modifica vera della pagina (AAAA-MM-GG), per la sitemap. */
+  updated?: string
+}
+
+/** Ultimo ritocco a mano delle pagine fisse: aggiorna quando cambi i loro testi. */
+const STATIC_UPDATED = '2026-09-13'
+type Row = { category_slug?: string; updated_at?: string | null; created_at?: string | null }
+/** Data più recente tra le esperienze pubblicate (di una categoria o di tutte). */
+const experiencesUpdated = (slug?: string) => {
+  const rows = ((generated as { experiences?: Row[] }).experiences ?? []).filter((r) => !slug || r.category_slug === slug)
+  const dates = rows.map((r) => (r.updated_at ?? r.created_at ?? '').slice(0, 10)).filter(Boolean)
+  return dates.length ? dates.sort().at(-1)! : STATIC_UPDATED
 }
 
 const abs = (path: string) => (path.startsWith('http') ? path : SITE_URL + path)
@@ -37,6 +55,7 @@ const website = {
   '@id': SITE_URL + '/#site',
   url: SITE_URL,
   name: SITE_NAME,
+  alternateName: ['Cose Fighe Napoli', 'cosefighenapoli.it'],
   inLanguage: 'it-IT',
   publisher: { '@id': SITE_URL + '/#org' },
 }
@@ -48,20 +67,65 @@ const breadcrumbs = (items: { name: string; path: string }[]) => ({
 
 const priceNumber = (p: string) => Number(p.replace(/[^\d,.]/g, '').replace(',', '.')) || undefined
 
-const experienceProduct = (exp: { title: string; price: string; image: string; location: string; included: string; duration: string }, categoryLabel: string) => ({
+const experienceProduct = (exp: Experience, categoryLabel: string) => ({
   '@type': 'Product',
   name: exp.title,
   image: abs(exp.image),
   description: `${categoryLabel} a Napoli, ${exp.location}. ${exp.duration}. ${exp.included}.`,
   brand: { '@type': 'Brand', name: SITE_NAME },
+  // Voto e numero di recensioni sono quelli della piattaforma partner, gli stessi mostrati in pagina.
+  aggregateRating: exp.reviews > 0 ? { '@type': 'AggregateRating', ratingValue: exp.rating, reviewCount: exp.reviews, bestRating: 5, worstRating: 1 } : undefined,
   offers: {
     '@type': 'Offer',
     price: priceNumber(exp.price),
     priceCurrency: 'EUR',
-    availability: 'https://schema.org/PreOrder',
-    url: abs('/esperienze'),
+    availability: exp.affiliateUrl ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
+    url: exp.affiliateUrl ?? abs('/esperienze'),
   },
 })
+
+/** Scarto orario di Roma in una data ("+02:00" d'estate, "+01:00" d'inverno). */
+const romeOffset = (iso: string): string => {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Rome', timeZoneName: 'longOffset' }).formatToParts(new Date(iso + 'T12:00:00Z'))
+    const tz = parts.find((p) => p.type === 'timeZoneName')?.value ?? ''
+    const off = tz.replace('GMT', '')
+    return /^[+-]\d{2}:\d{2}$/.test(off) ? off : '+01:00'
+  } catch {
+    return '+01:00'
+  }
+}
+
+/** Un evento del programma in schema.org, per il riquadro eventi di Google. */
+const eventSchema = (e: CityEvent) => {
+  const t = e.time?.match(/(\d{1,2})[:.](\d{2})/)
+  const startDate = t ? `${e.start}T${t[1].padStart(2, '0')}:${t[2]}:00${romeOffset(e.start)}` : e.start
+  const free = /gratis|gratuito|ingresso libero/i.test(e.price)
+  const price = free ? 0 : priceNumber(e.price)
+  return {
+    '@type': 'Event',
+    name: e.title,
+    description: e.blurb || undefined,
+    startDate,
+    endDate: eventEnd(e),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: {
+      '@type': 'Place',
+      name: e.place || 'Napoli',
+      address: { '@type': 'PostalAddress', addressLocality: 'Napoli', addressRegion: 'Campania', addressCountry: 'IT' },
+    },
+    image: abs(OG_HOME),
+    url: e.url ?? abs(`/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`),
+    isAccessibleForFree: free || undefined,
+    offers: price !== undefined ? { '@type': 'Offer', price, priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: e.url ?? abs('/cosa-fare') } : undefined,
+  }
+}
+
+const faqPage = {
+  '@type': 'FAQPage',
+  mainEntity: COSA_FARE_FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+}
 
 const graph = (...items: Record<string, unknown>[]) => [{ '@context': 'https://schema.org', '@graph': items }]
 
@@ -73,10 +137,11 @@ export function routeSeo(path: string): RouteSeo {
 
   if (clean === '/') {
     return {
-      title: 'Cose Fighe · Esperienze autentiche a Napoli',
-      description: 'Tour, laboratori, sport e spettacoli a Napoli scelti uno per uno, con i prezzi delle piattaforme. Scopri cose fighe da fare in città e cosa succede giorno per giorno.',
+      title: 'Cosa fare a Napoli: esperienze, eventi e idee di local · Cose Fighe',
+      description: 'Cosa fare a Napoli oggi, nel weekend e nei giorni in cui ci sei: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi delle piattaforme.',
       image: OG_HOME,
       preloadImage: '/mascotte-hero.webp',
+      updated: BUILD_DAY,
       jsonLd: graph(organization, website),
     }
   }
@@ -85,6 +150,7 @@ export function routeSeo(path: string): RouteSeo {
       title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori · Cose Fighe`,
       description: `${total} esperienze in 6 categorie, scelte una per una: street food, Vesuvio, barca, laboratori, sotterranei. Prezzi da €10.`,
       image: og('/img/naples-streetfood.webp'),
+      updated: experiencesUpdated(),
       jsonLd: graph(
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }]),
         {
@@ -99,13 +165,44 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/cosa-fare') {
     return {
       title: 'Cosa fare a Napoli: eventi ed esperienze per date · Cose Fighe',
-      description: 'Scegli le date e guarda cosa succede a Napoli: feste, concerti, mercati, mostre e le esperienze prenotabili in quei giorni.',
+      description: 'Scegli le date e guarda cosa succede a Napoli: feste, concerti, mercati, mostre e le esperienze prenotabili in quei giorni. Programma controllato dalla redazione, aggiornato ogni mattina.',
       image: OG_HOME,
-      jsonLd: graph(breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }])),
+      updated: BUILD_DAY,
+      jsonLd: graph(
+        breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }]),
+        faqPage,
+        ...eventsBetween(BUILD_DAY, addDays(BUILD_DAY, 29)).map(eventSchema),
+      ),
+    }
+  }
+  if (clean === '/cosa-fare/oggi') {
+    return {
+      title: 'Cosa fare a Napoli oggi: eventi in città e idee dell’ultimo minuto · Cose Fighe',
+      description: 'Gli eventi di oggi a Napoli, controllati dalla redazione, e le esperienze che puoi prenotare anche all’ultimo. Si aggiorna ogni mattina.',
+      image: OG_HOME,
+      updated: BUILD_DAY,
+      jsonLd: graph(
+        breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }, { name: 'Oggi', path: clean }]),
+        ...eventsBetween(BUILD_DAY, BUILD_DAY).map(eventSchema),
+      ),
+    }
+  }
+  if (clean === '/cosa-fare/weekend') {
+    const w = weekendRange(BUILD_DAY)
+    return {
+      title: 'Cosa fare a Napoli questo weekend: il programma di sabato e domenica · Cose Fighe',
+      description: 'Il programma del fine settimana a Napoli: concerti, feste, mostre, mercati, giorno per giorno, e le esperienze da prenotare. Si aggiorna ogni mattina.',
+      image: OG_HOME,
+      updated: BUILD_DAY,
+      jsonLd: graph(
+        breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }, { name: 'Questo weekend', path: clean }]),
+        ...eventsBetween(w.from, w.to).map(eventSchema),
+      ),
     }
   }
   if (clean === '/creator') {
     return {
+      updated: STATIC_UPDATED,
       title: 'Diventa creator a Napoli · Cose Fighe',
       description: 'Conosci Napoli meglio di una guida? Proponi la tua esperienza su Cose Fighe: decidi tu prezzo e date, guadagni a ogni prenotazione.',
       image: OG_HOME,
@@ -114,6 +211,7 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/chi-siamo') {
     return {
+      updated: STATIC_UPDATED,
       title: 'Chi siamo · Cose Fighe',
       description: 'Cose Fighe nasce nel 2023 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
       image: OG_HOME,
@@ -122,6 +220,7 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/contatti') {
     return {
+      updated: STATIC_UPDATED,
       title: 'Contatti · Cose Fighe',
       description: 'Scrivici per una domanda, per proporre la tua esperienza o una collaborazione. Rispondiamo entro 24 ore nei giorni feriali.',
       image: OG_HOME,
@@ -133,14 +232,15 @@ export function routeSeo(path: string): RouteSeo {
       title: 'Blog · Guide, consigli e storie su Napoli · Cose Fighe',
       description: 'Guide e racconti per vivere Napoli come un local: street food, Vesuvio, Napoli Sotterranea, quartieri, aperitivi, laboratori.',
       image: og(ARTICLES_BY_DATE[0].coverImage),
+      updated: ARTICLES_BY_DATE[0].date,
       jsonLd: graph(
         { '@type': 'Blog', name: 'Il blog di Cose Fighe', url: abs('/blog'), publisher: { '@id': SITE_URL + '/#org' } },
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
       ),
     }
   }
-  if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: OG_HOME, jsonLd: [] }
-  if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: OG_HOME, jsonLd: [] }
+  if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
+  if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
   const cat = clean.match(/^\/categoria\/([^/]+)$/)
   if (cat) {
     const c = CATEGORY_LIST.find((x) => x.slug === cat[1])
@@ -149,6 +249,7 @@ export function routeSeo(path: string): RouteSeo {
         title: `${c.label} a Napoli: ${c.experiences.length} esperienze · Cose Fighe`,
         description: `${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 4).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli scelte una per una.`,
         image: c.experiences[0] ? og(c.experiences[0].image) : OG_HOME,
+        updated: experiencesUpdated(c.slug),
         jsonLd: graph(
           breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }, { name: c.label, path: clean }]),
           { '@type': 'ItemList', name: `Esperienze ${c.label} a Napoli`, itemListElement: c.experiences.map((e, i) => ({ '@type': 'ListItem', position: i + 1, item: experienceProduct(e, c.label) })) },
@@ -166,6 +267,7 @@ export function routeSeo(path: string): RouteSeo {
         description: a.excerpt,
         image: og(a.coverImage),
         preloadImage: a.coverImage,
+        updated: a.date,
         jsonLd: graph(
           {
             '@type': 'Article',
@@ -202,6 +304,8 @@ export function publicPaths(): string[] {
     '/',
     '/esperienze',
     '/cosa-fare',
+    '/cosa-fare/oggi',
+    '/cosa-fare/weekend',
     '/creator',
     '/chi-siamo',
     '/contatti',

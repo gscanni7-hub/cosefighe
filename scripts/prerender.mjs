@@ -77,7 +77,11 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths
   .filter((p) => !['/privacy', '/cookie'].includes(p))
-  .map((p) => `  <url><loc>${SITE_URL}${p === '/' ? '/' : p}</loc><lastmod>${today}</lastmod><changefreq>${p === '/cosa-fare' ? 'daily' : 'weekly'}</changefreq><priority>${p === '/' ? '1.0' : p.startsWith('/blog/') ? '0.6' : '0.8'}</priority></url>`)
+  .map((p) => {
+    const seo = routeSeo(p)
+    const daily = p === '/' || p.startsWith('/cosa-fare')
+    return `  <url><loc>${SITE_URL}${p === '/' ? '/' : p}</loc><lastmod>${seo.updated ?? today}</lastmod><changefreq>${daily ? 'daily' : 'weekly'}</changefreq><priority>${p === '/' || p === '/cosa-fare' ? '1.0' : p.startsWith('/blog/') ? '0.6' : '0.8'}</priority></url>`
+  })
   .join('\n')}
 </urlset>
 `

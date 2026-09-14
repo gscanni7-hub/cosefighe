@@ -87,20 +87,21 @@ export function weekendRange(today = todayISO()): { from: string; to: string } {
 export interface DatePreset {
   key: string
   label: string
-  range: () => { from: string; to: string }
+  /** Intervallo del preset a partire da un "oggi" dato (nelle pagine pre-generate è il giorno della build). */
+  range: (today?: string) => { from: string; to: string }
 }
 
 export const DATE_PRESETS: DatePreset[] = [
-  { key: 'oggi', label: 'Oggi', range: () => ({ from: todayISO(), to: todayISO() }) },
-  { key: 'domani', label: 'Domani', range: () => ({ from: addDays(todayISO(), 1), to: addDays(todayISO(), 1) }) },
-  { key: 'weekend', label: 'Questo weekend', range: () => weekendRange() },
-  { key: '7', label: 'Prossimi 7 giorni', range: () => ({ from: todayISO(), to: addDays(todayISO(), 6) }) },
-  { key: '30', label: 'Prossimi 30 giorni', range: () => ({ from: todayISO(), to: addDays(todayISO(), 29) }) },
+  { key: 'oggi', label: 'Oggi', range: (t = todayISO()) => ({ from: t, to: t }) },
+  { key: 'domani', label: 'Domani', range: (t = todayISO()) => ({ from: addDays(t, 1), to: addDays(t, 1) }) },
+  { key: 'weekend', label: 'Questo weekend', range: (t = todayISO()) => weekendRange(t) },
+  { key: '7', label: 'Prossimi 7 giorni', range: (t = todayISO()) => ({ from: t, to: addDays(t, 6) }) },
+  { key: '30', label: 'Prossimi 30 giorni', range: (t = todayISO()) => ({ from: t, to: addDays(t, 29) }) },
 ]
 
-export function presetFor(from: string, to: string): string | null {
+export function presetFor(from: string, to: string, today = todayISO()): string | null {
   const p = DATE_PRESETS.find((p) => {
-    const r = p.range()
+    const r = p.range(today)
     return r.from === from && r.to === to
   })
   return p?.key ?? null

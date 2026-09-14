@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Bot, CalendarDays, Check, ChevronDown, Crown, FileText, Pause, Play, Search, ShieldCheck } from 'lucide-react'
+import { Bot, CalendarDays, Check, ChevronDown, Crown, FileText, Pause, Play, RefreshCw, Search, ShieldCheck } from 'lucide-react'
 import { AdminLayout, Badge, Button, Card, Notice, PageHeader, Toggle } from './ui'
 import { isSupabaseConfigured } from '../../lib/supabase'
 import { fetchAgentRuns, fetchAgentSettings, fetchSiteSettings, saveAgentSettings, saveSiteSetting } from '../../lib/db'
@@ -155,6 +155,7 @@ export default function AdminAgents() {
   const [runs, setRuns] = useState<AgentRun[]>([])
   const [canSave, setCanSave] = useState(false)
   const [automation, setAutomation] = useState<boolean | null>(null)
+  const [rebuild, setRebuild] = useState<boolean | null>(null)
 
   useEffect(() => {
     document.title = 'Agenti · Pannello Cose Fighe'
@@ -164,12 +165,20 @@ export default function AdminAgents() {
       if (rows.length) setSettings((prev) => ({ ...prev, ...Object.fromEntries(rows.map((r) => [r.agent, { ...prev[r.agent], ...r, rules: r.rules ?? prev[r.agent]?.rules ?? null }])) }))
     })
     fetchAgentRuns(50).then(setRuns)
-    fetchSiteSettings().then((st) => setAutomation(st.automation_enabled !== 'false'))
+    fetchSiteSettings().then((st) => {
+      setAutomation(st.automation_enabled !== 'false')
+      setRebuild(st.rebuild_enabled !== 'false')
+    })
   }, [])
 
   const toggleAutomation = async () => {
     const next = !(automation ?? true)
     if (await saveSiteSetting('automation_enabled', String(next))) setAutomation(next)
+  }
+
+  const toggleRebuild = async () => {
+    const next = !(rebuild ?? true)
+    if (await saveSiteSetting('rebuild_enabled', String(next))) setRebuild(next)
   }
 
   const onSave = async (s: AgentSettings) => {
@@ -207,6 +216,23 @@ export default function AdminAgents() {
           </div>
           <Button variant={automation === false ? 'primary' : 'secondary'} onClick={toggleAutomation} disabled={automation === null}>
             {automation === false ? 'Riattiva tutto' : 'Metti tutto in pausa'}
+          </Button>
+        </div>
+      </Card>
+
+      <Card className="mb-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${rebuild === false ? 'bg-paper text-ink/40' : 'bg-success/10 text-success'}`}>
+            {rebuild === false ? <Pause size={20} /> : <RefreshCw size={20} />}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">Rigenerazione quotidiana {rebuild === false ? 'in pausa' : 'attiva'}</p>
+            <p className="text-sm text-ink/60">
+              Ogni mattina alle 5 il sito si ricostruisce con la data del giorno, così «Cosa fare a Napoli», «oggi» e «weekend» escono aggiornati anche per Google. Non scrive niente: usa solo quello che c’è già nel database. Non dipende dall’interruttore degli agenti.
+            </p>
+          </div>
+          <Button variant={rebuild === false ? 'primary' : 'secondary'} onClick={toggleRebuild} disabled={rebuild === null}>
+            {rebuild === false ? 'Riattiva' : 'Metti in pausa'}
           </Button>
         </div>
       </Card>

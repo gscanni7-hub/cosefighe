@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { ArrowRight, ArrowUpRight, ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
@@ -10,14 +10,20 @@ import { Segmented } from '../components/ui/Segmented'
 import { EmptyState } from '../components/ui/EmptyState'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { CATEGORY_LIST } from '../data/categories'
+import { COSA_FARE_FAQ } from '../data/faq'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween, isLongRunning } from '../data/events'
-import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, todayISO, weekday } from '../lib/dates'
+import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useToday } from '../hooks/useToday'
 import { useHydrated } from '../hooks/useHydrated'
 import type { CityEvent, EventCategory, Experience } from '../types'
 
 const MAX_DAYS = 90
 const MAX_EXPERIENCES = 6
+const EMPTY_PARAMS = new URLSearchParams()
+
+/** Le pagine a data fissa: /cosa-fare/oggi e /cosa-fare/weekend. Indirizzo stabile, contenuto che cambia ogni giorno. */
+export type FixedRange = 'oggi' | 'weekend'
 
 const PRESETS = DATE_PRESETS.map((p) => ({
   key: p.key,
@@ -34,9 +40,7 @@ interface Range {
   to: string
 }
 
-function readRange(params: URLSearchParams): Range {
-  const today = todayISO()
-  const [sheet, setSheet] = useState(false)
+function readRange(params: URLSearchParams, today: string): Range {
   let from = params.get('dal') ?? ''
   let to = params.get('al') ?? ''
   if (!ISO_RE.test(from)) from = today
@@ -50,6 +54,8 @@ function readCategory(params: URLSearchParams): EventCategory | null {
   const c = params.get('cat')
   return c && (EVENT_CATEGORIES as string[]).includes(c) ? (c as EventCategory) : null
 }
+
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
 /** Una riga della lista: orario, titolo e luogo, prezzo. Tutta la riga è un link se l'evento ne ha uno. */
 function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
@@ -98,16 +104,62 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
   )
 }
 
-export default function WhatsOnPage() {
+/** Testi di cornice delle tre pagine: la guida (/cosa-fare), oggi e il weekend. */
+function heroCopy(fixed: FixedRange | undefined, today: string, range: Range) {
+  if (fixed === 'oggi') {
+    return {
+      eyebrow: 'Oggi in città',
+      title: 'Cosa fare a Napoli oggi',
+      subtitle: `${capitalize(formatLong(today))}: gli eventi di oggi in città e le esperienze che puoi prenotare anche all’ultimo.`,
+      intro:
+        'Questa pagina si rigenera ogni mattina con il programma del giorno: quello che succede in città, con orario, luogo e prezzo, controllato dalla redazione. Se non trovi niente che ti convince, le esperienze in fondo si fanno quasi tutti i giorni e molte si prenotano fino a qualche ora prima.',
+      links: [
+        { to: '/cosa-fare/weekend', label: 'Il weekend' },
+        { to: '/cosa-fare', label: 'I prossimi 7 giorni' },
+      ],
+    }
+  }
+  if (fixed === 'weekend') {
+    const days = range.from === range.to ? capitalize(formatLong(range.from)) : `${capitalize(formatLong(range.from))} e ${formatLong(range.to)}`
+    return {
+      eyebrow: 'Il fine settimana',
+      title: 'Cosa fare a Napoli questo weekend',
+      subtitle: `${days}: il programma del fine settimana e le esperienze da prenotare.`,
+      intro:
+        'Il weekend a Napoli si decide il giovedì: i concerti si esauriscono, le visite speciali hanno pochi posti, le feste di quartiere vanno viste il giorno giusto. Qui trovi sabato e domenica giorno per giorno, con quello che vale la pena e quanto costa. Le esperienze in fondo si prenotano online, quasi sempre con cancellazione gratuita fino a 24 ore prima.',
+      links: [
+        { to: '/cosa-fare/oggi', label: 'Solo oggi' },
+        { to: '/cosa-fare', label: 'I prossimi 7 giorni' },
+      ],
+    }
+  }
+  return {
+    eyebrow: 'Il programma',
+    title: 'Cosa fare a Napoli',
+    subtitle: 'Scegli i giorni in cui sei in città: ti mostriamo gli eventi che valgono la pena e le esperienze prenotabili in quelle date.',
+    intro:
+      'Napoli non si ferma mai, e non è un modo di dire: tra feste di quartiere, concerti, mostre, mercati e aperture straordinarie ogni settimana c’è più di quanto si riesca a fare. Qui trovi il programma dei prossimi giorni, controllato dalla redazione, con orario, luogo e prezzo. Sotto, le esperienze che puoi prenotare nelle stesse date: tour, laboratori, barche e sotterranei, con i prezzi delle piattaforme e il nostro giudizio.',
+    links: [
+      { to: '/cosa-fare/oggi', label: 'Solo oggi' },
+      { to: '/cosa-fare/weekend', label: 'Questo weekend' },
+    ],
+  }
+}
+
+export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
+  const today = useToday()
   const hydrated = useHydrated()
-  const [params, setParams] = useSearchParams()
-  const range = readRange(params)
-  const category = readCategory(params)
-  const today = todayISO()
+  const navigate = useNavigate()
+  const [realParams, setParams] = useSearchParams()
+  // L'HTML pre-generato non conosce i parametri dell'indirizzo (?dal=…&cat=…): il primo render
+  // nel browser deve combaciare con quello, poi si applicano i parametri veri.
+  const params = hydrated ? realParams : EMPTY_PARAMS
+  const range: Range = fixed === 'oggi' ? { from: today, to: today } : fixed === 'weekend' ? weekendRange(today) : readRange(params, today)
+  const category = fixed ? null : readCategory(params)
   const [sheet, setSheet] = useState(false)
 
   const update = (next: Partial<Range> & { cat?: EventCategory | null }) => {
-    const p = new URLSearchParams(params)
+    const p = new URLSearchParams(fixed ? undefined : realParams)
     const from = next.from ?? range.from
     const to = next.to ?? range.to
     p.set('dal', from)
@@ -115,18 +167,31 @@ export default function WhatsOnPage() {
     const cat = next.cat === undefined ? category : next.cat
     if (cat) p.set('cat', cat)
     else p.delete('cat')
-    setParams(p, { preventScrollReset: true })
+    // Dalle pagine a data fissa qualunque scelta porta al programma completo.
+    if (fixed) navigate(`/cosa-fare?${p.toString()}`)
+    else setParams(p, { preventScrollReset: true })
   }
 
   const rangeLabel = formatRange(range.from, range.to)
+  const copy = heroCopy(fixed, today, range)
   usePageMeta({
-    title: `Cosa fare a Napoli ${rangeLabel} · Cose Fighe`,
-    description: 'Scegli le date e guarda eventi ed esperienze disponibili a Napoli in quei giorni. Feste, concerti, mercati, mostre e le esperienze prenotabili.',
+    title:
+      fixed === 'oggi'
+        ? `Cosa fare a Napoli oggi, ${formatLong(today)} · Cose Fighe`
+        : fixed === 'weekend'
+          ? `Cosa fare a Napoli questo weekend (${rangeLabel}) · Cose Fighe`
+          : `Cosa fare a Napoli ${rangeLabel} · Cose Fighe`,
+    description:
+      fixed === 'oggi'
+        ? 'Gli eventi di oggi a Napoli, controllati dalla redazione, e le esperienze che puoi prenotare anche all’ultimo. Si aggiorna ogni mattina.'
+        : fixed === 'weekend'
+          ? 'Il programma del fine settimana a Napoli: concerti, feste, mostre, mercati, giorno per giorno, e le esperienze da prenotare.'
+          : 'Scegli le date e guarda eventi ed esperienze disponibili a Napoli in quei giorni. Feste, concerti, mercati, mostre e le esperienze prenotabili.',
   })
 
   const days = useMemo(() => eachDay(range.from, range.to), [range.from, range.to])
   const nDays = days.length
-  const preset = presetFor(range.from, range.to)
+  const preset = presetFor(range.from, range.to, today)
 
   /** Eventi raggruppati per giorno: quelli di più giorni compaiono solo nel primo giorno utile. */
   const groups = useMemo(() => {
@@ -161,9 +226,9 @@ export default function WhatsOnPage() {
   return (
     <Page>
       <PageHero
-        eyebrow="Il programma"
-        title="Cosa fare a Napoli"
-        subtitle="Scegli i giorni in cui sei in città: ti mostriamo gli eventi che valgono la pena e le esperienze prenotabili in quelle date."
+        eyebrow={copy.eyebrow}
+        title={copy.title}
+        subtitle={copy.subtitle}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/mascotte-binocolo.webp" amplitude={10} />
@@ -171,191 +236,218 @@ export default function WhatsOnPage() {
         }
       />
 
-      {!hydrated ? (
-        <section className="section-y bg-white" aria-busy="true">
-          <div className="container-x">
-            <p className="text-ink/60">Feste, concerti, mercati, mostre e le esperienze prenotabili, giorno per giorno. Scegli le date per vedere il programma.</p>
+      {/* Una riga di comandi: quando, date precise, categoria. */}
+      <section className="sticky top-[60px] z-30 border-b border-line bg-white/92 backdrop-blur-md md:top-[60px]" aria-label="Scegli le date">
+        <div className="container-x flex items-center gap-3 py-3 md:flex-wrap md:gap-x-4 md:gap-y-3">
+          <Segmented
+            options={PRESETS}
+            value={preset}
+            onChange={(k) => update({ ...DATE_PRESETS.find((p) => p.key === k)!.range(today) })}
+            label="Quando"
+            className="min-w-0 flex-1 md:max-w-full md:flex-none"
+          />
+          <div className="hidden items-center gap-2 text-sm text-ink/55 md:flex">
+            <label className="inline-flex items-center gap-1.5">
+              dal
+              <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
+            </label>
+            <label className="inline-flex items-center gap-1.5">
+              al
+              <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
+            </label>
           </div>
-        </section>
-      ) : (
-        <>
-          {/* Una riga di comandi: quando, date precise, categoria. */}
-          <section className="sticky top-[60px] z-30 border-b border-line bg-white/92 backdrop-blur-md md:top-[60px]" aria-label="Scegli le date">
-            <div className="container-x flex items-center gap-3 py-3 md:flex-wrap md:gap-x-4 md:gap-y-3">
-              <Segmented
-                options={PRESETS}
-                value={preset}
-                onChange={(k) => update({ ...DATE_PRESETS.find((p) => p.key === k)!.range() })}
-                label="Quando"
-                className="min-w-0 flex-1 md:max-w-full md:flex-none"
-              />
-              <div className="hidden items-center gap-2 text-sm text-ink/55 md:flex">
-                <label className="inline-flex items-center gap-1.5">
-                  dal
-                  <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
-                </label>
-                <label className="inline-flex items-center gap-1.5">
-                  al
-                  <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
-                </label>
-              </div>
-              <label className="relative ml-auto hidden items-center md:inline-flex">
-                <span className="sr-only">Categoria</span>
-                <select
-                  value={category ?? ''}
-                  onChange={(e) => update({ cat: (e.target.value || null) as EventCategory | null })}
-                  className={`h-9 appearance-none rounded-full border border-line bg-white pl-4 pr-9 text-sm font-medium outline-none focus-visible:ring-[3px] focus-visible:ring-orange/60 ${category ? 'border-ink' : ''}`}
-                >
-                  <option value="">Tutte le categorie</option>
-                  {EVENT_CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {EVENT_CATEGORY_LABELS[c]}
-                      {counts[c] ? ` (${counts[c]})` : ''}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown size={14} className="pointer-events-none absolute right-3 text-ink/50" />
-              </label>
-              <button
-                type="button"
-                onClick={() => setSheet(true)}
-                aria-haspopup="dialog"
-                className={`chip shrink-0 md:hidden ${category ? 'chip-on' : ''}`}
-              >
-                <SlidersHorizontal size={14} />
-                {category ? EVENT_CATEGORY_LABELS[category] : 'Filtri'}
+          <label className="relative ml-auto hidden items-center md:inline-flex">
+            <span className="sr-only">Categoria</span>
+            <select
+              value={category ?? ''}
+              onChange={(e) => update({ cat: (e.target.value || null) as EventCategory | null })}
+              className={`h-9 appearance-none rounded-full border border-line bg-white pl-4 pr-9 text-sm font-medium outline-none focus-visible:ring-[3px] focus-visible:ring-orange/60 ${category ? 'border-ink' : ''}`}
+            >
+              <option value="">Tutte le categorie</option>
+              {EVENT_CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {EVENT_CATEGORY_LABELS[c]}
+                  {counts[c] ? ` (${counts[c]})` : ''}
+                </option>
+              ))}
+            </select>
+            <ChevronDown size={14} className="pointer-events-none absolute right-3 text-ink/50" />
+          </label>
+          <button
+            type="button"
+            onClick={() => setSheet(true)}
+            aria-haspopup="dialog"
+            className={`chip shrink-0 md:hidden ${category ? 'chip-on' : ''}`}
+          >
+            <SlidersHorizontal size={14} />
+            {category ? EVENT_CATEGORY_LABELS[category] : 'Filtri'}
+          </button>
+        </div>
+      </section>
+
+      {sheet && (
+        <div className="fixed inset-0 z-[60] bg-ink/35 md:hidden" onClick={() => setSheet(false)}>
+          <div
+            role="dialog"
+            aria-label="Date e categoria"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-soft"
+          >
+            <div className="mb-5 flex items-center justify-between">
+              <p className="font-semibold">Date e categoria</p>
+              <button type="button" onClick={() => setSheet(false)} aria-label="Chiudi" className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70">
+                <X size={16} />
               </button>
             </div>
-          </section>
+            <p className="label mb-3 text-ink/50">Giorni</p>
+            <div className="flex flex-wrap items-center gap-2 text-sm text-ink/55">
+              <label className="inline-flex items-center gap-1.5">
+                dal
+                <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
+              </label>
+              <label className="inline-flex items-center gap-1.5">
+                al
+                <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
+              </label>
+            </div>
+            <p className="label mb-3 mt-6 text-ink/50">Categoria</p>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" aria-pressed={!category} className={`chip ${!category ? 'chip-on' : ''}`} onClick={() => update({ cat: null })}>
+                Tutte
+              </button>
+              {EVENT_CATEGORIES.map((c) => (
+                <button key={c} type="button" aria-pressed={category === c} className={`chip ${category === c ? 'chip-on' : ''}`} onClick={() => update({ cat: category === c ? null : c })}>
+                  {EVENT_CATEGORY_LABELS[c]}
+                  {counts[c] ? <span className="text-xs opacity-60">{counts[c]}</span> : null}
+                </button>
+              ))}
+            </div>
+            <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
+              <button type="button" onClick={() => update({ from: today, to: addDays(today, 6), cat: null })} className="text-sm font-medium text-ink/60">
+                Azzera
+              </button>
+              <Button size="sm" onClick={() => setSheet(false)}>
+                Mostra {nEvents} {nEvents === 1 ? 'evento' : 'eventi'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
-          {sheet && (
-            <div className="fixed inset-0 z-[60] bg-ink/35 md:hidden" onClick={() => setSheet(false)}>
-              <div
-                role="dialog"
-                aria-label="Date e categoria"
-                onClick={(e) => e.stopPropagation()}
-                className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-soft"
-              >
-                <div className="mb-5 flex items-center justify-between">
-                  <p className="font-semibold">Date e categoria</p>
-                  <button type="button" onClick={() => setSheet(false)} aria-label="Chiudi" className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70">
-                    <X size={16} />
-                  </button>
-                </div>
-                <p className="label mb-3 text-ink/50">Giorni</p>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-ink/55">
-                  <label className="inline-flex items-center gap-1.5">
-                    dal
-                    <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
-                  </label>
-                  <label className="inline-flex items-center gap-1.5">
-                    al
-                    <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
-                  </label>
-                </div>
-                <p className="label mb-3 mt-6 text-ink/50">Categoria</p>
-                <div className="flex flex-wrap gap-2">
-                  <button type="button" aria-pressed={!category} className={`chip ${!category ? 'chip-on' : ''}`} onClick={() => update({ cat: null })}>
-                    Tutte
-                  </button>
-                  {EVENT_CATEGORIES.map((c) => (
-                    <button key={c} type="button" aria-pressed={category === c} className={`chip ${category === c ? 'chip-on' : ''}`} onClick={() => update({ cat: category === c ? null : c })}>
-                      {EVENT_CATEGORY_LABELS[c]}
-                      {counts[c] ? <span className="text-xs opacity-60">{counts[c]}</span> : null}
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
-                  <button type="button" onClick={() => update({ from: today, to: addDays(today, 6), cat: null })} className="text-sm font-medium text-ink/60">
-                    Azzera
-                  </button>
-                  <Button size="sm" onClick={() => setSheet(false)}>
-                    Mostra {nEvents} {nEvents === 1 ? 'evento' : 'eventi'}
+      <section className="section-y bg-white">
+        <div className="container-x">
+          {/* Cornice: due frasi nostre e i rimandi alle altre due pagine. È il testo che Google legge per primo. */}
+          <Reveal className="mb-12 max-w-3xl md:mb-16">
+            <p className="text-lg leading-relaxed text-ink/70">{copy.intro}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {copy.links.map((l) => (
+                <Link key={l.to} to={l.to} viewTransition className="chip">
+                  {l.label} <ArrowRight size={14} />
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <h2 className="heading-lg">
+              {nEvents > 0 ? `${nEvents} ${nEvents === 1 ? 'evento' : 'eventi'}` : 'Nessun evento'} <span className="text-ink/40">{rangeLabel}</span>
+            </h2>
+            <p className="mt-2 text-ink/60">
+              {nDays === 1 ? formatLong(range.from) : `${nDays} giorni, da ${formatLong(range.from)} a ${formatLong(range.to)}`}
+              {category ? ` · ${EVENT_CATEGORY_LABELS[category]}` : ''}
+            </p>
+          </Reveal>
+
+          {groups.length === 0 ? (
+            <EmptyState
+              className="mt-10"
+              title="Niente in programma in questi giorni"
+              text="Non abbiamo ancora segnalato eventi per queste date. Prova ad allargare il periodo oppure guarda le esperienze qui sotto: quelle si fanno quasi ogni giorno."
+              actions={
+                <>
+                  <Button onClick={() => update({ from: today, to: addDays(today, 29), cat: null })}>
+                    Prossimi 30 giorni <ArrowRight size={15} />
                   </Button>
-                </div>
-              </div>
+                  {category && (
+                    <Button variant="secondary" onClick={() => update({ cat: null })}>
+                      Tutte le categorie
+                    </Button>
+                  )}
+                </>
+              }
+            />
+          ) : (
+            <div className="mt-10 flex flex-col gap-10">
+              {groups.map((g) => {
+                const p = dayParts(g.day)
+                return (
+                  <section key={g.day} aria-label={`${p.wdLong} ${p.day} ${p.monLong}`}>
+                    <h3 className="mb-3 flex items-baseline gap-2 text-lg font-semibold">
+                      <span className="capitalize">{p.wdLong}</span> {p.day} {p.monLong}
+                      {g.day === today && <span className="label rounded-full bg-blue/10 px-2 py-0.5 text-blue">oggi</span>}
+                      <span className="ml-auto text-sm font-normal text-ink/45">
+                        {g.items.length} {g.items.length === 1 ? 'evento' : 'eventi'}
+                      </span>
+                    </h3>
+                    <div className="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-white">
+                      {g.items.map((e) => (
+                        <EventRow key={e.slug} event={e} shownOn={g.day} />
+                      ))}
+                    </div>
+                  </section>
+                )
+              })}
             </div>
           )}
+        </div>
+      </section>
 
-          <section className="section-y bg-white">
-            <div className="container-x">
-              <Reveal>
-                <h2 className="heading-lg">
-                  {nEvents > 0 ? `${nEvents} ${nEvents === 1 ? 'evento' : 'eventi'}` : 'Nessun evento'} <span className="text-ink/40">{rangeLabel}</span>
-                </h2>
-                <p className="mt-2 text-ink/60">
-                  {nDays === 1 ? formatLong(range.from) : `${nDays} giorni, da ${formatLong(range.from)} a ${formatLong(range.to)}`}
-                  {category ? ` · ${EVENT_CATEGORY_LABELS[category]}` : ''}
+      {experiences.length > 0 && (
+        <section className="section-y bg-paper">
+          <div className="container-x">
+            <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-xl">
+                <h2 className="heading-lg">Esperienze prenotabili {nDays === 1 ? formatShortInline(range.from) : 'in questi giorni'}</h2>
+                <p className="mt-3 text-ink/60">
+                  {experiences.length} esperienze si fanno {nDays === 1 ? 'quel giorno' : 'in almeno uno di questi giorni'}.
                 </p>
-              </Reveal>
-
-              {groups.length === 0 ? (
-                <EmptyState
-                  className="mt-10"
-                  title="Niente in programma in questi giorni"
-                  text="Non abbiamo ancora segnalato eventi per queste date. Prova ad allargare il periodo oppure guarda le esperienze qui sotto: quelle si fanno quasi ogni giorno."
-                  actions={
-                    <>
-                      <Button onClick={() => update({ from: todayISO(), to: addDays(todayISO(), 29), cat: null })}>
-                        Prossimi 30 giorni <ArrowRight size={15} />
-                      </Button>
-                      {category && (
-                        <Button variant="secondary" onClick={() => update({ cat: null })}>
-                          Tutte le categorie
-                        </Button>
-                      )}
-                    </>
-                  }
-                />
-              ) : (
-                <div className="mt-10 flex flex-col gap-10">
-                  {groups.map((g) => {
-                    const p = dayParts(g.day)
-                    return (
-                      <section key={g.day} aria-label={`${p.wdLong} ${p.day} ${p.monLong}`}>
-                        <h3 className="mb-3 flex items-baseline gap-2 text-lg font-semibold">
-                          <span className="capitalize">{p.wdLong}</span> {p.day} {p.monLong}
-                          {g.day === today && <span className="label rounded-full bg-blue/10 px-2 py-0.5 text-blue">oggi</span>}
-                          <span className="ml-auto text-sm font-normal text-ink/45">
-                            {g.items.length} {g.items.length === 1 ? 'evento' : 'eventi'}
-                          </span>
-                        </h3>
-                        <div className="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-white">
-                          {g.items.map((e) => (
-                            <EventRow key={e.slug} event={e} shownOn={g.day} />
-                          ))}
-                        </div>
-                      </section>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-          </section>
-
-          {experiences.length > 0 && (
-            <section className="section-y bg-paper">
-              <div className="container-x">
-                <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                  <div className="max-w-xl">
-                    <h2 className="heading-lg">Esperienze prenotabili {nDays === 1 ? formatShortInline(range.from) : 'in questi giorni'}</h2>
-                    <p className="mt-3 text-ink/60">
-                      {experiences.length} esperienze si fanno {nDays === 1 ? 'quel giorno' : 'in almeno uno di questi giorni'}.
-                    </p>
-                  </div>
-                  <ButtonLink to="/esperienze" variant="link">
-                    Tutte le esperienze <ArrowRight size={15} />
-                  </ButtonLink>
-                </Reveal>
-                <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
-                  {experiences.slice(0, MAX_EXPERIENCES).map((exp, i) => (
-                    <ExperienceCard key={exp.title} exp={exp} category={exp.categoryLabel} index={i} />
-                  ))}
-                </div>
               </div>
-            </section>
-          )}
-        </>
+              <ButtonLink to="/esperienze" variant="link">
+                Tutte le esperienze <ArrowRight size={15} />
+              </ButtonLink>
+            </Reveal>
+            <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+              {experiences.slice(0, MAX_EXPERIENCES).map((exp, i) => (
+                <ExperienceCard key={exp.title} exp={exp} category={exp.categoryLabel} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Domande frequenti: solo sulla pagina guida. Le stesse risposte sono nei dati strutturati. */}
+      {!fixed && (
+        <section className="section-y border-t border-line bg-white">
+          <div className="container-x">
+            <Reveal>
+              <h2 className="heading-lg">Domande frequenti</h2>
+              <p className="mt-3 max-w-xl text-ink/60">Le cose che ci chiedono più spesso su cosa fare a Napoli.</p>
+            </Reveal>
+            <div className="mt-10 grid gap-x-12 gap-y-10 md:grid-cols-2">
+              {COSA_FARE_FAQ.map((f) => (
+                <div key={f.q}>
+                  <h3 className="text-lg font-semibold leading-snug">{f.q}</h3>
+                  <p className="mt-2 leading-relaxed text-ink/65">{f.a}</p>
+                  {f.link && (
+                    <Link to={f.link.to} viewTransition className="mt-3 inline-flex items-center gap-1 font-medium underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+                      {f.link.label} <ArrowRight size={14} />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
     </Page>
   )
