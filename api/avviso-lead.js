@@ -58,6 +58,27 @@ export default async function handler(req, res) {
   const name = clean(body.name, 120) || 'Senza nome'
   const topic = clean(body.topic, 120) || 'Messaggio'
   const source = clean(body.source, 60) || 'contatti'
+  // Via preferita: Resend (RESEND_API_KEY su Vercel). Senza chiave si prova FormSubmit, che però spesso rifiuta i server.
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const esc = (v) => String(v).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])
+      const r = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: process.env.RESEND_FROM || 'Cose Fighe <onboarding@resend.dev>',
+          to: [to],
+          reply_to: email,
+          subject: `Cose Fighe · ${topic} da ${name}`,
+          html: `<p><b>${esc(name)}</b> (${esc(email)}) ha scritto dal sito (${esc(source)}), argomento: ${esc(topic)}.</p><blockquote style="border-left:3px solid #ff5500;padding-left:12px;white-space:pre-wrap">${esc(message)}</blockquote><p><a href="https://www.cosefighenapoli.it/admin/lead">Apri nel pannello</a></p>`,
+        }),
+      })
+      const out = await r.json().catch(() => ({}))
+      return res.status(200).json({ ok: r.ok, via: 'resend', detail: r.ok ? out.id : out.message ?? r.status })
+    } catch (e) {
+      return res.status(200).json({ ok: false, via: 'resend', error: e.message })
+    }
+  }
   try {
     const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
       method: 'POST',
