@@ -1,9 +1,11 @@
 import { motion } from 'motion/react'
+import { Link } from 'react-router'
 import { ArrowUpRight, CircleCheckBig, Clock, Heart, Star } from 'lucide-react'
 import type { Experience } from '../../types'
 import { track } from '../../lib/track'
 import { Sticker } from './Sticker'
 import { useSaved } from '../../lib/saved'
+import { experiencePath } from '../../data/schede'
 
 interface ExperienceCardProps {
   exp: Experience
@@ -26,6 +28,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
   const saved = has(exp.title)
   const bookable = !!exp.affiliateUrl && !!exp.provider && exp.provider !== 'cosefighe'
   const providerLabel = exp.provider === 'viator' ? 'Viator' : 'GetYourGuide'
+  const page = experiencePath(exp)
   const linkProps = {
     href: exp.affiliateUrl,
     target: '_blank',
@@ -44,7 +47,19 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
       }`}
     >
       <div className={`relative overflow-hidden bg-cream ${row ? 'aspect-[4/3] md:aspect-auto md:w-2/5 md:shrink-0' : 'aspect-[4/3]'}`}>
-        {bookable ? (
+        {page ? (
+          <Link to={page} viewTransition aria-label={`Scheda di "${exp.title}"`} className="block h-full w-full">
+            <img
+              src={exp.image}
+              alt={exp.title}
+              width={800}
+              height={600}
+              loading="lazy"
+              decoding="async"
+              className="img-warm h-full w-full object-cover transition-transform duration-500 ease-out-quart group-hover:scale-[1.04]"
+            />
+          </Link>
+        ) : bookable ? (
           <a {...linkProps} data-track={`prenota:${exp.title}`} aria-label={`Prenota "${exp.title}" su ${providerLabel}`} className="block h-full w-full">
             <img
               src={exp.image}
@@ -91,7 +106,11 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           {exp.duration}
         </p>
         <h3 className={`mt-1.5 font-semibold leading-snug ${row ? 'text-[17px] md:text-base' : 'text-[17px]'}`}>
-          {bookable ? (
+          {page ? (
+            <Link to={page} viewTransition className="transition-colors hover:text-orange">
+              {exp.title}
+            </Link>
+          ) : bookable ? (
             <a {...linkProps} data-track={`prenota:${exp.title}`} className="transition-colors hover:text-orange">
               {exp.title}
             </a>

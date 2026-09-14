@@ -9,6 +9,7 @@ import CreatorPage from './pages/CreatorPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import CategoryPage from './pages/CategoryPage'
+import ExperiencePage from './pages/ExperiencePage'
 import BlogPage from './pages/BlogPage'
 import BlogArticlePage from './pages/BlogArticlePage'
 import PrivacyPage from './pages/PrivacyPage'
@@ -68,6 +69,7 @@ export const routes: RouteObject[] = [
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/esperienze', element: <ExperiencesPage /> },
+      { path: '/esperienze/:slug', element: <ExperiencePage /> },
       { path: '/cosa-fare', element: <WhatsOnPage /> },
       { path: '/cosa-fare/oggi', element: <WhatsOnPage fixed="oggi" /> },
       { path: '/cosa-fare/weekend', element: <WhatsOnPage fixed="weekend" /> },

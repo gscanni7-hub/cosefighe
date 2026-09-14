@@ -5,6 +5,7 @@ import { CATEGORY_LIST } from '../data/categories'
 import { EVENTS, EVENT_CATEGORY_LABELS, eventEnd } from '../data/events'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { formatShort, todayISO } from '../lib/dates'
+import { experiencePath } from '../data/schede'
 
 interface SearchDialogProps {
   open: boolean
@@ -43,7 +44,7 @@ function search(q: string): Hit[] {
   for (const c of CATEGORY_LIST)
     for (const e of c.experiences) {
       const s = score([e.title, e.location, c.label, e.included, e.tag])
-      if (s) hits.push({ kind: 'esperienza', title: e.title, meta: `${c.label} · ${e.location} · da ${e.price}`, to: `/categoria/${c.slug}`, score: s + 1 })
+      if (s) hits.push({ kind: 'esperienza', title: e.title, meta: `${c.label} · ${e.location} · da ${e.price}`, to: experiencePath(e) ?? `/categoria/${c.slug}`, score: s + 1 })
     }
   const today = todayISO()
   for (const e of EVENTS) {

@@ -80,7 +80,7 @@ ${paths
   .map((p) => {
     const seo = routeSeo(p)
     const daily = p === '/' || p.startsWith('/cosa-fare')
-    return `  <url><loc>${SITE_URL}${p === '/' ? '/' : p}</loc><lastmod>${seo.updated ?? today}</lastmod><changefreq>${daily ? 'daily' : 'weekly'}</changefreq><priority>${p === '/' || p === '/cosa-fare' ? '1.0' : p.startsWith('/blog/') ? '0.6' : '0.8'}</priority></url>`
+    return `  <url><loc>${SITE_URL}${p === '/' ? '/' : p}</loc><lastmod>${seo.updated ?? today}</lastmod><changefreq>${daily ? 'daily' : 'weekly'}</changefreq><priority>${p === '/' || p === '/cosa-fare' ? '1.0' : p.startsWith('/blog/') ? '0.6' : p.startsWith('/esperienze/') ? '0.7' : '0.8'}</priority></url>`
   })
   .join('\n')}
 </urlset>

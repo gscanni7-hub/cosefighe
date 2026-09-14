@@ -2,6 +2,7 @@ import { CATEGORY_LIST } from './data/categories'
 import { ARTICLES_BY_DATE } from './data/articles'
 import { COSA_FARE_FAQ } from './data/faq'
 import { GUIDE, GUIDE_TITLE } from './data/guida'
+import { EXPERIENCE_PAGES } from './data/schede'
 import { eventEnd, eventsBetween } from './data/events'
 import generated from './data/generated.json'
 import { BUILD_DAY } from './lib/buildDay'
@@ -268,6 +269,29 @@ export function routeSeo(path: string): RouteSeo {
     }
   }
 
+  const ep = clean.match(/^\/esperienze\/([^/]+)$/)
+  if (ep) {
+    const p = EXPERIENCE_PAGES.find((x) => x.slug === ep[1])
+    if (p) {
+      const intro = p.scheda.intro ?? `${p.category.label} a Napoli, ${p.exp.location}. ${p.exp.duration}. ${p.exp.included}.`
+      const faq = p.scheda.faq?.length
+        ? [{ '@type': 'FAQPage', mainEntity: p.scheda.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
+        : []
+      return {
+        title: `${p.exp.title} · da ${p.exp.price} · Cose Fighe`,
+        description: intro.length > 158 ? intro.slice(0, 155).replace(/\s+\S*$/, '') + '…' : intro,
+        image: og(p.exp.image),
+        preloadImage: p.exp.image,
+        updated: experiencesUpdated(p.category.slug),
+        jsonLd: graph(
+          breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }, { name: p.category.label, path: `/categoria/${p.category.slug}` }, { name: p.exp.title, path: clean }]),
+          { ...experienceProduct(p.exp, p.category.label), '@id': abs(clean) + '#product', url: abs(clean), description: intro },
+          ...faq,
+        ),
+      }
+    }
+  }
+
   const art = clean.match(/^\/blog\/([^/]+)$/)
   if (art) {
     const a = ARTICLES_BY_DATE.find((x) => x.slug === art[1])
@@ -323,6 +347,7 @@ export function publicPaths(): string[] {
     '/privacy',
     '/cookie',
     ...CATEGORY_LIST.map((c) => `/categoria/${c.slug}`),
+    ...EXPERIENCE_PAGES.map((p) => p.path),
     ...ARTICLES_BY_DATE.map((a) => `/blog/${a.slug}`),
   ]
 }

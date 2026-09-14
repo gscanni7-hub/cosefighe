@@ -163,3 +163,23 @@
     animation: none;
   }
 }
+
+/* Ingresso del testo del primo schermo della home: visibile anche senza JavaScript (finisce sempre a opacità 1). */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}

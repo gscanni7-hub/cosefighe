@@ -34,11 +34,8 @@ const totalExperiences = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length
 
 const ease = [0.25, 1, 0.5, 1] as const
 
-const rise = (delay: number) => ({
-  initial: { opacity: 0, y: 28 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, delay, ease },
-})
+/** Ingresso del testo del primo schermo: animazione CSS (classe "rise"), così nell'HTML dal server il titolo è già visibile per Google e per chi condivide il link. */
+const rise = (delay: number) => ({ className: 'rise', style: { animationDelay: `${delay}s` } })
 
 /** Parallasse al mouse sul primo schermo: due strati che si muovono in direzioni opposte. Spento su touch e con "riduci movimento". */
 function useHeroParallax(max = 14) {
@@ -124,28 +121,28 @@ const Hero = () => {
 
       <div className="container-x relative z-10 grid items-center gap-8 pb-[min(78vw,380px)] pt-24 md:h-[100svh] md:max-h-[780px] md:min-h-[600px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:pb-20 md:pt-28">
         <div>
-          <motion.p {...rise(0.06)} className="label text-orange">
+          <p className="rise label text-orange" style={{ animationDelay: '0.06s' }}>
             Esperienze autentiche a Napoli
-          </motion.p>
+          </p>
           <h1 className="mt-4 font-display text-display-xl uppercase tracking-tight">
-            <motion.span {...rise(0.12)} className="block">
+            <span className="rise block" style={{ animationDelay: '0.12s' }}>
               Scopri <span className="text-orange">cose fighe</span>
-            </motion.span>
-            <motion.span {...rise(0.19)} className="block">
+            </span>
+            <span className="rise block" style={{ animationDelay: '0.19s' }}>
               da fare a Napoli
-            </motion.span>
+            </span>
           </h1>
-          <motion.p {...rise(0.28)} className="mt-6 max-w-lg text-lg leading-relaxed text-ink/65">
+          <p className="rise mt-6 max-w-lg text-lg leading-relaxed text-ink/65" style={{ animationDelay: '0.28s' }}>
             Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.
-          </motion.p>
-          <motion.div {...rise(0.34)} className="mt-8 flex flex-wrap items-center gap-3">
+          </p>
+          <div className="rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.34s' }}>
             <ButtonLink to="/esperienze" size="lg">
               Esplora le esperienze <ArrowRight size={18} />
             </ButtonLink>
             <ButtonLink to="/cosa-fare" variant="secondary" size="lg">
               Cosa fare a Napoli
             </ButtonLink>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
