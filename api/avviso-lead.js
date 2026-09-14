@@ -40,7 +40,14 @@ export default async function handler(req, res) {
   try {
     const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      // FormSubmit accetta solo richieste che sembrano arrivare da un sito: origine e user agent servono.
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Origin: 'https://www.cosefighenapoli.it',
+        Referer: 'https://www.cosefighenapoli.it/contatti',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+      },
       body: JSON.stringify({
         _subject: `Cose Fighe · ${topic} da ${name}`,
         _template: 'table',
