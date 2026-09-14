@@ -19,7 +19,7 @@ const abs = (path: string) => (path.startsWith('http') ? path : SITE_URL + path)
 
 /** Anteprima per WhatsApp, Facebook e simili: JPEG 1200×630 in /og, perché le webp non vengono mostrate. */
 const og = (path: string) => `/og/${path.split('/').pop()!.replace(/\.webp$/, '')}.jpg`
-const OG_HOME = '/og/og-home.jpg'
+const OG_HOME = '/og/napoli-skyline.jpg'
 
 const organization = {
   '@type': 'Organization',
@@ -84,7 +84,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori · Cose Fighe`,
       description: `${total} esperienze in 6 categorie, scelte una per una: street food, Vesuvio, barca, laboratori, sotterranei. Prezzi da €10.`,
-      image: OG_HOME,
+      image: og('/img/naples-streetfood.webp'),
       jsonLd: graph(
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }]),
         {
