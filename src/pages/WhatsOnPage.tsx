@@ -180,7 +180,7 @@ export default function WhatsOnPage() {
       ) : (
         <>
           {/* Una riga di comandi: quando, date precise, categoria. */}
-          <section className="sticky top-[56px] z-30 border-b border-line bg-white/92 backdrop-blur-md md:top-[60px]" aria-label="Scegli le date">
+          <section className="sticky top-[60px] z-30 border-b border-line bg-white/92 backdrop-blur-md md:top-[60px]" aria-label="Scegli le date">
             <div className="container-x flex items-center gap-3 py-3 md:flex-wrap md:gap-x-4 md:gap-y-3">
               <Segmented
                 options={PRESETS}

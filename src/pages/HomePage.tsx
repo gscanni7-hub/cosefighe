@@ -159,21 +159,21 @@ const CategoriesStrip = () => (
         <h2 className="heading-lg">Sei modi di vivere Napoli</h2>
         <p className="mt-3 text-ink/60">Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.</p>
       </div>
-      <p className="hidden text-sm text-ink/45 md:block">Trascina per scorrere</p>
+      <p className="hidden text-sm text-ink/45 lg:block">Trascina per scorrere</p>
     </div>
     <DragScroll
       ariaLabel="Categorie"
-      className="mt-8 grid grid-cols-2 gap-4 px-5 sm:px-8 md:mt-10 md:flex md:gap-6 md:overflow-x-auto md:pb-4 md:pl-8 md:pr-8 lg:pl-[calc((100vw-80rem)/2+2.5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="mt-8 grid grid-cols-2 gap-4 px-5 sm:px-8 md:mt-10 md:grid-cols-3 md:gap-5 lg:flex lg:gap-6 lg:overflow-x-auto lg:pb-4 lg:pl-[calc((100vw-80rem)/2+2.5rem)] lg:pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {CATEGORY_LIST.map((cat) => (
         <Link
           key={cat.slug}
           to={`/categoria/${cat.slug}`}
           viewTransition
-          className="group w-full md:w-[300px] md:shrink-0"
+          className="group w-full lg:w-[300px] lg:shrink-0"
           draggable={false}
         >
-          <div className="aspect-square overflow-hidden rounded-3xl bg-cream md:rounded-[2rem] transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
+          <div className="aspect-square overflow-hidden rounded-3xl bg-cream lg:rounded-[2rem] transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
             <img
               src={categoryImages[cat.slug]}
               alt={`Categoria ${cat.label}`}
@@ -186,10 +186,10 @@ const CategoriesStrip = () => (
             />
           </div>
           <div className="mt-3 flex items-baseline justify-between gap-2 md:mt-4">
-            <h3 className="text-base font-bold md:text-lg">{cat.label}</h3>
+            <h3 className="text-base font-bold lg:text-lg">{cat.label}</h3>
             <span className="shrink-0 text-xs text-ink/45 md:text-sm">{cat.experiences.length}</span>
           </div>
-          <p className="mt-1 hidden text-sm text-ink/55 md:block">{cat.subtitle}</p>
+          <p className="mt-1 hidden text-sm text-ink/55 lg:block">{cat.subtitle}</p>
         </Link>
       ))}
     </DragScroll>

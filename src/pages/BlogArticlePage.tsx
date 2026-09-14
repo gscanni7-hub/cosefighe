@@ -9,6 +9,7 @@ import { ArticleCard } from '../components/ui/ArticleCard'
 import { getArticleBySlug, getRelatedArticles } from '../data/articles'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { Article, ArticleSection } from '../types'
+import { CATEGORIES } from '../data/categories'
 
 function useArticleJsonLd(article: Article) {
   useEffect(() => {
@@ -222,9 +223,15 @@ function ArticleView({ article }: { article: Article }) {
           <div className="rounded-3xl bg-cream p-6">
             <p className="text-[17px] font-semibold">Prova dal vivo</p>
             <p className="mt-2 text-sm text-ink/65">Leggere è bello, vivere è meglio. Guarda le esperienze legate a questo tema.</p>
-            <ButtonLink to={`/categoria/${article.categorySlug}`} size="sm" className="mt-5">
-              Esperienze {article.category} <ArrowRight size={13} />
-            </ButtonLink>
+            {CATEGORIES[article.categorySlug] ? (
+              <ButtonLink to={`/categoria/${article.categorySlug}`} size="sm" className="mt-5">
+                Esperienze {article.category} <ArrowRight size={13} />
+              </ButtonLink>
+            ) : (
+              <ButtonLink to="/cosa-fare" size="sm" className="mt-5">
+                Cosa fare a Napoli <ArrowRight size={13} />
+              </ButtonLink>
+            )}
           </div>
         </aside>
       </div>

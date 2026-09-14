@@ -169,7 +169,7 @@ export default function ExperiencesPage() {
       />
 
       {/* Barra unica: categorie a sinistra, filtri e ordine a destra. Resta in alto scorrendo. */}
-      <div className={`sticky top-[56px] border-b border-line bg-white/92 backdrop-blur-md md:top-[60px] ${open ? 'z-[60]' : 'z-40'}`}>
+      <div className={`sticky top-[60px] border-b border-line bg-white/92 backdrop-blur-md md:top-[60px] ${open ? 'z-[60]' : 'z-40'}`}>
         <div className="container-x relative" ref={panelRef}>
           <div className="flex items-center gap-3 py-2.5">
             <nav aria-label="Categorie" className="min-w-0 flex-1">
