@@ -93,9 +93,6 @@ export const Footer = () => {
             <Link to="/cookie" viewTransition className="transition-colors hover:text-white">
               Cookie
             </Link>
-            <Link to="/admin/login" className="text-white/25 transition-colors hover:text-white">
-              Admin
-            </Link>
           </nav>
         </div>
       </div>

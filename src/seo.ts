@@ -17,6 +17,10 @@ export interface RouteSeo {
 
 const abs = (path: string) => (path.startsWith('http') ? path : SITE_URL + path)
 
+/** Anteprima per WhatsApp, Facebook e simili: JPEG 1200×630 in /og, perché le webp non vengono mostrate. */
+const og = (path: string) => `/og/${path.split('/').pop()!.replace(/\.webp$/, '')}.jpg`
+const OG_HOME = '/og/og-home.jpg'
+
 const organization = {
   '@type': 'Organization',
   '@id': SITE_URL + '/#org',
@@ -71,7 +75,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Cose Fighe · Esperienze autentiche a Napoli',
       description: 'Tour, laboratori, sport e spettacoli a Napoli scelti uno per uno, con i prezzi delle piattaforme. Scopri cose fighe da fare in città e cosa succede giorno per giorno.',
-      image: '/img/napoli-skyline.webp',
+      image: OG_HOME,
       preloadImage: '/mascotte-hero.webp',
       jsonLd: graph(organization, website),
     }
@@ -80,7 +84,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori · Cose Fighe`,
       description: `${total} esperienze in 6 categorie, scelte una per una: street food, Vesuvio, barca, laboratori, sotterranei. Prezzi da €10.`,
-      image: '/img/naples-streetfood.webp',
+      image: OG_HOME,
       jsonLd: graph(
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }]),
         {
@@ -96,7 +100,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Cosa fare a Napoli: eventi ed esperienze per date · Cose Fighe',
       description: 'Scegli le date e guarda cosa succede a Napoli: feste, concerti, mercati, mostre e le esperienze prenotabili in quei giorni.',
-      image: '/mascotte-binocolo.webp',
+      image: OG_HOME,
       jsonLd: graph(breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }])),
     }
   }
@@ -104,7 +108,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Diventa creator a Napoli · Cose Fighe',
       description: 'Conosci Napoli meglio di una guida? Proponi la tua esperienza su Cose Fighe: decidi tu prezzo e date, guadagni a ogni prenotazione.',
-      image: '/mascotte-creator.webp',
+      image: OG_HOME,
       jsonLd: graph(breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Diventa creator', path: '/creator' }])),
     }
   }
@@ -112,7 +116,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Chi siamo · Cose Fighe',
       description: 'Cose Fighe nasce nel 2023 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
-      image: '/img/napoli-skyline.webp',
+      image: OG_HOME,
       jsonLd: graph(organization, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Chi siamo', path: '/chi-siamo' }])),
     }
   }
@@ -120,7 +124,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Contatti · Cose Fighe',
       description: 'Scrivici per una domanda, per proporre la tua esperienza o una collaborazione. Rispondiamo entro 24 ore nei giorni feriali.',
-      image: '/mascotte-contatti.webp',
+      image: OG_HOME,
       jsonLd: graph({ '@type': 'ContactPage', name: 'Contatti Cose Fighe', url: abs('/contatti') }, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Contatti', path: '/contatti' }])),
     }
   }
@@ -128,15 +132,15 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Blog · Guide, consigli e storie su Napoli · Cose Fighe',
       description: 'Guide e racconti per vivere Napoli come un local: street food, Vesuvio, Napoli Sotterranea, quartieri, aperitivi, laboratori.',
-      image: ARTICLES_BY_DATE[0].coverImage,
+      image: og(ARTICLES_BY_DATE[0].coverImage),
       jsonLd: graph(
         { '@type': 'Blog', name: 'Il blog di Cose Fighe', url: abs('/blog'), publisher: { '@id': SITE_URL + '/#org' } },
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
       ),
     }
   }
-  if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: '/img/napoli-skyline.webp', jsonLd: [] }
-  if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: '/img/napoli-skyline.webp', jsonLd: [] }
+  if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: OG_HOME, jsonLd: [] }
+  if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: OG_HOME, jsonLd: [] }
   const cat = clean.match(/^\/categoria\/([^/]+)$/)
   if (cat) {
     const c = CATEGORY_LIST.find((x) => x.slug === cat[1])
@@ -144,7 +148,7 @@ export function routeSeo(path: string): RouteSeo {
       return {
         title: `${c.label} a Napoli: ${c.experiences.length} esperienze · Cose Fighe`,
         description: `${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 4).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli scelte una per una.`,
-        image: c.experiences[0]?.image ?? '/img/napoli-skyline.webp',
+        image: c.experiences[0] ? og(c.experiences[0].image) : OG_HOME,
         jsonLd: graph(
           breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }, { name: c.label, path: clean }]),
           { '@type': 'ItemList', name: `Esperienze ${c.label} a Napoli`, itemListElement: c.experiences.map((e, i) => ({ '@type': 'ListItem', position: i + 1, item: experienceProduct(e, c.label) })) },
@@ -160,7 +164,7 @@ export function routeSeo(path: string): RouteSeo {
       return {
         title: `${a.title} · Cose Fighe Blog`,
         description: a.excerpt,
-        image: a.coverImage,
+        image: og(a.coverImage),
         preloadImage: a.coverImage,
         jsonLd: graph(
           {
@@ -187,7 +191,7 @@ export function routeSeo(path: string): RouteSeo {
   return {
     title: 'Pagina non trovata · Cose Fighe',
     description: 'La pagina che cerchi non esiste.',
-    image: '/img/napoli-skyline.webp',
+    image: OG_HOME,
     jsonLd: [],
   }
 }
