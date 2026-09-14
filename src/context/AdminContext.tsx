@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { getSupabase, isSupabaseConfigured } from '../lib/supabase'
 
-export type AdminMode = 'supabase' | 'password' | 'none'
+/** L'accesso al pannello passa solo da Supabase Auth (email e password dell'amministratore). */
+export type AdminMode = 'supabase' | 'none'
 
 interface AdminContextValue {
   isAdmin: boolean
@@ -11,10 +12,7 @@ interface AdminContextValue {
   logout: () => Promise<void>
 }
 
-const PASSWORD: string = import.meta.env.VITE_ADMIN_PASSWORD ?? ''
-const SESSION_KEY = 'cf_admin_session'
-
-const mode: AdminMode = isSupabaseConfigured ? 'supabase' : PASSWORD.length >= 8 ? 'password' : 'none'
+const mode: AdminMode = isSupabaseConfigured ? 'supabase' : 'none'
 
 const AdminContext = createContext<AdminContextValue>({
   isAdmin: false,
@@ -25,9 +23,7 @@ const AdminContext = createContext<AdminContextValue>({
 })
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
-  const [isAdmin, setIsAdmin] = useState<boolean>(
-    () => mode === 'password' && typeof sessionStorage !== 'undefined' && sessionStorage.getItem(SESSION_KEY) === '1',
-  )
+  const [isAdmin, setIsAdmin] = useState(false)
   const [ready, setReady] = useState(mode !== 'supabase')
 
   useEffect(() => {
@@ -46,29 +42,16 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const login: AdminContextValue['login'] = async ({ email, password }) => {
-    if (mode === 'supabase') {
-      const supabase = await getSupabase()
-      if (!supabase) return 'Supabase non disponibile.'
-      const { error } = await supabase.auth.signInWithPassword({ email: email ?? '', password })
-      return error ? 'Email o password non corretti.' : null
-    }
-    if (mode === 'password') {
-      if (password === PASSWORD) {
-        sessionStorage.setItem(SESSION_KEY, '1')
-        setIsAdmin(true)
-        return null
-      }
-      return 'Password non corretta.'
-    }
-    return 'Accesso non configurato: imposta VITE_ADMIN_PASSWORD oppure collega Supabase.'
+    if (mode !== 'supabase') return 'Accesso non configurato: collega Supabase.'
+    const supabase = await getSupabase()
+    if (!supabase) return 'Supabase non disponibile.'
+    const { error } = await supabase.auth.signInWithPassword({ email: email ?? '', password })
+    return error ? 'Email o password non corretti.' : null
   }
 
   const logout = async () => {
-    if (mode === 'supabase') {
-      const supabase = await getSupabase()
-      await supabase?.auth.signOut()
-    }
-    sessionStorage.removeItem(SESSION_KEY)
+    const supabase = await getSupabase()
+    await supabase?.auth.signOut()
     setIsAdmin(false)
   }
 

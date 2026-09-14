@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react(), tailwindcss()],
+  // In produzione niente console: chi apre gli strumenti del browser non deve leggere i nostri messaggi interni.
+  esbuild: { drop: ['console', 'debugger'] },
   build: {
     chunkSizeWarningLimit: 600,
     rollupOptions: isSsrBuild

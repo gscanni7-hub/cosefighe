@@ -42,5 +42,9 @@ try {
   await writeFile(file, JSON.stringify({ fetchedAt: new Date().toISOString(), experiences, articles, events }, null, 1))
   console.log(`Contenuti dal database: ${experiences.length} esperienze, ${articles.length} articoli, ${events.length} eventi.`)
 } catch (e) {
-  console.warn('Database non raggiungibile, uso i contenuti di riserva:', e.message)
+  if (process.env.VERCEL) {
+    console.error('Database non raggiungibile: la build si ferma, il sito online resta quello precedente.', e.message)
+    process.exit(1)
+  }
+  console.warn('Database non raggiungibile (in locale il sito resta vuoto):', e.message)
 }

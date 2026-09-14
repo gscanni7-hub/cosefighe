@@ -22,14 +22,35 @@ async function recipient() {
   }
 }
 
+async function leadExists(email, message) {
+  const key = process.env.SUPABASE_SERVICE_KEY
+  if (!key) return false
+  try {
+    const since = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+    const q = new URLSearchParams({ select: 'id', email: `eq.${email}`, created_at: `gte.${since}`, limit: '1' })
+    const r = await fetch(`${URL_BASE}/rest/v1/leads?${q}`, { headers: { apikey: key, Authorization: `Bearer ${key}` } })
+    if (!r.ok) return false
+    const rows = await r.json()
+    return rows.length > 0 && String(message).length > 0
+  } catch {
+    return false
+  }
+}
+
 const clean = (v, max) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, max)
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false })
+  // Solo il nostro sito può chiamare questo indirizzo.
+  const origin = req.headers.origin || ''
+  if (!/^https:\/\/(www\.)?cosefighenapoli\.it$/.test(origin)) return res.status(403).json({ ok: false, error: 'Origine non consentita' })
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {}
   const email = clean(body.email, 200)
   const message = String(body.message ?? '').trim().slice(0, 4000)
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || !message) return res.status(400).json({ ok: false, error: 'Dati mancanti' })
+
+  // Il messaggio deve esistere davvero nel database (salvato dal sito negli ultimi minuti): così nessuno usa questo indirizzo per mandare email a vuoto.
+  if (!(await leadExists(email, message))) return res.status(403).json({ ok: false, error: 'Messaggio non trovato' })
 
   const to = await recipient()
   if (!to) return res.status(200).json({ ok: false, skipped: 'Nessun destinatario impostato (lead_notify_email)' })

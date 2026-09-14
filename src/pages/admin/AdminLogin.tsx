@@ -46,7 +46,7 @@ export default function AdminLogin() {
             <div className="mt-6 rounded-2xl bg-paper px-4 py-3 text-sm text-ink/70">
               <p className="font-semibold text-ink">Accesso non configurato.</p>
               <p className="mt-1">
-                Imposta <code>VITE_ADMIN_PASSWORD</code> (almeno 8 caratteri) oppure collega Supabase e crea un utente in Authentication.
+                Collega Supabase (variabili VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY) e crea l’utente amministratore in Authentication.
               </p>
             </div>
           ) : (
@@ -85,7 +85,6 @@ export default function AdminLogin() {
               >
                 {busy ? 'Un attimo...' : 'Entra'} <ArrowRight size={16} />
               </button>
-              {mode === 'password' && <p className="text-center text-xs text-ink/45">Password condivisa. Con Supabase Auth ognuno ha il suo accesso.</p>}
             </div>
           )}
         </form>

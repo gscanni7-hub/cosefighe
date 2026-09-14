@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { ArrowRight } from 'lucide-react'
 import { Page } from '../components/Page'
@@ -8,10 +7,9 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
-import { fetchExperiencesByCategory, mapDbExperience } from '../lib/db'
 import { usePageMeta } from '../hooks/usePageMeta'
 import NotFoundPage from './NotFoundPage'
-import type { Category, Experience } from '../types'
+import type { Category } from '../types'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -23,20 +21,13 @@ const categoryImages: Record<string, string> = {
 }
 
 function CategoryView({ cat }: { cat: Category }) {
-  const [experiences, setExperiences] = useState<Experience[]>(cat.experiences)
+  const experiences = cat.experiences
 
   usePageMeta({
     title: `${cat.label} a Napoli · Cose Fighe`,
     description: `${cat.subtitle}. ${cat.experiences.length} esperienze ${cat.label.toLowerCase()} a Napoli, scelte una per una.`,
     image: categoryImages[cat.slug],
   })
-
-  useEffect(() => {
-    setExperiences(cat.experiences)
-    fetchExperiencesByCategory(cat.slug).then((rows) => {
-      if (rows && rows.length > 0) setExperiences(rows.map(mapDbExperience))
-    })
-  }, [cat])
 
   const others = CATEGORY_LIST.filter((c) => c.slug !== cat.slug)
 
