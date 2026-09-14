@@ -708,5 +708,15 @@
   "license": "CC BY-SA 4.0",
   "w": 4000,
   "h": 3000
+ },
+ "ravioli": {
+  "term": "ravioli",
+  "title": "File:Ravioli fatti in casa.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Ravioli_fatti_in_casa.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Ravioli_fatti_in_casa.jpg/960px-Ravioli_fatti_in_casa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Marica Massaro",
+  "license": "CC BY-SA 4.0",
+  "w": 4000,
+  "h": 3000
  }
 }
