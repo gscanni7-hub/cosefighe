@@ -2,7 +2,7 @@ import { CATEGORY_LIST } from './data/categories'
 import { ARTICLES_BY_DATE } from './data/articles'
 
 /** Indirizzo pubblico del sito. Quando arriverà il dominio, cambia solo qui. */
-export const SITE_URL = 'https://cosefighe.vercel.app'
+export const SITE_URL = 'https://www.cosefighenapoli.it'
 export const SITE_NAME = 'Cose Fighe'
 
 export interface RouteSeo {
