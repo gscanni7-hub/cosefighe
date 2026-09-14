@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         <h2>Quali dati raccogliamo</h2>
         <p>Raccogliamo solo i dati che ci invii volontariamente tramite i moduli del sito:</p>
         <ul>
-          <li>Modulo contatti: nome, email, argomento e testo del messaggio.</li>
+          <li>Modulo contatti: nome, email, argomento e testo del messaggio. Per avvisarci dell’arrivo del messaggio, gli stessi dati vengono inoltrati via email attraverso il servizio FormSubmit.</li>
           <li>Candidatura creator: nome, cognome, email, profilo social, specialità e presentazione.</li>
           <li>Lista d'attesa: indirizzo email.</li>
         </ul>

@@ -134,6 +134,10 @@ export async function createLead(lead: NewLead): Promise<boolean> {
     console.error(error)
     return false
   }
+  // Avviso via email al proprietario (api/avviso-lead.js). Se fallisce, il messaggio è comunque salvato.
+  if (typeof window !== 'undefined') {
+    fetch('/api/avviso-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead), keepalive: true }).catch(() => {})
+  }
   return true
 }
 
