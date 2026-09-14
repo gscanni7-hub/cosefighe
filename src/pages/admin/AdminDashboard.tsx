@@ -74,7 +74,7 @@ export default function AdminDashboard() {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold">Pubblicazione</p>
             <p className="text-sm text-ink/60">
-              Il sito si ricostruisce ogni notte con i contenuti approvati (esperienze, articoli, eventi). Se non vuoi aspettare, pubblica adesso: in due minuti è online.
+              Quello che approvi (articoli, eventi, esperienze) va online alla ristampa automatica delle 5 del mattino. Se non vuoi aspettare, premi qui: in due o tre minuti è online.
             </p>
           </div>
           <Button disabled={!hookSaved || publishing === 'busy'} onClick={publishNow}>
