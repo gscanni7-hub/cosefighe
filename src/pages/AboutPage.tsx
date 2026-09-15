@@ -29,7 +29,7 @@ const facts = [
   { num: `${total}`, label: 'esperienze in catalogo' },
   { num: '6', label: 'categorie' },
   { num: '12', label: 'creator locali' },
-  { num: '2023', label: 'anno di fondazione' },
+  { num: '2026', label: 'anno di fondazione' },
 ]
 
 
