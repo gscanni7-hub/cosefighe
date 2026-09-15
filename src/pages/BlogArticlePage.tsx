@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { Link, Navigate, useParams } from 'react-router'
 import { motion, useScroll, useSpring } from 'motion/react'
 import { ArrowLeft, ArrowRight, Calendar, Clock, Tag } from 'lucide-react'
@@ -37,6 +37,33 @@ function useArticleJsonLd(article: Article) {
   }, [article])
 }
 
+
+/** Testo con link in formato [testo](/percorso): interni con Link, esterni in nuova scheda. */
+function rich(text: string): ReactNode[] {
+  const out: ReactNode[] = []
+  const re = /\[([^\]]+)\]\((\/[^\s)]*|https?:\/\/[^\s)]+)\)/g
+  let last = 0
+  let m: RegExpExecArray | null
+  while ((m = re.exec(text))) {
+    if (m.index > last) out.push(text.slice(last, m.index))
+    const [, label, href] = m
+    out.push(
+      href.startsWith('/') ? (
+        <Link key={m.index} to={href} viewTransition className="font-medium text-ink underline decoration-orange/60 underline-offset-4 hover:decoration-orange">
+          {label}
+        </Link>
+      ) : (
+        <a key={m.index} href={href} target="_blank" rel="noopener noreferrer" className="font-medium text-ink underline decoration-orange/60 underline-offset-4 hover:decoration-orange">
+          {label}
+        </a>
+      ),
+    )
+    last = m.index + m[0].length
+  }
+  if (last < text.length) out.push(text.slice(last))
+  return out
+}
+
 function ArticleBody({ sections }: { sections: ArticleSection[] }) {
   return (
     <div className="text-ink">
@@ -45,7 +72,7 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
           case 'paragraph':
             return (
               <p key={i} className="mb-6 text-lg leading-relaxed text-ink/75">
-                {s.content}
+                {rich(s.content)}
               </p>
             )
           case 'heading':
@@ -68,7 +95,7 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
                   {s.items?.map((item, j) => (
                     <li key={j} className="flex items-start gap-3 text-ink/75">
                       <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
-                      <span className="leading-relaxed">{item}</span>
+                      <span className="leading-relaxed">{rich(item)}</span>
                     </li>
                   ))}
                 </ul>
@@ -78,7 +105,7 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
             return (
               <aside key={i} className="my-8 rounded-3xl bg-paper px-6 py-5">
                 <p className="label mb-2 text-orange">Consiglio da local</p>
-                <p className="leading-relaxed text-ink/80">{s.content}</p>
+                <p className="leading-relaxed text-ink/80">{rich(s.content)}</p>
               </aside>
             )
           case 'quote':
