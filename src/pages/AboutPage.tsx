@@ -37,7 +37,7 @@ export default function AboutPage() {
   usePageMeta({
     title: 'Chi siamo · Cose Fighe',
     description:
-      'Cose Fighe nasce nel 2023 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
+      'Cose Fighe nasce nel 2026 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
     image: '/img/napoli-skyline.webp',
   })
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="La nostra storia"
         title="Chi siamo"
-        subtitle="Nati a Napoli nel 2023 da un'idea semplice: la città ha molto più da offrire di quello che mostrano le guide."
+        subtitle="Nati a Napoli nel 2026 da un'idea semplice: la città ha molto più da offrire di quello che mostrano le guide."
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/mascotte-1.webp" amplitude={10} />
