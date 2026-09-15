@@ -92,6 +92,8 @@ export interface CityEvent {
   blurb: string
   url?: string
   featured?: boolean
+  /** Evento targato Cose Fighe: lo sponsorizziamo o ci partecipiamo; alimenta l'avviso sul sito. */
+  cosefighe?: boolean
 }
 
 export interface Category {

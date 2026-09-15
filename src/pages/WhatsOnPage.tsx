@@ -72,6 +72,7 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
       <span className="min-w-0">
         <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="font-semibold leading-snug">{event.title}</span>
+          {event.cosefighe && <span className="label rounded-full bg-orange px-2 py-0.5 text-white">Evento Cose Fighe</span>}
           {event.featured && <span className="label rounded-full bg-orange/10 px-2 py-0.5 text-orange">Da non perdere</span>}
           {ongoing && <span className="label rounded-full bg-ink/[0.06] px-2 py-0.5 text-ink/60">in corso</span>}
         </span>

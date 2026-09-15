@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { RefreshCw } from 'lucide-react'
 import { AdminLayout, Button, Card, Notice, PageHeader, Stat } from './ui'
-import { loadAnalytics, summarize, type Ranked, type Summary } from '../../lib/analytics'
+import { loadAnalytics, loadLive, summarize, type Live, type Ranked, type Summary } from '../../lib/analytics'
 
 const RANGES = [
+  { days: 1, label: 'Oggi' },
   { days: 7, label: '7 giorni' },
   { days: 30, label: '30 giorni' },
   { days: 90, label: '90 giorni' },
@@ -141,6 +142,19 @@ export default function AdminAnalytics() {
   const [days, setDays] = useState(30)
   const [summary, setSummary] = useState<Summary | null>(null)
   const [loading, setLoading] = useState(true)
+  const [live, setLive] = useState<Live | null>(null)
+
+  // Dal vivo: si aggiorna da solo ogni 30 secondi finché la pagina è aperta.
+  useEffect(() => {
+    let stop = false
+    const tick = () => loadLive().then((l) => !stop && setLive(l))
+    tick()
+    const id = window.setInterval(tick, 30000)
+    return () => {
+      stop = true
+      window.clearInterval(id)
+    }
+  }, [])
 
   const load = (d: number) => {
     setLoading(true)
@@ -195,8 +209,32 @@ export default function AdminAnalytics() {
         <p className="text-sm text-ink/45">Caricamento...</p>
       ) : (
         <div className="space-y-6">
+          <Card>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-3 w-3">
+                  <span className={`absolute inline-flex h-full w-full rounded-full bg-success opacity-75 ${live && live.count > 0 ? 'animate-ping' : ''}`} />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-success" />
+                </span>
+                <p className="text-3xl font-bold tabular-nums tracking-[-0.02em]">{live ? fmt(live.count) : '–'}</p>
+                <div>
+                  <p className="text-sm font-semibold">{live?.count === 1 ? 'persona sul sito adesso' : 'persone sul sito adesso'}</p>
+                  <p className="text-xs text-ink/45">negli ultimi 5 minuti · si aggiorna da solo{live ? ` · ${new Date(live.updatedAt).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}` : ''}</p>
+                </div>
+              </div>
+              {live && live.pages.length > 0 && (
+                <ul className="flex flex-wrap gap-2 sm:ml-auto">
+                  {live.pages.map((p) => (
+                    <li key={p.name} className="rounded-full bg-paper px-3 py-1 text-xs font-medium text-ink/70">
+                      {p.name} <span className="text-ink/40">· {p.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Card>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <Stat label="Visite" value={fmt(s.sessions)} hint={`negli ultimi ${days} giorni`} />
+            <Stat label="Visite" value={fmt(s.sessions)} hint={days === 1 ? 'oggi, da mezzanotte' : `negli ultimi ${days} giorni`} />
             <Stat label="Pagine viste" value={fmt(s.pageviews)} hint={`${s.pagesPerSession} a visita`} />
             <Stat label="Tempo medio per pagina" value={secs(s.avgSeconds)} />
             <Stat label="Scorrimento medio" value={`${s.avgScroll}%`} hint="della pagina, in media" />
@@ -214,6 +252,24 @@ export default function AdminAnalytics() {
             <Card>
               <h2 className="mb-4 font-semibold">Pagine più viste</h2>
               <Bars items={pageShare} empty="Nessuna visita registrata" />
+            </Card>
+            <Card>
+              <h2 className="mb-1 font-semibold">Avviso evento Cose Fighe</h2>
+              <p className="mb-4 text-xs text-ink/45">la notifica del prossimo evento: quante volte è comparsa e cosa ne hanno fatto</p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {[
+                  ['Comparsa', s.promo.vista],
+                  ['Aperta', s.promo.aperta],
+                  ['Prenota', s.promo.prenota],
+                  ['Chiusa', s.promo.chiusa],
+                ].map(([label, value]) => (
+                  <div key={String(label)} className="rounded-2xl bg-paper p-4">
+                    <p className="text-xs text-ink/55">{label}</p>
+                    <p className="mt-1 text-2xl font-bold tabular-nums tracking-[-0.02em]">{fmt(Number(value))}</p>
+                    {label === 'Prenota' && s.promo.vista > 0 && <p className="mt-0.5 text-xs text-ink/45">{Math.round((s.promo.prenota / s.promo.vista) * 100)}% di chi l’ha vista</p>}
+                  </div>
+                ))}
+              </div>
             </Card>
             <Card>
               <h2 className="mb-1 font-semibold">Dove cliccano</h2>

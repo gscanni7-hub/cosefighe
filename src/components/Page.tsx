@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navbar } from './Navbar'
 import { Footer } from './Footer'
+import { PromoToast } from './PromoToast'
 
 /** Struttura comune delle pagine pubbliche: barra, contenuto, piè di pagina. */
 export function Page({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -9,6 +10,7 @@ export function Page({ children, className = '' }: { children: ReactNode; classN
       <Navbar />
       <main id="main">{children}</main>
       <Footer />
+      <PromoToast />
     </div>
   )
 }

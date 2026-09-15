@@ -18,6 +18,7 @@ interface DbEvent {
   blurb?: string | null
   url?: string | null
   featured?: boolean | null
+  source?: string | null
 }
 
 const dbEvents: CityEvent[] = ((generated.events as DbEvent[]) ?? []).map((e) => ({
@@ -33,6 +34,7 @@ const dbEvents: CityEvent[] = ((generated.events as DbEvent[]) ?? []).map((e) =>
   blurb: e.blurb ?? '',
   url: e.url ?? undefined,
   featured: e.featured ?? false,
+  cosefighe: e.source === 'cosefighe',
 }))
 
 /** Eventi pubblicati nel database; finché non ce ne sono, restano gli esempi. */
@@ -70,6 +72,11 @@ export function isLongRunning(e: CityEvent): boolean {
 
 function eachDayCount(from: string, to: string): number {
   return Math.round((Date.parse(to) - Date.parse(from)) / 86400000) + 1
+}
+
+/** Il prossimo evento targato Cose Fighe (segnato nel pannello), se ce n'è uno non ancora passato. */
+export function nextCoseFigheEvent(today = todayISO()): CityEvent | undefined {
+  return EVENTS.filter((e) => e.cosefighe && eventEnd(e) >= today).sort((a, b) => a.start.localeCompare(b.start))[0]
 }
 
 /** I prossimi eventi a data fissa; le mostre e le rassegne lunghe solo se manca altro. */

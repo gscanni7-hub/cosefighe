@@ -31,6 +31,8 @@ export interface Summary {
   referrers: Ranked[]
   devices: Ranked[]
   scrollByPage: Ranked[]
+  /** L'avviso del prossimo evento Cose Fighe: quante volte è comparso, aperto, chiuso, cliccato su Prenota. */
+  promo: { vista: number; aperta: number; chiusa: number; prenota: number }
   demo: boolean
 }
 
@@ -41,13 +43,38 @@ export async function loadAnalytics(days: number): Promise<{ rows: AnalyticsRow[
   if (!isSupabaseConfigured) return { rows: [], demo: true }
   const supabase = await getSupabase()
   if (!supabase) return { rows: [], demo: true }
-  const since = new Date(Date.now() - days * 86400000).toISOString()
+  // "Oggi" (1 giorno) parte dalla mezzanotte locale, non dalle ultime 24 ore.
+  const since = days === 1 ? new Date(new Date().setHours(0, 0, 0, 0)).toISOString() : new Date(Date.now() - days * 86400000).toISOString()
   const { data, error } = await supabase.from('analytics_events').select('*').gte('ts', since).order('ts', { ascending: true }).limit(50000)
   if (error) {
     console.error(error)
     return { rows: [], demo: false }
   }
   return { rows: (data ?? []) as AnalyticsRow[], demo: false }
+}
+
+export interface Live {
+  /** Visitatori distinti con un segnale negli ultimi 5 minuti. */
+  count: number
+  /** Pagina attuale di ciascuno, raggruppata. */
+  pages: Ranked[]
+  updatedAt: string
+}
+
+/** Chi è sul sito adesso: sessioni con un evento negli ultimi 5 minuti e la loro ultima pagina. */
+export async function loadLive(): Promise<Live> {
+  const empty: Live = { count: 0, pages: [], updatedAt: new Date().toISOString() }
+  if (!isSupabaseConfigured) return empty
+  const supabase = await getSupabase()
+  if (!supabase) return empty
+  const since = new Date(Date.now() - 5 * 60000).toISOString()
+  const { data, error } = await supabase.from('analytics_events').select('session,path,ts').gte('ts', since).order('ts', { ascending: true }).limit(5000)
+  if (error || !data) return empty
+  const last = new Map<string, string>()
+  for (const r of data as { session: string; path: string }[]) last.set(r.session, r.path)
+  const pages = new Map<string, number>()
+  for (const path of last.values()) pages.set(path, (pages.get(path) ?? 0) + 1)
+  return { count: last.size, pages: rank(pages, 6), updatedAt: new Date().toISOString() }
 }
 
 function rank(map: Map<string, number>, limit = 8): Ranked[] {
@@ -60,6 +87,12 @@ function rank(map: Map<string, number>, limit = 8): Ranked[] {
 /** Aggrega gli eventi grezzi nei numeri del cruscotto. */
 export function summarize(rows: AnalyticsRow[], days: number, demo: boolean): Summary {
   void demo
+  const promo = { vista: 0, aperta: 0, chiusa: 0, prenota: 0 }
+  for (const r of rows) {
+    if (r.type !== 'event' || !r.name?.startsWith('promo_')) continue
+    const k = r.name.slice(6) as keyof typeof promo
+    if (k in promo) promo[k]++
+  }
   const sessions = new Set<string>()
   const pages = new Map<string, number>()
   const clicks = new Map<string, number>()
@@ -130,6 +163,7 @@ export function summarize(rows: AnalyticsRow[], days: number, demo: boolean): Su
     referrers: rank(refs, 6),
     devices: rank(devs, 3),
     scrollByPage,
+    promo,
     demo,
   }
 }

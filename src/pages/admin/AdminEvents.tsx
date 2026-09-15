@@ -139,6 +139,9 @@ export default function AdminEvents() {
               <label className="ml-auto flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={!!form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> Da non perdere
               </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={form.source === 'cosefighe'} onChange={(e) => setForm({ ...form, source: e.target.checked ? 'cosefighe' : 'manuale' })} /> Evento Cose Fighe (mostra l’avviso sul sito)
+              </label>
             </div>
           </form>
         </Card>
