@@ -45,12 +45,19 @@ export async function loadAnalytics(days: number): Promise<{ rows: AnalyticsRow[
   if (!supabase) return { rows: [], demo: true }
   // "Oggi" (1 giorno) parte dalla mezzanotte locale, non dalle ultime 24 ore.
   const since = days === 1 ? new Date(new Date().setHours(0, 0, 0, 0)).toISOString() : new Date(Date.now() - days * 86400000).toISOString()
-  const { data, error } = await supabase.from('analytics_events').select('*').gte('ts', since).order('ts', { ascending: true }).limit(50000)
-  if (error) {
-    console.error(error)
-    return { rows: [], demo: false }
+  // Il database dà al massimo 1000 righe per richiesta: si legge a blocchi finché ce ne sono (tetto 100.000).
+  const PAGE = 1000
+  const rows: AnalyticsRow[] = []
+  for (let from = 0; from < 100000; from += PAGE) {
+    const { data, error } = await supabase.from('analytics_events').select('*').gte('ts', since).order('ts', { ascending: true }).range(from, from + PAGE - 1)
+    if (error) {
+      console.error(error)
+      break
+    }
+    rows.push(...((data ?? []) as AnalyticsRow[]))
+    if (!data || data.length < PAGE) break
   }
-  return { rows: (data ?? []) as AnalyticsRow[], demo: false }
+  return { rows, demo: false }
 }
 
 export interface Live {

@@ -47,6 +47,8 @@ const organization = {
   name: SITE_NAME,
   url: SITE_URL,
   logo: abs('/icon-512.png'),
+  foundingDate: '2026',
+  foundingLocation: { '@type': 'Place', name: 'Napoli' },
   sameAs: ['https://www.instagram.com/cosefighe_/'],
   email: 'ciao@cosefighe.it',
   address: { '@type': 'PostalAddress', addressLocality: 'Napoli', addressRegion: 'Campania', addressCountry: 'IT' },
@@ -224,7 +226,7 @@ export function routeSeo(path: string): RouteSeo {
     return {
       updated: STATIC_UPDATED,
       title: 'Chi siamo · Cose Fighe',
-      description: 'Cose Fighe nasce nel 2023 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
+      description: 'Cose Fighe nasce nel 2026 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
       image: OG_HOME,
       jsonLd: graph(organization, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Chi siamo', path: '/chi-siamo' }])),
     }
