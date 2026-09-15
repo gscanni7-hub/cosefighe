@@ -718,5 +718,85 @@
   "license": "CC BY-SA 4.0",
   "w": 4000,
   "h": 3000
+ },
+ "positano": {
+  "term": "Positano view",
+  "title": "File:Positano, Italia, 2023-03-26, DD 10.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Positano,_Italia,_2023-03-26,_DD_10.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Positano%2C_Italia%2C_2023-03-26%2C_DD_10.jpg/1920px-Positano%2C_Italia%2C_2023-03-26%2C_DD_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 4.0",
+  "w": 1400,
+  "h": 674
+ },
+ "capri-faraglioni": {
+  "term": "Faraglioni Capri",
+  "title": "File:Capri BW 2013-05-14 15-19-56 DxO.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Capri_BW_2013-05-14_15-19-56_DxO.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Capri_BW_2013-05-14_15-19-56_DxO.jpg/1920px-Capri_BW_2013-05-14_15-19-56_DxO.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Berthold Werner",
+  "license": "CC BY-SA 3.0",
+  "w": 1400,
+  "h": 758
+ },
+ "procida-corricella": {
+  "term": "Corricella Procida",
+  "title": "File:Corricella 2016, Procida (2).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Corricella_2016,_Procida_(2).jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Corricella_2016%2C_Procida_%282%29.jpg/1920px-Corricella_2016%2C_Procida_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Ekrem Canli",
+  "license": "CC BY-SA 4.0",
+  "w": 1400,
+  "h": 537
+ },
+ "ischia-castello": {
+  "term": "Castello Aragonese Ischia",
+  "title": "File:02004 Castello Aragonese (Ischia).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:02004_Castello_Aragonese_(Ischia).jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/6/65/02004_Castello_Aragonese_%28Ischia%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "artist": "Silar",
+  "license": "CC BY-SA 3.0",
+  "w": 1400,
+  "h": 917
+ },
+ "reggia-caserta-2": {
+  "term": "Reggia di Caserta parco fontana",
+  "title": "File:Caserta - Reggia di Caserta - Parco del Palazzo Reale - Fontana di Cerere (particolare).JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Caserta_-_Reggia_di_Caserta_-_Parco_del_Palazzo_Reale_-_Fontana_di_Cerere_(particolare).JPG",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Caserta_-_Reggia_di_Caserta_-_Parco_del_Palazzo_Reale_-_Fontana_di_Cerere_%28particolare%29.JPG/1920px-Caserta_-_Reggia_di_Caserta_-_Parco_del_Palazzo_Reale_-_Fontana_di_Cerere_%28particolare%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Monica Rondoni",
+  "license": "CC BY-SA 4.0",
+  "w": 1400,
+  "h": 933
+ },
+ "pompei-via": {
+  "term": "Pompei via dell Abbondanza",
+  "title": "File:Pompei, Via dell'Abbondanza - panoramio.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pompei,_Via_dell%27Abbondanza_-_panoramio.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Pompei%2C_Via_dell%27Abbondanza_-_panoramio.jpg/1920px-Pompei%2C_Via_dell%27Abbondanza_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Carlo Pelagalli",
+  "license": "CC BY-SA 3.0",
+  "w": 1400,
+  "h": 933
+ },
+ "pompei-foro-2": {
+  "term": "Forum of Pompeii",
+  "title": "File:02004 Forum (Pompeii).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:02004_Forum_(Pompeii).jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/6/68/02004_Forum_%28Pompeii%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "artist": "Silar",
+  "license": "CC BY-SA 4.0",
+  "w": 1400,
+  "h": 933
+ },
+ "mozzarella-bufala": {
+  "term": "Mozzarella",
+  "title": "File:A plate of Mozzarella balls.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:A_plate_of_Mozzarella_balls.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/A_plate_of_Mozzarella_balls.jpg/1920px-A_plate_of_Mozzarella_balls.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "artist": "Peachyeung316",
+  "license": "CC BY-SA 4.0",
+  "w": 1400,
+  "h": 1050
  }
 }
