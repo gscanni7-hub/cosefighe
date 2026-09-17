@@ -73,6 +73,21 @@ for (const path of paths) {
   ok++
 }
 
+// Pagina 404 vera: Vercel la serve con stato 404 per ogni indirizzo che non esiste (prima rispondeva 200: "soft 404" per Google).
+{
+  let body = await render('/pagina-non-trovata')
+  const hints = []
+  body = body.replace(/^(?:<link [^>]*\/?>)+/, (m) => {
+    hints.push(m)
+    return ''
+  })
+  const head404 = ['<title>Pagina non trovata · Cose Fighe</title>', '<meta name="robots" content="noindex" />', '<meta name="description" content="La pagina che cerchi non esiste." />'].join('\n    ')
+  const html = stripHead(template)
+    .replace('</head>', `    ${head404}\n    ${hints.join('')}\n  </head>`)
+    .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
+  await writeFile(join(dist, '404.html'), html)
+}
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths
