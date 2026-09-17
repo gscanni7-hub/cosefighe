@@ -11,6 +11,7 @@ import { ArticleCard } from '../components/ui/ArticleCard'
 import { Segmented } from '../components/ui/Segmented'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
+import { GUIDE_LABELS, guideArticles } from '../data/correlati'
 import { eventEnd, upcomingEvents } from '../data/events'
 import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -297,6 +298,20 @@ const BlogTeaser = () => (
       <div className="mt-10">
         <ArticleCard article={ARTICLES_BY_DATE[0]} featured />
       </div>
+      {guideArticles().length > 0 && (
+        <Reveal className="mt-10 border-t border-line pt-8">
+          <p className="label text-ink/50">Le guide</p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {guideArticles().map((a) => (
+              <li key={a.slug}>
+                <ButtonLink to={`/blog/${a.slug}`} variant="secondary" size="sm">
+                  {GUIDE_LABELS[a.slug] ?? a.title.split(':')[0]} <ArrowRight size={14} />
+                </ButtonLink>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      )}
     </div>
   </section>
 )

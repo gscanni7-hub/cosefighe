@@ -7,6 +7,7 @@ import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { findExperiencePage, hasTexts, type ExperiencePage as PageData } from '../data/schede'
 import { schedaTexts } from '../data/schedeTesti'
+import { relatedForExperience } from '../data/correlati'
 import credits from '../data/credits.json'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { track } from '../lib/track'
@@ -50,6 +51,7 @@ function ExperienceView({ page }: { page: PageData }) {
   })
 
   const others = category.experiences.filter((e) => e.title !== exp.title).slice(0, 3)
+  const reads = relatedForExperience(exp, category.slug)
   const days = exp.days?.length ? exp.days.map((d) => WEEKDAYS[d]).join(', ') : 'tutti i giorni'
   const onBook = () => track('prenota', { provider: exp.provider ?? '', title: exp.title, from: 'scheda' })
 
@@ -160,6 +162,24 @@ function ExperienceView({ page }: { page: PageData }) {
                 </div>
               </Reveal>
             ) : null}
+            {reads.length > 0 && (
+              <Reveal className="mt-12">
+                <h2 className="heading-md">Da leggere prima di andare</h2>
+                <ul className="mt-5 divide-y divide-line border-y border-line">
+                  {reads.map((a) => (
+                    <li key={a.slug}>
+                      <Link to={`/blog/${a.slug}`} viewTransition className="group flex items-start justify-between gap-4 py-4">
+                        <span className="min-w-0">
+                          <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{a.title}</span>
+                          <span className="mt-1 block text-sm text-ink/55">{a.readingTime} minuti di lettura</span>
+                        </span>
+                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/40 transition-transform group-hover:translate-x-0.5" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
           </div>
 
           {/* Riquadro di prenotazione: fisso a lato su computer, in coda su telefono. */}

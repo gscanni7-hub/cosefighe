@@ -8,6 +8,7 @@ import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { CATEGORY_TEXTS } from '../data/categorieTesti'
+import { relatedForCategory } from '../data/correlati'
 import { usePageMeta } from '../hooks/usePageMeta'
 import NotFoundPage from './NotFoundPage'
 import type { Category } from '../types'
@@ -32,6 +33,7 @@ function CategoryView({ cat }: { cat: Category }) {
 
   const others = CATEGORY_LIST.filter((c) => c.slug !== cat.slug)
   const texts = CATEGORY_TEXTS[cat.slug]
+  const reads = relatedForCategory(cat.slug)
 
   return (
     <Page>
@@ -59,7 +61,21 @@ function CategoryView({ cat }: { cat: Category }) {
               <ExperienceCard key={exp.title} exp={exp} category={cat.label} index={i} />
             ))}
           </div>
-          <Reveal className="mt-14 border-t border-line pt-8">
+          {reads.length > 0 && (
+            <Reveal className="mt-14 border-t border-line pt-8">
+              <p className="label text-ink/50">Guide utili</p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {reads.map((a) => (
+                  <li key={a.slug}>
+                    <ButtonLink to={`/blog/${a.slug}`} variant="secondary" size="sm">
+                      {a.title.split(':')[0]} <ArrowRight size={14} />
+                    </ButtonLink>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+          <Reveal className="mt-8 border-t border-line pt-8">
             <p className="label text-ink/50">Altre categorie</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {others.map((c) => (

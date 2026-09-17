@@ -13,6 +13,7 @@ import { CATEGORY_LIST } from '../data/categories'
 import { COSA_FARE_FAQ } from '../data/faq'
 import { GUIDE, GUIDE_INTRO, GUIDE_TITLE } from '../data/guida'
 import { track } from '../lib/track'
+import { articleBySlug } from '../data/correlati'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween, isLongRunning } from '../data/events'
 import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -469,6 +470,11 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                         {cat && (
                           <Link to={`/categoria/${cat.slug}`} viewTransition className="text-ink/55 underline decoration-ink/25 underline-offset-4 hover:text-ink">
                             Tutte le esperienze {cat.label.toLowerCase()}
+                          </Link>
+                        )}
+                        {g.article && articleBySlug(g.article) && (
+                          <Link to={`/blog/${g.article}`} viewTransition className="text-ink/55 underline decoration-ink/25 underline-offset-4 hover:text-ink">
+                            Approfondisci: {articleBySlug(g.article)!.title.split(':')[0]}
                           </Link>
                         )}
                       </div>
