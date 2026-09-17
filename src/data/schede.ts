@@ -1,10 +1,10 @@
 /**
- * Le schede delle esperienze: una pagina per ogni attività, /esperienze/<slug>.
- * Gli indirizzi (slug) sono congelati in schede.json, chiave = id sulla piattaforma partner,
- * così non cambiano se ritocchiamo un titolo. I testi sono nostri; i dati (prezzo, durata,
- * voto…) vengono dal database come per le card.
+ * Le pagine delle esperienze: una per ogni attività, /esperienze/<slug>.
+ * Gli indirizzi (slug) sono congelati, chiave = id sulla piattaforma partner, così non cambiano
+ * se ritocchiamo un titolo. Qui ci sono solo gli indirizzi (schede-slugs.json, leggero, generato
+ * a ogni build da schede.json); i testi lunghi li carica soltanto la pagina della scheda.
  */
-import raw from './schede.json'
+import slugs from './schede-slugs.json'
 import { CATEGORY_LIST } from './categories'
 import type { Category, Experience } from '../types'
 
@@ -27,18 +27,16 @@ export interface ExperiencePage {
   path: string
   exp: Experience
   category: Category
-  scheda: Scheda
 }
 
-export const SCHEDE: Record<string, Scheda> = raw as Record<string, Scheda>
-
+const SLUGS = slugs as Record<string, string>
 const key = (exp: Experience) => (exp.providerId ? String(exp.providerId) : '')
 
-/** Tutte le pagine esperienza, nell'ordine delle categorie. Solo le esperienze con una scheda. */
+/** Tutte le pagine esperienza, nell'ordine delle categorie. Solo le esperienze con un indirizzo. */
 export const EXPERIENCE_PAGES: ExperiencePage[] = CATEGORY_LIST.flatMap((category) =>
   category.experiences.flatMap((exp) => {
-    const scheda = SCHEDE[key(exp)]
-    return scheda ? [{ slug: scheda.slug, path: `/esperienze/${scheda.slug}`, exp, category, scheda }] : []
+    const slug = SLUGS[key(exp)]
+    return slug ? [{ slug, path: `/esperienze/${slug}`, exp, category }] : []
   }),
 )
 
@@ -55,6 +53,6 @@ export function experiencePath(exp: Experience): string | undefined {
 }
 
 /** Vero se la scheda ha i testi (non solo l'indirizzo). */
-export function hasTexts(s: Scheda): boolean {
-  return !!s.intro && !!s.cosaSiFa?.length
+export function hasTexts(s: Scheda | undefined): s is Scheda {
+  return !!s?.intro && !!s.cosaSiFa?.length
 }

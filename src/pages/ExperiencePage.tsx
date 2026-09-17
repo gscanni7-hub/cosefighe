@@ -6,6 +6,7 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { findExperiencePage, hasTexts, type ExperiencePage as PageData } from '../data/schede'
+import { schedaTexts } from '../data/schedeTesti'
 import credits from '../data/credits.json'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { track } from '../lib/track'
@@ -33,13 +34,14 @@ function Fact({ icon, label, value }: { icon: React.ReactNode; label: string; va
 }
 
 function ExperienceView({ page }: { page: PageData }) {
-  const { exp, category, scheda } = page
+  const { exp, category } = page
+  const scheda = schedaTexts(exp.providerId)
   const { has, toggle } = useSaved()
   const saved = has(exp.title)
   const bookable = !!exp.affiliateUrl && !!exp.provider && exp.provider !== 'cosefighe'
   const provider = exp.provider ? PROVIDER_LABEL[exp.provider] : ''
   const credit = creditFor(exp.image)
-  const intro = scheda.intro ?? `${category.label} a Napoli, ${exp.location}. ${exp.duration}. ${exp.included}.`
+  const intro = scheda?.intro ?? `${category.label} a Napoli, ${exp.location}. ${exp.duration}. ${exp.included}.`
 
   usePageMeta({
     title: `${exp.title} · da ${exp.price} · Cose Fighe`,
@@ -114,7 +116,7 @@ function ExperienceView({ page }: { page: PageData }) {
               <>
                 <Reveal className="mt-12">
                   <h2 className="heading-md">Cosa si fa</h2>
-                  {scheda.cosaSiFa!.map((p, i) => (
+                  {(scheda.cosaSiFa ?? []).map((p, i) => (
                     <p key={i} className="mt-4 text-lg leading-relaxed text-ink/75">
                       {p}
                     </p>
@@ -145,7 +147,7 @@ function ExperienceView({ page }: { page: PageData }) {
               </p>
             </Reveal>
 
-            {scheda.faq?.length ? (
+            {scheda?.faq?.length ? (
               <Reveal className="mt-12">
                 <h2 className="heading-md">Domande frequenti</h2>
                 <div className="mt-6 divide-y divide-line border-y border-line">

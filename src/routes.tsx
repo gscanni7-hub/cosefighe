@@ -9,10 +9,7 @@ import CreatorPage from './pages/CreatorPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import CategoryPage from './pages/CategoryPage'
-import ExperiencePage from './pages/ExperiencePage'
 import BlogPage from './pages/BlogPage'
-import BlogArticlePage from './pages/BlogArticlePage'
-import PrivacyPage from './pages/PrivacyPage'
 import CookiePage from './pages/CookiePage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -69,7 +66,8 @@ export const routes: RouteObject[] = [
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/esperienze', element: <ExperiencesPage /> },
-      { path: '/esperienze/:slug', element: <ExperiencePage /> },
+      // Caricate a parte: portano con sé i testi lunghi (schede, articoli, crediti), che così non pesano sul resto del sito.
+      { path: '/esperienze/:slug', lazy: () => import('./pages/ExperiencePage').then((m) => ({ Component: m.default })) },
       { path: '/cosa-fare', element: <WhatsOnPage /> },
       { path: '/cosa-fare/oggi', element: <WhatsOnPage fixed="oggi" /> },
       { path: '/cosa-fare/weekend', element: <WhatsOnPage fixed="weekend" /> },
@@ -78,8 +76,8 @@ export const routes: RouteObject[] = [
       { path: '/contatti', element: <ContactPage /> },
       { path: '/categoria/:slug', element: <CategoryPage /> },
       { path: '/blog', element: <BlogPage /> },
-      { path: '/blog/:slug', element: <BlogArticlePage /> },
-      { path: '/privacy', element: <PrivacyPage /> },
+      { path: '/blog/:slug', lazy: () => import('./pages/BlogArticlePage').then((m) => ({ Component: m.default })) },
+      { path: '/privacy', lazy: () => import('./pages/PrivacyPage').then((m) => ({ Component: m.default })) },
       { path: '/cookie', element: <CookiePage /> },
       { path: '/admin/login', element: admin(<AdminLogin />) },
       { path: '/admin', element: admin(<AdminDashboard />) },

@@ -1,8 +1,10 @@
 import { CATEGORY_LIST } from './data/categories'
 import { ARTICLES_BY_DATE } from './data/articles'
 import { COSA_FARE_FAQ } from './data/faq'
+import { CATEGORY_TEXTS } from './data/categorieTesti'
 import { GUIDE, GUIDE_TITLE } from './data/guida'
 import { EXPERIENCE_PAGES } from './data/schede'
+import { schedaTexts } from './data/schedeTesti'
 import { eventEnd, eventsBetween } from './data/events'
 import generated from './data/generated.json'
 import { BUILD_DAY } from './lib/buildDay'
@@ -244,8 +246,8 @@ export function routeSeo(path: string): RouteSeo {
     return {
       title: 'Blog · Guide, consigli e storie su Napoli · Cose Fighe',
       description: 'Guide e racconti per vivere Napoli come un local: street food, Vesuvio, Napoli Sotterranea, quartieri, aperitivi, laboratori.',
-      image: og(ARTICLES_BY_DATE[0].coverImage),
-      updated: ARTICLES_BY_DATE[0].date,
+      image: ARTICLES_BY_DATE[0] ? og(ARTICLES_BY_DATE[0].coverImage) : OG_HOME,
+      updated: ARTICLES_BY_DATE[0]?.date ?? STATIC_UPDATED,
       jsonLd: graph(
         { '@type': 'Blog', name: 'Il blog di Cose Fighe', url: abs('/blog'), publisher: { '@id': SITE_URL + '/#org' } },
         breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
@@ -266,6 +268,9 @@ export function routeSeo(path: string): RouteSeo {
         jsonLd: graph(
           breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Esperienze', path: '/esperienze' }, { name: c.label, path: clean }]),
           { '@type': 'ItemList', name: `Esperienze ${c.label} a Napoli`, itemListElement: c.experiences.map((e, i) => ({ '@type': 'ListItem', position: i + 1, item: experienceProduct(e, c.label) })) },
+          ...(CATEGORY_TEXTS[c.slug]
+            ? [{ '@type': 'FAQPage', mainEntity: CATEGORY_TEXTS[c.slug].faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
+            : []),
         ),
       }
     }
@@ -275,9 +280,10 @@ export function routeSeo(path: string): RouteSeo {
   if (ep) {
     const p = EXPERIENCE_PAGES.find((x) => x.slug === ep[1])
     if (p) {
-      const intro = p.scheda.intro ?? `${p.category.label} a Napoli, ${p.exp.location}. ${p.exp.duration}. ${p.exp.included}.`
-      const faq = p.scheda.faq?.length
-        ? [{ '@type': 'FAQPage', mainEntity: p.scheda.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
+      const scheda = schedaTexts(p.exp.providerId)
+      const intro = scheda?.intro ?? `${p.category.label} a Napoli, ${p.exp.location}. ${p.exp.duration}. ${p.exp.included}.`
+      const faq = scheda?.faq?.length
+        ? [{ '@type': 'FAQPage', mainEntity: scheda.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
         : []
       return {
         title: `${p.exp.title} · da ${p.exp.price} · Cose Fighe`,

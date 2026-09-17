@@ -26,6 +26,7 @@ function head(path, seo) {
     `<title>${esc(seo.title)}</title>`,
     `<meta name="description" content="${esc(seo.description)}" />`,
     `<link rel="canonical" href="${url}" />`,
+    `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />`,
     `<meta property="og:type" content="${path.startsWith('/blog/') ? 'article' : 'website'}" />`,
     `<meta property="og:site_name" content="Cose Fighe" />`,
     `<meta property="og:locale" content="it_IT" />`,

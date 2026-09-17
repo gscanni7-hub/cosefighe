@@ -7,6 +7,7 @@ import { ButtonLink } from '../components/ui/Button'
 import { Sticker } from '../components/ui/Sticker'
 import { ArticleCard } from '../components/ui/ArticleCard'
 import { getArticleBySlug, getRelatedArticles } from '../data/articles'
+import { articleBody } from '../data/articleBodies'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { Article, ArticleSection } from '../types'
 import { CATEGORIES } from '../data/categories'
@@ -287,7 +288,8 @@ function ArticleView({ article }: { article: Article }) {
 
 export default function BlogArticlePage() {
   const { slug } = useParams()
-  const article = getArticleBySlug(slug ?? '')
+  const meta = getArticleBySlug(slug ?? '')
+  const article = meta ? { ...meta, body: articleBody(meta.slug) } : undefined
   if (!article) return <Navigate to="/blog" replace />
   return <ArticleView key={article.slug} article={article} />
 }

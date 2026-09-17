@@ -10,6 +10,15 @@ import { join } from 'node:path'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const file = join(root, 'src', 'data', 'generated.json')
+const bodiesFile = join(root, 'src', 'data', 'generated-bodies.json')
+
+// Indirizzi delle schede: versione leggera di schede.json (solo id -> slug), usata da card e ricerca.
+try {
+  const schede = JSON.parse(await readFile(join(root, 'src', 'data', 'schede.json'), 'utf8'))
+  await writeFile(join(root, 'src', 'data', 'schede-slugs.json'), JSON.stringify(Object.fromEntries(Object.entries(schede).map(([k, v]) => [k, v.slug])), null, 1))
+} catch (e) {
+  console.warn('schede-slugs non rigenerato:', e.message)
+}
 
 const env = {}
 try {
@@ -39,7 +48,11 @@ try {
     get('events?select=*&published=eq.true&order=start_date.asc').catch(() => []),
   ])
   experiences.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
-  await writeFile(file, JSON.stringify({ fetchedAt: new Date().toISOString(), experiences, articles, events }, null, 1))
+  // I testi degli articoli vanno in un file a parte: li scarica solo la pagina dell'articolo.
+  const bodies = Object.fromEntries(articles.map((a) => [a.slug, a.body ?? []]))
+  const index = articles.map(({ body, ...meta }) => meta)
+  await writeFile(bodiesFile, JSON.stringify(bodies))
+  await writeFile(file, JSON.stringify({ fetchedAt: new Date().toISOString(), experiences, articles: index, events }, null, 1))
   console.log(`Contenuti dal database: ${experiences.length} esperienze, ${articles.length} articoli, ${events.length} eventi.`)
 } catch (e) {
   if (process.env.VERCEL) {
