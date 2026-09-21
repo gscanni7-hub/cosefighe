@@ -12,7 +12,7 @@ import { Segmented } from '../components/ui/Segmented'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { GUIDE_LABELS, guideArticles } from '../data/correlati'
-import { eventEnd, upcomingEvents } from '../data/events'
+import { eventPath, upcomingEvents } from '../data/events'
 import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
@@ -230,7 +230,7 @@ const WhatsOnBand = () => {
               return (
                 <li key={e.slug}>
                   <Link
-                    to={`/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`}
+                    to={eventPath(e)}
                     viewTransition
                     className="group grid grid-cols-[3.5rem_1fr_auto] items-center gap-4 py-4 transition-colors hover:bg-white/5"
                   >

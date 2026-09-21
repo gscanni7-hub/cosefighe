@@ -17,17 +17,28 @@ interface ClickRow {
   price: number
 }
 
-/** Click su "Prenota": arrivano come evento "prenota" (con piattaforma e titolo). */
+/**
+ * Click verso GetYourGuide e Viator: si riconoscono dal link in uscita registrato per ogni clic, così contano
+ * anche quelli dalla scheda e quelli fatti prima che la pagina finisca di caricarsi (il segnale "prenota" della
+ * card non arriva sempre). L'esperienza si ritrova confrontando il link con quelli del catalogo.
+ */
 function clicksByExperience(rows: AnalyticsRow[]): ClickRow[] {
   const map = new Map<string, ClickRow>()
-  const prices = new Map<string, number>()
-  for (const c of CATEGORY_LIST) for (const e of c.experiences) prices.set(e.title, priceOf(e.price))
+  const catalog: { base: string; title: string; provider: Provider; price: number }[] = []
+  for (const c of CATEGORY_LIST)
+    for (const e of c.experiences)
+      if (e.affiliateUrl && e.provider && e.provider !== 'cosefighe') catalog.push({ base: e.affiliateUrl.split('?')[0], title: e.title, provider: e.provider, price: priceOf(e.price) })
   for (const r of rows) {
-    if (r.type !== 'event' || r.name !== 'prenota') continue
-    const title = String(r.meta?.title ?? '')
-    const provider = (String(r.meta?.provider ?? '') || 'sconosciuto') as ClickRow['provider']
+    if (r.type !== 'click') continue
+    const href = String(r.meta?.href ?? '')
+    if (!/getyourguide\.|viator\./.test(href)) continue
+    // Il link registrato è tagliato a 120 caratteri: basta che sia l'inizio di quello a catalogo.
+    const path = href.split('?')[0]
+    const exp = path.length >= 40 ? catalog.find((e) => e.base.startsWith(path)) : undefined
+    const provider = exp?.provider ?? (href.includes('viator.') ? 'viator' : 'getyourguide')
+    const title = exp?.title ?? (r.name?.startsWith('prenota:') ? r.name.slice(8) : path)
     const key = `${provider}|${title}`
-    const cur = map.get(key) ?? { title, provider, clicks: 0, price: prices.get(title) ?? 0 }
+    const cur = map.get(key) ?? { title, provider, clicks: 0, price: exp?.price ?? 0 }
     cur.clicks++
     map.set(key, cur)
   }

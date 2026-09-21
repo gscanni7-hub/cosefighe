@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { ArrowRight, Calendar, Newspaper, Search, Ticket, X } from 'lucide-react'
 import { CATEGORY_LIST } from '../data/categories'
-import { EVENTS, EVENT_CATEGORY_LABELS, eventEnd } from '../data/events'
+import { EVENTS, EVENT_CATEGORY_LABELS, eventEnd, eventPath } from '../data/events'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { formatShort, todayISO } from '../lib/dates'
 import { experiencePath } from '../data/schede'
@@ -50,7 +50,7 @@ function search(q: string): Hit[] {
   for (const e of EVENTS) {
     if (eventEnd(e) < today) continue
     const s = score([e.title, e.place, e.area, EVENT_CATEGORY_LABELS[e.category], e.blurb])
-    if (s) hits.push({ kind: 'evento', title: e.title, meta: `${formatShort(e.start)} · ${e.place}`, to: `/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`, score: s })
+    if (s) hits.push({ kind: 'evento', title: e.title, meta: `${formatShort(e.start)} · ${e.place}`, to: eventPath(e), score: s })
   }
   for (const a of ARTICLES_BY_DATE) {
     const s = score([a.title, a.excerpt, a.tags.join(' '), a.category])

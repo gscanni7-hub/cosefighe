@@ -5,7 +5,7 @@ import { CATEGORY_TEXTS } from './data/categorieTesti'
 import { GUIDE, GUIDE_TITLE } from './data/guida'
 import { EXPERIENCE_PAGES } from './data/schede'
 import { schedaTexts } from './data/schedeTesti'
-import { eventEnd, eventsBetween } from './data/events'
+import { eventDateLabel, eventEnd, eventPath, eventPriceNumber, eventsBetween, eventsForPages, findEvent, isFreeEvent } from './data/events'
 import generated from './data/generated.json'
 import { BUILD_DAY } from './lib/buildDay'
 import { addDays, weekendRange } from './lib/dates'
@@ -45,7 +45,7 @@ const cut = (text: string, max: number) => (text.length > max ? text.slice(0, ma
  * <title> entro 65 caratteri: con il suffisso « · Cose Fighe» se ci sta, altrimenti senza; se il testo da solo
  * è ancora lungo, resta la parte prima dei due punti (è quella con la parola chiave), altrimenti si taglia.
  */
-const seoTitle = (text: string, suffix = ' · Cose Fighe') => {
+export const seoTitle = (text: string, suffix = ' · Cose Fighe') => {
   if (text.length + suffix.length <= 65) return text + suffix
   if (text.length <= 65) return text
   const head = text.split(':')[0].trim()
@@ -116,30 +116,78 @@ const romeOffset = (iso: string): string => {
   }
 }
 
-/** Un evento del programma in schema.org, per il riquadro eventi di Google. */
+/** Comuni intorno a Napoli che compaiono come «zona» di un evento: lì l'indirizzo non è Napoli. */
+const OTHER_TOWNS = [
+  'Pompei', 'Ercolano', 'Portici', 'San Giorgio a Cremano', 'Torre del Greco', 'Torre Annunziata', 'Castellammare di Stabia', 'Vico Equense', 'Sorrento',
+  'Pozzuoli', 'Bacoli', 'Quarto', 'Giugliano', 'Casoria', 'Afragola', 'Aversa', 'Caserta', 'Nola', 'Boscoreale', 'Capri', 'Ischia', 'Procida', 'Salerno',
+  'Amalfi', 'Positano', 'Ravello', 'Benevento', 'Avellino', 'Marano', 'Cuma', 'Baia',
+]
+const townOf = (area: string) => OTHER_TOWNS.find((t) => area.toLowerCase() === t.toLowerCase() || area.toLowerCase().startsWith(t.toLowerCase() + ' ')) ?? 'Napoli'
+/** La via, se il luogo la contiene dopo una virgola («Fossato di Castel Sant'Elmo, via Tito Angelini 20/A»). */
+const streetOf = (place: string) => place.split(',').slice(1).map((s) => s.trim()).find((s) => /^(via|viale|piazza|piazzale|piazzetta|corso|vico|largo|salita|calata|riviera|lungomare|rampe|discesa)\b/i.test(s))
+
+/** Chi organizza: il sito ufficiale dell'evento, con il dominio come nome. Non inventiamo nomi. */
+const organizerOf = (url?: string) => {
+  if (!url) return undefined
+  try {
+    const u = new URL(url)
+    return { '@type': 'Organization', name: u.hostname.replace(/^www\./, ''), url: u.origin + '/' }
+  } catch {
+    return undefined
+  }
+}
+
+/** Data e ora di inizio e fine in ISO 8601 con lo scarto di Roma: l'orario, quando c'è («21:00 (porte 20:30)» dà le 21). */
+const eventDates = (e: CityEvent) => {
+  const times = [...(e.time ?? '').matchAll(/(\d{1,2})[:.](\d{2})/g)].map((m) => `${m[1].padStart(2, '0')}:${m[2]}`)
+  const end = eventEnd(e)
+  const startDate = times[0] ? `${e.start}T${times[0]}:00${romeOffset(e.start)}` : e.start
+  const single = end === e.start
+  // Un solo giorno: la fine con il suo orario se c'è ed è dopo l'inizio, altrimenti uguale all'inizio (mai prima).
+  const endDate = single ? (times[1] && times[1] > times[0] ? `${end}T${times[1]}:00${romeOffset(end)}` : startDate) : end
+  return { startDate, endDate }
+}
+
+/** Un evento del programma in schema.org, per il riquadro eventi di Google. `url` è la nostra pagina, i biglietti sono sul sito ufficiale. */
 const eventSchema = (e: CityEvent) => {
-  const t = e.time?.match(/(\d{1,2})[:.](\d{2})/)
-  const startDate = t ? `${e.start}T${t[1].padStart(2, '0')}:${t[2]}:00${romeOffset(e.start)}` : e.start
-  const free = /gratis|gratuito|ingresso libero/i.test(e.price)
-  const price = free ? 0 : priceNumber(e.price)
+  const free = isFreeEvent(e)
+  const price = eventPriceNumber(e)
+  const street = streetOf(e.place)
+  const organizer = organizerOf(e.url)
   return {
     '@type': 'Event',
     name: e.title,
     description: e.blurb || undefined,
-    startDate,
-    endDate: eventEnd(e),
+    ...eventDates(e),
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',
       name: e.place || 'Napoli',
-      address: { '@type': 'PostalAddress', addressLocality: 'Napoli', addressRegion: 'Campania', addressCountry: 'IT' },
+      address: { '@type': 'PostalAddress', streetAddress: street, addressLocality: townOf(e.area), addressRegion: 'Campania', addressCountry: 'IT' },
     },
+    organizer,
     image: abs(OG_HOME),
-    url: e.url ?? abs(`/cosa-fare?dal=${e.start}&al=${eventEnd(e)}`),
+    url: abs(eventPath(e)),
     isAccessibleForFree: free || undefined,
-    offers: price !== undefined ? { '@type': 'Offer', price, priceCurrency: 'EUR', availability: 'https://schema.org/InStock', url: e.url ?? abs('/cosa-fare') } : undefined,
+    offers:
+      price !== undefined
+        ? { '@type': 'Offer', price, priceCurrency: 'EUR', availability: 'https://schema.org/InStock', validFrom: BUILD_DAY, url: e.url ?? abs(eventPath(e)) }
+        : undefined,
   }
+}
+
+/** Titolo della pagina evento entro 65 caratteri: la data resta sempre, il titolo si accorcia se serve. */
+const eventTitle = (e: CityEvent) => {
+  const date = eventDateLabel(e)
+  const full = `${e.title} · ${date}`
+  if (full.length <= 65) return seoTitle(full)
+  const head = e.title.split(':')[0].trim()
+  if (`${head} · ${date}`.length <= 65) return `${head} · ${date}`
+  // Data corta ("24 ott 2026") prima di rinunciarci: un titolo tagliato a metà si legge male nei risultati.
+  const short = date.replace(/(\d+) ([a-zà]+) (\d{4})/, (_, d, m, y) => `${d} ${m.slice(0, 3)} ${y}`)
+  if (`${e.title} · ${short}`.length <= 65) return `${e.title} · ${short}`
+  return seoTitle(e.title)
 }
 
 const guideList = {
@@ -346,6 +394,23 @@ export function routeSeo(path: string): RouteSeo {
     }
   }
 
+  const ev = clean.match(/^\/eventi\/([^/]+)$/)
+  if (ev) {
+    const e = findEvent(ev[1])
+    if (e) {
+      return {
+        title: eventTitle(e),
+        description: cut(`${e.blurb} Data, orario, luogo e prezzo, e cosa fare a Napoli negli stessi giorni.`.trim(), 158),
+        image: OG_HOME,
+        updated: e.start,
+        jsonLd: graph(
+          breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Cosa fare a Napoli', path: '/cosa-fare' }, { name: e.title, path: clean }]),
+          { ...eventSchema(e), '@id': abs(clean) + '#event' },
+        ),
+      }
+    }
+  }
+
   return {
     title: 'Pagina non trovata · Cose Fighe',
     description: 'La pagina che cerchi non esiste.',
@@ -371,5 +436,7 @@ export function publicPaths(): string[] {
     ...CATEGORY_LIST.map((c) => `/categoria/${c.slug}`),
     ...EXPERIENCE_PAGES.map((p) => p.path),
     ...ARTICLES_BY_DATE.map((a) => `/blog/${a.slug}`),
+    // Una pagina per evento; quelli finiti da più di 30 giorni escono da sitemap e pre-generazione.
+    ...eventsForPages(BUILD_DAY, 30).map(eventPath),
   ]
 }

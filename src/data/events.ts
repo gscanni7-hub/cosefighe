@@ -1,5 +1,5 @@
 import type { CityEvent, EventCategory } from '../types'
-import { overlaps, todayISO } from '../lib/dates'
+import { addDays, dayParts, overlaps, todayISO } from '../lib/dates'
 import generated from './generated.json'
 
 /** Gli eventi arrivano dal database a ogni build (generated.json). */
@@ -85,4 +85,49 @@ export function upcomingEvents(limit = 4, today = todayISO()): CityEvent[] {
   const dated = live.filter((e) => !isLongRunning(e)).sort((a, b) => a.start.localeCompare(b.start))
   const long = live.filter(isLongRunning).sort((a, b) => eventEnd(a).localeCompare(eventEnd(b)))
   return [...dated, ...long].slice(0, limit)
+}
+
+/** L'indirizzo della pagina di un evento. */
+export const eventPath = (e: CityEvent): string => `/eventi/${e.slug}`
+
+export function findEvent(slug: string): CityEvent | undefined {
+  return EVENTS.find((e) => e.slug === slug)
+}
+
+/** Vero se il prezzo dice che si entra gratis (non «€2,50, gratis under 18»: lì conta il prezzo). */
+export const isFreeEvent = (e: CityEvent): boolean => /^\s*(gratis|gratuit[oa]|ingresso libero|ingresso gratuito)/i.test(e.price)
+
+/**
+ * Il prezzo come numero, se dal testo si ricava: «€12» e «da €25» danno 12 e 25, «€8, ridotto €4» dà 8
+ * (il primo importo è quello intero), «Gratis» dà 0. «Biglietto del museo» non dà niente.
+ */
+export function eventPriceNumber(e: CityEvent): number | undefined {
+  if (isFreeEvent(e)) return 0
+  const m = e.price.match(/€\s*(\d+(?:[.,]\d{1,2})?)/) ?? e.price.match(/^\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|euro)/i)
+  if (!m) return undefined
+  const n = Number(m[1].replace(',', '.'))
+  return Number.isFinite(n) ? n : undefined
+}
+
+/** Gli altri eventi che si sovrappongono alle date di questo, da un giorno in poi: quelli a data fissa prima, poi mostre e rassegne. */
+export function eventsAlongside(e: CityEvent, from: string, limit = 6): CityEvent[] {
+  const start = from > e.start ? from : e.start
+  return eventsBetween(start, eventEnd(e))
+    .filter((o) => o.slug !== e.slug)
+    .sort((a, b) => Number(isLongRunning(a)) - Number(isLongRunning(b)) || a.start.localeCompare(b.start))
+    .slice(0, limit)
+}
+
+/** Gli eventi con una pagina da pre-generare: tutti quelli finiti da non più di `days` giorni. */
+export function eventsForPages(today: string, days = 30): CityEvent[] {
+  const limit = addDays(today, -days)
+  return EVENTS.filter((e) => eventEnd(e) >= limit)
+}
+
+/** «24 ottobre 2026» per un giorno solo, «fino al 10 ottobre 2026» per mostre e rassegne. */
+export function eventDateLabel(e: CityEvent): string {
+  const end = eventEnd(e)
+  const p = dayParts(end)
+  const label = `${p.day} ${p.monLong} ${end.slice(0, 4)}`
+  return end === e.start ? label : `fino al ${label}`
 }

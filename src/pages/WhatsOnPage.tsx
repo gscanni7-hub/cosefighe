@@ -14,7 +14,7 @@ import { COSA_FARE_FAQ } from '../data/faq'
 import { GUIDE, GUIDE_INTRO, GUIDE_TITLE } from '../data/guida'
 import { track } from '../lib/track'
 import { articleBySlug } from '../data/correlati'
-import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventsBetween, isLongRunning } from '../data/events'
+import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventPath, eventsBetween, isLongRunning } from '../data/events'
 import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
@@ -63,7 +63,7 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 /** L'esperienza da proporre per una voce della guida: prima quella con lo stesso inizio di titolo, altrimenti niente. */
 const guideExperience = (prefix?: string) => (prefix ? allExperiences.find((e) => e.title.startsWith(prefix)) : undefined)
 
-/** Una riga della lista: orario, titolo e luogo, prezzo. Tutta la riga è un link se l'evento ne ha uno. */
+/** Una riga della lista: orario, titolo e luogo, prezzo. Tutta la riga porta alla pagina dell'evento. */
 function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
   const multi = !!event.end && event.end !== event.start
   const ongoing = multi && shownOn > event.start
@@ -93,21 +93,16 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
       </span>
       <span className="flex items-center justify-between gap-3 text-sm md:flex-col md:items-end md:justify-start">
         <span className="font-medium text-ink">{event.price}</span>
-        {event.url && (
-          <span className="inline-flex items-center gap-1 text-ink/45 transition-colors group-hover:text-orange">
-            Info <ArrowUpRight size={14} />
-          </span>
-        )}
+        <span className="inline-flex items-center gap-1 text-ink/45 transition-colors group-hover:text-orange">
+          Dettagli <ArrowRight size={14} />
+        </span>
       </span>
     </>
   )
-  const cls = 'group grid gap-x-6 gap-y-2 px-5 py-4 md:grid-cols-[6rem_1fr_9rem] md:px-6 md:py-5'
-  return event.url ? (
-    <a href={event.url} target="_blank" rel="noopener noreferrer" className={`${cls} transition-colors hover:bg-paper`}>
+  return (
+    <Link to={eventPath(event)} viewTransition className="group grid gap-x-6 gap-y-2 px-5 py-4 transition-colors hover:bg-paper md:grid-cols-[6rem_1fr_9rem] md:px-6 md:py-5">
       {body}
-    </a>
-  ) : (
-    <div className={cls}>{body}</div>
+    </Link>
   )
 }
 
