@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Ban, CalendarDays, Clock, Globe, Heart, MapPin, Star, Users } from 'lucide-react'
 import { Page } from '../components/Page'
@@ -11,6 +12,7 @@ import { relatedForExperience } from '../data/correlati'
 import credits from '../data/credits.json'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { track } from '../lib/track'
+import { seoTitle } from '../seo'
 import { useSaved } from '../lib/saved'
 import { PROVIDER_LABEL } from '../types'
 import NotFoundPage from './NotFoundPage'
@@ -45,7 +47,7 @@ function ExperienceView({ page }: { page: PageData }) {
   const intro = scheda?.intro ?? `${category.label} a Napoli, ${exp.location}. ${exp.duration}. ${exp.included}.`
 
   usePageMeta({
-    title: `${exp.title} · da ${exp.price} · Cose Fighe`,
+    title: seoTitle(exp.title),
     description: intro.slice(0, 160),
     image: exp.image,
   })
@@ -55,10 +57,33 @@ function ExperienceView({ page }: { page: PageData }) {
   const days = exp.days?.length ? exp.days.map((d) => WEEKDAYS[d]).join(', ') : 'tutti i giorni'
   const onBook = () => track('prenota', { provider: exp.provider ?? '', title: exp.title, from: 'scheda' })
 
+  // Su telefono il riquadro di prenotazione sta in fondo: mentre si legge, una barra fissa in basso tiene prezzo e Prenota a portata di pollice.
+  // Compare quando la testata è uscita dallo schermo e sparisce quando si arriva al riquadro vero.
+  const heroRef = useRef<HTMLElement>(null)
+  const asideRef = useRef<HTMLElement>(null)
+  const [barVisible, setBarVisible] = useState(false)
+  useEffect(() => {
+    const hero = heroRef.current
+    const aside = asideRef.current
+    if (!bookable || !hero || !aside) return
+    let heroOut = false
+    let asideIn = false
+    const io = new IntersectionObserver((entries) => {
+      for (const en of entries) {
+        if (en.target === hero) heroOut = !en.isIntersecting && en.boundingClientRect.bottom < 0
+        if (en.target === aside) asideIn = en.isIntersecting
+      }
+      setBarVisible(heroOut && !asideIn)
+    })
+    io.observe(hero)
+    io.observe(aside)
+    return () => io.disconnect()
+  }, [bookable, exp.title])
+
   return (
     <Page>
       {/* Testata: categoria, titolo, intro e la foto. */}
-      <section className="bg-sand pb-10 pt-24 md:pb-16 md:pt-36">
+      <section ref={heroRef} className="bg-sand pb-10 pt-24 md:pb-16 md:pt-36">
         <div className="container-x grid gap-8 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:items-center md:gap-14">
           <div>
             <Link to={`/categoria/${category.slug}`} viewTransition className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/60 hover:text-ink">
@@ -183,7 +208,7 @@ function ExperienceView({ page }: { page: PageData }) {
           </div>
 
           {/* Riquadro di prenotazione: fisso a lato su computer, in coda su telefono. */}
-          <aside className="lg:sticky lg:top-24 lg:self-start">
+          <aside ref={asideRef} className="lg:sticky lg:top-24 lg:self-start">
             <div className="card p-6">
               <div className="flex items-end justify-between gap-3">
                 <div className="leading-none">
@@ -231,6 +256,26 @@ function ExperienceView({ page }: { page: PageData }) {
           </aside>
         </div>
       </section>
+
+      {bookable && (
+        <div
+          aria-hidden={!barVisible}
+          className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur transition-transform duration-300 ease-out-quart lg:hidden ${
+            barVisible ? 'translate-y-0' : 'pointer-events-none translate-y-full'
+          }`}
+        >
+          <div className="container-x flex items-center justify-between gap-4">
+            <div className="min-w-0 leading-tight">
+              <span className="text-xs font-medium text-ink/45">da</span>
+              <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
+              <span className="block truncate text-[11px] text-ink/50">{exp.cancellation || 'a persona'}</span>
+            </div>
+            <ButtonAnchor href={exp.affiliateUrl} target="_blank" rel="sponsored noopener noreferrer" onClick={onBook} className="shrink-0">
+              Prenota <ArrowUpRight size={16} />
+            </ButtonAnchor>
+          </div>
+        </div>
+      )}
 
       {others.length > 0 && (
         <section className="section-y bg-paper">
