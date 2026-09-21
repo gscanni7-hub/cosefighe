@@ -13,6 +13,8 @@ import credits from '../data/credits.json'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { track } from '../lib/track'
 import { seoTitle } from '../seo'
+import { DoveBox } from '../components/mappa/DoveBox'
+import { experienceToItem } from '../lib/mappa'
 import { useSaved } from '../lib/saved'
 import { PROVIDER_LABEL } from '../types'
 import NotFoundPage from './NotFoundPage'
@@ -248,6 +250,10 @@ function ExperienceView({ page }: { page: PageData }) {
                 </li>
               </ul>
             </div>
+            {(() => {
+              const item = experienceToItem(exp, category.slug)
+              return item ? <DoveBox item={item} place={exp.location} detail="Punto di partenza" /> : null
+            })()}
             <p className="mt-4 text-center text-xs text-ink/45">
               <Link to="/cosa-fare" viewTransition className="underline underline-offset-4 hover:text-ink">
                 Cosa succede a Napoli in questi giorni

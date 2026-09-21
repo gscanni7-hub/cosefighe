@@ -304,6 +304,18 @@ export function routeSeo(path: string): RouteSeo {
       jsonLd: graph({ '@type': 'ContactPage', name: 'Contatti Cose Fighe', url: abs('/contatti') }, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Contatti', path: '/contatti' }])),
     }
   }
+  if (clean === '/mappa') {
+    return {
+      title: 'Mappa di Napoli: eventi ed esperienze, dove sono davvero',
+      description: 'La mappa di Cose Fighe: gli eventi dei prossimi giorni e le esperienze prenotabili a Napoli e nel golfo, ognuno al suo posto, con le indicazioni per arrivarci.',
+      image: '/og/mappa.jpg',
+      updated: BUILD_DAY,
+      jsonLd: graph(
+        { '@type': 'WebPage', name: 'La mappa di Napoli di Cose Fighe', url: abs('/mappa'), description: 'Eventi ed esperienze a Napoli sulla mappa, con indicazioni.' },
+        breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Mappa', path: '/mappa' }]),
+      ),
+    }
+  }
   if (clean === '/blog') {
     return {
       title: 'Blog · Guide, consigli e storie su Napoli · Cose Fighe',
@@ -431,6 +443,7 @@ export function publicPaths(): string[] {
     '/chi-siamo',
     '/contatti',
     '/blog',
+    '/mappa',
     '/privacy',
     '/cookie',
     ...CATEGORY_LIST.map((c) => `/categoria/${c.slug}`),

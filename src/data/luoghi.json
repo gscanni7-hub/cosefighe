@@ -1,0 +1,857 @@
+{
+ "amalfi": {
+  "lat": 40.634,
+  "lng": 14.6027,
+  "label": "Amalfi, Piazza Duomo",
+  "source": "manuale"
+ },
+ "anacapri": {
+  "lat": 40.5559,
+  "lng": 14.2213,
+  "label": "Anacapri, Piazza Vittoria",
+  "source": "manuale"
+ },
+ "anfiteatro flavio": {
+  "lat": 40.8262,
+  "lng": 14.1252,
+  "label": "Anfiteatro Flavio, Pozzuoli",
+  "source": "manuale"
+ },
+ "arena flegrea": {
+  "lat": 40.826,
+  "lng": 14.1858,
+  "label": "Arena Flegrea, Mostra d'Oltremare (viale Kennedy 54)",
+  "source": "manuale"
+ },
+ "bacoli": {
+  "lat": 40.7983,
+  "lng": 14.0787,
+  "label": "Bacoli",
+  "source": "manuale",
+  "approx": true
+ },
+ "bagnoli": {
+  "lat": 40.8173,
+  "lng": 14.167,
+  "label": "Bagnoli",
+  "source": "manuale",
+  "approx": true
+ },
+ "baia": {
+  "lat": 40.8181,
+  "lng": 14.0717,
+  "label": "Porto di Baia",
+  "source": "manuale"
+ },
+ "basilica di santa lucia a mare": {
+  "lat": 40.8323,
+  "lng": 14.2469,
+  "label": "Basilica di Santa Lucia a Mare, Via Santa Lucia",
+  "source": "manuale"
+ },
+ "basilica di santa maria della neve": {
+  "lat": 40.8547,
+  "lng": 14.332,
+  "label": "Basilica di Santa Maria della Neve, Piazza Aprea, Ponticelli",
+  "source": "manuale"
+ },
+ "bicycle house": {
+  "lat": 40.8523,
+  "lng": 14.2503,
+  "label": "Bicycle House, Galleria Principe di Napoli 27",
+  "source": "manuale",
+  "approx": true
+ },
+ "bicycle house zona porto": {
+  "lat": 40.8523,
+  "lng": 14.2503,
+  "label": "Bicycle House, Galleria Principe di Napoli 27",
+  "source": "manuale",
+  "approx": true
+ },
+ "borgo marinari": {
+  "lat": 40.8284,
+  "lng": 14.2485,
+  "label": "Borgo Marinari, Castel dell'Ovo",
+  "source": "manuale"
+ },
+ "calata dei due frati": {
+  "lat": 40.8018,
+  "lng": 14.1973,
+  "label": "Calata dei Due Frati, Posillipo",
+  "source": "manuale"
+ },
+ "cantine olivella": {
+  "lat": 40.858,
+  "lng": 14.4008,
+  "label": "Cantine Olivella, Via Zazzera, Sant'Anastasia (Vesuvio)",
+  "source": "manuale"
+ },
+ "capodimonte": {
+  "lat": 40.867,
+  "lng": 14.2509,
+  "label": "Museo e Real Bosco di Capodimonte",
+  "source": "manuale"
+ },
+ "capri": {
+  "lat": 40.5559,
+  "lng": 14.2381,
+  "label": "Capri, Marina Grande",
+  "source": "manuale"
+ },
+ "casa della musica": {
+  "lat": 40.8207,
+  "lng": 14.1779,
+  "label": "Casa della Musica (Palapartenope), Via Barbagallo 115",
+  "source": "manuale"
+ },
+ "castel dell ovo": {
+  "lat": 40.8283,
+  "lng": 14.2477,
+  "label": "Castel dell'Ovo",
+  "source": "manuale"
+ },
+ "castel sant elmo": {
+  "lat": 40.8438,
+  "lng": 14.2389,
+  "label": "Castel Sant'Elmo",
+  "source": "manuale"
+ },
+ "catacombe di san gennaro": {
+  "lat": 40.8638,
+  "lng": 14.2471,
+  "label": "Catacombe di San Gennaro, Via Capodimonte 13",
+  "source": "manuale"
+ },
+ "centro": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "centro di vico equense": {
+  "lat": 40.6623,
+  "lng": 14.4265,
+  "label": "Vico Equense, centro",
+  "source": "manuale",
+  "approx": true
+ },
+ "centro e colline": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "centro storico": {
+  "lat": 40.851,
+  "lng": 14.2575,
+  "label": "Centro Storico, Via dei Tribunali",
+  "source": "manuale",
+  "approx": true
+ },
+ "certosa e museo di san martino": {
+  "lat": 40.8437,
+  "lng": 14.2413,
+  "label": "Certosa e Museo di San Martino",
+  "source": "manuale"
+ },
+ "chiaia": {
+  "lat": 40.834,
+  "lng": 14.238,
+  "label": "Chiaia, Piazza dei Martiri",
+  "source": "manuale",
+  "approx": true
+ },
+ "chiesa della ss annunziata": {
+  "lat": 40.7883,
+  "lng": 14.3667,
+  "label": "Chiesa della SS. Annunziata, Torre del Greco",
+  "source": "manuale",
+  "approx": true
+ },
+ "chiesa di sant anna di palazzo": {
+  "lat": 40.838,
+  "lng": 14.2461,
+  "label": "Chiesa di Sant'Anna di Palazzo, Quartieri Spagnoli",
+  "source": "manuale"
+ },
+ "chiesa di santa maria donnalbina": {
+  "lat": 40.8447,
+  "lng": 14.2525,
+  "label": "Chiesa di Santa Maria Donnalbina, Via Donnalbina",
+  "source": "manuale"
+ },
+ "chiesa di santo strato": {
+  "lat": 40.8042,
+  "lng": 14.1934,
+  "label": "Chiesa di Santo Strato a Posillipo, Via Santo Strato",
+  "source": "manuale"
+ },
+ "cimitero delle fontanelle": {
+  "lat": 40.858,
+  "lng": 14.239,
+  "label": "Cimitero delle Fontanelle, Via Fontanelle 80",
+  "source": "manuale"
+ },
+ "colli aminei": {
+  "lat": 40.8698,
+  "lng": 14.2286,
+  "label": "Colli Aminei",
+  "source": "manuale",
+  "approx": true
+ },
+ "cortile delle statue": {
+  "lat": 40.8474,
+  "lng": 14.2566,
+  "label": "Cortile delle Statue, Università Federico II, Via Paladino 39",
+  "source": "manuale"
+ },
+ "cortili kimbo": {
+  "lat": 40.9186,
+  "lng": 14.2276,
+  "label": "Stabilimento Kimbo, Via Appia, Melito di Napoli",
+  "source": "manuale",
+  "approx": true
+ },
+ "cuma": {
+  "lat": 40.8481,
+  "lng": 14.0551,
+  "label": "Parco Archeologico di Cuma",
+  "source": "manuale"
+ },
+ "duomo di napoli": {
+  "lat": 40.8524,
+  "lng": 14.2582,
+  "label": "Duomo di Napoli, Via Duomo",
+  "source": "manuale"
+ },
+ "ex base nato": {
+  "lat": 40.8216,
+  "lng": 14.1653,
+  "label": "Ex Base Nato (Parco San Laise), Bagnoli",
+  "source": "manuale"
+ },
+ "fontana dell esedra": {
+  "lat": 40.8275,
+  "lng": 14.1874,
+  "label": "Fontana dell'Esedra, Mostra d'Oltremare",
+  "source": "manuale"
+ },
+ "foqus": {
+  "lat": 40.8422,
+  "lng": 14.2458,
+  "label": "FOQUS, Via Portacarrese a Montecalvario 69",
+  "source": "manuale"
+ },
+ "fossato di castel sant elmo": {
+  "lat": 40.8446,
+  "lng": 14.239,
+  "label": "Fossato di Castel Sant'Elmo, Via Tito Angelini 20/A",
+  "source": "manuale"
+ },
+ "fuorigrotta": {
+  "lat": 40.8228,
+  "lng": 14.1945,
+  "label": "Fuorigrotta, Piazzale Tecchio",
+  "source": "manuale",
+  "approx": true
+ },
+ "galleria borbonica": {
+  "lat": 40.8341,
+  "lng": 14.2452,
+  "label": "Galleria Borbonica, Vico del Grottone 4",
+  "source": "manuale"
+ },
+ "galleria principe di napoli": {
+  "lat": 40.8532,
+  "lng": 14.2493,
+  "label": "Galleria Principe di Napoli",
+  "source": "manuale"
+ },
+ "galleria umberto i": {
+  "lat": 40.8384,
+  "lng": 14.2493,
+  "label": "Galleria Umberto I",
+  "source": "manuale"
+ },
+ "golfo di napoli": {
+  "lat": 40.8388,
+  "lng": 14.256,
+  "label": "Golfo di Napoli, partenza dal Molo Beverello",
+  "source": "manuale",
+  "approx": true
+ },
+ "ischia": {
+  "lat": 40.7443,
+  "lng": 13.9418,
+  "label": "Ischia Porto",
+  "source": "manuale"
+ },
+ "largo san martino": {
+  "lat": 40.844,
+  "lng": 14.2419,
+  "label": "Largo San Martino, Vomero",
+  "source": "manuale"
+ },
+ "lungomare": {
+  "lat": 40.8317,
+  "lng": 14.2305,
+  "label": "Lungomare Caracciolo, Rotonda Diaz",
+  "source": "manuale",
+  "approx": true
+ },
+ "lungomare caracciolo": {
+  "lat": 40.8317,
+  "lng": 14.2305,
+  "label": "Lungomare Caracciolo, Rotonda Diaz",
+  "source": "manuale"
+ },
+ "marechiaro": {
+  "lat": 40.7955,
+  "lng": 14.1905,
+  "label": "Marechiaro, Posillipo",
+  "source": "manuale"
+ },
+ "maschio angioino": {
+  "lat": 40.8385,
+  "lng": 14.2528,
+  "label": "Maschio Angioino (Castel Nuovo)",
+  "source": "manuale"
+ },
+ "mergellina": {
+  "lat": 40.8275,
+  "lng": 14.2201,
+  "label": "Mergellina, Porto",
+  "source": "manuale"
+ },
+ "metro rione alto": {
+  "lat": 40.8612,
+  "lng": 14.2202,
+  "label": "Stazione Rione Alto (Metro linea 1)",
+  "source": "manuale"
+ },
+ "miseno": {
+  "lat": 40.7868,
+  "lng": 14.0853,
+  "label": "Miseno, Bacoli",
+  "source": "manuale"
+ },
+ "molo beverello": {
+  "lat": 40.8388,
+  "lng": 14.256,
+  "label": "Molo Beverello",
+  "source": "manuale"
+ },
+ "molo di via caracciolo": {
+  "lat": 40.8317,
+  "lng": 14.2305,
+  "label": "Molo di Via Caracciolo, Rotonda Diaz",
+  "source": "manuale"
+ },
+ "molo marinelli": {
+  "lat": 40.8284,
+  "lng": 14.2485,
+  "label": "Molo Marinelli, Borgo Marinari",
+  "source": "manuale",
+  "approx": true
+ },
+ "mostra d oltremare": {
+  "lat": 40.8255,
+  "lng": 14.1875,
+  "label": "Mostra d'Oltremare, Fuorigrotta",
+  "source": "manuale"
+ },
+ "musei e luoghi della cultura di napoli": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "museo archeologico nazionale": {
+  "lat": 40.8536,
+  "lng": 14.2512,
+  "label": "MANN, Museo Archeologico Nazionale, Piazza Museo 19",
+  "source": "manuale"
+ },
+ "museo di paleontologia": {
+  "lat": 40.8475,
+  "lng": 14.2581,
+  "label": "Museo di Paleontologia, Largo San Marcellino 10",
+  "source": "manuale"
+ },
+ "museo madre": {
+  "lat": 40.8551,
+  "lng": 14.2586,
+  "label": "Museo Madre, Via Settembrini 79",
+  "source": "manuale"
+ },
+ "napoli": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "napoli percorso cittadino": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "palapartenope": {
+  "lat": 40.8207,
+  "lng": 14.1779,
+  "label": "Palapartenope, Via Barbagallo 115",
+  "source": "manuale"
+ },
+ "palazzo reale": {
+  "lat": 40.8367,
+  "lng": 14.25,
+  "label": "Palazzo Reale di Napoli",
+  "source": "manuale"
+ },
+ "parco archeologico di pompei": {
+  "lat": 40.7484,
+  "lng": 14.4823,
+  "label": "Scavi di Pompei, Porta Marina Superiore",
+  "source": "manuale"
+ },
+ "parco archeologico di pompei ingresso da piazza anfiteatro": {
+  "lat": 40.7495,
+  "lng": 14.4954,
+  "label": "Scavi di Pompei, ingresso Piazza Anfiteatro",
+  "source": "manuale"
+ },
+ "parco del poggio": {
+  "lat": 40.8668,
+  "lng": 14.2395,
+  "label": "Parco del Poggio, Viale del Poggio di Capodimonte 53",
+  "source": "manuale"
+ },
+ "parco vergiliano a piedigrotta": {
+  "lat": 40.8296,
+  "lng": 14.2173,
+  "label": "Parco Vergiliano a Piedigrotta, Salita della Grotta 20",
+  "source": "manuale"
+ },
+ "piazza anfiteatro": {
+  "lat": 40.7495,
+  "lng": 14.4954,
+  "label": "Scavi di Pompei, ingresso Piazza Anfiteatro",
+  "source": "manuale"
+ },
+ "piazza bellini": {
+  "lat": 40.8494,
+  "lng": 14.2523,
+  "label": "Piazza Bellini",
+  "source": "manuale"
+ },
+ "piazza carita": {
+  "lat": 40.8437,
+  "lng": 14.249,
+  "label": "Piazza Carità",
+  "source": "manuale"
+ },
+ "piazza dante": {
+  "lat": 40.849,
+  "lng": 14.25,
+  "label": "Piazza Dante",
+  "source": "manuale"
+ },
+ "piazza del gesu": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Piazza del Gesù Nuovo",
+  "source": "manuale"
+ },
+ "piazza del plebiscito": {
+  "lat": 40.836,
+  "lng": 14.2483,
+  "label": "Piazza del Plebiscito",
+  "source": "manuale"
+ },
+ "piazza esedra": {
+  "lat": 40.7477,
+  "lng": 14.4818,
+  "label": "Piazza Esedra, Pompei",
+  "source": "manuale"
+ },
+ "piazza garibaldi": {
+  "lat": 40.852,
+  "lng": 14.27,
+  "label": "Piazza Garibaldi",
+  "source": "manuale"
+ },
+ "piazza mercato": {
+  "lat": 40.845,
+  "lng": 14.2643,
+  "label": "Piazza Mercato",
+  "source": "manuale"
+ },
+ "piazza municipio": {
+  "lat": 40.8398,
+  "lng": 14.2523,
+  "label": "Piazza Municipio",
+  "source": "manuale"
+ },
+ "piazza museo": {
+  "lat": 40.8528,
+  "lng": 14.2505,
+  "label": "Piazza Museo",
+  "source": "manuale"
+ },
+ "piazza san domenico maggiore": {
+  "lat": 40.8482,
+  "lng": 14.2547,
+  "label": "Piazza San Domenico Maggiore",
+  "source": "manuale"
+ },
+ "piazza vanvitelli": {
+  "lat": 40.8447,
+  "lng": 14.2296,
+  "label": "Piazza Vanvitelli, Vomero",
+  "source": "manuale"
+ },
+ "piazzetta matilde serao": {
+  "lat": 40.8382,
+  "lng": 14.2489,
+  "label": "Piazzetta Matilde Serao",
+  "source": "manuale"
+ },
+ "piccolo bellini": {
+  "lat": 40.851,
+  "lng": 14.2509,
+  "label": "Piccolo Bellini, Via Conte di Ruvo",
+  "source": "manuale"
+ },
+ "pompei": {
+  "lat": 40.7484,
+  "lng": 14.4823,
+  "label": "Scavi di Pompei, Porta Marina Superiore",
+  "source": "manuale",
+  "approx": true
+ },
+ "ponticelli": {
+  "lat": 40.8547,
+  "lng": 14.332,
+  "label": "Ponticelli",
+  "source": "manuale",
+  "approx": true
+ },
+ "port alba": {
+  "lat": 40.8485,
+  "lng": 14.2512,
+  "label": "Port'Alba, Piazza Dante",
+  "source": "manuale"
+ },
+ "porta grande di capodimonte": {
+  "lat": 40.8655,
+  "lng": 14.2513,
+  "label": "Porta Grande del Real Bosco di Capodimonte",
+  "source": "manuale"
+ },
+ "porta marina superiore": {
+  "lat": 40.7484,
+  "lng": 14.4823,
+  "label": "Scavi di Pompei, Porta Marina Superiore",
+  "source": "manuale"
+ },
+ "porta san gennaro": {
+  "lat": 40.8551,
+  "lng": 14.2561,
+  "label": "Porta San Gennaro, Via Foria",
+  "source": "manuale"
+ },
+ "porto": {
+  "lat": 40.843,
+  "lng": 14.2611,
+  "label": "Porto di Napoli, terminal Porta di Massa",
+  "source": "manuale",
+  "approx": true
+ },
+ "porto di baia": {
+  "lat": 40.8181,
+  "lng": 14.0717,
+  "label": "Porto di Baia, Bacoli",
+  "source": "manuale"
+ },
+ "porto di napoli": {
+  "lat": 40.843,
+  "lng": 14.2611,
+  "label": "Porto di Napoli, terminal Porta di Massa",
+  "source": "manuale"
+ },
+ "posillipo": {
+  "lat": 40.8083,
+  "lng": 14.2003,
+  "label": "Posillipo, Via Posillipo",
+  "source": "manuale",
+  "approx": true
+ },
+ "posillipo e marechiaro": {
+  "lat": 40.7955,
+  "lng": 14.1905,
+  "label": "Marechiaro, Posillipo",
+  "source": "manuale"
+ },
+ "positano": {
+  "lat": 40.6281,
+  "lng": 14.4849,
+  "label": "Positano",
+  "source": "manuale"
+ },
+ "pozzuoli": {
+  "lat": 40.8262,
+  "lng": 14.1252,
+  "label": "Pozzuoli, Anfiteatro Flavio",
+  "source": "manuale",
+  "approx": true
+ },
+ "procida": {
+  "lat": 40.7641,
+  "lng": 14.0213,
+  "label": "Procida, Marina Grande",
+  "source": "manuale"
+ },
+ "quartieri spagnoli": {
+  "lat": 40.843,
+  "lng": 14.245,
+  "label": "Quartieri Spagnoli",
+  "source": "manuale",
+  "approx": true
+ },
+ "ravello": {
+  "lat": 40.6533,
+  "lng": 14.608,
+  "label": "Ravello, Piazza Duomo",
+  "source": "manuale"
+ },
+ "real bosco di capodimonte": {
+  "lat": 40.867,
+  "lng": 14.2509,
+  "label": "Real Bosco di Capodimonte",
+  "source": "manuale"
+ },
+ "reggia di caserta": {
+  "lat": 41.0725,
+  "lng": 14.3262,
+  "label": "Reggia di Caserta, Piazza Carlo di Borbone",
+  "source": "manuale"
+ },
+ "rione sanita": {
+  "lat": 40.8597,
+  "lng": 14.249,
+  "label": "Rione Sanità, Basilica di Santa Maria della Sanità",
+  "source": "manuale"
+ },
+ "ristorante della piscina": {
+  "lat": 40.8255,
+  "lng": 14.1875,
+  "label": "Ristorante della Piscina, Mostra d'Oltremare",
+  "source": "manuale"
+ },
+ "rotonda diaz": {
+  "lat": 40.8317,
+  "lng": 14.2305,
+  "label": "Rotonda Diaz, Lungomare Caracciolo",
+  "source": "manuale"
+ },
+ "san giorgio a cremano": {
+  "lat": 40.8306,
+  "lng": 14.3362,
+  "label": "San Giorgio a Cremano",
+  "source": "manuale",
+  "approx": true
+ },
+ "santa lucia": {
+  "lat": 40.8323,
+  "lng": 14.2469,
+  "label": "Santa Lucia, Via Santa Lucia",
+  "source": "manuale",
+  "approx": true
+ },
+ "scavi di ercolano": {
+  "lat": 40.8063,
+  "lng": 14.3478,
+  "label": "Scavi di Ercolano, Corso Resina",
+  "source": "manuale"
+ },
+ "scavi di pompei": {
+  "lat": 40.7484,
+  "lng": 14.4823,
+  "label": "Scavi di Pompei, Porta Marina Superiore",
+  "source": "manuale"
+ },
+ "somma vesuviana": {
+  "lat": 40.8728,
+  "lng": 14.4371,
+  "label": "Somma Vesuviana",
+  "source": "manuale",
+  "approx": true
+ },
+ "sorrento": {
+  "lat": 40.6263,
+  "lng": 14.3757,
+  "label": "Sorrento, Piazza Tasso",
+  "source": "manuale"
+ },
+ "stazione centrale": {
+  "lat": 40.8527,
+  "lng": 14.2721,
+  "label": "Stazione Centrale, Piazza Garibaldi",
+  "source": "manuale"
+ },
+ "stazione di montesanto": {
+  "lat": 40.8465,
+  "lng": 14.2438,
+  "label": "Stazione di Montesanto",
+  "source": "manuale"
+ },
+ "stazione marittima": {
+  "lat": 40.8381,
+  "lng": 14.2586,
+  "label": "Stazione Marittima, Molo Angioino",
+  "source": "manuale"
+ },
+ "teatro augusteo": {
+  "lat": 40.839,
+  "lng": 14.248,
+  "label": "Teatro Augusteo, Piazzetta Duca d'Aosta 263",
+  "source": "manuale"
+ },
+ "teatro bellini": {
+  "lat": 40.851,
+  "lng": 14.2509,
+  "label": "Teatro Bellini, Via Conte di Ruvo 14",
+  "source": "manuale"
+ },
+ "teatro di san carlo": {
+  "lat": 40.8376,
+  "lng": 14.2498,
+  "label": "Teatro di San Carlo, Via San Carlo 98",
+  "source": "manuale"
+ },
+ "teatro diana": {
+  "lat": 40.8431,
+  "lng": 14.2284,
+  "label": "Teatro Diana, Via Luca Giordano 64",
+  "source": "manuale"
+ },
+ "teatro grande": {
+  "lat": 40.7495,
+  "lng": 14.4882,
+  "label": "Teatro Grande, Scavi di Pompei",
+  "source": "manuale"
+ },
+ "teatro palapartenope": {
+  "lat": 40.8207,
+  "lng": 14.1779,
+  "label": "Teatro Palapartenope, Via Barbagallo 115",
+  "source": "manuale"
+ },
+ "teatro trianon": {
+  "lat": 40.8504,
+  "lng": 14.2633,
+  "label": "Teatro Trianon Viviani, Piazza Calenda 9",
+  "source": "manuale"
+ },
+ "torre del greco": {
+  "lat": 40.7883,
+  "lng": 14.3667,
+  "label": "Torre del Greco",
+  "source": "manuale",
+  "approx": true
+ },
+ "vari quartieri di napoli": {
+  "lat": 40.847,
+  "lng": 14.2516,
+  "label": "Napoli, Piazza del Gesù (centro)",
+  "source": "manuale",
+  "approx": true
+ },
+ "vesuvio": {
+  "lat": 40.8219,
+  "lng": 14.4212,
+  "label": "Vesuvio, Gran Cono (parcheggio quota 1000)",
+  "source": "manuale"
+ },
+ "via caracciolo": {
+  "lat": 40.8317,
+  "lng": 14.2305,
+  "label": "Via Caracciolo, Rotonda Diaz",
+  "source": "manuale"
+ },
+ "via dei tribunali": {
+  "lat": 40.851,
+  "lng": 14.2575,
+  "label": "Via dei Tribunali",
+  "source": "manuale"
+ },
+ "via delle zite": {
+  "lat": 40.8516,
+  "lng": 14.2613,
+  "label": "Via delle Zite, Forcella",
+  "source": "manuale"
+ },
+ "via duomo": {
+  "lat": 40.8522,
+  "lng": 14.2578,
+  "label": "Via Duomo",
+  "source": "manuale"
+ },
+ "via medina": {
+  "lat": 40.8417,
+  "lng": 14.2524,
+  "label": "Via Medina",
+  "source": "manuale"
+ },
+ "via san carlo": {
+  "lat": 40.8378,
+  "lng": 14.2495,
+  "label": "Via San Carlo",
+  "source": "manuale"
+ },
+ "via san paolo": {
+  "lat": 40.8516,
+  "lng": 14.2561,
+  "label": "Via San Paolo, Centro Storico",
+  "source": "manuale"
+ },
+ "via toledo": {
+  "lat": 40.8417,
+  "lng": 14.2488,
+  "label": "Via Toledo",
+  "source": "manuale"
+ },
+ "vico equense": {
+  "lat": 40.6623,
+  "lng": 14.4265,
+  "label": "Vico Equense, centro",
+  "source": "manuale",
+  "approx": true
+ },
+ "vigneti del vesuvio": {
+  "lat": 40.8219,
+  "lng": 14.4212,
+  "label": "Vesuvio, Gran Cono (parcheggio quota 1000)",
+  "source": "manuale",
+  "approx": true
+ },
+ "villa vannucchi": {
+  "lat": 40.8296,
+  "lng": 14.3376,
+  "label": "Villa Vannucchi, San Giorgio a Cremano",
+  "source": "manuale"
+ },
+ "vomero": {
+  "lat": 40.8447,
+  "lng": 14.2296,
+  "label": "Vomero, Piazza Vanvitelli",
+  "source": "manuale",
+  "approx": true
+ }
+}

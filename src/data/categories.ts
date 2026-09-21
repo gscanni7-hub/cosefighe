@@ -78,6 +78,9 @@ function fromDb(e: DbExperience): Experience {
     affiliateUrl: e.affiliate_url,
     languages: e.languages,
     cancellation: e.cancellation,
+    lat: e.lat,
+    lng: e.lng,
+    approx: e.approx,
   }
 }
 

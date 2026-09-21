@@ -22,6 +22,11 @@ export interface Experience {
   affiliateUrl?: string
   languages?: string[]
   cancellation?: string
+  /** Coordinate del punto d'incontro (WGS84), calcolate alla build da scripts/geocode.mjs. */
+  lat?: number
+  lng?: number
+  /** Vero se la posizione è di zona (partenza dall'hotel, quartiere) e non di palazzo. */
+  approx?: boolean
 }
 
 export type Provider = 'getyourguide' | 'viator' | 'cosefighe'
@@ -94,6 +99,11 @@ export interface CityEvent {
   featured?: boolean
   /** Evento targato Cose Fighe: lo sponsorizziamo o ci partecipiamo; alimenta l'avviso sul sito. */
   cosefighe?: boolean
+  /** Coordinate del luogo (WGS84), calcolate alla build da scripts/geocode.mjs. */
+  lat?: number
+  lng?: number
+  /** Vero se la posizione è di zona (quartiere, città) e non del palazzo. */
+  approx?: boolean
 }
 
 export interface Category {
@@ -154,6 +164,10 @@ export interface DbExperience {
   cancellation?: string
   created_at?: string
   updated_at?: string
+  /** Aggiunti alla build (generated.json), non sono colonne del database. */
+  lat?: number
+  lng?: number
+  approx?: boolean
 }
 
 export interface DbArticle {
