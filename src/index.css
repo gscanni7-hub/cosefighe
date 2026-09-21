@@ -251,6 +251,7 @@
 @keyframes mappa-pulse { from { transform: scale(0.4); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
 .mappa-napoli .maplibregl-ctrl-group { border-radius: 9999px; box-shadow: var(--shadow-card); border: 1px solid var(--color-line); overflow: hidden; }
 .mappa-napoli .maplibregl-ctrl-group button { width: 40px; height: 40px; }
+@media (max-width: 1023px) { .mappa-napoli .maplibregl-ctrl-zoom-in, .mappa-napoli .maplibregl-ctrl-zoom-out { display: none; } }
 .mappa-napoli .maplibregl-ctrl-attrib { font-size: 10px; background: rgba(255, 255, 255, 0.85); border-radius: 9999px; padding: 2px 8px; }
 .mappa-napoli .maplibregl-ctrl-attrib.maplibregl-compact { min-height: 24px; }
 .mappa-napoli .maplibregl-ctrl-attrib a { color: var(--color-ink); }

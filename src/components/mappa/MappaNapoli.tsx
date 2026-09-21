@@ -103,14 +103,34 @@ const landmarksGeoJson = (): GeoJSON.FeatureCollection => ({
   features: LANDMARKS.map((lm) => ({
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [lm.lng, lm.lat] },
-    properties: { name: lm.name.toUpperCase(), icon: `lm-${lm.file}`, minZoom: lm.minZoom, size: lm.size / 160 },
+    properties: { name: lm.name.toUpperCase(), icon: `lm-${lm.file}`, minZoom: lm.minZoom, size: lm.size / 180, priority: lm.priority },
   })),
 })
 
 function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | undefined, interactive: boolean) {
+  // Edifici in 3D leggeri quando si è molto vicini, prima di tutte le scritte.
+  const firstSymbol = (map.getStyle() as StyleSpecification).layers.find((l) => l.type === 'symbol')?.id
+  if (map.getSource('openmaptiles') && !map.getLayer('edifici-3d'))
+    map.addLayer(
+      {
+        id: 'edifici-3d',
+        type: 'fill-extrusion',
+        source: 'openmaptiles',
+        'source-layer': 'building',
+        minzoom: 15.5,
+        paint: {
+          'fill-extrusion-color': '#f8ebdf',
+          'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 8],
+          'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
+          'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15.5, 0, 16.5, 0.45],
+        },
+      },
+      firstSymbol,
+    )
   map.addSource('monumenti', { type: 'geojson', data: landmarksGeoJson() })
-  // Tre fasce: da lontano solo Vesuvio, Capri e Pompei; poi i castelli; da vicino anche teatro e galleria.
-  for (const [suffix, min, max] of [['lontano', 0, 11], ['citta', 11, 12.5], ['vicino', 12.5, 99]] as const) {
+  // Fasce di zoom: da lontano solo i grandi (Vesuvio, Capri, Pompei, isole), poi castelli e piazze, da vicino teatro e galleria.
+  // Le collisioni le gestisce la mappa: quando due si toccano resta quello con priorità più alta, l'altro compare zoomando.
+  for (const [suffix, min, max] of [['lontano', 0, 11], ['citta', 11, 12.5], ['medio', 12.5, 14], ['vicino', 14, 99]] as const) {
     map.addLayer({
       id: `monumenti-${suffix}`,
       type: 'symbol',
@@ -121,8 +141,10 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
         'icon-image': ['get', 'icon'],
         'icon-size': ['interpolate', ['linear'], ['zoom'], 8, ['*', ['get', 'size'], 0.45], 12, ['*', ['get', 'size'], 0.7], 15, ['get', 'size'], 17, ['*', ['get', 'size'], 1.4]],
         'icon-anchor': 'bottom',
-        'icon-allow-overlap': true,
-        'icon-ignore-placement': true,
+        'icon-allow-overlap': false,
+        'icon-ignore-placement': false,
+        'icon-padding': 4,
+        'symbol-sort-key': ['get', 'priority'],
         'text-field': ['get', 'name'],
         'text-font': ['Noto Sans Bold'],
         'text-size': ['interpolate', ['linear'], ['zoom'], 10, 9, 15, 11],
@@ -135,7 +157,11 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
     })
   }
 
-  map.addSource('punti', { type: 'geojson', data: itemsGeoJson(items, selectedId), cluster: interactive, clusterRadius: 44, clusterMaxZoom: 14 })
+  map.addSource('punti', { type: 'geojson', data: itemsGeoJson(items, selectedId), cluster: interactive,
+    clusterRadius: 44,
+    clusterMaxZoom: 14,
+    clusterProperties: { ev: ['+', ['case', ['==', ['get', 'kind'], 'evento'], 1, 0]], ex: ['+', ['case', ['==', ['get', 'kind'], 'esperienza'], 1, 0]] },
+  })
   if (interactive) {
     map.addLayer({
       id: 'gruppi',
@@ -143,9 +169,10 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
       source: 'punti',
       filter: ['has', 'point_count'],
       paint: {
-        'circle-color': COLORS.evento,
+        // Solo eventi = arancione, solo esperienze = blu, misto = nero.
+        'circle-color': ['case', ['==', ['get', 'ex'], 0], COLORS.evento, ['==', ['get', 'ev'], 0], COLORS.esperienza, COLORS.ink],
         'circle-radius': ['step', ['get', 'point_count'], 16, 10, 20, 30, 24],
-        'circle-stroke-color': COLORS.ink,
+        'circle-stroke-color': COLORS.white,
         'circle-stroke-width': 2.5,
       },
     })
@@ -154,7 +181,7 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
       type: 'symbol',
       source: 'punti',
       filter: ['has', 'point_count'],
-      layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-font': ['Noto Sans Bold'], 'text-size': 13, 'text-allow-overlap': true },
+      layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-font': ['Noto Sans Bold'], 'text-size': 13, 'text-allow-overlap': true, 'text-ignore-placement': true },
       paint: { 'text-color': COLORS.white },
     })
   }
@@ -208,7 +235,7 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
     mapRef.current = map
     if (import.meta.env.DEV) (window as unknown as { __mappa?: MLMap }).__mappa = map
     // Nel riquadro piccolo delle schede l'attribuzione sta nel testo sotto, non sopra la mappa.
-    if (interactive) map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: '© OpenStreetMap · OpenFreeMap' }), 'top-left')
+    if (interactive) map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: '© OpenStreetMap · OpenFreeMap' }), 'bottom-left')
     if (interactive) map.addControl(new maplibregl.NavigationControl({ visualizePitch: true, showCompass: true }), 'top-right')
     map.touchZoomRotate.enableRotation()
 
@@ -291,7 +318,10 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
 function fitTo(map: MLMap, items: MapItem[], paddingBottom: number) {
   const b = new maplibregl.LngLatBounds()
   // Il golfo intero appiattisce la città: si parte dalla città, le gite restano a un pizzico di zoom.
-  const city = items.filter((it) => it.lat > 40.79 && it.lat < 40.9 && it.lng > 14.15 && it.lng < 14.33)
+  // Su telefono la finestra è stretta: si parte dal centro (Chiaia–Sanità), il resto è a un pizzico di zoom.
+  const narrow = map.getContainer().clientWidth < 640
+  const box = narrow ? { s: 40.822, n: 40.868, w: 14.215, e: 14.285 } : { s: 40.79, n: 40.9, w: 14.15, e: 14.33 }
+  const city = items.filter((it) => it.lat > box.s && it.lat < box.n && it.lng > box.w && it.lng < box.e)
   for (const it of city.length >= 3 ? city : items) b.extend([it.lng, it.lat])
   if (b.isEmpty()) return
   map.fitBounds(b, { padding: { top: 70, left: 40, right: 40, bottom: 40 + paddingBottom }, maxZoom: 14.2, duration: 0 })

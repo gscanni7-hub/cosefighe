@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router'
-import { ArrowRight, ArrowUpRight, LocateFixed, Navigation, Star, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, LocateFixed, Navigation, Search, Star, X } from 'lucide-react'
 import MappaNapoli from './MappaNapoli'
 import { ButtonAnchor, ButtonLink } from '../ui/Button'
-import { CAT_LABEL, directionsUrl, distanceKm, distanceLabel, walkLabel, type MapItem } from '../../lib/mappa'
+import { CAT_LABEL, LANDMARKS, NAPOLI_CENTER, directionsUrl, distanceKm, distanceLabel, walkLabel, type MapItem } from '../../lib/mappa'
 import { eventEnd, eventPath } from '../../data/events'
 import { experiencePath } from '../../data/schede'
 import { DATE_PRESETS, dayParts, formatShort } from '../../lib/dates'
@@ -48,6 +48,25 @@ export default function MapView({ items, range, category, embedded = false, init
     return it ? { lng: it.lng, lat: it.lat, zoom: 15 } : null
   })
   const [listOpen, setListOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [view, setView] = useState<'citta' | 'golfo'>('citta')
+
+  /** Ricerca istantanea su titoli, luoghi e monumenti (senza accenti, senza maiuscole). */
+  const norm = (t: string) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const q = norm(query.trim())
+  const hits = q.length < 2 ? [] : items.filter((it) => norm(it.title).includes(q) || norm(it.event?.place ?? it.exp?.location ?? '').includes(q)).slice(0, 6)
+  const lmHits = q.length < 2 ? [] : LANDMARKS.filter((lm) => norm(lm.name).includes(q)).slice(0, 3)
+
+  const goView = (v: 'citta' | 'golfo') => {
+    setView(v)
+    setFocus(v === 'citta' ? { lng: NAPOLI_CENTER[0], lat: NAPOLI_CENTER[1], zoom: 13 } : { lng: 14.3, lat: 40.72, zoom: 10 })
+  }
+
+  // Foglio della lista su telefono: si chiude trascinando in giù la maniglia.
+  let dragStart = 0
+  const onSheetDown = (e: React.PointerEvent) => { dragStart = e.clientY }
+  const onSheetUp = (e: React.PointerEvent) => { if (dragStart && e.clientY - dragStart > 60) setListOpen(false); dragStart = 0 }
 
   useEffect(() => {
     if (category !== undefined) setCat(category)
@@ -146,6 +165,61 @@ export default function MapView({ items, range, category, embedded = false, init
         <div className="relative min-h-0">
           <MappaNapoli items={visible} selectedId={selected} onSelect={(id) => select(id)} me={me} focus={focus} paddingBottom={current ? 220 : 0} />
 
+          {/* Cerca e scorciatoie Città / Golfo */}
+          <div className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-70px)] flex-col gap-2 lg:left-4 lg:top-4">
+            <div className="relative">
+              <label className="flex h-10 w-[260px] max-w-full items-center gap-2 rounded-full bg-white px-3.5 shadow-soft">
+                <Search size={15} className="shrink-0 text-ink/45" />
+                <input
+                  id="mappa-cerca"
+                  type="search"
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setSearchOpen(true) }}
+                  onFocus={() => setSearchOpen(true)}
+                  onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
+                  placeholder="Cerca un posto o un evento"
+                  className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-ink/40"
+                  autoComplete="off"
+                />
+                {query && (
+                  <button type="button" onClick={() => setQuery('')} aria-label="Cancella" className="text-ink/45">
+                    <X size={14} />
+                  </button>
+                )}
+              </label>
+              {searchOpen && (hits.length > 0 || lmHits.length > 0) && (
+                <ul className="absolute left-0 top-12 z-20 w-[300px] max-w-[calc(100vw-40px)] overflow-hidden rounded-2xl bg-white py-1 shadow-soft">
+                  {lmHits.map((lm) => (
+                    <li key={lm.file}>
+                      <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => { setFocus({ lng: lm.lng, lat: lm.lat, zoom: 15 }); setQuery(lm.name); setSearchOpen(false) }} className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-sand">
+                        <img src={`/mappa/${lm.file}.webp`} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
+                        <span className="font-medium">{lm.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                  {hits.map((it) => (
+                    <li key={it.id}>
+                      <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => { select(it.id, true); setQuery(it.title); setSearchOpen(false) }} className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-sand">
+                        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${it.kind === 'evento' ? 'bg-orange' : 'bg-blue'}`} />
+                        <span className="min-w-0">
+                          <span className="block truncate font-medium">{it.title}</span>
+                          <span className="block truncate text-xs text-ink/50">{it.event?.place ?? it.exp?.location}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="inline-flex w-fit rounded-full bg-white p-1 shadow-soft" role="group" aria-label="Zona">
+              {(['citta', 'golfo'] as const).map((v) => (
+                <button key={v} type="button" aria-pressed={view === v} onClick={() => goView(v)} className={`rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-colors ${view === v ? 'bg-ink text-white' : 'text-ink/65 hover:text-ink'}`}>
+                  {v === 'citta' ? 'Città' : 'Golfo'}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Vicino a me */}
           <div className="absolute bottom-4 right-4 z-10 flex flex-col items-end gap-2 lg:bottom-5 lg:right-5">
             {meState === 'no' && <span className="rounded-full bg-white px-3 py-1.5 text-xs text-ink/60 shadow-card">Posizione non disponibile</span>}
@@ -161,7 +235,7 @@ export default function MapView({ items, range, category, embedded = false, init
 
           {/* Mascotte con la legenda, solo su computer */}
           {!current && (
-            <div className="pointer-events-none absolute bottom-5 left-5 z-10 hidden items-end gap-2 lg:flex">
+            <div className="pointer-events-none absolute bottom-10 left-5 z-10 hidden items-end gap-2 lg:flex">
               <img src="/mascotte-binocolo.webp" alt="" width={88} height={88} className="h-22 w-22 object-contain drop-shadow-md" />
               <p className="max-w-[220px] rounded-2xl rounded-bl-md bg-white px-3 py-2 text-[12.5px] leading-snug shadow-card">
                 <span className="font-semibold text-orange">Ciao.</span> Arancione = eventi, blu = esperienze prenotabili. Tocca un segnaposto.
@@ -186,7 +260,8 @@ export default function MapView({ items, range, category, embedded = false, init
         <aside
           className={`${listOpen ? 'flex' : 'hidden'} absolute inset-x-0 bottom-0 z-20 max-h-[70%] min-h-0 flex-col rounded-t-3xl border-t border-line bg-white shadow-[0_-12px_40px_rgba(17,17,17,0.14)] lg:static lg:flex lg:max-h-none lg:rounded-none lg:border-l lg:border-t-0 lg:shadow-none`}
         >
-          <header className="flex items-baseline justify-between gap-3 border-b border-line px-4 py-3">
+          <header onPointerDown={onSheetDown} onPointerUp={onSheetUp} className="relative flex items-baseline justify-between gap-3 border-b border-line px-4 py-3 touch-none lg:touch-auto">
+            <span aria-hidden className="absolute left-1/2 top-1.5 h-1 w-10 -translate-x-1/2 rounded-full bg-line lg:hidden" />
             <h2 className="font-display text-xl uppercase">{me ? 'Vicino a te' : range ? 'In questi giorni' : preset === 'oggi' ? 'In città oggi' : preset === 'weekend' ? 'Questo weekend' : `I prossimi ${preset} giorni`}</h2>
             <span className="text-xs text-ink/45 tabular-nums">
               {nEv} eventi · {nEx} esperienze

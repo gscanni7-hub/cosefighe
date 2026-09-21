@@ -13,6 +13,10 @@
  * Per aggiungere un luogo a mano: una voce in luoghi.json con chiave normalizzata
  * (es. "teatro diana") e valore { lat, lng, label, source: "manuale" }, più "approx": true
  * se la coordinata è di zona e non di palazzo.
+ *
+ * Per le esperienze vale prima di tutto src/data/ritrovi.json, il punto di ritrovo esatto
+ * preso dalle piattaforme partner (agents/ritrovi-partner.mjs), con chiave provider:provider_id:
+ * se c'è, la posizione è precisa (approx falso) e il nome del ritrovo finisce in `ritrovo`.
  */
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
@@ -20,6 +24,7 @@ import { join } from 'node:path'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const cacheFile = join(root, 'src', 'data', 'luoghi.json')
+const ritroviFile = join(root, 'src', 'data', 'ritrovi.json')
 
 const NOMINATIM = 'https://nominatim.openstreetmap.org/search'
 const USER_AGENT = 'cosefighenapoli.it (ciao@cosefighenapoli.it)'
@@ -46,6 +51,15 @@ export function normalizza(testo) {
 async function leggiCache() {
   try {
     return JSON.parse(await readFile(cacheFile, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
+/** Punti di ritrovo esatti delle esperienze (ritrovi.json); senza file la tabella è vuota. */
+async function leggiRitrovi() {
+  try {
+    return JSON.parse(await readFile(ritroviFile, 'utf8'))
   } catch {
     return {}
   }
@@ -158,6 +172,7 @@ const unici = (arr) => [...new Set(arr.filter(Boolean))]
  */
 export async function geocodeAll(events = [], experiences = [], opzioni = {}) {
   const cache = await leggiCache()
+  const ritrovi = await leggiRitrovi()
   const geocoder = creaGeocoder(cache, opzioni)
   const stats = { eventi: { con: 0, senza: [] }, esperienze: { con: 0, senza: [] } }
 
@@ -180,8 +195,11 @@ export async function geocodeAll(events = [], experiences = [], opzioni = {}) {
   const esperienzeOut = []
   for (const x of experiences) {
     const location = pulito(x.location)
+    const ritrovo = x.provider && x.provider_id ? ritrovi[`${x.provider}:${x.provider_id}`] : null
     let geo = null
-    if (LUOGO_GENERICO.test(normalizza(location))) {
+    if (ritrovo && Number.isFinite(ritrovo.lat) && Number.isFinite(ritrovo.lng)) {
+      geo = { lat: ritrovo.lat, lng: ritrovo.lng, approx: false, label: ritrovo.label }
+    } else if (LUOGO_GENERICO.test(normalizza(location))) {
       const centro = cache[CHIAVE_CENTRO]
       geo = centro ? { lat: centro.lat, lng: centro.lng, approx: true } : null
     } else if (location) {
@@ -206,5 +224,6 @@ function applica(riga, geo) {
   if (!geo) return riga
   const out = { ...riga, lat: geo.lat, lng: geo.lng }
   if (geo.approx) out.approx = true
+  if (geo.label) out.ritrovo = geo.label
   return out
 }

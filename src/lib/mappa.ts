@@ -26,19 +26,31 @@ export interface Landmark {
   minZoom: number
   /** Larghezza in pixel a zoom 15; cresce e cala con lo zoom. */
   size: number
+  /** Chi vince quando due monumenti si toccano: numero basso = più importante. */
+  priority: number
 }
 
+/** Tutti disegnati con la stessa regola (stesso tratto, stessa vista, niente facce); la mappa li mostra senza sovrapporli. */
 export const LANDMARKS: Landmark[] = [
-  { file: 'vesuvio', name: 'Vesuvio', lng: 14.426, lat: 40.8214, minZoom: 8, size: 110 },
-  { file: 'faraglioni', name: 'Capri', lng: 14.2429, lat: 40.5509, minZoom: 8, size: 96 },
-  { file: 'pompei', name: 'Pompei', lng: 14.485, lat: 40.75, minZoom: 8.5, size: 90 },
-  { file: 'castel-ovo', name: 'Castel dell’Ovo', lng: 14.2476, lat: 40.8283, minZoom: 11, size: 96 },
-  { file: 'sant-elmo', name: 'Castel Sant’Elmo', lng: 14.2385, lat: 40.8445, minZoom: 11, size: 104 },
-  { file: 'maschio-angioino', name: 'Maschio Angioino', lng: 14.2527, lat: 40.8385, minZoom: 12, size: 92 },
-  { file: 'plebiscito', name: 'Piazza del Plebiscito', lng: 14.2482, lat: 40.8358, minZoom: 12.5, size: 104 },
-  { file: 'duomo', name: 'Duomo', lng: 14.26, lat: 40.8523, minZoom: 12, size: 88 },
-  { file: 'san-carlo', name: 'Teatro San Carlo', lng: 14.2497, lat: 40.8375, minZoom: 13.5, size: 84 },
-  { file: 'galleria-umberto', name: 'Galleria Umberto', lng: 14.2493, lat: 40.839, minZoom: 13.5, size: 76 },
+  { file: 'vesuvio', name: 'Vesuvio', lng: 14.426, lat: 40.8214, minZoom: 8, size: 120, priority: 1 },
+  { file: 'faraglioni', name: 'Capri', lng: 14.2429, lat: 40.5509, minZoom: 8, size: 100, priority: 2 },
+  { file: 'pompei', name: 'Pompei', lng: 14.485, lat: 40.75, minZoom: 9, size: 96, priority: 3 },
+  { file: 'sant-elmo', name: 'Castel Sant’Elmo', lng: 14.2385, lat: 40.8445, minZoom: 11, size: 110, priority: 4 },
+  { file: 'castel-ovo', name: 'Castel dell’Ovo', lng: 14.2476, lat: 40.8283, minZoom: 11, size: 96, priority: 5 },
+  { file: 'plebiscito', name: 'Piazza del Plebiscito', lng: 14.2482, lat: 40.8358, minZoom: 12, size: 104, priority: 6 },
+  { file: 'duomo', name: 'Duomo', lng: 14.26, lat: 40.8523, minZoom: 12, size: 92, priority: 7 },
+  { file: 'maschio-angioino', name: 'Maschio Angioino', lng: 14.2527, lat: 40.8385, minZoom: 12.5, size: 92, priority: 8 },
+  { file: 'stadio', name: 'Stadio Maradona', lng: 14.1929, lat: 40.828, minZoom: 12, size: 92, priority: 9 },
+  { file: 'mann', name: 'MANN', lng: 14.2503, lat: 40.8534, minZoom: 13, size: 88, priority: 10 },
+  { file: 'san-carlo', name: 'Teatro San Carlo', lng: 14.2497, lat: 40.8375, minZoom: 14, size: 84, priority: 11 },
+  { file: 'galleria-umberto', name: 'Galleria Umberto', lng: 14.2493, lat: 40.839, minZoom: 14.5, size: 76, priority: 12 },
+  { file: 'ischia', name: 'Ischia', lng: 13.9645, lat: 40.7318, minZoom: 8.5, size: 92, priority: 13 },
+  { file: 'procida', name: 'Procida', lng: 14.0357, lat: 40.7625, minZoom: 9.5, size: 88, priority: 14 },
+  { file: 'sorrento', name: 'Sorrento', lng: 14.3758, lat: 40.6263, minZoom: 9, size: 92, priority: 15 },
+  { file: 'positano', name: 'Positano', lng: 14.485, lat: 40.6281, minZoom: 9.5, size: 92, priority: 16 },
+  { file: 'reggia-caserta', name: 'Reggia di Caserta', lng: 14.3262, lat: 41.0725, minZoom: 9, size: 96, priority: 17 },
+  { file: 'ercolano', name: 'Ercolano', lng: 14.348, lat: 40.806, minZoom: 11, size: 84, priority: 18 },
+  { file: 'pozzuoli', name: 'Anfiteatro di Pozzuoli', lng: 14.125, lat: 40.8262, minZoom: 11, size: 84, priority: 19 },
 ]
 
 export const CAT_LABEL: Record<EventCategory, string> = {
