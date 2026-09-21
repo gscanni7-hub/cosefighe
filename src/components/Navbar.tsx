@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, MapPin, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, MapPin, Menu, X } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
 
@@ -127,19 +127,6 @@ export const Navbar = () => {
               className="container-x mt-3 lg:hidden"
             >
               <ul className="overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-soft">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOpen(false)
-                      setSearch(true)
-                    }}
-                    className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-paper px-4 py-3.5 text-left text-base text-ink/60"
-                  >
-                    <Search size={18} />
-                    Cerca un'esperienza, un evento, un articolo
-                  </button>
-                </li>
                 <li>
                   <Link to="/mappa" viewTransition className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
                     <MapPin size={18} className="text-orange" />
