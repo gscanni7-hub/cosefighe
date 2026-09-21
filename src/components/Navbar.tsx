@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ArrowRight, MapPin, Menu, X } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
+import { preloadMappa } from '../lib/mappaPreload'
 
 const navItems = [
   { label: 'Esperienze', to: '/esperienze' },
@@ -87,6 +88,8 @@ export const Navbar = () => {
                   viewTransition
                   aria-label="La mappa di Napoli"
                   title="La mappa"
+                  onMouseEnter={preloadMappa}
+                  onTouchStart={preloadMappa}
                   aria-current={isActive('/mappa') ? 'page' : undefined}
                   className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-cream hover:text-ink ${isActive('/mappa') ? 'bg-ink text-white hover:bg-ink hover:text-white' : 'text-ink/75'}`}
                 >
@@ -128,7 +131,7 @@ export const Navbar = () => {
             >
               <ul className="overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-soft">
                 <li>
-                  <Link to="/mappa" viewTransition className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
+                  <Link to="/mappa" viewTransition onTouchStart={preloadMappa} onMouseEnter={preloadMappa} className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
                     <MapPin size={18} className="text-orange" />
                     La mappa di Napoli
                   </Link>

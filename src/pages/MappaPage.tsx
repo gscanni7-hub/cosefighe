@@ -38,7 +38,7 @@ export default function MappaPage() {
 
   return (
     <Page>
-      <section className="border-b border-line bg-sand pt-20 md:pt-24">
+      <section className="hidden border-b border-line bg-sand pt-20 md:pt-24 lg:block">
         <div className="container-x flex flex-wrap items-end justify-between gap-3 py-4 md:py-5">
           <div>
             <p className="label text-orange">La mappa</p>
@@ -49,7 +49,8 @@ export default function MappaPage() {
       </section>
 
       {/* La mappa vera: alta quanto lo schermo, meno la barra. */}
-      <section className="h-[calc(100dvh-64px)] min-h-[520px] border-b border-line" aria-label="Mappa interattiva">
+      {/* Su telefono: la mappa sotto la barra, a tutto schermo; il titolo (h1) è comunque nel testo sotto per chi legge e per Google. */}
+      <section className="h-[calc(100dvh-64px)] min-h-[520px] border-b border-line pt-16 lg:pt-0" aria-label="Mappa interattiva">
         {hydrated ? (
           <Suspense fallback={<MapPlaceholder />}>
             <MapView items={items} initialSelected={punto} />

@@ -16,6 +16,7 @@ import { eventPath, upcomingEvents } from '../data/events'
 import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
+import { preloadMappa } from '../lib/mappaPreload'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -208,7 +209,7 @@ const MapBand = () => (
         <p className="label text-orange">Novità</p>
         <h2 className="heading-lg mt-4">Napoli sulla mappa</h2>
         <p className="mt-4 max-w-md text-ink/70">Gli eventi di questi giorni e le esperienze prenotabili, ognuno dove sta davvero, con i monumenti disegnati da noi. Guarda cosa hai vicino, tocca, e le indicazioni si aprono sul telefono.</p>
-        <ButtonLink to="/mappa" variant="dark" className="mt-8">
+        <ButtonLink to="/mappa" variant="dark" className="mt-8" onMouseEnter={preloadMappa} onTouchStart={preloadMappa}>
           Apri la mappa <ArrowRight size={16} />
         </ButtonLink>
       </Reveal>

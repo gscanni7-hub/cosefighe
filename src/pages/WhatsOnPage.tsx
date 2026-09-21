@@ -18,6 +18,7 @@ import { Map as MapIcon } from 'lucide-react'
 import { eventToItem, experienceToItem, type MapItem } from '../lib/mappa'
 
 const MapView = lazy(() => import('../components/mappa/MapView'))
+import { preloadMappa } from '../lib/mappaPreload'
 import { articleBySlug } from '../data/correlati'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventPath, eventsBetween, isLongRunning } from '../data/events'
 import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
@@ -285,7 +286,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
               <button type="button" aria-pressed={!mapView} onClick={() => setView('lista')} className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${!mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
                 Lista
               </button>
-              <button type="button" aria-pressed={mapView} onClick={() => setView('mappa')} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
+              <button type="button" aria-pressed={mapView} onMouseEnter={preloadMappa} onTouchStart={preloadMappa} onClick={() => setView('mappa')} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
                 <MapIcon size={14} /> Mappa
               </button>
             </div>

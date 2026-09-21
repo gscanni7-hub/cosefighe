@@ -22,6 +22,13 @@ export interface MappaNapoliProps {
   className?: string
   /** Spazio in basso coperto da pannelli (px): i punti restano visibili sopra. */
   paddingBottom?: number
+  /** Punto sotto il mouse (dalla lista) e avviso quando il mouse passa su un segnaposto. */
+  hoveredId?: string | null
+  onHover?: (id: string | null) => void
+  /** Ogni volta che la persona sposta o zooma la mappa: i limiti visibili (sud, ovest, nord, est). */
+  onMove?: (bounds: [number, number, number, number], byUser: boolean) => void
+  /** Se le tessere non arrivano (rete assente o bloccata). */
+  onError?: () => void
 }
 
 /** Colori del sito sopra lo stile "bright": carta sabbia, mare blu, strade bianche, senza negozi e fermate. */
@@ -89,12 +96,12 @@ async function loadImages(map: MLMap) {
   await Promise.all(jobs)
 }
 
-const itemsGeoJson = (items: MapItem[], selectedId: string | null | undefined): GeoJSON.FeatureCollection => ({
+const itemsGeoJson = (items: MapItem[], selectedId: string | null | undefined, hoveredId?: string | null): GeoJSON.FeatureCollection => ({
   type: 'FeatureCollection',
   features: items.map((it) => ({
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [it.lng, it.lat] },
-    properties: { id: it.id, icon: pinName(it.kind, it.cat, it.id === selectedId), sel: it.id === selectedId ? 1 : 0, kind: it.kind },
+    properties: { id: it.id, title: it.title, icon: pinName(it.kind, it.cat, it.id === selectedId), sel: it.id === selectedId ? 1 : 0, hov: it.id === hoveredId ? 1 : 0, kind: it.kind },
   })),
 })
 
@@ -192,18 +199,19 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
     filter: ['!', ['has', 'point_count']],
     layout: {
       'icon-image': ['get', 'icon'],
-      'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.75, 13, 1, 17, 1.15],
+      // Lo zoom sta fuori e il dato dentro: è l'unica forma che la mappa accetta per una dimensione che dipende da entrambi.
+      'icon-size': ['interpolate', ['linear'], ['zoom'], 9, ['case', ['==', ['coalesce', ['get', 'hov'], 0], 1], 0.9, 0.75], 13, ['case', ['==', ['coalesce', ['get', 'hov'], 0], 1], 1.18, 1], 17, ['case', ['==', ['coalesce', ['get', 'hov'], 0], 1], 1.35, 1.15]],
       'icon-anchor': 'bottom',
       'icon-allow-overlap': true,
       'icon-ignore-placement': true,
-      'symbol-sort-key': ['-', 1, ['coalesce', ['get', 'sel'], 0]],
+      'symbol-sort-key': ['-', 2, ['+', ['coalesce', ['get', 'sel'], 0], ['coalesce', ['get', 'hov'], 0]]],
       'symbol-z-order': 'source',
     },
   })
 }
 
 /** La mappa di Napoli: motore MapLibre, stile nostro, monumenti disegnati e segnaposto per categoria. */
-export default function MappaNapoli({ items, selectedId, onSelect, me, focus, interactive = true, className = '', paddingBottom = 0 }: MappaNapoliProps) {
+export default function MappaNapoli({ items, selectedId, onSelect, me, focus, interactive = true, className = '', paddingBottom = 0, hoveredId, onHover, onMove, onError }: MappaNapoliProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MLMap | null>(null)
   const readyRef = useRef(false)
@@ -214,6 +222,14 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
   itemsRef.current = items
   const selectedRef = useRef(selectedId)
   selectedRef.current = selectedId
+  const onHoverRef = useRef(onHover)
+  onHoverRef.current = onHover
+  const onMoveRef = useRef(onMove)
+  onMoveRef.current = onMove
+  const onErrorRef = useRef(onError)
+  onErrorRef.current = onError
+  const selMarker = useRef<maplibregl.Marker | null>(null)
+  const tip = useRef<maplibregl.Popup | null>(null)
 
   // Creazione, una volta sola.
   useEffect(() => {
@@ -268,6 +284,30 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
         map.on('mouseenter', layer, () => (map.getCanvas().style.cursor = 'pointer'))
         map.on('mouseleave', layer, () => (map.getCanvas().style.cursor = ''))
       }
+      // Sopra un segnaposto: titolo in un fumetto e avviso alla lista.
+      map.on('mousemove', 'punti', (e) => {
+        const f = e.features?.[0]
+        if (!f) return
+        const id = String(f.properties.id)
+        onHoverRef.current?.(id)
+        const coords = (f.geometry as GeoJSON.Point).coordinates as [number, number]
+        if (!tip.current) tip.current = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: [0, -44], className: 'mappa-tip', maxWidth: '260px' })
+        tip.current.setLngLat(coords).setText(String(f.properties.title)).addTo(map)
+      })
+      map.on('mouseleave', 'punti', () => {
+        onHoverRef.current?.(null)
+        tip.current?.remove()
+      })
+      const report = (byUser: boolean) => {
+        const b = map.getBounds()
+        onMoveRef.current?.([b.getSouth(), b.getWest(), b.getNorth(), b.getEast()], byUser)
+      }
+      map.on('moveend', (e) => report(!!(e as { originalEvent?: unknown }).originalEvent))
+      report(false)
+    })
+    map.on('error', (e) => {
+      // Solo i problemi di rete sulle tessere: gli altri avvisi non riguardano la persona.
+      if (/tile|source|Failed to fetch|NetworkError/i.test(String((e as { error?: { message?: string } }).error?.message ?? ''))) onErrorRef.current?.()
     })
 
     const ro = new ResizeObserver(() => map.resize())
@@ -281,12 +321,29 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Dati e selezione.
+  // Dati, selezione e punto sotto il mouse.
   useEffect(() => {
     const map = mapRef.current
     if (!map || !readyRef.current) return
-    ;(map.getSource('punti') as GeoJSONSource | undefined)?.setData(itemsGeoJson(items, selectedId))
-  }, [items, selectedId])
+    ;(map.getSource('punti') as GeoJSONSource | undefined)?.setData(itemsGeoJson(items, selectedId, hoveredId))
+  }, [items, selectedId, hoveredId])
+
+  // Il punto scelto è un marcatore HTML sopra la mappa: così può rimbalzare, e il simbolo sotto viene nascosto.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !readyRef.current || !interactive) return
+    selMarker.current?.remove()
+    selMarker.current = null
+    const it = selectedId ? items.find((i) => i.id === selectedId) : null
+    if (map.getLayer('punti')) map.setFilter('punti', ['all', ['!', ['has', 'point_count']], ['!=', ['get', 'id'], it?.id ?? '']])
+    if (!it) return
+    const el = document.createElement('div')
+    el.className = 'mappa-sel'
+    el.innerHTML = pinSvg(it.kind, it.cat, true)
+    el.setAttribute('aria-label', it.title)
+    selMarker.current = new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([it.lng, it.lat]).addTo(map)
+    tip.current?.remove()
+  }, [items, selectedId, interactive])
 
   // Posizione della persona: la mascotte col binocolo.
   useEffect(() => {
