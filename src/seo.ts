@@ -39,6 +39,20 @@ const experiencesUpdated = (slug?: string) => {
 
 const abs = (path: string) => (path.startsWith('http') ? path : SITE_URL + path)
 
+/** Taglia un testo sull'ultimo spazio entro `max` caratteri, con i puntini. */
+const cut = (text: string, max: number) => (text.length > max ? text.slice(0, max - 1).replace(/\s+\S*$/, '') + '…' : text)
+/**
+ * <title> entro 65 caratteri: con il suffisso « · Cose Fighe» se ci sta, altrimenti senza; se il testo da solo
+ * è ancora lungo, resta la parte prima dei due punti (è quella con la parola chiave), altrimenti si taglia.
+ */
+const seoTitle = (text: string, suffix = ' · Cose Fighe') => {
+  if (text.length + suffix.length <= 65) return text + suffix
+  if (text.length <= 65) return text
+  const head = text.split(':')[0].trim()
+  if (head.length >= 30 && head.length <= 65) return head.length + suffix.length <= 65 ? head + suffix : head
+  return cut(text, 65)
+}
+
 /** Anteprima per WhatsApp, Facebook e simili: JPEG 1200×630 in /og, perché le webp non vengono mostrate. */
 const og = (path: string) => `/og/${path.split('/').pop()!.replace(/\.webp$/, '')}.jpg`
 const OG_HOME = '/og/napoli-skyline.jpg'
@@ -151,8 +165,8 @@ export function routeSeo(path: string): RouteSeo {
 
   if (clean === '/') {
     return {
-      title: 'Cosa fare a Napoli: esperienze, eventi e idee di local · Cose Fighe',
-      description: 'Cosa fare a Napoli oggi, nel weekend e nei giorni in cui ci sei: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi delle piattaforme.',
+      title: 'Cosa fare a Napoli: esperienze, eventi e idee di local',
+      description: 'Cosa fare a Napoli oggi e nel weekend: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi.',
       image: OG_HOME,
       preloadImage: '/mascotte-hero.webp',
       updated: BUILD_DAY,
@@ -161,7 +175,7 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/esperienze') {
     return {
-      title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori · Cose Fighe`,
+      title: `${total} esperienze a Napoli: food, outdoor, arte, laboratori`,
       description: `${total} esperienze in 6 categorie, scelte una per una: street food, Vesuvio, barca, laboratori, sotterranei. Prezzi da €10.`,
       image: og('/img/naples-streetfood.webp'),
       updated: experiencesUpdated(),
@@ -178,8 +192,8 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/cosa-fare') {
     return {
-      title: 'Cosa fare a Napoli: le 25 cose da fare, eventi e programma per date · Cose Fighe',
-      description: 'Cosa fare a Napoli: il programma dei prossimi giorni controllato dalla redazione, le 25 cose da fare scelte da chi ci vive e le esperienze prenotabili, con i prezzi delle piattaforme. Aggiornato ogni mattina.',
+      title: 'Cosa fare a Napoli: 25 cose da fare, eventi e programma',
+      description: 'Cosa fare a Napoli: il programma dei prossimi giorni controllato dalla redazione, le 25 cose da fare scelte da chi ci vive e le esperienze prenotabili.',
       image: OG_HOME,
       updated: BUILD_DAY,
       jsonLd: graph(
@@ -192,7 +206,7 @@ export function routeSeo(path: string): RouteSeo {
   }
   if (clean === '/cosa-fare/oggi') {
     return {
-      title: 'Cosa fare a Napoli oggi: eventi in città e idee dell’ultimo minuto · Cose Fighe',
+      title: 'Cosa fare a Napoli oggi: eventi e idee dell’ultimo minuto',
       description: 'Gli eventi di oggi a Napoli, controllati dalla redazione, e le esperienze che puoi prenotare anche all’ultimo. Si aggiorna ogni mattina.',
       image: OG_HOME,
       updated: BUILD_DAY,
@@ -205,7 +219,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/cosa-fare/weekend') {
     const w = weekendRange(BUILD_DAY)
     return {
-      title: 'Cosa fare a Napoli questo weekend: il programma di sabato e domenica · Cose Fighe',
+      title: 'Cosa fare a Napoli nel weekend: programma di sabato e domenica',
       description: 'Il programma del fine settimana a Napoli: concerti, feste, mostre, mercati, giorno per giorno, e le esperienze da prenotare. Si aggiorna ogni mattina.',
       image: OG_HOME,
       updated: BUILD_DAY,
@@ -227,7 +241,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/chi-siamo') {
     return {
       updated: STATIC_UPDATED,
-      title: 'Chi siamo · Cose Fighe',
+      title: 'Chi siamo: chi sceglie le esperienze di Cose Fighe a Napoli',
       description: 'Cose Fighe nasce nel 2026 a Napoli per connettere viaggiatori curiosi con creator locali. La nostra storia, i nostri valori.',
       image: OG_HOME,
       jsonLd: graph(organization, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Chi siamo', path: '/chi-siamo' }])),
@@ -236,7 +250,7 @@ export function routeSeo(path: string): RouteSeo {
   if (clean === '/contatti') {
     return {
       updated: STATIC_UPDATED,
-      title: 'Contatti · Cose Fighe',
+      title: 'Contatti: scrivi alla redazione di Cose Fighe a Napoli',
       description: 'Scrivici per una domanda, per proporre la tua esperienza o una collaborazione. Rispondiamo entro 24 ore nei giorni feriali.',
       image: OG_HOME,
       jsonLd: graph({ '@type': 'ContactPage', name: 'Contatti Cose Fighe', url: abs('/contatti') }, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Contatti', path: '/contatti' }])),
@@ -254,15 +268,15 @@ export function routeSeo(path: string): RouteSeo {
       ),
     }
   }
-  if (clean === '/privacy') return { title: 'Privacy · Cose Fighe', description: 'Informativa sulla privacy di Cose Fighe.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
-  if (clean === '/cookie') return { title: 'Cookie · Cose Fighe', description: 'Informativa sui cookie di Cose Fighe.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
+  if (clean === '/privacy') return { title: 'Informativa sulla privacy di Cose Fighe', description: 'Come Cose Fighe tratta i dati di chi visita il sito e scrive alla redazione: analisi senza cookie, moduli di contatto, diritti e contatti.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
+  if (clean === '/cookie') return { title: 'Informativa sui cookie di Cose Fighe', description: 'Cose Fighe non usa cookie di tracciamento: le statistiche sono anonime e senza identificatori. Cosa viene salvato nel browser e perché.', image: OG_HOME, updated: STATIC_UPDATED, jsonLd: [] }
   const cat = clean.match(/^\/categoria\/([^/]+)$/)
   if (cat) {
     const c = CATEGORY_LIST.find((x) => x.slug === cat[1])
     if (c) {
       return {
-        title: `${c.label} a Napoli: ${c.experiences.length} esperienze · Cose Fighe`,
-        description: `${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 4).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli scelte una per una.`,
+        title: seoTitle(`${c.label} a Napoli: ${c.experiences.length} esperienze scelte una per una`),
+        description: cut(`${c.subtitle}. ${c.experiences.map((e) => e.title.split(':')[0]).slice(0, 2).join(', ')} e altre esperienze ${c.label.toLowerCase()} a Napoli scelte una per una.`, 158),
         image: c.experiences[0] ? og(c.experiences[0].image) : OG_HOME,
         updated: experiencesUpdated(c.slug),
         jsonLd: graph(
@@ -286,7 +300,7 @@ export function routeSeo(path: string): RouteSeo {
         ? [{ '@type': 'FAQPage', mainEntity: scheda.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
         : []
       return {
-        title: `${p.exp.title} · da ${p.exp.price} · Cose Fighe`,
+        title: seoTitle(p.exp.title),
         description: intro.length > 158 ? intro.slice(0, 155).replace(/\s+\S*$/, '') + '…' : intro,
         image: og(p.exp.image),
         preloadImage: p.exp.image,
@@ -305,8 +319,8 @@ export function routeSeo(path: string): RouteSeo {
     const a = ARTICLES_BY_DATE.find((x) => x.slug === art[1])
     if (a) {
       return {
-        title: `${a.title} · Cose Fighe Blog`,
-        description: a.excerpt,
+        title: seoTitle(a.title),
+        description: cut(a.excerpt, 158),
         image: og(a.coverImage),
         preloadImage: a.coverImage,
         updated: a.date,
