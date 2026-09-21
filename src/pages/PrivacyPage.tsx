@@ -30,6 +30,12 @@ export default function PrivacyPage() {
           IP completo o identificativi persistenti: un codice casuale di sessione vive solo finché la scheda del browser è
           aperta. Servono a capire cosa interessa ai visitatori e non permettono di riconoscere una persona.
         </p>
+        <p>
+          La mappa del sito usa le carte di OpenStreetMap servite da OpenFreeMap: quando la apri, il tuo browser scarica le
+          tessere della mappa da quel servizio, che vede il tuo indirizzo IP come qualunque sito visitato, senza cookie né
+          profilazione. Il pulsante «Vicino a me» chiede la posizione al telefono solo se lo tocchi: la posizione resta nel
+          browser, serve a ordinare i risultati per distanza e non viene inviata né salvata da noi.
+        </p>
       </section>
       <section>
         <h2>Link di affiliazione</h2>

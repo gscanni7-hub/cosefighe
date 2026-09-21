@@ -200,6 +200,27 @@ const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].include
   short: p.key === '7' ? '7 gg' : undefined,
 }))
 
+/** La mappa: un'anteprima ferma e il bottone. La mappa vera sta in /mappa, così la home resta leggera. */
+const MapBand = () => (
+  <section className="section-y bg-sand">
+    <div className="container-x grid items-center gap-10 md:grid-cols-2 md:gap-16">
+      <Reveal>
+        <p className="label text-orange">Novità</p>
+        <h2 className="heading-lg mt-4">Napoli sulla mappa</h2>
+        <p className="mt-4 max-w-md text-ink/70">Gli eventi di questi giorni e le esperienze prenotabili, ognuno dove sta davvero, con i monumenti disegnati da noi. Guarda cosa hai vicino, tocca, e le indicazioni si aprono sul telefono.</p>
+        <ButtonLink to="/mappa" variant="dark" className="mt-8">
+          Apri la mappa <ArrowRight size={16} />
+        </ButtonLink>
+      </Reveal>
+      <Reveal delay={0.08}>
+        <Link to="/mappa" viewTransition className="block overflow-hidden rounded-[2rem] border border-line shadow-soft">
+          <img src="/mappa/anteprima.webp" alt="La mappa di Napoli di Cose Fighe, con i monumenti disegnati e i segnaposto" width={1200} height={800} loading="lazy" decoding="async" className="block w-full" />
+        </Link>
+      </Reveal>
+    </div>
+  </section>
+)
+
 const WhatsOnBand = () => {
   const navigate = useNavigate()
   const today = useToday()
@@ -354,6 +375,7 @@ export default function HomePage() {
       <CategoriesStrip />
       <FeaturedSection />
       <WhatsOnBand />
+      <MapBand />
       <BlogTeaser />
       <CreatorBand />
     </Page>

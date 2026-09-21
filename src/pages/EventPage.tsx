@@ -12,6 +12,8 @@ import { dayParts, eachDay, formatLong, formatRange, formatShort, weekday } from
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
 import { track } from '../lib/track'
+import { DoveBox } from '../components/mappa/DoveBox'
+import { eventToItem } from '../lib/mappa'
 import type { CityEvent, EventCategory, Experience } from '../types'
 import NotFoundPage from './NotFoundPage'
 
@@ -233,6 +235,10 @@ function EventView({ event }: { event: CityEvent }) {
                 )}
               </ul>
             </div>
+            {(() => {
+              const item = eventToItem(event)
+              return item ? <DoveBox item={item} place={event.place || 'Napoli'} detail={event.area && event.area !== event.place ? event.area : undefined} /> : null
+            })()}
             {!past && (
               <p className="mt-4 text-center text-xs text-ink/45">
                 <Link to="/cosa-fare/oggi" viewTransition className="underline underline-offset-4 hover:text-ink">

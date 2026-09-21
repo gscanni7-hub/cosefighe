@@ -71,6 +71,7 @@ export const routes: RouteObject[] = [
       { path: '/cosa-fare', element: <WhatsOnPage /> },
       { path: '/cosa-fare/oggi', element: <WhatsOnPage fixed="oggi" /> },
       { path: '/cosa-fare/weekend', element: <WhatsOnPage fixed="weekend" /> },
+      { path: '/mappa', lazy: () => import('./pages/MappaPage').then((m) => ({ Component: m.default })) },
       { path: '/eventi/:slug', lazy: () => import('./pages/EventPage').then((m) => ({ Component: m.default })) },
       { path: '/creator', element: <CreatorPage /> },
       { path: '/chi-siamo', element: <AboutPage /> },

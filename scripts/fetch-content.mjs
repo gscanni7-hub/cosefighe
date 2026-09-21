@@ -7,6 +7,7 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
+import { geocodeAll } from './geocode.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const file = join(root, 'src', 'data', 'generated.json')
@@ -42,12 +43,26 @@ async function get(path) {
 }
 
 try {
-  const [experiences, articles, events] = await Promise.all([
+  const [experiencesDb, articles, eventsDb] = await Promise.all([
     get('experiences?select=*&published=eq.true&order=created_at.asc'),
     get('articles?select=*&published=eq.true&order=date.desc'),
     get('events?select=*&published=eq.true&order=start_date.asc').catch(() => []),
   ])
-  experiences.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+  experiencesDb.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+
+  // Coordinate per la mappa (da src/data/luoghi.json, poi Nominatim): se qualcosa manca la riga resta senza.
+  let { experiences, events } = { experiences: experiencesDb, events: eventsDb }
+  try {
+    const geo = await geocodeAll(eventsDb, experiencesDb, { log: (m) => console.warn(m) })
+    experiences = geo.experiences
+    events = geo.events
+    const { eventi, esperienze } = geo.stats
+    console.log(`Coordinate: ${eventi.con}/${eventsDb.length} eventi, ${esperienze.con}/${experiencesDb.length} esperienze.`)
+    if (eventi.senza.length) console.log('Eventi senza coordinate:', eventi.senza.join(' | '))
+    if (esperienze.senza.length) console.log('Esperienze senza coordinate:', esperienze.senza.join(' | '))
+  } catch (e) {
+    console.warn('Coordinate non calcolate:', e.message)
+  }
   // I testi degli articoli vanno in un file a parte: li scarica solo la pagina dell'articolo.
   const bodies = Object.fromEntries(articles.map((a) => [a.slug, a.body ?? []]))
   const index = articles.map(({ body, ...meta }) => meta)

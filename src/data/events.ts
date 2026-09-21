@@ -19,6 +19,10 @@ interface DbEvent {
   url?: string | null
   featured?: boolean | null
   source?: string | null
+  /** Aggiunti alla build da scripts/geocode.mjs, non sono colonne del database. */
+  lat?: number | null
+  lng?: number | null
+  approx?: boolean | null
 }
 
 const dbEvents: CityEvent[] = ((generated.events as DbEvent[]) ?? []).map((e) => ({
@@ -35,6 +39,9 @@ const dbEvents: CityEvent[] = ((generated.events as DbEvent[]) ?? []).map((e) =>
   url: e.url ?? undefined,
   featured: e.featured ?? false,
   cosefighe: e.source === 'cosefighe',
+  lat: e.lat ?? undefined,
+  lng: e.lng ?? undefined,
+  approx: e.approx ?? undefined,
 }))
 
 /** Eventi pubblicati nel database; finché non ce ne sono, restano gli esempi. */

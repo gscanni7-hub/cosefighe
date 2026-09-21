@@ -8,6 +8,7 @@ import { SearchDialog } from './SearchDialog'
 const navItems = [
   { label: 'Esperienze', to: '/esperienze' },
   { label: 'Cosa fare', to: '/cosa-fare' },
+  { label: 'Mappa', to: '/mappa' },
   { label: 'Blog', to: '/blog' },
   { label: 'Chi siamo', to: '/chi-siamo' },
   { label: 'Contatti', to: '/contatti' },

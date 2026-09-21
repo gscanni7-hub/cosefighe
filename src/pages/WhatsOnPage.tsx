@@ -13,6 +13,11 @@ import { CATEGORY_LIST } from '../data/categories'
 import { COSA_FARE_FAQ } from '../data/faq'
 import { GUIDE, GUIDE_INTRO, GUIDE_TITLE } from '../data/guida'
 import { track } from '../lib/track'
+import { lazy, Suspense } from 'react'
+import { Map as MapIcon } from 'lucide-react'
+import { eventToItem, experienceToItem, type MapItem } from '../lib/mappa'
+
+const MapView = lazy(() => import('../components/mappa/MapView'))
 import { articleBySlug } from '../data/correlati'
 import { EVENTS, EVENT_CATEGORIES, EVENT_CATEGORY_LABELS, eventEnd, eventPath, eventsBetween, isLongRunning } from '../data/events'
 import { DATE_PRESETS, ISO_RE, addDays, dayParts, eachDay, formatLong, formatRange, formatShort, presetFor, weekday, weekendRange } from '../lib/dates'
@@ -159,6 +164,15 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
   const range: Range = fixed === 'oggi' ? { from: today, to: today } : fixed === 'weekend' ? weekendRange(today) : readRange(params, today)
   const category = fixed ? null : readCategory(params)
   const [sheet, setSheet] = useState(false)
+  // Vista: lista (di serie) o mappa (?vista=mappa), solo nella pagina completa.
+  const mapView = !fixed && params.get('vista') === 'mappa'
+  const setView = (v: 'lista' | 'mappa') => {
+    const p = new URLSearchParams(realParams)
+    if (v === 'mappa') p.set('vista', 'mappa')
+    else p.delete('vista')
+    setParams(p, { preventScrollReset: true })
+    if (v === 'mappa') track('mappa_aperta', { from: 'cosa-fare' })
+  }
 
   const update = (next: Partial<Range> & { cat?: EventCategory | null }) => {
     const p = new URLSearchParams(fixed ? undefined : realParams)
@@ -210,6 +224,14 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
       .filter((g) => g.items.length > 0)
   }, [days, range.from, range.to, category])
   const nEvents = groups.reduce((n, g) => n + g.items.length, 0)
+
+  /** I punti per la mappa: gli eventi del periodo (già filtrati per categoria) e le esperienze con coordinate. */
+  const mapItems = useMemo<MapItem[]>(() => {
+    if (!mapView) return []
+    const evs = groups.flatMap((g) => g.items).map(eventToItem).filter((x): x is MapItem => !!x)
+    const exps = allExperiences.map((x) => experienceToItem(x, x.categorySlug)).filter((x): x is MapItem => !!x)
+    return [...evs, ...exps]
+  }, [mapView, groups])
 
   const experiences = useMemo(() => {
     if (category === 'citta') return []
@@ -350,7 +372,27 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
             </div>
           </Reveal>
 
-          <Reveal>
+          {!fixed && (
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <div className="inline-flex rounded-full border border-line bg-white p-1" role="group" aria-label="Vista">
+                <button type="button" aria-pressed={!mapView} onClick={() => setView('lista')} className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${!mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
+                  Lista
+                </button>
+                <button type="button" aria-pressed={mapView} onClick={() => setView('mappa')} className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
+                  Mappa
+                </button>
+              </div>
+              {mapView && <span className="hidden text-sm text-ink/55 sm:block">Gli stessi giorni e la stessa categoria, sulla mappa.</span>}
+            </div>
+          )}
+          {mapView ? (
+            <div className="-mx-5 h-[calc(100dvh-140px)] min-h-[480px] overflow-hidden border-y border-line sm:mx-0 sm:rounded-[2rem] sm:border">
+              <Suspense fallback={<div className="flex h-full items-center justify-center bg-sand text-sm text-ink/55">La mappa sta arrivando…</div>}>
+                <MapView items={mapItems} range={range} category={category} embedded />
+              </Suspense>
+            </div>
+          ) : null}
+          <Reveal className={mapView ? 'hidden' : ''}>
             <h2 className="heading-lg">
               {nEvents > 0 ? `${nEvents} ${nEvents === 1 ? 'evento' : 'eventi'}` : 'Nessun evento'} <span className="text-ink/40">{rangeLabel}</span>
             </h2>
@@ -360,7 +402,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
             </p>
           </Reveal>
 
-          {groups.length === 0 ? (
+          {mapView ? null : groups.length === 0 ? (
             <EmptyState
               className="mt-10"
               title="Niente in programma in questi giorni"
@@ -403,6 +445,16 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
           )}
         </div>
       </section>
+
+      {!fixed && !mapView && hydrated && (
+        <button
+          type="button"
+          onClick={() => { setView('mappa'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          className="fixed bottom-5 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white shadow-soft lg:hidden"
+        >
+          <MapIcon size={16} /> Mappa
+        </button>
+      )}
 
       {experiences.length > 0 && (
         <section className="section-y bg-paper">
