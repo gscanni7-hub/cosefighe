@@ -82,17 +82,6 @@ export const Navbar = () => {
                 )
               })}
               <li>
-                <button
-                  type="button"
-                  onClick={() => setSearch(true)}
-                  aria-label="Cerca nel sito"
-                  title="Cerca (⌘K)"
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-ink/75 transition-colors hover:bg-cream hover:text-ink"
-                >
-                  <Search size={16} />
-                </button>
-              </li>
-              <li>
                 <Link
                   to="/mappa"
                   viewTransition
