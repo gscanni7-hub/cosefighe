@@ -1,14 +1,476 @@
 {
+ "getyourguide:1032625": {
+  "lat": 40.841545,
+  "lng": 14.252539,
+  "label": "Via Medina, 19, 80133 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:1098790": {
+  "lat": 40.838311,
+  "lng": 14.255046,
+  "label": "Molo Beverello, 80133 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:113923": {
+  "lat": 40.865062,
+  "lng": 14.24743,
+  "label": "Catacombs of San Gennaro",
+  "source": "gyg"
+ },
+ "getyourguide:114025": {
+  "lat": 40.859374,
+  "lng": 14.248556,
+  "label": "Rione Sanità, Via Vita alla Sanità, 80136 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:1142689": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:1242092": {
+  "lat": 40.851704,
+  "lng": 14.271535,
+  "label": "Starhotels Terminus",
+  "source": "gyg"
+ },
  "getyourguide:141978": {
   "lat": 40.849259,
   "lng": 14.249878,
   "label": "P.za Dante, 80135 Napoli NA",
   "source": "gyg"
  },
+ "getyourguide:152196": {
+  "lat": 40.865059,
+  "lng": 14.247445,
+  "label": "Catacombe di San Gennaro",
+  "source": "gyg"
+ },
+ "getyourguide:165716": {
+  "lat": 40.851704,
+  "lng": 14.271535,
+  "label": "Starhotels Terminus",
+  "source": "gyg"
+ },
+ "getyourguide:218085": {
+  "lat": 40.847195,
+  "lng": 14.252162,
+  "label": "Piazza del Gesù Nuovo, 7, 80134 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:220821": {
+  "lat": 40.747081,
+  "lng": 14.484834,
+  "label": "Piazza Esedra, 1, 80045 Pompei NA",
+  "source": "gyg"
+ },
+ "getyourguide:302203": {
+  "lat": 40.850274,
+  "lng": 14.252051,
+  "label": "Piazza Bellini, Piazza Vincenzo Bellini 69, 80138 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:332811": {
+  "lat": 40.843329,
+  "lng": 14.255579,
+  "label": "Centro Storico, Piazza Giovanni Bovio, 80100 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:357930": {
+  "lat": 40.846058,
+  "lng": 14.258155,
+  "label": "Centro e colline, Via Santa Caterina Spina Corona, 80138 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:396673": {
+  "lat": 40.836795,
+  "lng": 14.248479,
+  "label": "Quartieri Spagnoli, Via Chiaia 1, 80121 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:408790": {
+  "lat": 40.852244,
+  "lng": 14.25045,
+  "label": "Bicycle House",
+  "source": "gyg"
+ },
+ "getyourguide:415352": {
+  "lat": 40.853611,
+  "lng": 14.250525,
+  "label": "Piazza Museo, 19, 80135 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:424784": {
+  "lat": 40.837319,
+  "lng": 14.245605,
+  "label": "Vico S. Anna di Palazzo, 52, 08132 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:42520": {
+  "lat": 40.838398,
+  "lng": 14.255099,
+  "label": "Molo Beverello, 80133 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:436379": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:436503": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:437021": {
+  "lat": 40.838108,
+  "lng": 14.24863,
+  "label": "Murolo Alberto - Orologiaio riparatore, Orologeria - Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:437675": {
+  "lat": 40.838969,
+  "lng": 14.247981,
+  "label": "Pasticceria Galiero - Augusteo",
+  "source": "gyg"
+ },
+ "getyourguide:439400": {
+  "lat": 40.844471,
+  "lng": 14.248705,
+  "label": "Parrocchia di San Liborio alla Carità",
+  "source": "gyg"
+ },
+ "getyourguide:458455": {
+  "lat": 40.828422,
+  "lng": 14.221416,
+  "label": "V. Francesco Caracciolo, 10, 80122 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:458957": {
+  "lat": 40.84982,
+  "lng": 14.252278,
+  "label": "Piazza Bellini, 80138 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:465552": {
+  "lat": 40.826127,
+  "lng": 14.220375,
+  "label": "V. Francesco Caracciolo, 1d, 80122 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:489189": {
+  "lat": 40.861133,
+  "lng": 14.220776,
+  "label": "Rione Alto",
+  "source": "gyg"
+ },
+ "getyourguide:50108": {
+  "lat": 40.851704,
+  "lng": 14.271535,
+  "label": "Starhotels Terminus",
+  "source": "gyg"
+ },
+ "getyourguide:561524": {
+  "lat": 40.866075,
+  "lng": 14.252221,
+  "label": "Porta Grande Bosco e Museo di Capodimonte",
+  "source": "gyg"
+ },
+ "getyourguide:590725": {
+  "lat": 40.840109,
+  "lng": 14.251277,
+  "label": "Fountain of Neptune, P.za Municipio, 80133 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:623340": {
+  "lat": 40.850242,
+  "lng": 14.275329,
+  "label": "Via Galileo Ferraris, 10",
+  "source": "gyg"
+ },
+ "getyourguide:644605": {
+  "lat": 40.856297,
+  "lng": 14.255965,
+  "label": "Rione Sanità, Piazzetta Crociferi, 80137 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:702971": {
+  "lat": 40.82947,
+  "lng": 14.248773,
+  "label": "Banchina S. Lucia, 13, 80132 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:747476": {
+  "lat": 40.827666,
+  "lng": 14.220379,
+  "label": "V. Francesco Caracciolo, 9, 80122 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:765797": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:833595": {
+  "lat": 40.848471,
+  "lng": 14.254885,
+  "label": "Obelisco di San Domenico",
+  "source": "gyg"
+ },
+ "getyourguide:888244": {
+  "lat": 40.855322,
+  "lng": 14.256094,
+  "label": "Porta San Gennaro, Via Foria 2, 80137 Napoli",
+  "source": "gyg"
+ },
+ "getyourguide:919794": {
+  "lat": 40.843847,
+  "lng": 14.240825,
+  "label": "Largo S. Martino, 6, 80129 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:947446": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "getyourguide:960715": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "gyg"
+ },
+ "viator:101354P2": {
+  "lat": 40.747739,
+  "lng": 14.4814,
+  "label": "Bar - Cornetteria - Tabaccheria Magma H24, Via Plinio, 46, 80045 Pompei NA",
+  "source": "viator"
+ },
+ "viator:101354P7": {
+  "lat": 40.748125,
+  "lng": 14.481721,
+  "label": "Hortus Pompei, Restaurant & Garden Bar, Via Villa dei Misteri - Piazza Porta Marina Superiore 1, Piazza Esedra, 1, 80045 Pompei NA",
+  "source": "viator"
+ },
+ "viator:103374P5": {
+  "lat": 40.84982,
+  "lng": 14.252278,
+  "label": "Piazza Bellini, 80138 Napoli NA",
+  "source": "viator"
+ },
+ "viator:104566P11": {
+  "lat": 40.84982,
+  "lng": 14.252278,
+  "label": "Piazza Bellini, 80138 Napoli NA",
+  "source": "viator"
+ },
+ "viator:116146P37": {
+  "lat": 40.838434,
+  "lng": 14.258572,
+  "label": "Stazione Marittima, 80133 Napoli NA",
+  "source": "viator"
+ },
  "viator:162012P20": {
   "lat": 40.85127,
   "lng": 14.261594,
   "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "viator"
+ },
+ "viator:162012P37": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "viator"
+ },
+ "viator:162012P38": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "viator"
+ },
+ "viator:162012P56": {
+  "lat": 40.85127,
+  "lng": 14.261594,
+  "label": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA",
+  "source": "viator"
+ },
+ "viator:162012P8": {
+  "lat": 40.838969,
+  "lng": 14.247981,
+  "label": "Pasticceria Galiero - Augusteo, Piazzetta Duca D'Aosta, 261, 80132 Napoli NA",
+  "source": "viator"
+ },
+ "viator:162012P9": {
+  "lat": 40.84444,
+  "lng": 14.248708,
+  "label": "Piazza Carità, 12, 80134 Napoli NA",
+  "source": "viator"
+ },
+ "viator:165824P1": {
+  "lat": 40.83857,
+  "lng": 14.249728,
+  "label": "Ke Kafè, Galleria Umberto I, 27, 80132 Napoli NA",
+  "source": "viator"
+ },
+ "viator:165824P2": {
+  "lat": 40.849354,
+  "lng": 14.251104,
+  "label": "Book bar, Via Port'Alba, 28, 80134 Napoli NA",
+  "source": "viator"
+ },
+ "viator:18971P114": {
+  "lat": 40.841545,
+  "lng": 14.252539,
+  "label": "Via Medina, 19, 80133 Napoli NA",
+  "source": "viator"
+ },
+ "viator:18971P130": {
+  "lat": 40.841498,
+  "lng": 14.252531,
+  "label": "Amiro Restaurant, Via Medina, 19, 80133 Napoli NA",
+  "source": "viator"
+ },
+ "viator:18971P22": {
+  "lat": 40.838311,
+  "lng": 14.255046,
+  "label": "Molo Beverello, 80133 Napoli NA",
+  "source": "viator"
+ },
+ "viator:18971P46": {
+  "lat": 40.828394,
+  "lng": 14.221395,
+  "label": "V. Francesco Caracciolo, 10, 80122 Napoli NA",
+  "source": "viator"
+ },
+ "viator:18971P68": {
+  "lat": 40.851704,
+  "lng": 14.271535,
+  "label": "Starhotels Terminus, P.za Giuseppe Garibaldi, 91, 80142 Napoli NA",
+  "source": "viator"
+ },
+ "viator:209424P1": {
+  "lat": 40.555482,
+  "lng": 14.240569,
+  "label": "Via Cristoforo Colombo, 76, 80073 Capri NA",
+  "source": "viator"
+ },
+ "viator:23258P122": {
+  "lat": 40.805857,
+  "lng": 14.348997,
+  "label": "Corso Resina, 187, 80056 Ercolano NA",
+  "source": "viator"
+ },
+ "viator:276598P12": {
+  "lat": 40.848521,
+  "lng": 14.255138,
+  "label": "Piazza San Domenico Maggiore, P.za S. Domenico Maggiore, 80134 Napoli NA",
+  "source": "viator"
+ },
+ "viator:297875P1": {
+  "lat": 40.838003,
+  "lng": 14.250035,
+  "label": "Via San Carlo, 17, 80132 Napoli NA",
+  "source": "viator"
+ },
+ "viator:308572P2": {
+  "lat": 40.805857,
+  "lng": 14.348997,
+  "label": "Corso Resina, 187, 80056 Ercolano NA",
+  "source": "viator"
+ },
+ "viator:353209P1": {
+  "lat": 40.82607,
+  "lng": 14.220215,
+  "label": "V. Francesco Caracciolo, 1d, 80122 Napoli NA",
+  "source": "viator"
+ },
+ "viator:39613P103": {
+  "lat": 40.84982,
+  "lng": 14.252278,
+  "label": "Piazza Bellini, 80138 Napoli NA",
+  "source": "viator"
+ },
+ "viator:39613P228": {
+  "lat": 41.071649,
+  "lng": 14.327,
+  "label": "Piazza Carlo di Borbone, 81100 Caserta CE",
+  "source": "viator"
+ },
+ "viator:420535P5": {
+  "lat": 40.829485,
+  "lng": 14.249006,
+  "label": "Reale Yacht Club Canottieri Savoia, Banchina S. Lucia, 13, 80132 Napoli NA",
+  "source": "viator"
+ },
+ "viator:51159P8": {
+  "lat": 40.848944,
+  "lng": 14.250106,
+  "label": "Monument to Dante Alighieri, P.za Dante, 80135 Napoli NA",
+  "source": "viator"
+ },
+ "viator:51159P9": {
+  "lat": 40.849259,
+  "lng": 14.249878,
+  "label": "Piazza Dante, P.za Dante, 80135 Napoli NA",
+  "source": "viator"
+ },
+ "viator:5512754P7": {
+  "lat": 40.815654,
+  "lng": 14.071388,
+  "label": "Via Lucullo, 106, 80070 Bacoli NA",
+  "source": "viator"
+ },
+ "viator:5921P19": {
+  "lat": 40.851704,
+  "lng": 14.271535,
+  "label": "Starhotels Terminus, P.za Giuseppe Garibaldi, 91, 80142 Napoli NA",
+  "source": "viator"
+ },
+ "viator:71024P23": {
+  "lat": 40.85287,
+  "lng": 14.250354,
+  "label": "Napulitanata, Piazza Museo Nazionale 10/11, Porticato della Galleria Principe, 80135, Napoli",
+  "source": "viator"
+ },
+ "viator:71024P92": {
+  "lat": 40.849259,
+  "lng": 14.249878,
+  "label": "Piazza Dante, P.za Dante, 80135 Napoli NA",
+  "source": "viator"
+ },
+ "viator:75185P1": {
+  "lat": 40.835518,
+  "lng": 14.24626,
+  "label": "Galleria Borbonica, Vico del Grottone 4, Piazza Plebiscito Area, 80132, Napoli",
+  "source": "viator"
+ },
+ "viator:7746P6": {
+  "lat": 40.853599,
+  "lng": 14.250525,
+  "label": "Museo Archeologico Nazionale di Napoli, Piazza Museo, 19, 80135 Napoli NA",
+  "source": "viator"
+ },
+ "viator:7812P244": {
+  "lat": 40.850841,
+  "lng": 14.256129,
+  "label": "Via San Paolo, 26, 80138 Napoli NA",
+  "source": "viator"
+ },
+ "viator:88264P1": {
+  "lat": 40.837287,
+  "lng": 14.245476,
+  "label": "Vico S. Anna di Palazzo, 52, 08132 Napoli NA",
+  "source": "viator"
+ },
+ "viator:9560P3": {
+  "lat": 40.8529,
+  "lng": 14.250359,
+  "label": "Galleria Principe di Napoli, 27, 80135 Napoli NA",
   "source": "viator"
  }
 }

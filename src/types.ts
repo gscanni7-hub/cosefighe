@@ -27,6 +27,8 @@ export interface Experience {
   lng?: number
   /** Vero se la posizione è di zona (partenza dall'hotel, quartiere) e non di palazzo. */
   approx?: boolean
+  /** Punto di ritrovo esatto dato dalla piattaforma (nome e indirizzo). */
+  ritrovo?: string
 }
 
 export type Provider = 'getyourguide' | 'viator' | 'cosefighe'
@@ -104,6 +106,8 @@ export interface CityEvent {
   lng?: number
   /** Vero se la posizione è di zona (quartiere, città) e non del palazzo. */
   approx?: boolean
+  /** Punto di ritrovo esatto dato dalla piattaforma (nome e indirizzo). */
+  ritrovo?: string
 }
 
 export interface Category {
@@ -168,6 +172,8 @@ export interface DbExperience {
   lat?: number
   lng?: number
   approx?: boolean
+  /** Punto di ritrovo esatto dato dalla piattaforma (nome e indirizzo). */
+  ritrovo?: string
 }
 
 export interface DbArticle {

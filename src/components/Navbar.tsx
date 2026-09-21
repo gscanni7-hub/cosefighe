@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, MapPin, Menu, Search, X } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
 
@@ -92,6 +92,18 @@ export const Navbar = () => {
                   <Search size={16} />
                 </button>
               </li>
+              <li>
+                <Link
+                  to="/mappa"
+                  viewTransition
+                  aria-label="La mappa di Napoli"
+                  title="La mappa"
+                  aria-current={isActive('/mappa') ? 'page' : undefined}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-cream hover:text-ink ${isActive('/mappa') ? 'bg-ink text-white hover:bg-ink hover:text-white' : 'text-ink/75'}`}
+                >
+                  <MapPin size={16} />
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -138,6 +150,12 @@ export const Navbar = () => {
                     <Search size={18} />
                     Cerca un'esperienza, un evento, un articolo
                   </button>
+                </li>
+                <li>
+                  <Link to="/mappa" viewTransition className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
+                    <MapPin size={18} className="text-orange" />
+                    La mappa di Napoli
+                  </Link>
                 </li>
                 {navItems.map((item) => {
                   const active = isActive(item.to)

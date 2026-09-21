@@ -81,6 +81,7 @@ function fromDb(e: DbExperience): Experience {
     lat: e.lat,
     lng: e.lng,
     approx: e.approx,
+    ritrovo: e.ritrovo ?? undefined,
   }
 }
 

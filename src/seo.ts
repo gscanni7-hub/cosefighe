@@ -450,6 +450,7 @@ export function publicPaths(): string[] {
     ...EXPERIENCE_PAGES.map((p) => p.path),
     ...ARTICLES_BY_DATE.map((a) => `/blog/${a.slug}`),
     // Una pagina per evento; quelli finiti da più di 30 giorni escono da sitemap e pre-generazione.
-    ...eventsForPages(BUILD_DAY, 30).map(eventPath),
+    // Regola: un evento finito sparisce dal sito il giorno dopo (lista, mappa, pagina, sitemap).
+    ...eventsForPages(BUILD_DAY, 0).map(eventPath),
   ]
 }

@@ -280,7 +280,17 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
               <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
             </label>
           </div>
-          <label className="relative ml-auto hidden items-center md:inline-flex">
+          {!fixed && (
+            <div className="ml-auto inline-flex shrink-0 rounded-full border border-line bg-white p-0.5" role="group" aria-label="Vista">
+              <button type="button" aria-pressed={!mapView} onClick={() => setView('lista')} className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${!mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
+                Lista
+              </button>
+              <button type="button" aria-pressed={mapView} onClick={() => setView('mappa')} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
+                <MapIcon size={14} /> Mappa
+              </button>
+            </div>
+          )}
+          <label className={`relative hidden items-center md:inline-flex ${fixed ? 'ml-auto' : ''}`}>
             <span className="sr-only">Categoria</span>
             <select
               value={category ?? ''}
@@ -372,19 +382,6 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
             </div>
           </Reveal>
 
-          {!fixed && (
-            <div className="mb-6 flex items-center justify-between gap-3">
-              <div className="inline-flex rounded-full border border-line bg-white p-1" role="group" aria-label="Vista">
-                <button type="button" aria-pressed={!mapView} onClick={() => setView('lista')} className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${!mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
-                  Lista
-                </button>
-                <button type="button" aria-pressed={mapView} onClick={() => setView('mappa')} className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${mapView ? 'bg-ink text-white' : 'text-ink/70 hover:text-ink'}`}>
-                  Mappa
-                </button>
-              </div>
-              {mapView && <span className="hidden text-sm text-ink/55 sm:block">Gli stessi giorni e la stessa categoria, sulla mappa.</span>}
-            </div>
-          )}
           {mapView ? (
             <div className="-mx-5 h-[calc(100dvh-140px)] min-h-[480px] overflow-hidden border-y border-line sm:mx-0 sm:rounded-[2rem] sm:border">
               <Suspense fallback={<div className="flex h-full items-center justify-center bg-sand text-sm text-ink/55">La mappa sta arrivando…</div>}>

@@ -252,7 +252,7 @@ function ExperienceView({ page }: { page: PageData }) {
             </div>
             {(() => {
               const item = experienceToItem(exp, category.slug)
-              return item ? <DoveBox item={item} place={exp.location} detail="Punto di partenza" /> : null
+              return item ? <DoveBox item={item} place={exp.ritrovo ? exp.ritrovo.split(",")[0] : exp.location} detail={exp.ritrovo ? `Punto di ritrovo: ${exp.ritrovo.replace(/^[^,]+,\s*/, "")}` : "Punto di partenza"} /> : null
             })()}
             <p className="mt-4 text-center text-xs text-ink/45">
               <Link to="/cosa-fare" viewTransition className="underline underline-offset-4 hover:text-ink">

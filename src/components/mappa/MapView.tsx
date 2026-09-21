@@ -285,7 +285,10 @@ export default function MapView({ items, range, category, embedded = false, init
 function ListRow({ item, me, selected, onClick }: { item: MapItem; me: Me | null; selected: boolean; onClick: () => void }) {
   const ev = item.event
   const ex = item.exp
-  const p = ev ? dayParts(ev.start) : null
+  const today = useToday()
+  // Un evento già iniziato mostra la fine ("fino al"), non una data d'inizio passata.
+  const ongoing = !!ev && ev.start < today && eventEnd(ev) > ev.start
+  const p = ev ? dayParts(ongoing ? eventEnd(ev) : ev.start) : null
   const meta = ev ? [ev.time, ev.area || ev.place].filter(Boolean).join(' · ') : [ex?.location, me ? distanceLabel(distanceKm(item, me)) : ''].filter(Boolean).join(' · ')
   const price = shortPrice(item)
   return (
@@ -298,7 +301,7 @@ function ListRow({ item, me, selected, onClick }: { item: MapItem; me: Me | null
       {ev && p ? (
         <span className="grid h-[52px] w-[52px] place-items-center rounded-xl bg-orange text-center leading-none text-white">
           <span>
-            <span className="block text-[9px] font-semibold uppercase tracking-wider opacity-85">{p.wd}</span>
+            <span className="block text-[9px] font-semibold uppercase tracking-wider opacity-85">{ongoing ? 'fino a' : p.wd}</span>
             <span className="font-display text-sm uppercase">
               {p.day} {p.mon}
             </span>
@@ -322,14 +325,16 @@ function ItemCard({ item, me, onClose }: { item: MapItem; me: Me | null; onClose
   const km = me ? distanceKm(item, me) : null
   const walk = km !== null ? walkLabel(km) : null
   const dir = directionsUrl(item.lat, item.lng, item.title)
-  const p = ev ? dayParts(ev.start) : null
+  const today = useToday()
   const end = ev ? eventEnd(ev) : ''
+  const ongoing = !!ev && ev.start < today && end > ev.start
+  const p = ev ? dayParts(ongoing ? end : ev.start) : null
   return (
     <div className="absolute inset-x-3 bottom-16 z-10 overflow-hidden rounded-3xl bg-white shadow-soft lg:inset-x-auto lg:bottom-5 lg:left-5 lg:w-[380px]" role="dialog" aria-label={item.title}>
       {ev && p ? (
         <div className="relative flex h-[120px] items-end bg-orange p-4 text-white">
           <div className="leading-none">
-            <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider opacity-90">{end !== ev.start ? `fino a ${formatShort(end)}` : `${p.wdLong}${ev.time ? `, ${ev.time}` : ''}`}</span>
+            <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider opacity-90">{ongoing ? 'in corso, fino a' : end !== ev.start ? `dal ${formatShort(ev.start)} al ${formatShort(end)}` : `${p.wdLong}${ev.time ? `, ${ev.time}` : ''}`}</span>
             <span className="font-display text-4xl uppercase">
               {p.day} {p.mon}
             </span>
@@ -356,7 +361,7 @@ function ItemCard({ item, me, onClose }: { item: MapItem; me: Me | null; onClose
         </p>
         <h3 className="mt-1 text-[17px] font-bold leading-snug text-balance">{item.title}</h3>
         <p className="mt-1 text-[13px] text-ink/60">
-          {ev ? [ev.place, ev.area && ev.area !== ev.place ? ev.area : ''].filter(Boolean).join(', ') : `Partenza: ${ex?.location}`}
+          {ev ? [ev.place, ev.area && ev.area !== ev.place ? ev.area : ''].filter(Boolean).join(', ') : `Ritrovo: ${ex?.ritrovo ?? ex?.location}`}
           {km !== null && (
             <>
               {' · '}

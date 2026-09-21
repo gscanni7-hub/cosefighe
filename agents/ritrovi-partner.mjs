@@ -10,7 +10,9 @@
  *  - GetYourGuide: nessuna API affiliati. Si apre la pagina pubblica con Chrome (headless
  *    "nuovo", con user agent da browser: le richieste automatiche vengono rifiutate) e si legge
  *    il blocco `meetingPoints` (link Google Maps con le coordinate) e l'indirizzo dal marcatore
- *    della mappa. Se c'è solo l'indirizzo testuale si geocodifica con Nominatim (1 richiesta/s).
+ *    della mappa. Se c'è solo l'indirizzo testuale si geocodifica con Nominatim (1 richiesta/s);
+ *    se ci sono le coordinate ma non l'indirizzo, l'etichetta si prende da un altro ritrovo
+ *    entro 40 metri o da Nominatim in reverse.
  *
  * Scrive src/data/ritrovi.json: { "<provider>:<provider_id>": { lat, lng, label, source } },
  * chiavi in ordine, solo punti con coordinate dentro la Campania. Le esperienze con ritiro in
@@ -158,6 +160,56 @@ async function nominatim(testo) {
   if (!res.ok) throw new Error(`Nominatim ${res.status}`)
   const [primo] = await res.json()
   return primo ? { lat: arrotonda(primo.lat), lng: arrotonda(primo.lon) } : null
+}
+
+/** Indirizzo da coordinate (Nominatim reverse): «Via delle Zite 30, 80139 Napoli». */
+async function indirizzoDaCoordinate(lat, lng) {
+  const attesa = ATTESA_NOMINATIM_MS - (Date.now() - ultimaNominatim)
+  if (attesa > 0) await pausa(attesa)
+  ultimaNominatim = Date.now()
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&zoom=18&lat=${lat}&lon=${lng}`
+  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT_NOMINATIM }, signal: AbortSignal.timeout(8000) })
+  if (!res.ok) throw new Error(`Nominatim ${res.status}`)
+  const a = (await res.json()).address ?? {}
+  const via = [a.road || a.pedestrian || a.square, a.house_number].filter(Boolean).join(' ')
+  const citta = [a.postcode, a.city || a.town || a.village].filter(Boolean).join(' ')
+  return [via, citta].filter(Boolean).join(', ')
+}
+
+/** Distanza approssimata in metri tra due punti vicini. */
+function metri(a, b) {
+  const dLat = (a.lat - b.lat) * 111320
+  const dLng = (a.lng - b.lng) * 111320 * Math.cos((a.lat * Math.PI) / 180)
+  return Math.hypot(dLat, dLng)
+}
+
+/**
+ * Le pagine GetYourGuide a volte danno le coordinate ma non l'indirizzo, e l'etichetta resta il
+ * testo generico del database («Centro Storico»). Qui si copia l'etichetta di un altro ritrovo
+ * entro 40 metri (spesso lo stesso posto visto da Viator) o, in mancanza, si chiede l'indirizzo
+ * a Nominatim partendo dalle coordinate.
+ */
+async function migliorareEtichette(ritrovi, esperienze) {
+  for (const x of esperienze) {
+    const chiave = `${x.provider}:${x.provider_id}`
+    const r = ritrovi[chiave]
+    if (!r || (r.label && r.label !== String(x.location ?? '').trim())) continue
+    const vicino = Object.entries(ritrovi).find(([k, v]) => k !== chiave && v.label && v.label !== r.label && /\d/.test(v.label) && metri(v, r) < 40)
+    if (vicino) {
+      r.label = vicino[1].label
+      console.log(`  etichetta di ${chiave} presa da ${vicino[0]}: ${r.label}`)
+      continue
+    }
+    try {
+      const indirizzo = await indirizzoDaCoordinate(r.lat, r.lng)
+      if (indirizzo) {
+        r.label = r.label ? `${r.label}, ${indirizzo}` : indirizzo
+        console.log(`  etichetta di ${chiave} da Nominatim: ${r.label}`)
+      }
+    } catch (e) {
+      console.log(`  etichetta di ${chiave} non migliorata: ${e.message}`)
+    }
+  }
 }
 
 /* ---------- Viator ---------- */
@@ -339,6 +391,9 @@ for (const x of esperienze) {
   await pausa(800)
 }
 if (browser) await browser.close()
+
+console.log('\nEtichette generiche da migliorare…')
+await migliorareEtichette(ritrovi, esperienze)
 
 const ordinati = Object.fromEntries(Object.keys(ritrovi).sort().map((k) => [k, ritrovi[k]]))
 await writeFile(fileRitrovi, JSON.stringify(ordinati, null, 1) + '\n')

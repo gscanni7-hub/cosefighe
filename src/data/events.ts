@@ -126,7 +126,7 @@ export function eventsAlongside(e: CityEvent, from: string, limit = 6): CityEven
 }
 
 /** Gli eventi con una pagina da pre-generare: tutti quelli finiti da non più di `days` giorni. */
-export function eventsForPages(today: string, days = 30): CityEvent[] {
+export function eventsForPages(today: string, days = 0): CityEvent[] {
   const limit = addDays(today, -days)
   return EVENTS.filter((e) => eventEnd(e) >= limit)
 }
