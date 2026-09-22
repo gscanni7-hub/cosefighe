@@ -1,0 +1,217 @@
+{
+  "agent": "scout-eventi",
+  "run_date": "2026-09-13",
+  "note": "SUPABASE_SERVICE_KEY non disponibile in questo ambiente: bozze salvate su file invece che in agent_runs/events. Nessun accesso diretto a .env o a Supabase per verificare doppioni con la tabella events reale; controllato solo il confronto con i dati di esempio in src/data/events.ts.",
+  "window": {
+    "from": "2026-09-13",
+    "to": "2026-11-08"
+  },
+  "events": [
+    {
+      "slug": "vespero-napoletano-festival-turismo-lento-2026",
+      "title": "Vespero Napoletano, il festival del turismo lento",
+      "category": "citta",
+      "start_date": "2026-09-11",
+      "end_date": "2026-10-24",
+      "time": "nei weekend, orari diversi per ogni appuntamento",
+      "place": "punti diversi della città",
+      "area": "Napoli e area metropolitana",
+      "price": "Gratis",
+      "blurb": "Per sei weekend tra settembre e ottobre quartieri e associazioni aprono passeggiate narrate, concerti, laboratori e visite fuori dai percorsi soliti. Il programma cambia ogni fine settimana: controlla il calendario del Comune prima di uscire, i posti nei laboratori sono limitati.",
+      "url": "https://www.comune.napoli.it/vivere-il-comune/eventi/vespero-napoletano-edizione-2026/",
+      "featured": false,
+      "source": "comune.napoli.it",
+      "status": "bozza",
+      "published": false,
+      "score": 78,
+      "score_note": "Programma diffuso e verificato sulla pagina ufficiale del Comune, ma i singoli appuntamenti settimanali non sono ancora dettagliati: da rivedere quando esce il calendario completo."
+    },
+    {
+      "slug": "festa-di-san-gennaro-2026",
+      "title": "Festa di San Gennaro e miracolo del sangue",
+      "category": "citta",
+      "start_date": "2026-09-19",
+      "end_date": null,
+      "time": "Duomo aperto dalle 7:30, messa solenne alle 10:00",
+      "place": "Duomo di Napoli",
+      "area": "Centro Storico",
+      "price": "Gratis",
+      "blurb": "Il 19 settembre l'arcivescovo scioglie l'ampolla del sangue del patrono davanti al Duomo pieno, e la città segue l'esito da dentro e da fuori la chiesa. Arriva prima delle 9:00 se vuoi un posto a sedere, altrimenti segui la funzione dal sagrato con il resto del quartiere.",
+      "url": "https://www.napolike.com/festa-san-gennaro-2026-programma",
+      "featured": true,
+      "source": "napolike.com",
+      "status": "bozza",
+      "published": false,
+      "score": 88,
+      "score_note": "Evento annuale certo, molto sentito in città, nessun doppione tra le esperienze in vendita. Featured perché è il giorno civico-religioso più riconoscibile dell'anno a Napoli."
+    },
+    {
+      "slug": "piedigrotta-viva-chiusura-posillipo-2026",
+      "title": "Piedigrotta Viva chiude a Posillipo",
+      "category": "citta",
+      "start_date": "2026-09-22",
+      "end_date": null,
+      "time": "20:00",
+      "place": "Chiesa di Santo Strato",
+      "area": "Posillipo",
+      "price": "Gratis",
+      "blurb": "Ultimo dei sei appuntamenti gratuiti di Piedigrotta Viva, canti e racconti della tradizione diretti da Benedetto Casillo. La chiesa è piccola: arriva con un quarto d'ora di anticipo se non vuoi restare in piedi.",
+      "url": "https://www.napolidavivere.it/2026/09/13/festa-piedigrotta-napoli-2026/",
+      "featured": false,
+      "source": "napolidavivere.it",
+      "status": "bozza",
+      "published": false,
+      "score": 68,
+      "score_note": "Tradizione popolare vera, ma è l'ultima di sei date quasi tutte già passate: verificare vicino alla data che non sia stata spostata."
+    },
+    {
+      "slug": "mannight-aperture-serali-mann-2026",
+      "title": "MANNight, il museo archeologico apre di sera",
+      "category": "arte",
+      "start_date": "2026-09-17",
+      "end_date": "2026-10-22",
+      "time": "19:00 – 23:30 (ultimo ingresso 22:30), il giovedì",
+      "place": "Museo Archeologico Nazionale",
+      "area": "Piazza Museo",
+      "price": "€10, €1 il 26 settembre per le Giornate del Patrimonio",
+      "blurb": "Otto sere tra settembre e ottobre il museo resta aperto fino a tardi, con dj set, performance e installazioni tra le sale delle collezioni pompeiane. Il biglietto a un euro è il 26 settembre, sabato: conviene scegliere quella data se il prezzo pieno ti frena.",
+      "url": "https://www.museoarcheologiconapoli.it/en/event/mannight-extraordinary-late-openings-the-future-meets-the-past/",
+      "featured": false,
+      "source": "museoarcheologiconapoli.it",
+      "status": "bozza",
+      "published": false,
+      "score": 80,
+      "score_note": "Iniziativa del museo stesso, prezzo e orari confermati su fonte ufficiale, si porta a casa qualcosa (il museo visto senza la folla del giorno)."
+    },
+    {
+      "slug": "giornate-fai-autunno-2026",
+      "title": "Giornate FAI d'autunno, i luoghi normalmente chiusi",
+      "category": "arte",
+      "start_date": "2026-10-10",
+      "end_date": "2026-10-11",
+      "time": "10:00 – 18:00 circa, varia per luogo",
+      "place": "sedi in tutta la città, tra cui Palazzo San Giacomo",
+      "area": "Napoli",
+      "price": "Offerta libera",
+      "blurb": "Per un weekend aprono palazzi, chiese e uffici che di solito restano chiusi al pubblico, con le visite guidate dagli apprendisti ciceroni del FAI. Palazzo San Giacomo è tra le sedi nuove di quest'anno: sui luoghi più noti mettine in conto la fila.",
+      "url": "https://fondoambiente.it/il-fai/grandi-campagne/giornate-fai-autunno/",
+      "featured": true,
+      "source": "fondoambiente.it",
+      "status": "bozza",
+      "published": false,
+      "score": 85,
+      "score_note": "Evento nazionale ricorrente e raro (due volte l'anno), con partecipazione confermata di Napoli e almeno una sede pubblica nuova. Featured perché apre luoghi non visitabili nel resto dell'anno."
+    },
+    {
+      "slug": "neapolis-marathon-2026",
+      "title": "Neapolis Marathon da Piazza del Plebiscito",
+      "category": "sport",
+      "start_date": "2026-10-18",
+      "end_date": null,
+      "time": "ritrovo 7:00, partenza 8:00",
+      "place": "Piazza del Plebiscito",
+      "area": "Centro",
+      "price": "Gratis per chi guarda, iscrizione da €40 (half marathon) a €80 (maratona)",
+      "blurb": "Sesta edizione della maratona di Napoli, 42 km omologati Fidal che quest'anno ospitano anche il Campionato Interforze. Se non corri, il tratto di lungomare verso Mergellina è il punto migliore per vedere passare il gruppo di testa.",
+      "url": "https://www.neapolismarathon.it/marathon/",
+      "featured": true,
+      "source": "neapolismarathon.it",
+      "status": "bozza",
+      "published": false,
+      "score": 82,
+      "score_note": "Evento sportivo cittadino di rilievo, patrocinato dal Comune, coerente con Napoli Capitale Europea dello Sport 2026. Featured perché è la maratona ufficiale della città."
+    },
+    {
+      "slug": "mercato-campagna-amica-piazza-dante-2026",
+      "title": "Mercato di Campagna Amica a Piazza Dante",
+      "category": "food",
+      "start_date": "2026-10-23",
+      "end_date": null,
+      "time": "10:00 – 13:30",
+      "place": "Piazza Dante",
+      "area": "Centro Storico",
+      "price": "Ingresso libero, si paga quello che compri",
+      "blurb": "I produttori della Coldiretti campana vendono direttamente in piazza, con le mele annurche di stagione tra i banchi più cercati. Vai presto la mattina: verso mezzogiorno i prodotti migliori sono già finiti.",
+      "url": "https://campania.coldiretti.it/calendari-mercati-napoli/",
+      "featured": false,
+      "source": "coldiretti.it",
+      "status": "bozza",
+      "published": false,
+      "score": 65,
+      "score_note": "Mercato reale e ricorrente, utile per la categoria food dove avevamo poco. Punteggio medio perché è un appuntamento piccolo, non un evento raro."
+    },
+    {
+      "slug": "il-giovane-verdi-san-carlo-2026",
+      "title": "Il giovane Verdi in concerto al San Carlo",
+      "category": "spettacoli",
+      "start_date": "2026-10-24",
+      "end_date": null,
+      "time": "19:00",
+      "place": "Teatro di San Carlo",
+      "area": "Via San Carlo",
+      "price": "biglietti su Vivaticket",
+      "blurb": "Orchestra e coro del teatro eseguono le composizioni sacre e sinfoniche giovanili di Verdi, dirette da Fabrizio Cassi, un repertorio che dal vivo si sente raramente. I biglietti sono su Vivaticket, il loggione resta l'opzione più economica per chi vuole solo ascoltare.",
+      "url": "https://www.teatrosancarlo.it/en/events/the-young-verdi/",
+      "featured": false,
+      "source": "teatrosancarlo.it",
+      "status": "bozza",
+      "published": false,
+      "score": 72,
+      "score_note": "Programma confermato sul sito ufficiale del teatro, ma il prezzo esatto non è ancora pubblicato: da controllare prima di pubblicare la bozza."
+    },
+    {
+      "slug": "bolero-san-carlo-2026",
+      "title": "Boléro chiude la Stagione di Danza al San Carlo",
+      "category": "spettacoli",
+      "start_date": "2026-11-05",
+      "end_date": "2026-11-10",
+      "time": "20:00 (17:00 la domenica)",
+      "place": "Teatro di San Carlo",
+      "area": "Via San Carlo",
+      "price": "biglietti su Vivaticket",
+      "blurb": "Cinque serate chiudono la stagione di danza con il Boléro di Ravel nella coreografia di Béjart, in apertura una creazione nuova di Garrett Smith. Dura circa due ore e mezza con due intervalli, non è una serata breve: mettilo in conto se il giorno dopo lavori.",
+      "url": "https://www.teatrosancarlo.it/spettacoli/bolero/",
+      "featured": true,
+      "source": "teatrosancarlo.it",
+      "status": "bozza",
+      "published": false,
+      "score": 84,
+      "score_note": "Chiusura di stagione di uno dei teatri più importanti d'Italia, cast e coreografia confermati sul sito ufficiale. Featured perché è un evento raro (una volta a stagione) e di richiamo.",
+      "note": "Il prezzo dei biglietti non era ancora pubblicato al momento della ricerca."
+    }
+  ],
+  "scartati": [
+    {
+      "titolo": "Maria Lai. Essere è tessere (Museo Madre)",
+      "motivo": "Fonti in disaccordo sulla data di chiusura (una indicava il 12 ottobre, un'altra il 21 settembre 2026): dato non certo, da riverificare sul sito del Madre prima di riproporlo."
+    },
+    {
+      "titolo": "Canto Napoli, Emilio Isgrò (Capodimonte)",
+      "motivo": "Confermata solo la chiusura (29 settembre 2026): mancano data di apertura, orari e prezzo verificati in questo giro di ricerca."
+    },
+    {
+      "titolo": "Sagra della Castagna di Curti",
+      "motivo": "Fuori zona: Curti è in provincia di Caserta, non a Napoli o nella sua area metropolitana."
+    },
+    {
+      "titolo": "Sagra della Castagna IGP e del Fungo Porcino, Roccamonfina",
+      "motivo": "Fuori zona: Roccamonfina è in provincia di Caserta."
+    },
+    {
+      "titolo": "Città della Scienza, programma estivo",
+      "motivo": "Non è un evento a data singola ma un programma museale continuativo, e termina il 27 settembre 2026 senza una data di apertura specifica nella finestra di ricerca."
+    },
+    {
+      "titolo": "Vesuvio Sotto le Stelle",
+      "motivo": "Si è svolto ad agosto 2026, prima della finestra delle 8 settimane da oggi (13 settembre)."
+    },
+    {
+      "titolo": "Corsi di ceramica a Napoli (I Cocci, The Circle Objects, ecc.)",
+      "motivo": "Attività continuative su prenotazione, senza una data di inizio/fine specifica: non sono eventi in senso stretto."
+    },
+    {
+      "titolo": "Napoli Food Festival",
+      "motivo": "Si è svolto a luglio 2026, prima della finestra di ricerca."
+    }
+  ]
+}
