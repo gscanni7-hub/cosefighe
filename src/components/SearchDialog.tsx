@@ -6,6 +6,8 @@ import { EVENTS, EVENT_CATEGORY_LABELS, eventEnd, eventPath } from '../data/even
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { formatShort, todayISO } from '../lib/dates'
 import { experiencePath } from '../data/schede'
+import { localizePath, useLang, useT, type Lang } from '../i18n/lang'
+import { hasArticleEn, hasEventEn, hasExperienceEn, localizeArticle, localizeCategory, localizeEvent, localizeExperience } from '../i18n/content'
 
 interface SearchDialogProps {
   open: boolean
@@ -28,7 +30,10 @@ interface Hit {
   score: number
 }
 
-function search(q: string): Hit[] {
+type T = ReturnType<typeof useT>
+
+/** In inglese cerca sui testi inglesi, e solo tra i contenuti tradotti. */
+function search(q: string, lang: Lang, t: T): Hit[] {
   const words = norm(q).split(/\s+/).filter((w) => w.length > 1)
   if (!words.length) return []
   const score = (fields: string[]) => {
@@ -41,20 +46,29 @@ function search(q: string): Hit[] {
     return s
   }
   const hits: Hit[] = []
-  for (const c of CATEGORY_LIST)
-    for (const e of c.experiences) {
+  const en = lang === 'en'
+  for (const cat of CATEGORY_LIST) {
+    const c = localizeCategory(cat, lang)
+    for (const it of c.experiences) {
+      if (en && !hasExperienceEn(it)) continue
+      const e = localizeExperience(it, lang)
       const s = score([e.title, e.location, c.label, e.included, e.tag])
-      if (s) hits.push({ kind: 'esperienza', title: e.title, meta: `${c.label} · ${e.location} · da ${e.price}`, to: experiencePath(e) ?? `/categoria/${c.slug}`, score: s + 1 })
+      if (s) hits.push({ kind: 'esperienza', title: e.title, meta: `${c.label} · ${e.location} · ${t('da {prezzo}', { prezzo: e.price })}`, to: localizePath(experiencePath(it) ?? `/categoria/${c.slug}`, lang), score: s + 1 })
     }
-  const today = todayISO()
-  for (const e of EVENTS) {
-    if (eventEnd(e) < today) continue
-    const s = score([e.title, e.place, e.area, EVENT_CATEGORY_LABELS[e.category], e.blurb])
-    if (s) hits.push({ kind: 'evento', title: e.title, meta: `${formatShort(e.start)} · ${e.place}`, to: eventPath(e), score: s })
   }
-  for (const a of ARTICLES_BY_DATE) {
+  const today = todayISO()
+  for (const it of EVENTS) {
+    if (eventEnd(it) < today) continue
+    if (en && !hasEventEn(it)) continue
+    const e = localizeEvent(it, lang)
+    const s = score([e.title, e.place, e.area, t(EVENT_CATEGORY_LABELS[e.category]), e.blurb])
+    if (s) hits.push({ kind: 'evento', title: e.title, meta: `${formatShort(e.start, lang)} · ${e.place}`, to: localizePath(eventPath(e), lang), score: s })
+  }
+  for (const it of ARTICLES_BY_DATE) {
+    if (en && !hasArticleEn(it)) continue
+    const a = localizeArticle(it, lang)
     const s = score([a.title, a.excerpt, a.tags.join(' '), a.category])
-    if (s) hits.push({ kind: 'articolo', title: a.title, meta: `Blog · ${a.category}`, to: `/blog/${a.slug}`, score: s })
+    if (s) hits.push({ kind: 'articolo', title: a.title, meta: `Blog · ${a.category}`, to: localizePath(`/blog/${a.slug}`, lang), score: s })
   }
   return hits.sort((a, b) => b.score - a.score).slice(0, 12)
 }
@@ -66,7 +80,10 @@ const LABEL = { esperienza: 'Esperienza', evento: 'Evento', articolo: 'Articolo'
 export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
   const [q, setQ] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
-  const hits = useMemo(() => search(q), [q])
+  const lang = useLang()
+  const t = useT()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hits = useMemo(() => search(q, lang, t), [q, lang])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -98,7 +115,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
 
   return (
     <div className="fixed inset-0 z-[70] flex items-start justify-center bg-ink/40 p-4 pt-[12vh] backdrop-blur-sm" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div role="dialog" aria-modal="true" aria-label="Cerca nel sito" className="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-soft">
+      <div role="dialog" aria-modal="true" aria-label={t('Cerca nel sito')} className="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-soft">
         <div className="flex items-center gap-3 border-b border-line px-5">
           <Search size={18} className="shrink-0 text-ink/45" />
           <input
@@ -107,20 +124,20 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Cerca un'esperienza, un evento, un articolo"
+            placeholder={t("Cerca un'esperienza, un evento, un articolo")}
             className="h-14 min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink/40"
             autoComplete="off"
           />
-          <button type="button" onClick={onClose} aria-label="Chiudi la ricerca" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/60 hover:bg-paper hover:text-ink">
+          <button type="button" onClick={onClose} aria-label={t('Chiudi la ricerca')} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/60 hover:bg-paper hover:text-ink">
             <X size={16} />
           </button>
         </div>
         <div className="max-h-[60vh] overflow-y-auto p-2">
           {q.trim().length < 2 ? (
             <div className="px-4 py-6 text-sm text-ink/55">
-              <p>Prova con “pizza”, “barca”, “Sanità”, “MANN” o il nome di un quartiere.</p>
+              <p>{t('Prova con “pizza”, “barca”, “Sanità”, “MANN” o il nome di un quartiere.')}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {['pizza', 'barca', 'sotterranea', 'Vesuvio', 'concerto', 'mostre'].map((s) => (
+                {(lang === 'en' ? ['pizza', 'boat', 'underground', 'Vesuvius', 'concert', 'exhibition'] : ['pizza', 'barca', 'sotterranea', 'Vesuvio', 'concerto', 'mostre']).map((s) => (
                   <button key={s} type="button" onClick={() => setQ(s)} className="chip min-h-[36px] md:min-h-[34px]">
                     {s}
                   </button>
@@ -128,7 +145,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
               </div>
             </div>
           ) : hits.length === 0 ? (
-            <p className="px-4 py-6 text-sm text-ink/55">Niente con “{q}”. Prova con una parola sola o guarda tutte le esperienze.</p>
+            <p className="px-4 py-6 text-sm text-ink/55">{t('Niente con “{q}”. Prova con una parola sola o guarda tutte le esperienze.', { q })}</p>
           ) : (
             <ul>
               {hits.map((h) => {
@@ -142,7 +159,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium">{h.title}</span>
                         <span className="block truncate text-sm text-ink/55">
-                          {LABEL[h.kind]} · {h.meta}
+                          {t(LABEL[h.kind])} · {h.meta}
                         </span>
                       </span>
                       <ArrowRight size={15} className="shrink-0 text-ink/30 transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />

@@ -109,6 +109,25 @@ export const DATE_PRESETS: DatePreset[] = [
   { key: '30', label: 'Prossimi 30 giorni', range: (t = todayISO()) => ({ from: t, to: addDays(t, 29) }) },
 ]
 
+/** Le etichette dei preset in inglese, per le pagine /en. */
+const DATE_PRESET_LABELS_EN: Record<string, string> = {
+  oggi: 'Today',
+  domani: 'Tomorrow',
+  weekend: 'This weekend',
+  '7': 'Next 7 days',
+  '30': 'Next 30 days',
+}
+
+/** L'etichetta di un preset nella lingua della pagina. */
+export function presetLabel(p: DatePreset, lang: L = 'it'): string {
+  return lang === 'en' ? (DATE_PRESET_LABELS_EN[p.key] ?? p.label) : p.label
+}
+
+/** I preset con le etichette nella lingua della pagina. */
+export function datePresets(lang: L = 'it'): DatePreset[] {
+  return lang === 'en' ? DATE_PRESETS.map((p) => ({ ...p, label: presetLabel(p, lang) })) : DATE_PRESETS
+}
+
 export function presetFor(from: string, to: string, today = todayISO()): string | null {
   const p = DATE_PRESETS.find((p) => {
     const r = p.range(today)

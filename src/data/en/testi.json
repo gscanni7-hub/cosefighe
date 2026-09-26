@@ -1,1 +1,418 @@
-{}
+{
+ "GUIDE": [
+  {
+   "slug": "cristo-velato",
+   "article": "napoli-in-un-giorno",
+   "title": "The Veiled Christ in the Cappella Sansevero",
+   "text": "A marble Christ covered by a veil that looks like fabric, carved by Giuseppe Sanmartino in 1753 in a small, very crowded chapel between Spaccanapoli and via Tribunali. You walk around the statue in silence, then go down to see the «anatomical machines», two skeletons with their circulatory systems on show that have fuelled legends about the Prince of Sansevero for centuries. Buy your ticket in advance: without a booking the queue can eat up a whole afternoon.",
+   "image": "/img/cristo-velato.webp",
+   "category": "arte",
+   "experience": "Cristo Velato con ingresso garantito"
+  },
+  {
+   "slug": "spaccanapoli",
+   "article": "cosa-fare-a-napoli-gratis",
+   "title": "Spaccanapoli and the ancient streets, on foot",
+   "text": "From the Vomero, the dead-straight street that splits the old centre in two looks like a crack. Walking it from Piazza del Gesù to Forcella means crossing two thousand years in a kilometre: the majolica-tiled cloister of Santa Chiara, San Domenico Maggiore, the nativity-scene workshops of San Gregorio Armeno, the Duomo just round the corner. It's free and needs no map; getting lost is part of the fun. With a guide you understand what you're looking at, and you actually get to see the two cloisters.",
+   "image": "/img/spaccanapoli.webp",
+   "category": "arte",
+   "experience": "Spaccanapoli, il chiostro di Santa Chiara",
+   "free": true
+  },
+  {
+   "slug": "mann",
+   "article": "cosa-fare-a-napoli-quando-piove",
+   "title": "The National Archaeological Museum",
+   "text": "The MANN holds the best of what the excavations at Pompeii and Herculaneum gave back: the mosaics from the House of the Faun, the frescoes, the bronzes from the Villa of the Papyri, the Farnese Bull and the Farnese Hercules, the Secret Cabinet. It's a huge museum, and without a guide you come out tired, feeling you've missed the best bits. With an archaeologist, two hours are enough to leave with a clear picture, and it's the best money you'll spend on your holiday.",
+   "image": "/img/mann-sala.webp",
+   "category": "arte",
+   "experience": "Il MANN con un’archeologa"
+  },
+  {
+   "slug": "galleria-borbonica",
+   "article": "napoli-sotterranea-tunnel-greci",
+   "title": "The Galleria Borbonica, under Chiaia",
+   "text": "Ferdinand II had it dug in 1853 to link the Royal Palace to the barracks in case of revolt. It was never finished, and in the 20th century it became an air-raid shelter, then a police impound: the seized vintage cars and motorbikes are still there, covered in dust, next to the writing Neapolitans left on the walls during the bombing. An hour underground that tells you more about the city than many museums. Guided visits only.",
+   "image": "/img/galleria-borbonica.webp",
+   "category": "arte",
+   "experience": "Galleria Borbonica"
+  },
+  {
+   "slug": "catacombe-san-gennaro",
+   "article": "quartieri-napoli-da-scoprire",
+   "title": "The Catacombs of San Gennaro and the Rione Sanità",
+   "text": "Under the Capodimonte hill, two levels of galleries dug into the tuff rock from the 2nd century, with early Christian frescoes and the first tomb of the city's patron saint. They're run by a cooperative of young people from the neighbourhood who changed the story of the Sanità, the district under the bridge that for decades even Neapolitans avoided. Pair the visit with a walk around the district: baroque palazzi, the birthplace of the comic actor Totò, the Cimitero delle Fontanelle, and one of the best fried pizzas in town.",
+   "image": "/img/catacombe-san-gennaro.webp",
+   "category": "arte",
+   "experience": "Sotto la Sanità"
+  },
+  {
+   "slug": "fontanelle",
+   "title": "The Cimitero delle Fontanelle",
+   "text": "A tuff quarry at the far end of the Rione Sanità holding tens of thousands of skulls and bones, piled up after the plagues and the cholera of the 19th century. For a century Neapolitans «adopted» a skull, one of the anime pezzentelle (poor souls), cleaning it and asking for favours in return: the Church banned the cult in 1969, but you can still see lottery tickets left beside the skulls. It isn't a macabre place: it's quiet and cool, and it explains Naples and its relationship with death better than any book.",
+   "image": "/img/fontanelle.webp",
+   "category": "arte",
+   "experience": "Cimitero delle Fontanelle"
+  },
+  {
+   "slug": "san-martino",
+   "article": "cosa-fare-a-napoli-la-sera",
+   "title": "Certosa di San Martino and Castel Sant’Elmo",
+   "text": "The highest point of the Vomero, where you see the whole city: the old centre with Spaccanapoli, the port, Vesuvius, Capri on clear days. The Certosa, a former monastery, has the great cloister with marble skulls on the balustrade, the baroque church and the collection of nativity scenes, including the Cuciniello, the most famous. The castle next door is a six-pointed star with an open terrace. Go up by funicular from Montesanto, or on foot via the Pedamentina, 414 steps.",
+   "image": "/img/san-martino.webp",
+   "category": "arte",
+   "experience": "Certosa di San Martino"
+  },
+  {
+   "slug": "ercolano",
+   "article": "napoli-in-3-giorni",
+   "title": "Herculaneum, with an archaeologist",
+   "text": "Pompeii is more famous, but Herculaneum is more complete: the volcanic mud preserved the upper floors of the houses, the charred furniture, the wooden beams, the doors. The site is small, you can see it in two hours, and the modern town sits literally on top of it. It's twenty minutes from Naples on the Circumvesuviana, the local train. Going with an archaeologist changes everything: the rooms become the homes of people with names, and the 300 skeletons in the boat sheds on the ancient beach become a story.",
+   "image": "/img/ercolano.webp",
+   "category": "arte",
+   "experience": "Ercolano con un archeologo"
+  },
+  {
+   "slug": "palazzo-reale",
+   "title": "Palazzo Reale and Piazza del Plebiscito",
+   "text": "The city's largest square, with the colonnade of San Francesco di Paola on one side and, facing it, the palace front with statues of the kings of Naples in its niches. Inside: the grand staircase, the court theatre, the historic apartments with the furnishings of the Bourbons and the Savoys, and the hanging garden overlooking the port. The Teatro San Carlo and the Gambrinus café are a step away. The square is free to cross at any hour; the palace is closed on Wednesdays.",
+   "image": "/img/palazzo-reale.webp",
+   "category": "arte",
+   "experience": "Palazzo Reale e il borgo di Santa Lucia",
+   "free": true
+  },
+  {
+   "slug": "capodimonte",
+   "title": "Capodimonte: Caravaggio and Raphael in the woods",
+   "text": "The royal palace on the hill houses the Farnese collection, which the Bourbons brought from Parma: Titian, Raphael, Masaccio, the Bruegels, and Caravaggio's Flagellation, painted in Naples in 1607. Around it is the Real Bosco, a 134-hectare park where Neapolitans go running and picnicking. The museum is big and far from the centre: in two hours an art historian takes you straight to the paintings that matter, then you can enjoy the park on your own.",
+   "image": "/img/capodimonte.webp",
+   "category": "arte",
+   "experience": "Capodimonte con uno storico"
+  },
+  {
+   "slug": "street-food",
+   "article": "street-food-napoli-guida-completa",
+   "title": "Street food in the Old Town",
+   "text": "Folded pizza (pizza a portafoglio), frittatina (a deep-fried pasta cake), a cuoppo (paper cone) of fried bites, fried pizza, sfogliatella, babà, coffee at the bar: Neapolitan food is eaten standing up, walking between via Tribunali and the Pignasecca, and costs a few euros a stop. The problem is knowing where. Tours with a local guide solve that in two and a half hours: six or seven tastings in the right shops, with no queues and no tourist traps. Go hungry, and don't book dinner.",
+   "image": "/img/naples-streetfood.webp",
+   "category": "food",
+   "experience": "Street food nel centro storico"
+  },
+  {
+   "slug": "pignasecca",
+   "title": "The Pignasecca, the oldest market",
+   "text": "Behind via Toledo, the oldest street market in the city: fish on ice, fruit stalls, fry shops, delis with that day's mozzarella, sellers shouting their prices in dialect. Morning is the time to go, before 1pm. You can wander on your own, for free, buying a tarallo and a glass of limonata a cosce aperte (a fizzy lemon drink you lean forward to sip, as it foams over); or do it in six stops with someone who knows the stallholders by name, which is how you really get to taste everything.",
+   "image": "/img/pignasecca.webp",
+   "category": "food",
+   "experience": "Pignasecca in sei soste",
+   "free": true
+  },
+  {
+   "slug": "sfogliatella",
+   "title": "Sfogliatella and coffee, done properly",
+   "text": "The riccia, with crisp, layered pastry, or the frolla, soft shortcrust: the filling of ricotta, semolina and candied peel is the same. It should be eaten warm, and Naples is full of places baking them at all hours, from the central station to Mergellina. Coffee is drunk at the bar, in a scalding cup, often already sweetened: ask for it amaro if you don't want sugar. It costs just over a euro, and many bars still keep the «caffè sospeso» tradition: a coffee paid for in advance for someone who can't afford one.",
+   "image": "/img/sfogliatella.webp",
+   "category": "food",
+   "experience": "Sei tappe nel mercato più antico",
+   "free": true
+  },
+  {
+   "slug": "vino-vesuvio",
+   "title": "Lunch among the vineyards of Vesuvius",
+   "text": "On the slopes of the volcano they make Lacryma Christi, white and red, from vines growing in the lava. You can visit the wineries: rows of vines with the crater behind you, the cellar, then a table laid with what the estate produces, from piennolo cherry tomatoes to olive oil. Four hours that count as lunch and an excursion in one, and you come back to town full, with a couple of bottles. If you have time, combine it with climbing to the crater in the morning.",
+   "image": "/img/naples-wine.webp",
+   "category": "food",
+   "experience": "Lacryma Christi tra i filari"
+  },
+  {
+   "slug": "piazza-bellini",
+   "article": "aperitivo-napoli-dove-andare",
+   "title": "Aperitivo in Piazza Bellini",
+   "text": "A tree-lined square on top of Greek walls from the 4th century BC, which you can see in the open among the café tables. Students, bookshops, a couple of historic bars, live music in the evening: it's where Neapolitans go for a drink before dinner, two minutes from via Tribunali and the MANN. A spritz costs what it costs anywhere in Italy; the meatballs and fried pizza in the lanes around are the best part. From 7pm onwards, every day.",
+   "image": "/img/piazza-bellini.webp",
+   "category": "food",
+   "experience": "Polpette, spritz e mura greche",
+   "free": true
+  },
+  {
+   "slug": "corso-pizza",
+   "article": "cosa-fare-a-napoli-con-i-bambini",
+   "title": "Learning to make pizza",
+   "text": "Dough of flour, water, salt and very little yeast, a long rise, stretched by hand without a rolling pin, sixty seconds in an oven at 450 degrees: Neapolitan pizza is on UNESCO's heritage list, and you can learn it in three hours, in a cookery school or right in a pizzeria. You go home knowing how to stretch the dough, plus the tiramisù you made in the meantime. It's the most booked experience in Naples, and the best suited to children and groups. You eat what you make, naturally.",
+   "image": "/img/naples-pizza.webp",
+   "category": "laboratori",
+   "experience": "Pizza napoletana da zero"
+  },
+  {
+   "slug": "pasta-fresca",
+   "title": "Handmade fresh pasta, with a local signora",
+   "text": "Ravioli, fettuccine, gnocchi, scialatielli: in Naples fresh pasta is still made at home on Sundays, and the classes recreate that kind of cooking. Flour and eggs on the table, the rolling pin, two sauces, a glass of wine, and at the end everyone eats together. The twenty-euro versions are among the cheapest and most successful things in the city; the ones in a Neapolitan's home, with a view over the bay, are more a family lunch than a class.",
+   "image": "/img/ravioli.webp",
+   "category": "laboratori",
+   "experience": "Pasta fresca e tiramisù con calice"
+  },
+  {
+   "slug": "golfo-in-barca",
+   "article": "napoli-in-3-giorni",
+   "title": "The bay from the water: Castel dell’Ovo and Posillipo",
+   "text": "You need to see Naples from the water at least once. You set off from the Borgo Marinari, the little harbour at the foot of Castel dell’Ovo, and follow the Posillipo coast: villas on the sea, Palazzo Donn’Anna with its foundations in the water, the caves, the Gaiola. Behind you, Vesuvius and the whole city. Small boats, with nine seats, are better than the big ferries: an hour and a half with a stop for a swim, or three hours at sunset with a spritz on board. From May to October.",
+   "image": "/img/golfo-napoli.webp",
+   "category": "outdoor",
+   "experience": "Castel dell’Ovo e Palazzo Donn’Anna"
+  },
+  {
+   "slug": "gaiola-marechiaro",
+   "title": "Marechiaro and the Gaiola",
+   "text": "At the far end of Posillipo, the fishing village of Marechiaro with the «fenestella», the little window from the famous song, and restaurants by the sea; a little further on, the Gaiola, the islet with the cursed villa and the underwater park: Roman ruins a few metres from the shore that you can see with a mask. The Gaiola beach is small, free and has limited places, booked online. By private boat you get there from the Mergellina pier in half an hour, with a swim in the cove.",
+   "image": "/img/marechiaro.webp",
+   "category": "outdoor",
+   "experience": "Barca privata fino alla Gaiola",
+   "free": true
+  },
+  {
+   "slug": "vesuvio",
+   "article": "trekking-vesuvio-guida",
+   "title": "Vesuvius, up to the crater",
+   "text": "The volcano is half an hour from the city, and the path to the rim of the crater, from the car park at 1,000 metres, takes twenty minutes uphill on gravel. At the top you see the steaming crater and the whole bay, from Sorrento to Ischia. The park ticket is booked online for a time slot. If you want something different, go up on horseback along the lava trails on the Pompeii side: an hour in the National Park with local guides, fine even if you've never ridden before.",
+   "image": "/img/vesuvio-trek.webp",
+   "category": "outdoor",
+   "experience": "Un’ora a cavallo"
+  },
+  {
+   "slug": "petraio-vomero",
+   "title": "The Petraio steps and the Vomero",
+   "text": "Naples is a vertical city and its stairways are a monument in themselves: the Petraio runs down from the Vomero to Chiaia past Art Nouveau villas, vegetable gardens and glimpses of the bay you'll never see from the road. The Pedamentina, the Calata San Francesco and the Moiariello behind Capodimonte are the others. They're free to climb; wear comfortable shoes and go in the morning. With a guide, in two hours you do the right stairways, the funicular and the Quartieri Spagnoli, and you understand how the city fits together.",
+   "image": "/img/vomero-panorama.webp",
+   "category": "outdoor",
+   "experience": "Il Petraio e le scale nascoste",
+   "free": true
+  },
+  {
+   "slug": "quartieri-spagnoli",
+   "article": "quartieri-napoli-da-scoprire",
+   "title": "The Quartieri Spagnoli",
+   "text": "The grid of narrow streets climbing up from via Toledo, built in the 16th century to house Spanish troops: washing hanging out, scooters, workshops, the giant Maradona mural on via Emanuele De Deo, where there's always a crowd. Thirty years ago they were off limits; today it's the neighbourhood where you eat best for little, in ten-seat trattorias and small markets. You can wander on your own, by day, or with someone from the neighbourhood who takes you into the courtyards and workshops.",
+   "image": "/img/calcio-quartieri.webp",
+   "category": "outdoor",
+   "experience": "Quartieri Spagnoli: murales",
+   "free": true
+  },
+  {
+   "slug": "snorkeling",
+   "title": "Snorkelling over sunken Roman villas",
+   "text": "Bradyseism, the slow rise and fall of the ground in the Campi Flegrei, sank Roman Baia, the emperors' holiday resort: mosaics, streets, statues and nymphaeums lie a few metres under the sea and you can see them with mask and fins. At Posillipo, off the Gaiola, the underwater park is smaller but closer. Trips last two or three hours with a marine biologist, and in September the water is still 24°C. It's the strangest and most beautiful way to do archaeology.",
+   "image": "/img/baia-sommersa.webp",
+   "category": "sport",
+   "experience": "Snorkeling sulle ville romane"
+  },
+  {
+   "slug": "napoli-in-bici",
+   "title": "Naples by bike, from the Duomo to the seafront",
+   "text": "It sounds mad, but the centre is actually good for cycling: via Duomo, the Rettifilo, Piazza Municipio, Piazza del Plebiscito, then the Lungomare Caracciolo, car-free and flat all the way to Mergellina. Three hours with a guide, stops included, to see the whole lower city in one morning, away from the taxi traffic. For the hills there are fat-tyre e-bikes that climb to the Vomero and Posillipo without effort. Helmet and bike are included.",
+   "image": "/img/ebike-napoli.webp",
+   "category": "sport",
+   "experience": "In bici dal Duomo"
+  },
+  {
+   "slug": "canzone-napoletana",
+   "article": "cosa-fare-a-napoli-la-sera",
+   "title": "Live Neapolitan song, no microphones",
+   "text": "’O sole mio, Reginella, Era de maggio: Neapolitan song was born for bare voices and mandolins, and there are still concerts like that, in fifty-seat rooms in the centre, an hour after dinner. No amplification, the singers a metre away, the story behind each song told between one piece and the next. It's the best way to understand why this music went round the world, and it costs about as much as a pizza. Every evening, if you book ahead.",
+   "image": "/img/mandolino-napoli.webp",
+   "category": "spettacoli",
+   "experience": "Un’ora di canzone napoletana"
+  }
+ ],
+ "GUIDE_TITLE": "25 things to do in Naples",
+ "GUIDE_INTRO": "Twenty-five things in Naples that are worth the trip, chosen by people who live here: monuments, underground sites, markets, the sea, food. For each one we tell you why it's worth it, what to expect and, where there is one, the best experience for doing it with a guide, at the platform's price. The ones marked “free” won't cost you a cent.",
+ "COSA_FARE_FAQ": [
+  {
+   "q": "What to do in Naples when it rains?",
+   "a": "Naples in the rain is lived indoors and underground: the Archaeological Museum, the Cappella Sansevero with the Veiled Christ, the Galleria Borbonica and Napoli Sotterranea aren't affected by the weather. Or a pizza or fresh pasta class fills two or three hours, and you finish by eating what you've made.",
+   "link": {
+    "label": "Art and underground experiences",
+    "to": "/categoria/arte"
+   }
+  },
+  {
+   "q": "What to do in Naples in the evening?",
+   "a": "The seafront from Castel dell’Ovo to Mergellina, the café tables of Piazza Bellini and the lanes of Chiaia are the three classic evenings out. If you want something organised, there are evening street food tours in the Old Town, the shows on the programme and, in summer, open-air concerts: they're all in the programme above, with time and price.",
+   "link": {
+    "label": "Shows in the city",
+    "to": "/categoria/spettacoli"
+   }
+  },
+  {
+   "q": "What to do in Naples for free?",
+   "a": "Plenty: walk Spaccanapoli from Piazza del Gesù to Forcella, go up to the San Martino viewpoint in the Vomero, cut through the Galleria Umberto I, see the nativity scenes on San Gregorio Armeno, sit in Piazza del Plebiscito and walk the car-free seafront. In the programme, free events have “Free” or “Free entry” next to the title.",
+   "link": {
+    "label": "This week's programme",
+    "to": "/cosa-fare"
+   }
+  },
+  {
+   "q": "What to do in Naples with children?",
+   "a": "The things that work best with little ones are the ones where you do something: a pizza class, a boat trip in the bay, climbing Vesuvius with a guide, Napoli Sotterranea for those who aren't afraid of the dark. The experience pages show duration and group size, so you can choose by age.",
+   "link": {
+    "label": "The workshops",
+    "to": "/categoria/laboratori"
+   }
+  },
+  {
+   "q": "What to do in Naples in one day?",
+   "a": "Morning in the Old Town: Spaccanapoli, the Veiled Christ, a sfogliatella. Lunch with a pizza, ideally booked. Afternoon at the Archaeological Museum, or up to the Vomero by funicular for the view. Evening on the seafront. If you'd like a guide to show you round, walking tours of the centre last two or three hours and cover almost everything.",
+   "link": {
+    "label": "All experiences",
+    "to": "/esperienze"
+   }
+  },
+  {
+   "q": "How much do experiences in Naples cost?",
+   "a": "The experiences we select range from 10 to 120 euros per person. A street food tour with a guide usually costs between 40 and 60 euros, a pizza or pasta class between 20 and 70, a boat trip between 40 and 80. The prices you see are those of our partner platforms, kept up to date; almost all activities can be cancelled free of charge up to 24 hours before.",
+   "link": {
+    "label": "Experiences by category",
+    "to": "/esperienze"
+   }
+  },
+  {
+   "q": "How do you choose the events in the programme?",
+   "a": "Our editors pick them one by one: neighbourhood festivals, concerts, exhibitions, markets, special openings. We only include what's worth going out of your way for, and we check date, time, place and price at the source. The programme is updated every morning."
+  }
+ ],
+ "GUIDE_LABELS": {
+  "napoli-in-un-giorno": "Naples in a day",
+  "napoli-in-3-giorni": "Naples in 3 days",
+  "cosa-fare-a-napoli-gratis": "Free things to do",
+  "cosa-fare-a-napoli-la-sera": "Naples at night",
+  "cosa-fare-a-napoli-quando-piove": "When it rains",
+  "cosa-fare-a-napoli-con-i-bambini": "With children"
+ },
+ "CATEGORY_TEXTS": {
+  "food": {
+   "intro": "In Naples people eat standing up, in the street, at any hour: folded pizza (pizza a portafoglio), frittatina (a deep-fried pasta cake), a cuoppo (paper cone) of fried bites, a warm sfogliatella, babà. The problem isn't finding food, it's knowing where. The tours we've picked sort that out: a local guide, six or seven tastings in the right shops between via dei Tribunali, the Pignasecca market and the Sanità, two or three hours on foot. Alongside the street food walks you'll find the slower things: lunch at a winery on the slopes of Vesuvius, aperitivo with meatballs in Piazza Bellini, a pizza crawl. Each one shows the platform's price and our own verdict on its page.",
+   "faq": [
+    {
+     "q": "How much does a street food tour in Naples cost?",
+     "a": "Most guided tours with tastings cost between 25 and 70 euros per person and last two to three hours. The price covers the guide and all the tastings; you usually finish without needing dinner. Winery lunches on Vesuvius, with transport and wine, cost more."
+    },
+    {
+     "q": "What do you eat on a food tour in Naples?",
+     "a": "Almost always folded or fried pizza, frittatina (a deep-fried pasta cake), taralli (crunchy savoury rings), mozzarella, something sweet like a sfogliatella or a babà, and a coffee or a limoncello. Each page lists the tastings included. If you have food intolerances or are vegetarian, say so when you book: not every tour can adapt."
+    },
+    {
+     "q": "Is a street food tour better at lunchtime or in the evening?",
+     "a": "At lunchtime the markets are open and the fry shops are cooking non-stop; in the evening the Old Town is livelier and the tour ends nicely with a drink in Piazza Bellini. Either way, arrive hungry and don't book a restaurant straight after."
+    },
+    {
+     "q": "Are food tours suitable for children?",
+     "a": "Generally, yes: there's little walking between stops and the food goes down well at any age. What matters is the length: anything over three hours gets tiring with small children. Each page shows the duration and group size, and almost all activities can be cancelled free of charge up to 24 hours before."
+    }
+   ]
+  },
+  "outdoor": {
+   "intro": "Naples is a city of sea and hills, and it's the starting point for some of the most beautiful places in Italy. In this category you'll find two things. Outings in the city: the bay by boat from Castel dell’Ovo to Posillipo, the Gaiola, the Petraio steps between the Vomero and Chiaia, the Quartieri Spagnoli with someone from the neighbourhood. And day trips: the Amalfi Coast between Positano, Amalfi and Ravello, Capri by hydrofoil or traditional wooden boat (gozzo), Ischia and Procida by boat, Vesuvius up to the crater, Pompeii with Sorrento. For each one the page tells you how it works, how long it really takes and who it suits.",
+   "faq": [
+    {
+     "q": "What day trips can you take from Naples?",
+     "a": "The most popular are Pompeii, Vesuvius, the Amalfi Coast, Capri, Ischia and Procida, and the Royal Palace of Caserta. Pompeii and Herculaneum can be done in half a day; the Coast and the islands need a full day, usually eight or nine hours, leaving from the centre or the port."
+    },
+    {
+     "q": "Is it better to see the Amalfi Coast on a tour or on your own?",
+     "a": "On your own you depend on trains, crowded buses and ferries, and in one day you see just one town. A minibus tour takes in Positano, Amalfi and often Ravello or Sorrento without you having to think about parking or connections. If you have two days, you can do it at your own pace."
+    },
+    {
+     "q": "When is the best time for boat trips in Naples?",
+     "a": "From May to October. In September and the first half of October the sea is still warm and the boats are less full than in August. Sunset trips are the most popular: book them a few days ahead. If the sea is rough, operators move the date or refund you."
+    },
+    {
+     "q": "Can you climb Vesuvius without a guide?",
+     "a": "Yes: the path to the rim of the crater starts from the car park at 1,000 metres, and the park ticket is booked online for a time slot. Organised excursions add transport from Naples or Pompeii and often combine it with the excavations or a winery stop, which are harder to fit together on your own."
+    }
+   ]
+  },
+  "sport": {
+   "intro": "Getting active in Naples mostly means water and pedals. Underwater there are the sunken Roman villas of Baia and the Gaiola marine park at Posillipo, which you see with mask and fins alongside a marine biologist: archaeology you do by swimming. On dry land, the centre is easy to get around by bike, from the Duomo to Piazza del Plebiscito and on to the car-free seafront, and for the climbs up the Vomero and Posillipo there are fat-tyre e-bikes. These are experiences for people who want to see the city while doing something, not for athletes: each page says how much effort it takes and from what age you can do it.",
+   "faq": [
+    {
+     "q": "Do you need experience to snorkel at Baia or Posillipo?",
+     "a": "No. You just need to be able to swim: the ruins are a few metres down and you can see them from the surface with a mask and snorkel. Equipment is included and the trip is guided. Scuba diving, on the other hand, needs a certification, or you can do a try-dive with an instructor."
+    },
+    {
+     "q": "Can you get around Naples by bike?",
+     "a": "The lower part of the centre, yes: via Duomo, the Rettifilo, Piazza Municipio, Piazza del Plebiscito and the seafront as far as Mergellina are all flat, and the seafront is closed to cars. The hills need an electric bike. Guided tours last about three hours and include bike and helmet."
+    },
+    {
+     "q": "How late in the year can you swim in Naples?",
+     "a": "Usually from May to mid-October. In September the water is still around 24°C, and it's the best month for snorkelling, with the clearest sea and fewer boats. In winter there are fewer trips out to sea, and it's mostly bikes and walks."
+    },
+    {
+     "q": "Are the sports activities suitable for teenagers?",
+     "a": "Snorkelling is usually open to ages ten and up with an adult; bike tours depend on height, because of the bikes available. Each page shows the duration and group size; for exact age limits, check the platform's page that the Book button takes you to."
+    }
+   ]
+  },
+  "arte": {
+   "intro": "Naples has two and a half thousand years stacked one on top of the other, and you can visit all of them. Above ground: Spaccanapoli and the ancient Greek streets (decumani), the Veiled Christ, the Archaeological Museum with the treasures of Pompeii, Capodimonte, the Certosa di San Martino, the Royal Palace. Below ground: the Galleria Borbonica, Napoli Sotterranea, the catacombs of San Gennaro and San Gaudioso, the Cimitero delle Fontanelle. Outside the city: Pompeii, Herculaneum, the Royal Palace of Caserta. We've chosen the visits where the guide makes the difference: archaeologists and art historians who turn rooms and ruins into stories. On each page you'll find what you see, how long it takes and whether entry is included.",
+   "faq": [
+    {
+     "q": "Do you need to book the Veiled Christ?",
+     "a": "Yes, almost always. The Cappella Sansevero is small and entry is capped: without a ticket bought in advance you risk not getting in or losing hours in the queue. The guided visits you'll find here include entry at a guaranteed time and last from half an hour to two and a half hours with a walk round the Old Town."
+    },
+    {
+     "q": "Pompeii or Herculaneum?",
+     "a": "Pompeii is huge and gives you the sense of a whole city: you need at least two or three hours. Herculaneum is smaller and better preserved, with two-storey houses, woodwork and mosaics, and you can see it in an hour and a half. Short on time or in the heat, go for Herculaneum; if you want the iconic visit, choose Pompeii."
+    },
+    {
+     "q": "Which underground sites in Naples are worth visiting?",
+     "a": "The Galleria Borbonica for recent history: wartime shelters and abandoned vintage cars. Napoli Sotterranea for the Greek and Roman cisterns forty metres down. The catacombs of San Gennaro for the early Christian frescoes. They're very different visits: if you're staying a few days, you can do two without getting bored."
+    },
+    {
+     "q": "Is it worth taking a guide for the Archaeological Museum?",
+     "a": "Yes. The museum is big and the labels don't tell you much: with an archaeologist, in two hours you see the Pompeii mosaics, the Farnese collection, the Herculaneum bronzes and the Secret Cabinet, understanding what's in front of you. On your own, pick three sections beforehand and stick to those."
+    }
+   ]
+  },
+  "laboratori": {
+   "intro": "The most direct way to take Naples home with you is to learn how to make something. Pizza classes teach you the dough, stretching it by hand and baking it, and you eat what you've made; fresh pasta classes put flour and eggs on the table for ravioli, fettuccine and gnocchi, almost always with tiramisù while you wait. Then there are the less obvious ones: mozzarella shaped by hand in a family dairy, calzone in a real pizzeria, dinner at a Neapolitan's home with a view over the bay. They last two or three hours, work well with children and in the rain, and start from twenty euros.",
+   "faq": [
+    {
+     "q": "How long does a pizza class in Naples last, and how much does it cost?",
+     "a": "Two to three hours. Prices run from about 25 to 60 euros per person and include ingredients, an apron, the pizza you make and often a drink and tiramisù. Classes inside a working pizzeria cost a little more than those in a cookery school, but you use a real oven."
+    },
+    {
+     "q": "Are cookery classes suitable for children?",
+     "a": "They're among the best things to do as a family: children knead, get messy and eat the result. Go for the midday sessions, so the class doubles as lunch. Duration and group size are shown on each page."
+    },
+    {
+     "q": "What language are the classes in?",
+     "a": "Almost all are in Italian and English, some also in Spanish or French. The language is shown on each class's page, in the details at the top. As they're hands-on, you can follow along easily even without understanding every word."
+    },
+    {
+     "q": "Can you cancel a class you've booked?",
+     "a": "In most cases, yes, free of charge up to 24 hours before the start. The exact terms are on the page under Cancellation and on the platform's page where you complete the booking."
+    }
+   ]
+  },
+  "spettacoli": {
+   "intro": "Neapolitan song was born for bare voices and mandolins, and in Naples you can still hear it that way: hour-long concerts in rooms of fifty seats, with no amplification, and the story of each song told between one piece and the next, from ’O sole mio to the tarantella. They're short evenings that cost about as much as a pizza and fit nicely before or after dinner. For everything else, concerts, theatre, opera in courtyards, museum festivals, there's the city programme, which we update every week with times and prices checked at the source.",
+   "faq": [
+    {
+     "q": "Where can you hear live Neapolitan music in Naples?",
+     "a": "Concerts of classic Neapolitan song are held every evening in small halls in the centre, a short walk from the Archaeological Museum: an hour of music with no microphones, booking recommended. For concerts and events on a specific date, check the weekly programme on the Things to do page."
+    },
+    {
+     "q": "How long is a Neapolitan song show?",
+     "a": "About an hour. It's designed for visitors: you can go before dinner or straight after. The songs are introduced in English too, and the repertoire runs from 19th-century classics to the tarantella."
+    },
+    {
+     "q": "Where can I find concerts and events in Naples this week?",
+     "a": "On the Things to do in Naples page: pick your dates and see concerts, theatre, festivals and evenings in museums with time, place and price. It's updated every morning, and every Thursday we publish an article with the best of the weekend."
+    },
+    {
+     "q": "Do you need to book ahead?",
+     "a": "For the small halls, yes: there are few seats and at weekends they sell out. You book online with free cancellation up to 24 hours before. For big concerts at the Arena Flegrea or the Palapartenope, tickets are sold through the official channels listed in the programme."
+    }
+   ]
+  }
+ }
+}

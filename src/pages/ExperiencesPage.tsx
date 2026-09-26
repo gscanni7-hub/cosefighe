@@ -8,11 +8,18 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { EmptyState } from '../components/ui/EmptyState'
 import { NextStep } from '../components/ui/NextStep'
-import { CATEGORY_LIST } from '../data/categories'
+import { CATEGORY_LIST, categoryListIn } from '../data/categories'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useLang, useLp, useT, type Lang } from '../i18n/lang'
+import { hasExperienceEn, localizeExperience } from '../i18n/content'
 import type { Category, Experience } from '../types'
 
-const total = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length, 0)
+/** Testo con segnaposto diviso in pezzi come nel JSX di prima, così l'HTML italiano resta identico. */
+const parts = (text: string, vars: Record<string, string | number>) =>
+  text
+    .split(/(\{\w+\})/)
+    .filter(Boolean)
+    .map((p) => (/^\{\w+\}$/.test(p) ? vars[p.slice(1, -1)] : p))
 
 type PriceKey = 'low' | 'mid' | 'high'
 type DurationKey = 'short' | 'medium' | 'long'
@@ -47,18 +54,37 @@ const hoursOf = (e: Experience) => {
 
 const allExperiences = CATEGORY_LIST.flatMap((c) => c.experiences.map((e) => ({ ...e, category: c })))
 
+/**
+ * Le esperienze della lista filtrabile nella lingua della pagina. Prezzo e durata per i filtri
+ * si leggono sempre dal testo italiano (in inglese "1,5 ore" diventa "1.5 hours"): li calcoliamo prima.
+ */
+type Row = Experience & { category: Category; priceN: number; hours: number }
+const rowsIn = (lang: Lang): Row[] => {
+  const cats = Object.fromEntries(categoryListIn(lang).map((c) => [c.slug, c]))
+  return allExperiences
+    .filter((e) => lang === 'it' || hasExperienceEn(e))
+    .map((e) => ({ ...localizeExperience(e, lang), category: cats[e.category.slug], priceN: priceOf(e), hours: hoursOf(e) }))
+}
+
 function CategorySection({ cat }: { cat: Category }) {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  const n = cat.experiences.length
   return (
     <section id={`cat-${cat.slug}`} className="scroll-mt-36 border-t border-line py-12 md:py-16">
       <Reveal className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="heading-lg">{cat.label}</h2>
           <p className="mt-2 text-ink/60">
-            {cat.subtitle} · {cat.experiences.length} esperienze
+            {cat.subtitle}
+            {' · '}
+            {parts(t(lang === 'en' && n === 1 ? '{n} esperienza' : '{n} esperienze'), { n })}
           </p>
         </div>
-        <ButtonLink to={`/categoria/${cat.slug}`} variant="link">
-          Vedi la categoria <ArrowRight size={15} />
+        <ButtonLink to={lp(`/categoria/${cat.slug}`)} variant="link">
+          {t('Vedi la categoria') + ' '}
+          <ArrowRight size={15} />
         </ButtonLink>
       </Reveal>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
@@ -69,8 +95,9 @@ function CategorySection({ cat }: { cat: Category }) {
         ))}
       </div>
       {cat.experiences.length > 3 && (
-        <ButtonLink to={`/categoria/${cat.slug}`} variant="secondary" className="mt-6 w-full md:hidden">
-          Vedi tutte le {cat.experiences.length} <ArrowRight size={15} />
+        <ButtonLink to={lp(`/categoria/${cat.slug}`)} variant="secondary" className="mt-6 w-full md:hidden">
+          {parts(t('Vedi tutte le {n}') + ' ', { n })}
+          <ArrowRight size={15} />
         </ButtonLink>
       )}
     </section>
@@ -98,10 +125,23 @@ function Choice<K extends string>({ label, options, value, onChange }: { label: 
 }
 
 export default function ExperiencesPage() {
-  usePageMeta({
-    title: 'Esperienze a Napoli · Cose Fighe',
-    description: `${total} esperienze in 6 categorie: food, outdoor, sport, arte, laboratori e spettacoli. Scelte una per una.`,
-  })
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  const categories = categoryListIn(lang)
+  const total = categories.reduce((n, c) => n + c.experiences.length, 0)
+  const rows = useMemo(() => rowsIn(lang), [lang])
+  usePageMeta(
+    lang === 'en'
+      ? {
+          title: 'Tours and experiences in Naples · Cose Fighe',
+          description: `${total} tours and experiences in Naples: street food tours, boat trips, day trips to Pompeii and Capri, underground Naples, pizza classes. Picked one by one.`,
+        }
+      : {
+          title: 'Esperienze a Napoli · Cose Fighe',
+          description: `${total} esperienze in 6 categorie: food, outdoor, sport, arte, laboratori e spettacoli. Scelte una per una.`,
+        },
+  )
 
   const [price, setPrice] = useState<PriceKey | null>(null)
   const [duration, setDuration] = useState<DurationKey | null>(null)
@@ -116,15 +156,15 @@ export default function ExperiencesPage() {
     if (!filtering) return []
     const p = PRICE.find((x) => x.key === price)
     const d = DURATION.find((x) => x.key === duration)
-    const list = allExperiences.filter(
-      (e) => (!p || p.test(priceOf(e))) && (!d || d.test(hoursOf(e))),
+    const list = rows.filter(
+      (e) => (!p || p.test(e.priceN)) && (!d || d.test(e.hours)),
     )
-    if (sort === 'prezzo-asc') list.sort((a, b) => priceOf(a) - priceOf(b))
-    if (sort === 'prezzo-desc') list.sort((a, b) => priceOf(b) - priceOf(a))
-    if (sort === 'durata') list.sort((a, b) => hoursOf(a) - hoursOf(b))
+    if (sort === 'prezzo-asc') list.sort((a, b) => a.priceN - b.priceN)
+    if (sort === 'prezzo-desc') list.sort((a, b) => b.priceN - a.priceN)
+    if (sort === 'durata') list.sort((a, b) => a.hours - b.hours)
     if (sort === 'recensioni') list.sort((a, b) => b.reviews - a.reviews)
     return list
-  }, [filtering, price, duration, sort])
+  }, [rows, filtering, price, duration, sort])
 
   const reset = () => {
     setPrice(null)
@@ -148,19 +188,22 @@ export default function ExperiencesPage() {
   }, [open])
 
   const activeChips: { label: string; clear: () => void }[] = [
-    price ? { label: PRICE.find((p) => p.key === price)!.label, clear: () => setPrice(null) } : null,
-    duration ? { label: DURATION.find((d) => d.key === duration)!.label, clear: () => setDuration(null) } : null,
-    sort !== 'consigliati' ? { label: SORT.find((s) => s.key === sort)!.label, clear: () => setSort('consigliati') } : null,
+    price ? { label: t(PRICE.find((p) => p.key === price)!.label), clear: () => setPrice(null) } : null,
+    duration ? { label: t(DURATION.find((d) => d.key === duration)!.label), clear: () => setDuration(null) } : null,
+    sort !== 'consigliati' ? { label: t(SORT.find((s) => s.key === sort)!.label), clear: () => setSort('consigliati') } : null,
   ].filter((x): x is { label: string; clear: () => void } => !!x)
 
   const sortLabel = SORT.find((s) => s.key === sort)!
+  // Le etichette delle scelte nella lingua della pagina.
+  const priceOptions = PRICE.map((o) => ({ ...o, label: t(o.label) }))
+  const durationOptions = DURATION.map((o) => ({ ...o, label: t(o.label) }))
 
   return (
     <Page>
       <PageHero
-        eyebrow="Cosa vuoi vivere?"
-        title="Esperienze a Napoli"
-        subtitle={`${CATEGORY_LIST.length} categorie, ${total} esperienze scelte da chi la città la vive ogni giorno.`}
+        eyebrow={t('Cosa vuoi vivere?')}
+        title={t('Esperienze a Napoli')}
+        subtitle={t('{c} categorie, {n} esperienze scelte da chi la città la vive ogni giorno.', { c: categories.length, n: total })}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/trekking.webp" amplitude={10} />
@@ -172,9 +215,9 @@ export default function ExperiencesPage() {
       <div className={`sticky top-[60px] border-b border-line bg-white/92 backdrop-blur-md md:top-[60px] ${open ? 'z-[60]' : 'z-40'}`}>
         <div className="container-x relative" ref={panelRef}>
           <div className="flex items-center gap-3 py-2.5">
-            <nav aria-label="Categorie" className="min-w-0 flex-1">
+            <nav aria-label={t('Categorie')} className="min-w-0 flex-1">
               <ul className="-mx-1 flex gap-2 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {CATEGORY_LIST.map((cat) => (
+                {categories.map((cat) => (
                   <li key={cat.slug} className="shrink-0">
                     <a
                       href={`#cat-${cat.slug}`}
@@ -194,11 +237,11 @@ export default function ExperiencesPage() {
 
             <div className="relative flex shrink-0 items-center gap-2 before:pointer-events-none before:absolute before:-left-6 before:top-0 before:h-full before:w-6 before:bg-gradient-to-r before:from-white/0 before:to-white before:content-[''] md:border-l md:border-line md:pl-3 md:before:hidden">
               <label className="chip hidden cursor-pointer gap-1.5 pr-2 md:inline-flex">
-                <span className="text-ink/55">Ordina</span>
-                <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="max-w-[170px] bg-transparent font-medium text-ink outline-none" aria-label="Ordina le esperienze">
+                <span className="text-ink/55">{t('Ordina')}</span>
+                <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="max-w-[170px] bg-transparent font-medium text-ink outline-none" aria-label={t('Ordina le esperienze')}>
                   {SORT.map((s) => (
                     <option key={s.key} value={s.key}>
-                      {s.label}
+                      {t(s.label)}
                     </option>
                   ))}
                 </select>
@@ -211,7 +254,7 @@ export default function ExperiencesPage() {
                 className={`chip ${activeCount ? 'chip-on' : ''}`}
               >
                 <SlidersHorizontal size={14} />
-                Filtri
+                {t('Filtri')}
                 {activeCount > 0 && (
                   <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-[11px] font-bold text-ink">{activeCount}</span>
                 )}
@@ -226,24 +269,24 @@ export default function ExperiencesPage() {
               <div
                 id="filtri"
                 role="dialog"
-                aria-label="Filtri"
+                aria-label={t('Filtri')}
                 className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-line bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-soft md:absolute md:inset-x-auto md:bottom-auto md:right-5 md:top-full md:mt-2 md:max-h-[75vh] md:w-[460px] md:rounded-3xl md:border md:p-6 sm:md:right-8"
               >
                 <div className="mb-5 flex items-center justify-between">
-                  <p className="font-semibold">Filtra le esperienze</p>
-                  <button type="button" onClick={() => setOpen(false)} aria-label="Chiudi i filtri" className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70 hover:text-ink">
+                  <p className="font-semibold">{t('Filtra le esperienze')}</p>
+                  <button type="button" onClick={() => setOpen(false)} aria-label={t('Chiudi i filtri')} className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/70 hover:text-ink">
                     <X size={16} />
                   </button>
                 </div>
                 <div className="grid gap-6">
-                  <Choice label="Prezzo a persona" options={PRICE} value={price} onChange={setPrice} />
-                  <Choice label="Durata" options={DURATION} value={duration} onChange={setDuration} />
+                  <Choice label={t('Prezzo a persona')} options={priceOptions} value={price} onChange={setPrice} />
+                  <Choice label={t('Durata')} options={durationOptions} value={duration} onChange={setDuration} />
                   <fieldset className="md:hidden">
-                    <legend className="label mb-3 text-ink/50">Ordina per</legend>
+                    <legend className="label mb-3 text-ink/50">{t('Ordina per')}</legend>
                     <div className="flex flex-wrap gap-2">
                       {SORT.map((s) => (
                         <button key={s.key} type="button" aria-pressed={sort === s.key} className={`chip ${sort === s.key ? 'chip-on' : ''}`} onClick={() => setSort(s.key)}>
-                          {s.short}
+                          {t(s.short)}
                         </button>
                       ))}
                     </div>
@@ -251,10 +294,10 @@ export default function ExperiencesPage() {
                 </div>
                 <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4">
                   <button type="button" onClick={reset} className="text-sm font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline" disabled={!filtering}>
-                    Azzera
+                    {t('Azzera')}
                   </button>
                   <Button size="sm" onClick={() => setOpen(false)}>
-                    {filtering ? `Mostra ${results.length} ${results.length === 1 ? 'esperienza' : 'esperienze'}` : 'Chiudi'}
+                    {filtering ? t(results.length === 1 ? 'Mostra {n} esperienza' : 'Mostra {n} esperienze', { n: results.length }) : t('Chiudi')}
                   </Button>
                 </div>
               </div>
@@ -269,30 +312,31 @@ export default function ExperiencesPage() {
             <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <h2 className="heading-lg">
-                  {results.length} {results.length === 1 ? 'esperienza' : 'esperienze'}
+                  {results.length} {t(results.length === 1 ? 'esperienza' : 'esperienze')}
                 </h2>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   {activeChips.map((c) => (
-                    <button key={c.label} type="button" onClick={c.clear} className="chip chip-on gap-1.5 pr-2.5" aria-label={`Togli il filtro ${c.label}`}>
+                    <button key={c.label} type="button" onClick={c.clear} className="chip chip-on gap-1.5 pr-2.5" aria-label={t('Togli il filtro {f}', { f: c.label })}>
                       {c.label}
                       <X size={13} />
                     </button>
                   ))}
                   <button type="button" onClick={reset} className="text-sm font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline">
-                    Togli tutto
+                    {t('Togli tutto')}
                   </button>
                 </div>
               </div>
               <p className="text-sm text-ink/50">
-                Ordinate per <span className="font-medium text-ink/75">{sortLabel.label.toLowerCase()}</span>
+                {t('Ordinate per') + ' '}
+                <span className="font-medium text-ink/75">{t(sortLabel.label).toLowerCase()}</span>
               </p>
             </div>
             {results.length === 0 ? (
               <EmptyState
-                title="Nessuna esperienza con questi filtri"
-                text="Prova a cambiare prezzo o durata, oppure guarda tutte le categorie."
+                title={t('Nessuna esperienza con questi filtri')}
+                text={t('Prova a cambiare prezzo o durata, oppure guarda tutte le categorie.')}
 
-                actions={<Button onClick={reset}>Togli i filtri</Button>}
+                actions={<Button onClick={reset}>{t('Togli i filtri')}</Button>}
               />
             ) : (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
@@ -303,15 +347,15 @@ export default function ExperiencesPage() {
             )}
           </section>
         ) : (
-          CATEGORY_LIST.map((cat) => <CategorySection key={cat.slug} cat={cat} />)
+          categories.map((cat) => <CategorySection key={cat.slug} cat={cat} />)
         )}
       </div>
 
       <NextStep
-        title="Non sai da dove iniziare?"
-        text="Guarda cosa succede a Napoli nei giorni in cui ci sei: eventi in città ed esperienze disponibili, giorno per giorno."
-        primary={{ to: '/cosa-fare', label: 'Cosa fare a Napoli' }}
-        secondary={{ to: '/contatti', label: 'Chiedi a noi' }}
+        title={t('Non sai da dove iniziare?')}
+        text={t('Guarda cosa succede a Napoli nei giorni in cui ci sei: eventi in città ed esperienze disponibili, giorno per giorno.')}
+        primary={{ to: lp('/cosa-fare'), label: t('Cosa fare a Napoli') }}
+        secondary={{ to: lp('/contatti'), label: t('Chiedi a noi') }}
       />
     </Page>
   )

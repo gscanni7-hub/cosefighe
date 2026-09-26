@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useLp } from '../../i18n/lang'
 
 interface PageHeroProps {
   tone?: 'paper' | 'white'
@@ -15,6 +16,7 @@ interface PageHeroProps {
 
 /** Apertura di pagina: titolo a sinistra, eventuale illustrazione a destra, fondo chiaro. */
 export function PageHero({ tone = 'paper', eyebrow, title, subtitle, actions, aside, back }: PageHeroProps) {
+  const lp = useLp()
   return (
     <section className={`${tone === 'paper' ? 'bg-sand' : 'bg-white'} pt-24 pb-10 md:pt-36 md:pb-16`}>
       <div
@@ -29,7 +31,7 @@ export function PageHero({ tone = 'paper', eyebrow, title, subtitle, actions, as
         >
           {back && (
             <Link
-              to={back.to}
+              to={lp(back.to)}
               viewTransition
               className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink/60 transition-colors hover:text-ink"
             >

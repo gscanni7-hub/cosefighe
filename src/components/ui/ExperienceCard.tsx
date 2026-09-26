@@ -7,6 +7,8 @@ import { Sticker } from './Sticker'
 import { useSaved } from '../../lib/saved'
 import { experiencePath } from '../../data/schede'
 import { CARD_SIZES, imgSrcSet } from '../../lib/img'
+import { useLang, useLp, useT } from '../../i18n/lang'
+import { localizeExperience } from '../../i18n/content'
 
 interface ExperienceCardProps {
   exp: Experience
@@ -22,21 +24,28 @@ const groupMax = (group: string) => {
   return nums ? nums[nums.length - 1] : null
 }
 
-export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: ExperienceCardProps) {
+export function ExperienceCard({ exp: source, category, index = 0, layout = 'column' }: ExperienceCardProps) {
+  const lang = useLang()
+  const t = useT()
+  const lp = useLp()
+  // I testi nella lingua della pagina; salvataggi, indirizzo e misure restano legati al titolo italiano.
+  const exp = localizeExperience(source, lang)
+  const locale = lang === 'en' ? 'en-GB' : 'it-IT'
   const row = layout === 'row'
   // In riga la foto occupa 2/5 della card da tablet in su.
   const sizes = row ? '(min-width: 768px) 400px, 100vw' : CARD_SIZES
   const max = groupMax(exp.group)
   const { has, toggle } = useSaved()
-  const saved = has(exp.title)
+  const saved = has(source.title)
   const bookable = !!exp.affiliateUrl && !!exp.provider && exp.provider !== 'cosefighe'
   const providerLabel = exp.provider === 'viator' ? 'Viator' : 'GetYourGuide'
-  const page = experiencePath(exp)
+  const path = experiencePath(source)
+  const page = path ? lp(path) : undefined
   const linkProps = {
     href: exp.affiliateUrl,
     target: '_blank',
     rel: 'sponsored noopener noreferrer',
-    onClick: () => track('prenota', { provider: exp.provider ?? '', title: exp.title }),
+    onClick: () => track('prenota', { provider: exp.provider ?? '', title: source.title }),
   }
 
   return (
@@ -51,7 +60,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
     >
       <div className={`relative overflow-hidden bg-cream ${row ? 'aspect-[4/3] md:aspect-auto md:w-2/5 md:shrink-0' : 'aspect-[4/3]'}`}>
         {page ? (
-          <Link to={page} viewTransition aria-label={`Scheda di "${exp.title}"`} className="block h-full w-full">
+          <Link to={page} viewTransition aria-label={t('Scheda di "{titolo}"', { titolo: exp.title })} className="block h-full w-full">
             <img
               src={exp.image}
               srcSet={imgSrcSet(exp.image)}
@@ -65,7 +74,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
             />
           </Link>
         ) : bookable ? (
-          <a {...linkProps} data-track={`prenota:${exp.title}`} aria-label={`Prenota "${exp.title}" su ${providerLabel}`} className="block h-full w-full">
+          <a {...linkProps} data-track={`prenota:${source.title}`} aria-label={t('Prenota "{titolo}" su {sito}', { titolo: exp.title, sito: providerLabel })} className="block h-full w-full">
             <img
               src={exp.image}
               srcSet={imgSrcSet(exp.image)}
@@ -98,9 +107,9 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
         </div>
         <button
           type="button"
-          onClick={() => toggle(exp.title)}
+          onClick={() => toggle(source.title)}
           aria-pressed={saved}
-          aria-label={saved ? `Togli "${exp.title}" dalle salvate` : `Salva "${exp.title}"`}
+          aria-label={saved ? t('Togli "{titolo}" dalle salvate', { titolo: exp.title }) : t('Salva "{titolo}"', { titolo: exp.title })}
           className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 backdrop-blur-sm transition-[transform,color] duration-200 ease-out-quart hover:scale-105 active:scale-95 ${
             saved ? 'text-orange' : 'text-ink'
           }`}
@@ -120,7 +129,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
               {exp.title}
             </Link>
           ) : bookable ? (
-            <a {...linkProps} data-track={`prenota:${exp.title}`} className="transition-colors hover:text-orange">
+            <a {...linkProps} data-track={`prenota:${source.title}`} className="transition-colors hover:text-orange">
               {exp.title}
             </a>
           ) : (
@@ -129,7 +138,7 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
         </h3>
         <p className="mt-2 text-sm text-ink/60">
           {exp.location}
-          {max ? ` · fino a ${max} persone` : ''}
+          {max ? ` · ${t('fino a {n} persone', { n: max })}` : ''}
         </p>
         <p className={`mt-1.5 flex items-start gap-1.5 text-sm text-ink/60 ${row ? 'md:hidden' : ''}`}>
           <CircleCheckBig size={14} className="mt-0.5 shrink-0 text-success" />
@@ -140,28 +149,28 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           <div className="text-sm">
             <span className="flex items-center gap-1 font-semibold">
               <Star size={14} className="text-orange" fill="currentColor" />
-              {exp.rating.toLocaleString('it-IT')}
-              <span className="font-normal text-ink/45">({exp.reviews.toLocaleString('it-IT')})</span>
+              {exp.rating.toLocaleString(locale)}
+              <span className="font-normal text-ink/45">({exp.reviews.toLocaleString(locale)})</span>
             </span>
             {bookable ? (
               <a
                 {...linkProps}
-                data-track={`prenota:${exp.title}`}
-                aria-label={`Prenota "${exp.title}" su ${providerLabel}`}
+                data-track={`prenota:${source.title}`}
+                aria-label={t('Prenota "{titolo}" su {sito}', { titolo: exp.title, sito: providerLabel })}
                 className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-ink underline decoration-ink/25 underline-offset-[4px] transition-colors hover:text-orange hover:decoration-orange"
               >
-                Prenota <ArrowUpRight size={12} />
+                {t('Prenota')} <ArrowUpRight size={12} />
               </a>
             ) : (
               <span className="mt-1 flex items-center gap-1 text-xs text-ink/45">
-                <Clock size={11} /> Prenotazioni in arrivo
+                <Clock size={11} /> {t('Prenotazioni in arrivo')}
               </span>
             )}
           </div>
           <div className="text-right leading-none">
-            <span className="text-[11px] font-medium text-ink/45">da</span>
+            <span className="text-[11px] font-medium text-ink/45">{t('da')}</span>
             <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
-            <span className="block text-[11px] text-ink/45">a persona</span>
+            <span className="block text-[11px] text-ink/45">{t('a persona')}</span>
           </div>
         </div>
       </div>

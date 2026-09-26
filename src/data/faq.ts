@@ -3,6 +3,9 @@
  * Testi nostri. Le stesse risposte finiscono nei dati strutturati (FAQPage),
  * quindi devono restare identiche a quelle mostrate in pagina.
  */
+import { testiIn } from '../i18n/content'
+import type { Lang } from '../i18n/lang'
+
 export interface Faq {
   q: string
   a: string
@@ -46,3 +49,19 @@ export const COSA_FARE_FAQ: Faq[] = [
     a: 'Li segnala la redazione, uno per uno: feste di quartiere, concerti, mostre, mercati, aperture straordinarie. Prendiamo solo quello per cui vale la pena spostarsi e controlliamo data, orario, luogo e prezzo alla fonte. Il programma si aggiorna ogni mattina.',
   },
 ]
+
+/**
+ * Le domande nella lingua della pagina. In inglese vengono da src/data/en/testi.json (chiave COSA_FARE_FAQ,
+ * stessa forma e stesso ordine): gli indirizzi dei link restano quelli italiani (li traduce lp()).
+ * Senza traduzione, in inglese restituisce null (la sezione non si mostra).
+ */
+export function cosaFareFaq(lang: Lang): Faq[] | null {
+  if (lang === 'it') return COSA_FARE_FAQ
+  const en = testiIn<Partial<Faq>[] | null>('COSA_FARE_FAQ', null, lang)
+  if (!Array.isArray(en) || en.length === 0) return null
+  return en.flatMap((f, i): Faq[] => {
+    const it = COSA_FARE_FAQ[i]
+    const link = it?.link && f.link?.label ? { label: f.link.label, to: it.link.to } : undefined
+    return f.q && f.a ? [link ? { q: f.q, a: f.a, link } : { q: f.q, a: f.a }] : []
+  })
+}

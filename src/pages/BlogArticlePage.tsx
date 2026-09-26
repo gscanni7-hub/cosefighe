@@ -8,11 +8,14 @@ import { Sticker } from '../components/ui/Sticker'
 import { ArticleCard } from '../components/ui/ArticleCard'
 import { getArticleBySlug, getRelatedArticles } from '../data/articles'
 import { articleBody } from '../data/articleBodies'
+import { articleBodyEn } from '../data/articleBodiesEn'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { Article, ArticleSection } from '../types'
 import { CATEGORIES } from '../data/categories'
+import { itSlug, useLang, useLp, useT, type Lang } from '../i18n/lang'
+import { hasArticleEn, localizeArticle } from '../i18n/content'
 
-function useArticleJsonLd(article: Article) {
+function useArticleJsonLd(article: Article, lang: Lang) {
   useEffect(() => {
     const data = {
       '@context': 'https://schema.org',
@@ -27,7 +30,7 @@ function useArticleJsonLd(article: Article) {
       mainEntityOfPage: { '@type': 'WebPage', '@id': window.location.href },
       keywords: article.tags.join(', '),
       articleSection: article.category,
-      inLanguage: 'it-IT',
+      inLanguage: lang === 'en' ? 'en-GB' : 'it-IT',
     }
     const script = document.createElement('script')
     script.type = 'application/ld+json'
@@ -35,12 +38,12 @@ function useArticleJsonLd(article: Article) {
     script.textContent = JSON.stringify(data)
     document.head.appendChild(script)
     return () => script.remove()
-  }, [article])
+  }, [article, lang])
 }
 
 
-/** Testo con link in formato [testo](/percorso): interni con Link, esterni in nuova scheda. */
-function rich(text: string): ReactNode[] {
+/** Testo con link in formato [testo](/percorso): interni con Link (portati nella lingua della pagina), esterni in nuova scheda. */
+function rich(text: string, lp: (path: string) => string): ReactNode[] {
   const out: ReactNode[] = []
   const re = /\[([^\]]+)\]\((\/[^\s)]*|https?:\/\/[^\s)]+)\)/g
   let last = 0
@@ -50,7 +53,7 @@ function rich(text: string): ReactNode[] {
     const [, label, href] = m
     out.push(
       href.startsWith('/') ? (
-        <Link key={m.index} to={href} viewTransition className="font-medium text-ink underline decoration-orange/60 underline-offset-4 hover:decoration-orange">
+        <Link key={m.index} to={lp(href)} viewTransition className="font-medium text-ink underline decoration-orange/60 underline-offset-4 hover:decoration-orange">
           {label}
         </Link>
       ) : (
@@ -66,6 +69,8 @@ function rich(text: string): ReactNode[] {
 }
 
 function ArticleBody({ sections }: { sections: ArticleSection[] }) {
+  const t = useT()
+  const lp = useLp()
   return (
     <div className="text-ink">
       {sections.map((s, i) => {
@@ -73,7 +78,7 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
           case 'paragraph':
             return (
               <p key={i} className="mb-6 text-lg leading-relaxed text-ink/75">
-                {rich(s.content)}
+                {rich(s.content, lp)}
               </p>
             )
           case 'heading':
@@ -96,7 +101,7 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
                   {s.items?.map((item, j) => (
                     <li key={j} className="flex items-start gap-3 text-ink/75">
                       <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
-                      <span className="leading-relaxed">{rich(item)}</span>
+                      <span className="leading-relaxed">{rich(item, lp)}</span>
                     </li>
                   ))}
                 </ul>
@@ -105,8 +110,8 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
           case 'tip':
             return (
               <aside key={i} className="my-8 rounded-3xl bg-paper px-6 py-5">
-                <p className="label mb-2 text-orange">Consiglio da local</p>
-                <p className="leading-relaxed text-ink/80">{rich(s.content)}</p>
+                <p className="label mb-2 text-orange">{t('Consiglio da local')}</p>
+                <p className="leading-relaxed text-ink/80">{rich(s.content, lp)}</p>
               </aside>
             )
           case 'quote':
@@ -124,12 +129,18 @@ function ArticleBody({ sections }: { sections: ArticleSection[] }) {
 }
 
 function ArticleView({ article }: { article: Article }) {
+  const lang = useLang()
+  const t = useT()
+  const lp = useLp()
   usePageMeta({ title: `${article.title} · Cose Fighe Blog`, description: article.excerpt, image: article.coverImage })
-  useArticleJsonLd(article)
-  const related = getRelatedArticles(article)
+  useArticleJsonLd(article, lang)
+  const related =
+    lang === 'en'
+      ? getRelatedArticles(article, Infinity).filter(hasArticleEn).slice(0, 3).map((a) => localizeArticle(a, 'en'))
+      : getRelatedArticles(article)
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 })
-  const date = new Date(article.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
+  const date = new Date(article.date).toLocaleDateString(lang === 'en' ? 'en-GB' : 'it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
   const headings = article.body.map((s, i) => ({ ...s, i })).filter((s) => s.type === 'heading')
 
   return (
@@ -143,11 +154,11 @@ function ArticleView({ article }: { article: Article }) {
       <header className="bg-paper pt-28 md:pt-32">
         <div className="container-x pb-10">
           <Link
-            to="/blog"
+            to={lp('/blog')}
             viewTransition
             className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/60 transition-colors hover:text-ink"
           >
-            <ArrowLeft size={14} /> Tutti gli articoli
+            <ArrowLeft size={14} />{' ' + t('Tutti gli articoli')}
           </Link>
           <div className="mt-6">
             <Sticker tone="orange">{article.category}</Sticker>
@@ -171,14 +182,14 @@ function ArticleView({ article }: { article: Article }) {
               />
               <span>
                 <span className="font-semibold">{article.author}</span>
-                <span className="ml-2 text-xs text-ink/50">{article.authorRole}</span>
+                <span className="ml-2 text-xs text-ink/50">{t(article.authorRole)}</span>
               </span>
             </span>
             <span className="flex items-center gap-1.5 text-ink/55">
               <Calendar size={13} /> {date}
             </span>
             <span className="flex items-center gap-1.5 text-ink/55">
-              <Clock size={13} /> {article.readingTime} min di lettura
+              <Clock size={13} /> {article.readingTime}{t(' min di lettura')}
             </span>
           </div>
         </div>
@@ -200,7 +211,7 @@ function ArticleView({ article }: { article: Article }) {
           <p className="mb-10 text-xl leading-relaxed text-ink/70">{article.excerpt}</p>
           <ArticleBody sections={article.body} />
 
-          <ul className="mt-12 flex flex-wrap gap-2 border-t border-line pt-8" aria-label="Tag">
+          <ul className="mt-12 flex flex-wrap gap-2 border-t border-line pt-8" aria-label={t('Tag')}>
             {article.tags.map((tag) => (
               <li key={tag} className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-ink/70">
                 <Tag size={10} /> {tag}
@@ -217,23 +228,23 @@ function ArticleView({ article }: { article: Article }) {
               className="h-16 w-16 shrink-0 rounded-full bg-white object-contain p-1"
             />
             <div>
-              <p className="label text-orange">Chi ha scritto questo articolo</p>
+              <p className="label text-orange">{t('Chi ha scritto questo articolo')}</p>
               <p className="mt-1 text-[17px] font-semibold">{article.author}</p>
-              <p className="text-sm text-ink/55">{article.authorRole} @ Cose Fighe</p>
+              <p className="text-sm text-ink/55">{t(article.authorRole)} @ Cose Fighe</p>
             </div>
           </div>
 
           <div className="mt-10">
-            <ButtonLink to="/blog" variant="secondary" size="sm">
-              <ArrowLeft size={13} /> Torna al blog
+            <ButtonLink to={lp('/blog')} variant="secondary" size="sm">
+              <ArrowLeft size={13} />{' ' + t('Torna al blog')}
             </ButtonLink>
           </div>
         </article>
 
         <aside className="mt-12 space-y-6 md:sticky md:top-28 md:mt-0">
           {headings.length > 0 && (
-            <nav aria-label="In questo articolo" className="hidden rounded-3xl border border-line bg-white p-6 md:block">
-              <p className="label mb-4 text-ink/50">In questo articolo</p>
+            <nav aria-label={t('In questo articolo')} className="hidden rounded-3xl border border-line bg-white p-6 md:block">
+              <p className="label mb-4 text-ink/50">{t('In questo articolo')}</p>
               <ol className="space-y-1">
                 {headings.map((h) => (
                   <li key={h.i}>
@@ -249,15 +260,15 @@ function ArticleView({ article }: { article: Article }) {
             </nav>
           )}
           <div className="rounded-3xl bg-cream p-6">
-            <p className="text-[17px] font-semibold">Prova dal vivo</p>
-            <p className="mt-2 text-sm text-ink/65">Leggere è bello, vivere è meglio. Guarda le esperienze legate a questo tema.</p>
+            <p className="text-[17px] font-semibold">{t('Prova dal vivo')}</p>
+            <p className="mt-2 text-sm text-ink/65">{t('Leggere è bello, vivere è meglio. Guarda le esperienze legate a questo tema.')}</p>
             {CATEGORIES[article.categorySlug] ? (
-              <ButtonLink to={`/categoria/${article.categorySlug}`} size="sm" className="mt-5">
-                Esperienze {article.category} <ArrowRight size={13} />
+              <ButtonLink to={lp(`/categoria/${article.categorySlug}`)} size="sm" className="mt-5">
+                {lang === 'en' ? t('Esperienze {categoria}', { categoria: article.category }) : <>Esperienze {article.category}</>} <ArrowRight size={13} />
               </ButtonLink>
             ) : (
-              <ButtonLink to="/cosa-fare" size="sm" className="mt-5">
-                Cosa fare a Napoli <ArrowRight size={13} />
+              <ButtonLink to={lp('/cosa-fare')} size="sm" className="mt-5">
+                {t('Cosa fare a Napoli') + ' '}<ArrowRight size={13} />
               </ButtonLink>
             )}
           </div>
@@ -268,9 +279,9 @@ function ArticleView({ article }: { article: Article }) {
         <section className="border-t border-line bg-paper py-20">
           <div className="container-x">
             <div className="mb-10 flex items-end justify-between gap-6">
-              <h2 className="heading-lg">Leggi anche</h2>
-              <ButtonLink to="/blog" variant="link" className="hidden md:inline-flex">
-                Tutti gli articoli <ArrowRight size={13} />
+              <h2 className="heading-lg">{t('Leggi anche')}</h2>
+              <ButtonLink to={lp('/blog')} variant="link" className="hidden md:inline-flex">
+                {t('Tutti gli articoli') + ' '}<ArrowRight size={13} />
               </ButtonLink>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
@@ -288,8 +299,17 @@ function ArticleView({ article }: { article: Article }) {
 
 export default function BlogArticlePage() {
   const { slug } = useParams()
-  const meta = getArticleBySlug(slug ?? '')
-  const article = meta ? { ...meta, body: articleBody(meta.slug) } : undefined
-  if (!article) return <Navigate to="/blog" replace />
+  const lang = useLang()
+  const lp = useLp()
+  // Le pagine cercano sempre per slug italiano (in /en/blog/... lo slug nell'indirizzo è quello inglese).
+  const meta = getArticleBySlug(itSlug('blog', slug ?? ''))
+  if (!meta) return <Navigate to={lp('/blog')} replace />
+  if (lang === 'en') {
+    const bodyEn = articleBodyEn(meta.slug)
+    // Senza traduzione completa (titolo e testo) si va all'articolo italiano: mai testo italiano in una pagina inglese.
+    if (!hasArticleEn(meta) || !bodyEn) return <Navigate to={`/blog/${meta.slug}`} replace />
+    return <ArticleView key={meta.slug} article={{ ...localizeArticle(meta, 'en'), body: bodyEn }} />
+  }
+  const article = { ...meta, body: articleBody(meta.slug) }
   return <ArticleView key={article.slug} article={article} />
 }

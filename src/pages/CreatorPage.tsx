@@ -8,7 +8,9 @@ import { Reveal } from '../components/ui/Reveal'
 import { createLead } from '../lib/db'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useLang, useT } from '../i18n/lang'
 
+/** Specialità: nel messaggio salvato resta il testo italiano, in inglese cambia solo l'etichetta. */
 const specialties = [
   'Food & Street Food',
   'Natura & Trekking',
@@ -33,6 +35,8 @@ const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
 function CreatorForm() {
+  const t = useT()
+  const lang = useLang()
   const [status, setStatus] = useState<Status>('idle')
   const [specialty, setSpecialty] = useState('')
   const [fields, setFields] = useState({ name: '', surname: '', email: '', social: '', about: '' })
@@ -45,14 +49,15 @@ function CreatorForm() {
 
   const validate = () => {
     const e: Partial<typeof fields> = {}
-    if (!fields.name.trim()) e.name = 'Inserisci il tuo nome'
-    if (!fields.surname.trim()) e.surname = 'Inserisci il tuo cognome'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(fields.email.trim())) e.email = 'Controlla l’indirizzo email'
-    if (fields.about.trim().length < 20) e.about = 'Raccontaci qualcosa in più (almeno 20 caratteri)'
+    if (!fields.name.trim()) e.name = t('Inserisci il tuo nome')
+    if (!fields.surname.trim()) e.surname = t('Inserisci il tuo cognome')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(fields.email.trim())) e.email = t('Controlla l’indirizzo email')
+    if (fields.about.trim().length < 20) e.about = t('Raccontaci qualcosa in più (almeno 20 caratteri)')
     setErrors(e)
     return Object.keys(e).length === 0
   }
 
+  // Il messaggio salvato nel database resta in italiano (lo legge il team).
   const message = () =>
     [
       `Specialità: ${specialty || 'non indicata'}`,
@@ -61,13 +66,24 @@ function CreatorForm() {
       fields.about,
     ].join('\n')
 
+  // L'email che si apre nell'app di posta del visitatore invece è nella sua lingua.
+  const mailMessage = () =>
+    lang === 'en'
+      ? [
+          `Speciality: ${specialty ? t(specialty) : 'not given'}`,
+          `Instagram / social: ${fields.social || 'not given'}`,
+          '',
+          fields.about,
+        ].join('\n')
+      : message()
+
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     if (!validate()) return
     const name = `${fields.name.trim()} ${fields.surname.trim()}`
     if (!isSupabaseConfigured) {
-      const subject = encodeURIComponent(`Candidatura creator: ${name}`)
-      const body = encodeURIComponent(`${message()}\n\nEmail: ${fields.email.trim()}`)
+      const subject = encodeURIComponent(t('Candidatura creator: {nome}', { nome: name }))
+      const body = encodeURIComponent(`${mailMessage()}\n\nEmail: ${fields.email.trim()}`)
       window.location.href = `mailto:ciao@cosefighe.it?subject=${subject}&body=${body}`
       setStatus('done')
       return
@@ -93,15 +109,15 @@ function CreatorForm() {
           <Check size={28} />
         </span>
         <h3 className="mt-6 heading-md">
-          {isSupabaseConfigured ? 'Candidatura inviata' : 'Quasi fatto'}
+          {isSupabaseConfigured ? t('Candidatura inviata') : t('Quasi fatto')}
         </h3>
         <p className="mx-auto mt-3 max-w-sm text-ink/65">
           {isSupabaseConfigured
-            ? 'Ti ricontattiamo entro 48 ore. Tieniti pronto a raccontarci la tua Napoli.'
-            : 'Si apre la tua app di posta con la candidatura già scritta: inviala e ti rispondiamo entro 48 ore.'}
+            ? t('Ti ricontattiamo entro 48 ore. Tieniti pronto a raccontarci la tua Napoli.')
+            : t('Si apre la tua app di posta con la candidatura già scritta: inviala e ti rispondiamo entro 48 ore.')}
         </p>
         <Button variant="secondary" className="mt-8" onClick={() => setStatus('idle')}>
-          Invia un’altra candidatura
+          {t('Invia un’altra candidatura')}
         </Button>
       </div>
     )
@@ -114,22 +130,22 @@ function CreatorForm() {
       className="overflow-hidden rounded-3xl border border-line bg-white"
     >
       <div className="border-b border-line bg-paper px-6 py-6 md:px-8">
-        <p className="label text-orange">Candidatura creator</p>
-        <h3 className="mt-2 heading-md">Raccontaci la tua Napoli</h3>
+        <p className="label text-orange">{t('Candidatura creator')}</p>
+        <h3 className="mt-2 heading-md">{t('Raccontaci la tua Napoli')}</h3>
       </div>
 
       <div className="space-y-6 p-6 md:p-8">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="cr-name" className={labelClass}>
-              Nome
+              {t('Nome')}
             </label>
             <input
               id="cr-name"
               autoComplete="given-name"
               value={fields.name}
               onChange={(e) => set('name', e.target.value)}
-              placeholder="Il tuo nome"
+              placeholder={t('Il tuo nome')}
               aria-invalid={!!errors.name}
               className={inputClass}
             />
@@ -137,14 +153,14 @@ function CreatorForm() {
           </div>
           <div>
             <label htmlFor="cr-surname" className={labelClass}>
-              Cognome
+              {t('Cognome')}
             </label>
             <input
               id="cr-surname"
               autoComplete="family-name"
               value={fields.surname}
               onChange={(e) => set('surname', e.target.value)}
-              placeholder="Il tuo cognome"
+              placeholder={t('Il tuo cognome')}
               aria-invalid={!!errors.surname}
               className={inputClass}
             />
@@ -155,7 +171,7 @@ function CreatorForm() {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="cr-email" className={labelClass}>
-              Email
+              {t('Email')}
             </label>
             <input
               id="cr-email"
@@ -164,7 +180,7 @@ function CreatorForm() {
               autoComplete="email"
               value={fields.email}
               onChange={(e) => set('email', e.target.value)}
-              placeholder="la-tua@email.it"
+              placeholder={t('la-tua@email.it')}
               aria-invalid={!!errors.email}
               className={inputClass}
             />
@@ -173,20 +189,20 @@ function CreatorForm() {
           <div>
             <label htmlFor="cr-social" className={labelClass}>
               <Instagram size={12} className="mr-1 inline" />
-              Instagram o social
+              {t('Instagram o social')}
             </label>
             <input
               id="cr-social"
               value={fields.social}
               onChange={(e) => set('social', e.target.value)}
-              placeholder="@tuohandle"
+              placeholder={t('@tuohandle')}
               className={inputClass}
             />
           </div>
         </div>
 
         <fieldset>
-          <legend className={labelClass}>La tua specialità</legend>
+          <legend className={labelClass}>{t('La tua specialità')}</legend>
           <div className="flex flex-wrap gap-2">
             {specialties.map((s) => (
               <button
@@ -196,7 +212,7 @@ function CreatorForm() {
                 aria-pressed={specialty === s}
                 className={`chip ${specialty === s ? 'chip-on' : ''}`}
               >
-                {s}
+                {t(s)}
               </button>
             ))}
           </div>
@@ -204,14 +220,14 @@ function CreatorForm() {
 
         <div>
           <label htmlFor="cr-about" className={labelClass}>
-            Raccontaci di te e della tua Napoli
+            {t('Raccontaci di te e della tua Napoli')}
           </label>
           <textarea
             id="cr-about"
             rows={4}
             value={fields.about}
             onChange={(e) => set('about', e.target.value)}
-            placeholder="Cosa ami di Napoli? Cosa vorresti far vivere alle persone? Hai già esperienze da proporre?"
+            placeholder={t('Cosa ami di Napoli? Cosa vorresti far vivere alle persone? Hai già esperienze da proporre?')}
             aria-invalid={!!errors.about}
             className={`${inputClass} resize-none`}
           />
@@ -220,7 +236,7 @@ function CreatorForm() {
 
         {status === 'error' && (
           <p role="alert" className="rounded-2xl bg-error/5 px-4 py-3 text-sm text-error">
-            Non siamo riusciti a inviare la candidatura. Riprova tra poco oppure scrivici a{' '}
+            {t('Non siamo riusciti a inviare la candidatura. Riprova tra poco oppure scrivici a')}{' '}
             <a href="mailto:ciao@cosefighe.it" className="underline">
               ciao@cosefighe.it
             </a>
@@ -229,7 +245,7 @@ function CreatorForm() {
         )}
 
         <Button type="submit" size="lg" className="w-full" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Invio in corso...' : 'Invia la candidatura'} <Send size={16} />
+          {status === 'sending' ? t('Invio in corso...') : t('Invia la candidatura')} <Send size={16} />
         </Button>
       </div>
     </form>
@@ -237,18 +253,20 @@ function CreatorForm() {
 }
 
 export default function CreatorPage() {
+  const t = useT()
   usePageMeta({
-    title: 'Diventa creator · Cose Fighe',
-    description:
+    title: t('Diventa creator · Cose Fighe'),
+    description: t(
       'Conosci Napoli meglio di una guida? Proponi la tua esperienza su Cose Fighe: decidi tu prezzo e date, guadagni a ogni prenotazione.',
+    ),
   })
 
   return (
     <Page>
       <PageHero
-        eyebrow="Le persone dietro le esperienze"
-        title="Diventa creator"
-        subtitle="Se hai una passione e vuoi condividerla con chi visita Napoli, vogliamo conoscerti. Niente burocrazia, solo autenticità."
+        eyebrow={t('Le persone dietro le esperienze')}
+        title={t('Diventa creator')}
+        subtitle={t('Se hai una passione e vuoi condividerla con chi visita Napoli, vogliamo conoscerti. Niente burocrazia, solo autenticità.')}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/mascotte-creator.webp" amplitude={10} />
@@ -260,9 +278,9 @@ export default function CreatorPage() {
       <section className="section-y">
         <div className="container-x grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <Reveal className="md:sticky md:top-32 md:self-start">
-            <h2 className="heading-lg">Sei un creator?</h2>
+            <h2 className="heading-lg">{t('Sei un creator?')}</h2>
             <p className="mt-4 max-w-md text-ink/60">
-              Guide, cuochi, artigiani, artisti, sportivi. Chiunque abbia qualcosa di vero da far vivere.
+              {t('Guide, cuochi, artigiani, artisti, sportivi. Chiunque abbia qualcosa di vero da far vivere.')}
             </p>
             <ul className="mt-8 space-y-4">
               {perks.map((p) => (
@@ -270,14 +288,14 @@ export default function CreatorPage() {
                   <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange text-white">
                     <Check size={13} />
                   </span>
-                  {p}
+                  {t(p)}
                 </li>
               ))}
             </ul>
             <p className="mt-8 text-sm text-ink/55">
-              Domande prima di candidarti?{' '}
+              {t('Domande prima di candidarti?')}{' '}
               <ButtonAnchor href="mailto:ciao@cosefighe.it" variant="link" className="ml-1">
-                Scrivici <ArrowRight size={14} />
+                {t('Scrivici') + ' '}<ArrowRight size={14} />
               </ButtonAnchor>
             </p>
           </Reveal>

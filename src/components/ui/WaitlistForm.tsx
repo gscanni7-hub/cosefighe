@@ -3,6 +3,7 @@ import { ArrowRight, Check } from 'lucide-react'
 import { Button } from './Button'
 import { createLead } from '../../lib/db'
 import { isSupabaseConfigured } from '../../lib/supabase'
+import { useT } from '../../i18n/lang'
 
 interface WaitlistFormProps {
   source?: string
@@ -20,6 +21,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const dark = tone === 'dark'
+  const t = useT()
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
@@ -29,8 +31,8 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
       return
     }
     if (!isSupabaseConfigured) {
-      const subject = encodeURIComponent("Lista d'attesa Cose Fighe")
-      const body = encodeURIComponent(`Avvisatemi quando aprono le prenotazioni.\nEmail: ${value}`)
+      const subject = encodeURIComponent(t("Lista d'attesa Cose Fighe"))
+      const body = encodeURIComponent(`${t('Avvisatemi quando aprono le prenotazioni.')}\nEmail: ${value}`)
       window.location.href = `mailto:ciao@cosefighe.it?subject=${subject}&body=${body}`
       setStatus('done')
       return
@@ -50,8 +52,8 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           <Check size={16} />
         </span>
         {isSupabaseConfigured
-          ? 'Sei in lista. Ti scriviamo appena aprono le prenotazioni.'
-          : 'Si apre la tua app di posta con il messaggio pronto: inviala e sei in lista.'}
+          ? t('Sei in lista. Ti scriviamo appena aprono le prenotazioni.')
+          : t('Si apre la tua app di posta con il messaggio pronto: inviala e sei in lista.')}
       </div>
     )
   }
@@ -60,7 +62,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
   return (
     <form onSubmit={submit} noValidate className={className}>
       <label htmlFor={id} className="sr-only">
-        La tua email
+        {t('La tua email')}
       </label>
       <div className="flex flex-col gap-3 sm:flex-row">
         <input
@@ -73,7 +75,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
             setEmail(e.target.value)
             if (invalid) setStatus('idle')
           }}
-          placeholder="la-tua@email.it"
+          placeholder={t('la-tua@email.it')}
           aria-invalid={invalid}
           aria-describedby={invalid || status === 'error' ? `${id}-msg` : undefined}
           className={`min-h-[48px] flex-1 rounded-full border bg-white px-5 text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none ${
@@ -81,17 +83,17 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           }`}
         />
         <Button type="submit" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Un attimo...' : 'Avvisami'} <ArrowRight size={16} />
+          {status === 'sending' ? t('Un attimo...') : t('Avvisami')} <ArrowRight size={16} />
         </Button>
       </div>
       {invalid && (
         <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-error'}`}>
-          Controlla l'indirizzo email: sembra incompleto.
+          {t("Controlla l'indirizzo email: sembra incompleto.")}
         </p>
       )}
       {status === 'error' && (
         <p id={`${id}-msg`} className={`mt-2 text-sm ${dark ? 'text-white/80' : 'text-error'}`}>
-          Non siamo riusciti a salvare l'iscrizione. Scrivici a{' '}
+          {t("Non siamo riusciti a salvare l'iscrizione. Scrivici a")}{' '}
           <a href="mailto:ciao@cosefighe.it" className="underline">
             ciao@cosefighe.it
           </a>

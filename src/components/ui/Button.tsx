@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, type LinkProps } from 'react-router'
+import { useLp } from '../../i18n/lang'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'dark' | 'ghost-light' | 'link'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -49,9 +50,11 @@ export function Button({
   )
 }
 
-export function ButtonLink({ variant = 'primary', size = 'md', className = '', children, ...rest }: CommonProps & LinkProps) {
+/** Link a forma di bottone. Un indirizzo interno scritto in italiano resta nella lingua della pagina. */
+export function ButtonLink({ variant = 'primary', size = 'md', className = '', children, to, ...rest }: CommonProps & LinkProps) {
+  const lp = useLp()
   return (
-    <Link viewTransition className={buttonClass(variant, size, className)} {...rest}>
+    <Link viewTransition className={buttonClass(variant, size, className)} to={typeof to === 'string' ? lp(to) : to} {...rest}>
       {children}
     </Link>
   )

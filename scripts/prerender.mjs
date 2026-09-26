@@ -18,19 +18,38 @@ const template = await readFile(join(dist, 'index.html'), 'utf8')
 // È raggiungibile anche come /app: noindex, altrimenti Google la vede come un doppione della home.
 await writeFile(join(dist, 'app.html'), template.replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>'))
 
+// Pagine legali: pre-generate ma fuori da sitemap e IndexNow.
+const NO_SITEMAP = new Set(['/privacy', '/cookie', '/en/privacy', '/en/cookies'])
+const isEn = (p) => p === '/en' || p.startsWith('/en/')
+const full = (p) => SITE_URL + (p === '/' ? '/' : p)
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 const abs = (p) => (p.startsWith('http') ? p : SITE_URL + p)
 
+/** Le gemelle nelle due lingue (solo se esistono entrambe): it, en e x-default (= italiano). */
+const hreflangs = (seo) =>
+  seo.alternates?.it && seo.alternates?.en
+    ? [
+        ['it', seo.alternates.it],
+        ['en', seo.alternates.en],
+        ['x-default', seo.alternates.it],
+      ]
+    : []
+
 function head(path, seo) {
-  const url = SITE_URL + (path === '/' ? '/' : path)
+  const url = full(path)
+  const en = isEn(path)
+  const alts = hreflangs(seo)
   const tags = [
     `<title>${esc(seo.title)}</title>`,
     `<meta name="description" content="${esc(seo.description)}" />`,
     `<link rel="canonical" href="${url}" />`,
+    ...alts.map(([lang, p]) => `<link rel="alternate" hreflang="${lang}" href="${full(p)}" />`),
     `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />`,
-    `<meta property="og:type" content="${path.startsWith('/blog/') ? 'article' : 'website'}" />`,
+    `<meta property="og:type" content="${path.startsWith('/blog/') || path.startsWith('/en/blog/') ? 'article' : 'website'}" />`,
     `<meta property="og:site_name" content="Cose Fighe" />`,
-    `<meta property="og:locale" content="it_IT" />`,
+    `<meta property="og:locale" content="${en ? 'en_GB' : 'it_IT'}" />`,
+    ...(alts.length ? [`<meta property="og:locale:alternate" content="${en ? 'it_IT' : 'en_GB'}" />`] : []),
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:title" content="${esc(seo.title)}" />`,
     `<meta property="og:description" content="${esc(seo.description)}" />`,
@@ -65,9 +84,10 @@ for (const path of paths) {
     hints.push(m)
     return ''
   })
-  const html = stripHead(template)
+  let html = stripHead(template)
     .replace('</head>', `    ${head(path, seo)}\n    ${hints.join('')}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
+  if (isEn(path)) html = html.replace(/<html lang="[^"]*"/, '<html lang="en"')
   // "/" -> index.html; "/blog/x" -> blog/x.html (Vercel li serve come /blog/x grazie a cleanUrls).
   const file = path === '/' ? join(dist, 'index.html') : join(dist, `${path.slice(1)}.html`)
   await mkdir(join(file, '..'), { recursive: true })
@@ -90,27 +110,30 @@ for (const path of paths) {
   await writeFile(join(dist, '404.html'), html)
 }
 
+const sitemapPaths = paths.filter((p) => !NO_SITEMAP.has(p))
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${paths
-  .filter((p) => !['/privacy', '/cookie'].includes(p))
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${sitemapPaths
   .map((p) => {
     const seo = routeSeo(p)
-    const daily = p === '/' || p.startsWith('/cosa-fare')
-    return `  <url><loc>${SITE_URL}${p === '/' ? '/' : p}</loc><lastmod>${seo.updated ?? today}</lastmod><changefreq>${daily ? 'daily' : 'weekly'}</changefreq><priority>${p === '/' || p === '/cosa-fare' ? '1.0' : p.startsWith('/blog/') ? '0.6' : p.startsWith('/esperienze/') ? '0.7' : '0.8'}</priority></url>`
+    // Frequenza e priorità si decidono sull'indirizzo italiano: la gemella inglese vale uguale.
+    const it = seo.alternates?.it ?? p
+    const daily = it === '/' || it.startsWith('/cosa-fare')
+    const links = hreflangs(seo).map(([lang, a]) => `<xhtml:link rel="alternate" hreflang="${lang}" href="${full(a)}"/>`).join('')
+    return `  <url><loc>${full(p)}</loc>${links}<lastmod>${seo.updated ?? today}</lastmod><changefreq>${daily ? 'daily' : 'weekly'}</changefreq><priority>${it === '/' || it === '/cosa-fare' ? '1.0' : it.startsWith('/blog/') ? '0.6' : it.startsWith('/esperienze/') ? '0.7' : '0.8'}</priority></url>`
   })
   .join('\n')}
 </urlset>
 `
 await writeFile(join(dist, 'sitemap.xml'), sitemap)
-console.log(`Pre-generate ${ok} pagine, sitemap con ${paths.length - 2} indirizzi.`)
+console.log(`Pre-generate ${ok} pagine (${paths.filter(isEn).length} in inglese), sitemap con ${sitemapPaths.length} indirizzi.`)
 
 // IndexNow: avvisa Bing (e chi lo usa) degli indirizzi aggiornati. Solo nelle build su Vercel;
 // la chiave è pubblica per protocollo (public/<chiave>.txt).
 const INDEXNOW_KEY = 'f9e928b5c09f1cd00f1c528d72161979'
 if (process.env.VERCEL && !process.env.SKIP_INDEXNOW) {
   const host = new URL(SITE_URL).host
-  const urlList = paths.filter((p) => !['/privacy', '/cookie'].includes(p)).map((p) => SITE_URL + (p === '/' ? '/' : p))
+  const urlList = sitemapPaths.map(full)
   try {
     const res = await fetch('https://api.indexnow.org/indexnow', {
       method: 'POST',

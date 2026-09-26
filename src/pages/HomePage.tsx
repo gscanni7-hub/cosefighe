@@ -9,7 +9,7 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { ArticleCard } from '../components/ui/ArticleCard'
 import { Segmented } from '../components/ui/Segmented'
-import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
+import { CATEGORY_LIST, categoryListIn } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { GUIDE_LABELS, guideArticles } from '../data/correlati'
 import { eventPath, upcomingEvents } from '../data/events'
@@ -17,6 +17,8 @@ import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
 import { preloadMappa } from '../lib/mappaPreload'
+import { useLang, useLp, useT, type Lang } from '../i18n/lang'
+import { hasArticleEn, hasEventEn, localizeArticle, localizeEvent, testiIn } from '../i18n/content'
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -27,12 +29,19 @@ const categoryImages: Record<string, string> = {
   spettacoli: '/spettacoli.webp',
 }
 
-const featured = [
-  { exp: CATEGORIES.food.experiences[0], cat: CATEGORIES.food.label },
-  { exp: CATEGORIES.outdoor.experiences[0], cat: CATEGORIES.outdoor.label },
-  { exp: CATEGORIES.arte.experiences[0], cat: CATEGORIES.arte.label },
-]
-const totalExperiences = CATEGORY_LIST.reduce((n, c) => n + c.experiences.length, 0)
+/** Le tre esperienze in vetrina: la prima di Food, Outdoor e Arte (in inglese la prima tradotta). */
+const featuredIn = (lang: Lang) => {
+  const cats = Object.fromEntries(categoryListIn(lang).map((c) => [c.slug, c]))
+  return ['food', 'outdoor', 'arte'].map((slug) => ({ exp: cats[slug]?.experiences[0], cat: cats[slug]?.label ?? '' }))
+}
+const totalIn = (lang: Lang) => categoryListIn(lang).reduce((n, c) => n + c.experiences.length, 0)
+
+/** Testo con segnaposto diviso in pezzi come nel JSX di prima, così l'HTML italiano resta identico. */
+const parts = (text: string, vars: Record<string, string | number>) =>
+  text
+    .split(/(\{\w+\})/)
+    .filter(Boolean)
+    .map((p) => (/^\{\w+\}$/.test(p) ? vars[p.slice(1, -1)] : p))
 
 const ease = [0.25, 1, 0.5, 1] as const
 
@@ -73,6 +82,8 @@ function useHeroParallax(max = 14) {
 }
 
 const Hero = () => {
+  const t = useT()
+  const lp = useLp()
   const { ref, sx, sy } = useHeroParallax(14)
   const backDepth = -0.35
   const backX = useTransform(sx, (v) => v * backDepth)
@@ -124,25 +135,27 @@ const Hero = () => {
       <div className="container-x relative z-10 grid items-center gap-8 pb-[min(78vw,380px)] pt-24 md:h-[100svh] md:max-h-[780px] md:min-h-[600px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:pb-20 md:pt-28">
         <div>
           <p className="rise label text-orange" style={{ animationDelay: '0.06s' }}>
-            Esperienze autentiche a Napoli
+            {t('Esperienze autentiche a Napoli')}
           </p>
           <h1 className="mt-4 font-display text-display-xl uppercase tracking-tight">
             <span className="rise block" style={{ animationDelay: '0.12s' }}>
-              Scopri <span className="text-orange">cose fighe</span>
+              {t('Scopri') + ' '}
+              <span className="text-orange">{t('cose fighe')}</span>
             </span>
             <span className="rise block" style={{ animationDelay: '0.19s' }}>
-              da fare a Napoli
+              {t('da fare a Napoli')}
             </span>
           </h1>
           <p className="rise mt-6 max-w-lg text-lg leading-relaxed text-ink/65" style={{ animationDelay: '0.28s' }}>
-            Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.
+            {t('Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.')}
           </p>
           <div className="rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.34s' }}>
-            <ButtonLink to="/esperienze" size="lg">
-              Esplora le esperienze <ArrowRight size={18} />
+            <ButtonLink to={lp('/esperienze')} size="lg">
+              {t('Esplora le esperienze') + ' '}
+              <ArrowRight size={18} />
             </ButtonLink>
-            <ButtonLink to="/cosa-fare" variant="secondary" size="lg">
-              Cosa fare a Napoli
+            <ButtonLink to={lp('/cosa-fare')} variant="secondary" size="lg">
+              {t('Cosa fare a Napoli')}
             </ButtonLink>
           </div>
         </div>
@@ -151,23 +164,27 @@ const Hero = () => {
   )
 }
 
-const CategoriesStrip = () => (
+const CategoriesStrip = () => {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  return (
   <section className="relative bg-white pb-10 pt-14 md:pb-24 md:pt-32">
     <div className="container-x flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="max-w-xl">
-        <h2 className="heading-lg">Sei modi di vivere Napoli</h2>
-        <p className="mt-3 text-ink/60">Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.</p>
+        <h2 className="heading-lg">{t('Sei modi di vivere Napoli')}</h2>
+        <p className="mt-3 text-ink/60">{t('Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.')}</p>
       </div>
-      <p className="hidden text-sm text-ink/45 lg:block">Trascina per scorrere</p>
+      <p className="hidden text-sm text-ink/45 lg:block">{t('Trascina per scorrere')}</p>
     </div>
     <DragScroll
-      ariaLabel="Categorie"
+      ariaLabel={t('Categorie')}
       className="mt-8 grid grid-cols-2 gap-4 px-5 sm:px-8 md:mt-10 md:grid-cols-3 md:gap-5 lg:flex lg:gap-6 lg:overflow-x-auto lg:pb-4 lg:pl-[calc((100vw-80rem)/2+2.5rem)] lg:pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
-      {CATEGORY_LIST.map((cat) => (
+      {categoryListIn(lang).map((cat) => (
         <Link
           key={cat.slug}
-          to={`/categoria/${cat.slug}`}
+          to={lp(`/categoria/${cat.slug}`)}
           viewTransition
           className="group w-full lg:w-[300px] lg:shrink-0"
           draggable={false}
@@ -175,7 +192,7 @@ const CategoriesStrip = () => (
           <div className="aspect-square overflow-hidden rounded-3xl bg-cream lg:rounded-[2rem] transition-transform duration-300 ease-out-quart group-hover:-translate-y-1">
             <img
               src={categoryImages[cat.slug]}
-              alt={`Categoria ${cat.label}`}
+              alt={t('Categoria {c}', { c: cat.label })}
               width={900}
               height={900}
               loading="lazy"
@@ -193,66 +210,79 @@ const CategoriesStrip = () => (
       ))}
     </DragScroll>
   </section>
-)
+  )
+}
 
-const BAND_PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => ({
-  key: p.key,
-  label: p.key === '7' ? '7 giorni' : p.key === 'weekend' ? 'Weekend' : p.label,
-  short: p.key === '7' ? '7 gg' : undefined,
-}))
+const bandPresets = (t: (s: string) => string) =>
+  DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => ({
+    key: p.key,
+    label: t(p.key === '7' ? '7 giorni' : p.key === 'weekend' ? 'Weekend' : p.label),
+    short: p.key === '7' ? t('7 gg') : undefined,
+  }))
 
 /** La mappa: un'anteprima ferma e il bottone. La mappa vera sta in /mappa, così la home resta leggera. */
-const MapBand = () => (
+const MapBand = () => {
+  const t = useT()
+  const lp = useLp()
+  return (
   <section className="section-y bg-sand">
     <div className="container-x grid items-center gap-10 md:grid-cols-2 md:gap-16">
       <Reveal>
-        <p className="label text-orange">Novità</p>
-        <h2 className="heading-lg mt-4">Napoli sulla mappa</h2>
-        <p className="mt-4 max-w-md text-ink/70">Gli eventi di questi giorni e le esperienze prenotabili, ognuno dove sta davvero, con i monumenti disegnati da noi. Guarda cosa hai vicino, tocca, e le indicazioni si aprono sul telefono.</p>
-        <ButtonLink to="/mappa" variant="dark" className="mt-8" onMouseEnter={preloadMappa} onTouchStart={preloadMappa}>
-          Apri la mappa <ArrowRight size={16} />
+        <p className="label text-orange">{t('Novità')}</p>
+        <h2 className="heading-lg mt-4">{t('Napoli sulla mappa')}</h2>
+        <p className="mt-4 max-w-md text-ink/70">{t('Gli eventi di questi giorni e le esperienze prenotabili, ognuno dove sta davvero, con i monumenti disegnati da noi. Guarda cosa hai vicino, tocca, e le indicazioni si aprono sul telefono.')}</p>
+        <ButtonLink to={lp('/mappa')} variant="dark" className="mt-8" onMouseEnter={preloadMappa} onTouchStart={preloadMappa}>
+          {t('Apri la mappa') + ' '}
+          <ArrowRight size={16} />
         </ButtonLink>
       </Reveal>
       <Reveal delay={0.08}>
-        <Link to="/mappa" viewTransition className="block overflow-hidden rounded-[2rem] border border-line shadow-soft">
-          <img src="/mappa/anteprima.webp" alt="La mappa di Napoli di Cose Fighe, con i monumenti disegnati e i segnaposto" width={1200} height={800} loading="lazy" decoding="async" className="block w-full" />
+        <Link to={lp('/mappa')} viewTransition className="block overflow-hidden rounded-[2rem] border border-line shadow-soft">
+          <img src="/mappa/anteprima.webp" alt={t('La mappa di Napoli di Cose Fighe, con i monumenti disegnati e i segnaposto')} width={1200} height={800} loading="lazy" decoding="async" className="block w-full" />
         </Link>
       </Reveal>
     </div>
   </section>
-)
+  )
+}
 
 const WhatsOnBand = () => {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
   const navigate = useNavigate()
   const today = useToday()
   const [preset, setPreset] = useState('7')
-  const upcoming = upcomingEvents(4, today)
+  // In inglese solo gli eventi tradotti.
+  const upcoming = lang === 'it' ? upcomingEvents(4, today) : upcomingEvents(1000, today).filter(hasEventEn).slice(0, 4).map((e) => localizeEvent(e, lang))
   const go = () => {
     const r = DATE_PRESETS.find((p) => p.key === preset)!.range(today)
-    navigate(`/cosa-fare?dal=${r.from}&al=${r.to}`, { viewTransition: true })
+    navigate(lp(`/cosa-fare?dal=${r.from}&al=${r.to}`), { viewTransition: true })
   }
   return (
     <section className="section-y bg-blue text-white">
       <div className="container-x grid gap-12 md:grid-cols-[1fr_1.15fr] md:gap-16">
         <Reveal>
-          <p className="label text-white/75">Il programma</p>
-          <h2 className="heading-lg mt-4">Cosa fare a Napoli nei giorni in cui ci sei</h2>
-          <p className="mt-4 max-w-md text-white/80">Feste, concerti, mercati, mostre: scegli quando e ti diciamo cosa succede in città e cosa puoi prenotare.</p>
+          <p className="label text-white/75">{t('Il programma')}</p>
+          <h2 className="heading-lg mt-4">{t('Cosa fare a Napoli nei giorni in cui ci sei')}</h2>
+          <p className="mt-4 max-w-md text-white/80">{t('Feste, concerti, mercati, mostre: scegli quando e ti diciamo cosa succede in città e cosa puoi prenotare.')}</p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Segmented options={BAND_PRESETS} value={preset} onChange={setPreset} tone="dark" label="Quando" />
+            <Segmented options={bandPresets(t)} value={preset} onChange={setPreset} tone="dark" label={t('Quando')} />
             <Button onClick={go}>
-              Vedi il programma <ArrowRight size={16} />
+              {t('Vedi il programma') + ' '}
+              <ArrowRight size={16} />
             </Button>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
+          {(lang === 'it' || upcoming.length > 0) && (
           <ul className="divide-y divide-white/15 border-y border-white/15">
             {upcoming.map((e) => {
-              const p = dayParts(e.start)
+              const p = dayParts(e.start, lang)
               return (
                 <li key={e.slug}>
                   <Link
-                    to={eventPath(e)}
+                    to={lp(eventPath(e))}
                     viewTransition
                     className="group grid grid-cols-[3.5rem_1fr_auto] items-center gap-4 py-4 transition-colors hover:bg-white/5"
                   >
@@ -273,8 +303,10 @@ const WhatsOnBand = () => {
               )
             })}
           </ul>
-          <ButtonLink to="/cosa-fare" variant="link" className="mt-6 text-white decoration-white/40 hover:text-white hover:decoration-white">
-            Tutto il programma <ArrowRight size={15} />
+          )}
+          <ButtonLink to={lp('/cosa-fare')} variant="link" className="mt-6 text-white decoration-white/40 hover:text-white hover:decoration-white">
+            {t('Tutto il programma') + ' '}
+            <ArrowRight size={15} />
           </ButtonLink>
         </Reveal>
       </div>
@@ -282,52 +314,73 @@ const WhatsOnBand = () => {
   )
 }
 
-const FeaturedSection = () => (
+const FeaturedSection = () => {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  const featured = featuredIn(lang)
+  const totalExperiences = totalIn(lang)
+  return (
   <section className="section-y bg-paper">
     <div className="container-x">
       <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <h2 className="heading-lg">Le più richieste</h2>
-          <p className="mt-3 text-ink/60">Tre esperienze per capire lo spirito di Cose Fighe.</p>
+          <h2 className="heading-lg">{t('Le più richieste')}</h2>
+          <p className="mt-3 text-ink/60">{t('Tre esperienze per capire lo spirito di Cose Fighe.')}</p>
         </div>
-        <ButtonLink to="/esperienze" variant="link">
-          Tutte le {totalExperiences} esperienze <ArrowRight size={15} />
+        <ButtonLink to={lp('/esperienze')} variant="link">
+          {parts(t('Tutte le {n} esperienze') + ' ', { n: totalExperiences })}
+          <ArrowRight size={15} />
         </ButtonLink>
       </Reveal>
       <div className="mt-10 grid gap-5 md:gap-6 lg:grid-cols-[1.3fr_1fr]">
-        <ExperienceCard exp={featured[0].exp} category={featured[0].cat} index={0} />
+        {featured[0].exp && <ExperienceCard exp={featured[0].exp} category={featured[0].cat} index={0} />}
         <div className="grid gap-5 md:gap-6">
-          <ExperienceCard exp={featured[1].exp} category={featured[1].cat} index={1} layout="row" />
-          <ExperienceCard exp={featured[2].exp} category={featured[2].cat} index={2} layout="row" />
+          {featured[1].exp && <ExperienceCard exp={featured[1].exp} category={featured[1].cat} index={1} layout="row" />}
+          {featured[2].exp && <ExperienceCard exp={featured[2].exp} category={featured[2].cat} index={2} layout="row" />}
         </div>
       </div>
     </div>
   </section>
-)
+  )
+}
 
-const BlogTeaser = () => (
+const BlogTeaser = () => {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  // In inglese solo gli articoli tradotti.
+  const first = lang === 'it' ? ARTICLES_BY_DATE[0] : ARTICLES_BY_DATE.find(hasArticleEn)
+  const lead = first && localizeArticle(first, lang)
+  const guides = lang === 'it' ? guideArticles() : guideArticles().filter(hasArticleEn).map((a) => localizeArticle(a, lang))
+  const guideLabels = testiIn('GUIDE_LABELS', GUIDE_LABELS, lang)
+  return (
   <section className="section-y bg-white">
     <div className="container-x">
       <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-xl">
-          <h2 className="heading-lg">Dal blog</h2>
-          <p className="mt-3 text-ink/60">Guide scritte da chi Napoli la vive ogni giorno: posti veri, orari veri.</p>
+          <h2 className="heading-lg">{t('Dal blog')}</h2>
+          <p className="mt-3 text-ink/60">{t('Guide scritte da chi Napoli la vive ogni giorno: posti veri, orari veri.')}</p>
         </div>
-        <ButtonLink to="/blog" variant="link">
-          Tutti gli articoli <ArrowRight size={15} />
+        <ButtonLink to={lp('/blog')} variant="link">
+          {t('Tutti gli articoli') + ' '}
+          <ArrowRight size={15} />
         </ButtonLink>
       </Reveal>
+      {lead && (
       <div className="mt-10">
-        <ArticleCard article={ARTICLES_BY_DATE[0]} featured />
+        <ArticleCard article={lead} featured />
       </div>
-      {guideArticles().length > 0 && (
+      )}
+      {guides.length > 0 && (
         <Reveal className="mt-10 border-t border-line pt-8">
-          <p className="label text-ink/50">Le guide</p>
+          <p className="label text-ink/50">{t('Le guide')}</p>
           <ul className="mt-4 flex flex-wrap gap-2">
-            {guideArticles().map((a) => (
+            {guides.map((a) => (
               <li key={a.slug}>
-                <ButtonLink to={`/blog/${a.slug}`} variant="secondary" size="sm">
-                  {GUIDE_LABELS[a.slug] ?? a.title.split(':')[0]} <ArrowRight size={14} />
+                <ButtonLink to={lp(`/blog/${a.slug}`)} variant="secondary" size="sm">
+                  {guideLabels[a.slug] ?? a.title.split(':')[0]}{' '}
+                  <ArrowRight size={14} />
                 </ButtonLink>
               </li>
             ))}
@@ -336,40 +389,54 @@ const BlogTeaser = () => (
       )}
     </div>
   </section>
-)
+  )
+}
 
-const CreatorBand = () => (
+const CreatorBand = () => {
+  const t = useT()
+  const lp = useLp()
+  return (
   <section className="section-y overflow-hidden bg-orange text-white">
     <div className="container-x grid items-center gap-10 md:grid-cols-[0.65fr_1.35fr] md:gap-16">
       <div className="relative mx-auto w-[200px] md:w-full md:max-w-[300px]" aria-hidden="true">
         <FloatingImage src="/mascotte-creator.webp" amplitude={10} />
       </div>
       <Reveal>
-        <p className="label text-white/75">Per chi Napoli la conosce</p>
-        <h2 className="heading-lg mt-4">Sai raccontare Napoli meglio di una guida?</h2>
+        <p className="label text-white/75">{t('Per chi Napoli la conosce')}</p>
+        <h2 className="heading-lg mt-4">{t('Sai raccontare Napoli meglio di una guida?')}</h2>
         <p className="mt-5 max-w-lg text-white/85">
-          Proponi la tua esperienza, decidi tu prezzo e date, guadagni a ogni prenotazione. Ti aiutiamo a costruire il
-          profilo.
+          {t('Proponi la tua esperienza, decidi tu prezzo e date, guadagni a ogni prenotazione. Ti aiutiamo a costruire il profilo.')}
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink to="/creator" variant="dark" size="lg">
-            Candidati come creator <ArrowRight size={18} />
+          <ButtonLink to={lp('/creator')} variant="dark" size="lg">
+            {t('Candidati come creator') + ' '}
+            <ArrowRight size={18} />
           </ButtonLink>
-          <ButtonLink to="/chi-siamo" variant="ghost-light" size="lg">
-            Chi siamo
+          <ButtonLink to={lp('/chi-siamo')} variant="ghost-light" size="lg">
+            {t('Chi siamo')}
           </ButtonLink>
         </div>
       </Reveal>
     </div>
   </section>
-)
+  )
+}
 
 export default function HomePage() {
-  usePageMeta({
-    title: 'Cosa fare a Napoli: esperienze, eventi e idee di local · Cose Fighe',
-    description:
-      'Cosa fare a Napoli oggi, nel weekend e nei giorni in cui ci sei: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi delle piattaforme.',
-  })
+  const lang = useLang()
+  usePageMeta(
+    lang === 'en'
+      ? {
+          title: 'Things to do in Naples, picked by locals · Cose Fighe',
+          description:
+            'Things to do in Naples today, this weekend or on your dates: events checked by locals, plus food tours, boat trips and day trips, picked one by one.',
+        }
+      : {
+          title: 'Cosa fare a Napoli: esperienze, eventi e idee di local · Cose Fighe',
+          description:
+            'Cosa fare a Napoli oggi, nel weekend e nei giorni in cui ci sei: eventi controllati dalla redazione e tour, laboratori, barche e sotterranei scelti uno per uno, con i prezzi delle piattaforme.',
+        },
+  )
   return (
     <Page>
       <Hero />

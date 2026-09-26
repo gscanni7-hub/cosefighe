@@ -6,6 +6,7 @@
  */
 import { ARTICLES } from './articles'
 import type { Article, Experience } from '../types'
+import { testiIn } from '../i18n/content'
 
 const bySlug = new Map(ARTICLES.map((a) => [a.slug, a]))
 const pick = (slugs: string[], limit: number): Article[] => {
@@ -37,6 +38,19 @@ export const GUIDE_LABELS: Record<string, string> = {
   'cosa-fare-a-napoli-quando-piove': 'Cosa fare quando piove',
   'cosa-fare-a-napoli-con-i-bambini': 'Con i bambini',
 }
+
+/** Gli stessi nomi corti in inglese, per le pagine /en (di riserva: vincono quelli di src/data/en/testi.json, chiave GUIDE_LABELS). */
+export const GUIDE_LABELS_EN: Record<string, string> = {
+  'napoli-in-un-giorno': 'Naples in a day',
+  'napoli-in-3-giorni': 'Naples in 3 days',
+  'cosa-fare-a-napoli-gratis': 'Free things to do',
+  'cosa-fare-a-napoli-la-sera': 'Naples at night',
+  'cosa-fare-a-napoli-quando-piove': 'When it rains',
+  'cosa-fare-a-napoli-con-i-bambini': 'With kids',
+}
+
+/** Nome corto di una guida nella lingua della pagina (undefined se non c'è). */
+export const guideLabel = (slug: string, lang: 'it' | 'en' = 'it'): string | undefined => lang === 'en' ? (testiIn<Record<string, string>>('GUIDE_LABELS', GUIDE_LABELS_EN, lang)[slug] ?? GUIDE_LABELS_EN[slug]) : GUIDE_LABELS[slug]
 
 export const guideArticles = (): Article[] => pick(GUIDE_SLUGS, GUIDE_SLUGS.length)
 

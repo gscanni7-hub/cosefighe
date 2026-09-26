@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Crosshair, LocateFixed, Navigation, Search, Share2, Star, X } from 'lucide-react'
 import MappaNapoli from './MappaNapoli'
 import { ButtonAnchor, ButtonLink } from '../ui/Button'
-import { CAT_LABEL, LANDMARKS, NAPOLI_CENTER, directionsUrl, distanceKm, distanceLabel, walkLabel, type MapItem } from '../../lib/mappa'
+import { CAT_LABEL, LANDMARKS, NAPOLI_CENTER, catLabel, directionsUrl, distanceKm, distanceLabel, landmarkName, walkLabel, type MapItem } from '../../lib/mappa'
 import { eventEnd, eventPath } from '../../data/events'
 import { experiencePath } from '../../data/schede'
 import { DATE_PRESETS, dayParts, formatShort } from '../../lib/dates'
@@ -10,6 +10,7 @@ import { useToday } from '../../hooks/useToday'
 import { track } from '../../lib/track'
 import { imgSmall } from '../../lib/img'
 import { PROVIDER_LABEL, type EventCategory } from '../../types'
+import { localizePath, useLang, useLp, useT } from '../../i18n/lang'
 
 export interface MapViewProps {
   items: MapItem[]
@@ -30,9 +31,9 @@ const PRESETS = DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7', '30'].includ
 const PEEK = 64
 
 /** Prezzo corto per la lista: "€15", "Gratis" o niente. */
-function shortPrice(it: MapItem): string {
+function shortPrice(it: MapItem, free: string): string {
   const raw = it.kind === 'evento' ? it.event?.price ?? '' : it.exp?.price ?? ''
-  if (/^(gratis|ingresso libero)/i.test(raw)) return 'Gratis'
+  if (/^(gratis|ingresso libero|free)/i.test(raw)) return free
   const m = raw.match(/€\s?\d+(?:,\d+)?/)
   return m ? m[0].replace(/\s/, '') : ''
 }
@@ -41,6 +42,8 @@ const inBounds = (it: MapItem, b: Bounds) => it.lat >= b[0] && it.lat <= b[2] &&
 
 export default function MapView({ items, range, category, embedded = false, initialSelected = null, onClose }: MapViewProps) {
   const today = useToday()
+  const lang = useLang()
+  const t = useT()
   const [preset, setPreset] = useState<string>('7')
   const [showEv, setShowEv] = useState(true)
   const [showEx, setShowEx] = useState(true)
@@ -67,8 +70,8 @@ export default function MapView({ items, range, category, embedded = false, init
   const listRef = useRef<HTMLDivElement>(null)
   const openedAt = useRef(Date.now())
 
-  const say = (t: string) => {
-    setToast(t)
+  const say = (msg: string) => {
+    setToast(msg)
     window.setTimeout(() => setToast(null), 2600)
   }
 
@@ -87,7 +90,7 @@ export default function MapView({ items, range, category, embedded = false, init
   const norm = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   const q = norm(query.trim())
   const hits = q.length < 2 ? [] : items.filter((it) => norm(it.title).includes(q) || norm(it.event?.place ?? it.exp?.location ?? '').includes(q)).slice(0, 6)
-  const lmHits = q.length < 2 ? [] : LANDMARKS.filter((lm) => norm(lm.name).includes(q)).slice(0, 3)
+  const lmHits = q.length < 2 ? [] : LANDMARKS.filter((lm) => norm(landmarkName(lm, lang)).includes(q)).slice(0, 3)
 
   const goView = (v: 'citta' | 'golfo') => {
     setView(v)
@@ -189,13 +192,13 @@ export default function MapView({ items, range, category, embedded = false, init
   }
 
   const share = async (it: MapItem) => {
-    const url = `${window.location.origin}/mappa?punto=${encodeURIComponent(it.id)}`
+    const url = `${window.location.origin}${localizePath('/mappa', lang)}?punto=${encodeURIComponent(it.id)}`
     track('mappa_condividi', { punto: it.id })
     try {
       if (navigator.share) await navigator.share({ title: it.title, text: `${it.title} · Cose Fighe`, url })
       else {
         await navigator.clipboard.writeText(url)
-        say('Link copiato')
+        say(t('Link copiato'))
       }
     } catch {
       /* annullato dalla persona */
@@ -267,24 +270,24 @@ export default function MapView({ items, range, category, embedded = false, init
         {!range &&
           PRESETS.map((p) => (
             <button key={p.key} type="button" aria-pressed={preset === p.key} className={chip(preset === p.key)} onClick={() => setPreset(p.key)}>
-              {p.key === 'oggi' ? `Oggi, ${dayParts(today).wd} ${dayParts(today).day}` : p.key === '7' ? '7 giorni' : p.key === '30' ? '30 giorni' : 'Weekend'}
+              {p.key === 'oggi' ? t('Oggi, {giorno}', { giorno: `${dayParts(today, lang).wd} ${dayParts(today, lang).day}` }) : p.key === '7' ? t('7 giorni') : p.key === '30' ? t('30 giorni') : t('Weekend')}
             </button>
           ))}
         {!range && <span className="mx-1 h-6 w-px shrink-0 bg-line" />}
         <button type="button" aria-pressed={showEv} className={chip(showEv, showEv ? '!border-orange !bg-orange' : '')} onClick={() => setShowEv((v) => !v)}>
-          <span className={`h-2 w-2 rounded-full ${showEv ? 'bg-white' : 'bg-orange'}`} /> Eventi
+          <span className={`h-2 w-2 rounded-full ${showEv ? 'bg-white' : 'bg-orange'}`} /> {t('Eventi')}
         </button>
         <button type="button" aria-pressed={showEx} className={chip(showEx, showEx ? '!border-blue !bg-blue' : '')} onClick={() => setShowEx((v) => !v)}>
-          <span className={`h-2 w-2 rounded-full ${showEx ? 'bg-white' : 'bg-blue'}`} /> Esperienze
+          <span className={`h-2 w-2 rounded-full ${showEx ? 'bg-white' : 'bg-blue'}`} /> {t('Esperienze')}
         </button>
         <span className="mx-1 h-6 w-px shrink-0 bg-line" />
         {(Object.keys(CAT_LABEL) as EventCategory[]).map((c) => (
           <button key={c} type="button" aria-pressed={cat === c} className={chip(cat === c)} onClick={() => setCat(cat === c ? null : c)}>
-            {CAT_LABEL[c]}
+            {catLabel(c, lang)}
           </button>
         ))}
         {onClose && (
-          <button type="button" onClick={onClose} aria-label="Chiudi la mappa" className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line">
+          <button type="button" onClick={onClose} aria-label={t('Chiudi la mappa')} className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line">
             <X size={16} />
           </button>
         )}
@@ -324,12 +327,12 @@ export default function MapView({ items, range, category, embedded = false, init
                   }}
                   onFocus={() => setSearchOpen(true)}
                   onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
-                  placeholder="Cerca un posto o un evento"
+                  placeholder={t('Cerca un posto o un evento')}
                   className="min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink/40 md:text-sm"
                   autoComplete="off"
                 />
                 {query && (
-                  <button type="button" onClick={() => setQuery('')} aria-label="Cancella" className="flex h-8 w-8 items-center justify-center text-ink/45">
+                  <button type="button" onClick={() => setQuery('')} aria-label={t('Cancella')} className="flex h-8 w-8 items-center justify-center text-ink/45">
                     <X size={14} />
                   </button>
                 )}
@@ -343,13 +346,13 @@ export default function MapView({ items, range, category, embedded = false, init
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={() => {
                           setFocus({ lng: lm.lng, lat: lm.lat, zoom: 15 })
-                          setQuery(lm.name)
+                          setQuery(landmarkName(lm, lang))
                           setSearchOpen(false)
                         }}
                         className="flex min-h-[44px] w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-sand"
                       >
                         <img src={`/mappa/${lm.file}.webp`} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
-                        <span className="font-medium">{lm.name}</span>
+                        <span className="font-medium">{landmarkName(lm, lang)}</span>
                       </button>
                     </li>
                   ))}
@@ -377,16 +380,16 @@ export default function MapView({ items, range, category, embedded = false, init
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex w-fit rounded-full bg-white p-1 shadow-soft" role="group" aria-label="Zona">
+              <div className="inline-flex w-fit rounded-full bg-white p-1 shadow-soft" role="group" aria-label={t('Zona')}>
                 {(['citta', 'golfo'] as const).map((v) => (
                   <button key={v} type="button" aria-pressed={view === v} onClick={() => goView(v)} className={`min-h-[36px] rounded-full px-3.5 text-[13px] font-semibold transition-colors ${view === v ? 'bg-ink text-white' : 'text-ink/65 hover:text-ink'}`}>
-                    {v === 'citta' ? 'Città' : 'Golfo'}
+                    {v === 'citta' ? t('Città') : t('Golfo')}
                   </button>
                 ))}
               </div>
               <label className="hidden cursor-pointer items-center gap-2 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-soft lg:inline-flex">
                 <input type="checkbox" checked={onlyVisible} onChange={(e) => setOnlyVisible(e.target.checked)} className="accent-orange" />
-                Solo quello che vedo
+                {t('Solo quello che vedo')}
               </label>
             </div>
           </div>
@@ -394,7 +397,7 @@ export default function MapView({ items, range, category, embedded = false, init
           {/* Avvisi: rete, posizione */}
           {netError && (
             <div className="absolute left-1/2 top-3 z-10 w-[min(92%,420px)] -translate-x-1/2 rounded-2xl bg-ink px-4 py-2.5 text-center text-sm text-white shadow-soft lg:top-4">
-              La mappa fatica a caricarsi: controlla la connessione. I punti restano qui sotto, nella lista.
+              {t('La mappa fatica a caricarsi: controlla la connessione. I punti restano qui sotto, nella lista.')}
             </div>
           )}
           {toast && <div className="absolute left-1/2 top-16 z-20 -translate-x-1/2 rounded-full bg-ink px-4 py-2 text-sm text-white shadow-soft">{toast}</div>}
@@ -403,40 +406,40 @@ export default function MapView({ items, range, category, embedded = false, init
           <div className="absolute right-3 z-10 flex flex-col items-end gap-2 lg:bottom-5 lg:right-5" style={{ bottom: `calc(${cardBottom}px + 8px)` }}>
             {meState === 'ask' && (
               <div className="w-[240px] rounded-2xl bg-white p-3 text-[13px] leading-snug shadow-soft">
-                Usiamo la posizione solo per ordinare i risultati per distanza. Resta sul tuo telefono, non la salviamo.
+                {t('Usiamo la posizione solo per ordinare i risultati per distanza. Resta sul tuo telefono, non la salviamo.')}
                 <div className="mt-2 flex gap-2">
                   <button type="button" onClick={locate} className="rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white">
-                    Va bene
+                    {t('Va bene')}
                   </button>
                   <button type="button" onClick={() => setMeState('idle')} className="rounded-full px-3 py-1.5 text-xs font-medium text-ink/60">
-                    No, grazie
+                    {t('No, grazie')}
                   </button>
                 </div>
               </div>
             )}
             {meState === 'no' && (
               <div className="w-[240px] rounded-2xl bg-white p-3 text-[13px] leading-snug shadow-soft">
-                Posizione non disponibile. Se l'hai negata, puoi riattivarla dalle impostazioni del browser per questo sito.
+                {t("Posizione non disponibile. Se l'hai negata, puoi riattivarla dalle impostazioni del browser per questo sito.")}
                 <button type="button" onClick={() => setMeState('idle')} className="mt-1 block text-xs font-semibold text-ink/60">
-                  Chiudi
+                  {t('Chiudi')}
                 </button>
               </div>
             )}
             {me && moved && (
               <button type="button" onClick={recenter} className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white px-3.5 text-[13px] font-semibold shadow-soft">
-                <Crosshair size={14} /> Ricentra
+                <Crosshair size={14} /> {t('Ricentra')}
               </button>
             )}
             <button
               type="button"
               onClick={locate}
               aria-pressed={!!me}
-              aria-label="Vicino a me"
-              title="Vicino a me"
+              aria-label={t('Vicino a me')}
+              title={t('Vicino a me')}
               className={`inline-flex h-12 w-12 items-center justify-center rounded-full shadow-soft transition-colors lg:h-auto lg:w-auto lg:gap-2 lg:px-4 lg:py-2.5 ${me ? 'bg-blue text-white' : 'bg-white text-ink hover:bg-paper'}`}
             >
               <LocateFixed size={18} className={meState === 'wait' ? 'animate-pulse' : ''} />
-              <span className="hidden text-sm font-semibold lg:inline">Vicino a me</span>
+              <span className="hidden text-sm font-semibold lg:inline">{t('Vicino a me')}</span>
             </button>
           </div>
 
@@ -445,7 +448,7 @@ export default function MapView({ items, range, category, embedded = false, init
             <div className="pointer-events-none absolute bottom-10 left-5 z-10 hidden items-end gap-2 lg:flex">
               <img src="/mascotte-binocolo.webp" alt="" width={88} height={88} className="h-22 w-22 object-contain drop-shadow-md" />
               <p className="max-w-[220px] rounded-2xl rounded-bl-md bg-white px-3 py-2 text-[12.5px] leading-snug shadow-card">
-                <span className="font-semibold text-orange">Ciao.</span> Arancione = eventi, blu = esperienze prenotabili. Tocca un segnaposto.
+                <span className="font-semibold text-orange">{t('Ciao.')}</span> {t('Arancione = eventi, blu = esperienze prenotabili. Tocca un segnaposto.')}
               </p>
             </div>
           )}
@@ -461,20 +464,20 @@ export default function MapView({ items, range, category, embedded = false, init
           <aside
             className="absolute inset-x-0 bottom-0 z-20 flex flex-col rounded-t-3xl bg-white shadow-[0_-12px_40px_rgba(17,17,17,0.14)] lg:hidden"
             style={{ height: sheetHeight, transition: dragH === null ? 'height .28s cubic-bezier(.25,1,.5,1)' : 'none' }}
-            aria-label="Lista dei risultati"
+            aria-label={t('Lista dei risultati')}
           >
             <div onPointerDown={onHandleDown} onPointerMove={onHandleMove} onPointerUp={onHandleUp} onPointerCancel={onHandleUp} className="shrink-0 cursor-grab touch-none select-none px-4 pb-2 pt-2.5">
               <span aria-hidden className="mx-auto block h-1 w-10 rounded-full bg-line" />
               <div className="mt-2 flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-lg uppercase">{me ? 'Vicino a te' : range ? 'In questi giorni' : preset === 'oggi' ? 'In città oggi' : preset === 'weekend' ? 'Questo weekend' : `I prossimi ${preset} giorni`}</h2>
+                <h2 className="font-display text-lg uppercase">{me ? t('Vicino a te') : range ? t('In questi giorni') : preset === 'oggi' ? t('In città oggi') : preset === 'weekend' ? t('Questo weekend') : t('I prossimi {n} giorni', { n: preset })}</h2>
                 <span className="text-xs text-ink/50 tabular-nums">
-                  {nEv} eventi · {nEx} esperienze
+                  {lang === 'en' && nEv === 1 ? t('1 evento') : t('{n} eventi', { n: nEv })} · {lang === 'en' && nEx === 1 ? t('1 esperienza') : t('{n} esperienze', { n: nEx })}
                 </span>
               </div>
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto border-t border-line">
               <label className="flex items-center gap-2 border-b border-line px-4 py-2 text-[13px] text-ink/70">
-                <input type="checkbox" checked={onlyVisible} onChange={(e) => setOnlyVisible(e.target.checked)} className="accent-orange" /> Solo quello che vedo sulla mappa
+                <input type="checkbox" checked={onlyVisible} onChange={(e) => setOnlyVisible(e.target.checked)} className="accent-orange" /> {t('Solo quello che vedo sulla mappa')}
               </label>
               <List visible={visible} me={me} selected={selected} hovered={hovered} select={select} setHovered={setHovered} onWiden={() => setPreset('30')} />
             </div>
@@ -482,14 +485,14 @@ export default function MapView({ items, range, category, embedded = false, init
         </div>
 
         {/* Computer: colonna con la scheda in cima e la lista sotto */}
-        <aside className="hidden min-h-0 flex-col border-l border-line bg-white lg:flex" aria-label="Lista dei risultati">
+        <aside className="hidden min-h-0 flex-col border-l border-line bg-white lg:flex" aria-label={t('Lista dei risultati')}>
           {card ? (
             <div className="shrink-0 border-b border-line p-3">{card}</div>
           ) : (
             <header className="flex items-baseline justify-between gap-3 border-b border-line px-4 py-3">
-              <h2 className="font-display text-xl uppercase">{me ? 'Vicino a te' : range ? 'In questi giorni' : preset === 'oggi' ? 'In città oggi' : preset === 'weekend' ? 'Questo weekend' : `I prossimi ${preset} giorni`}</h2>
+              <h2 className="font-display text-xl uppercase">{me ? t('Vicino a te') : range ? t('In questi giorni') : preset === 'oggi' ? t('In città oggi') : preset === 'weekend' ? t('Questo weekend') : t('I prossimi {n} giorni', { n: preset })}</h2>
               <span className="text-xs text-ink/45 tabular-nums">
-                {nEv} eventi · {nEx} esperienze
+                {lang === 'en' && nEv === 1 ? t('1 evento') : t('{n} eventi', { n: nEv })} · {lang === 'en' && nEx === 1 ? t('1 esperienza') : t('{n} esperienze', { n: nEx })}
               </span>
             </header>
           )}
@@ -503,12 +506,13 @@ export default function MapView({ items, range, category, embedded = false, init
 }
 
 function List({ visible, me, selected, hovered, select, setHovered, onWiden }: { visible: MapItem[]; me: Me | null; selected: string | null; hovered: string | null; select: (id: string, fly?: boolean) => void; setHovered: (id: string | null) => void; onWiden: () => void }) {
+  const t = useT()
   if (visible.length === 0)
     return (
       <div className="p-6 text-center text-sm text-ink/60">
-        <p>Niente con questi filtri.</p>
+        <p>{t('Niente con questi filtri.')}</p>
         <button type="button" onClick={onWiden} className="mt-3 rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink">
-          Guarda i prossimi 30 giorni
+          {t('Guarda i prossimi 30 giorni')}
         </button>
       </div>
     )
@@ -525,11 +529,14 @@ function ListRow({ item, me, selected, hovered, onClick, onHover }: { item: MapI
   const ev = item.event
   const ex = item.exp
   const today = useToday()
+  const lang = useLang()
+  const t = useT()
   // Un evento già iniziato mostra la fine ("fino al"), non una data d'inizio passata.
   const ongoing = !!ev && ev.start < today && eventEnd(ev) > ev.start
-  const p = ev ? dayParts(ongoing ? eventEnd(ev) : ev.start) : null
-  const meta = ev ? [ev.time, ev.area || ev.place].filter(Boolean).join(' · ') : [ex?.location, me ? distanceLabel(distanceKm(item, me)) : ''].filter(Boolean).join(' · ')
-  const price = shortPrice(item)
+  const p = ev ? dayParts(ongoing ? eventEnd(ev) : ev.start, lang) : null
+  const meta = ev ? [ev.time, ev.area || ev.place].filter(Boolean).join(' · ') : [ex?.location, me ? distanceLabel(distanceKm(item, me), lang) : ''].filter(Boolean).join(' · ')
+  const free = t('Gratis')
+  const price = shortPrice(item, free)
   return (
     <button
       type="button"
@@ -546,7 +553,7 @@ function ListRow({ item, me, selected, hovered, onClick, onHover }: { item: MapI
       {ev && p ? (
         <span className="grid h-[52px] w-[52px] place-items-center rounded-xl bg-orange text-center leading-none text-white">
           <span>
-            <span className="block text-[9px] font-semibold uppercase tracking-wider opacity-85">{ongoing ? 'fino a' : p.wd}</span>
+            <span className="block text-[9px] font-semibold uppercase tracking-wider opacity-85">{ongoing ? t('fino a') : p.wd}</span>
             <span className="font-display text-sm uppercase">
               {p.day} {p.mon}
             </span>
@@ -559,7 +566,7 @@ function ListRow({ item, me, selected, hovered, onClick, onHover }: { item: MapI
         <span className="line-clamp-2 text-[13.5px] font-semibold leading-snug">{item.title}</span>
         <span className="mt-0.5 block truncate text-xs text-ink/55">{meta}</span>
       </span>
-      <span className={`font-display text-lg ${item.kind === 'evento' ? 'text-orange' : 'text-blue'} ${price === 'Gratis' ? 'text-sm' : ''}`}>{price}</span>
+      <span className={`font-display text-lg ${item.kind === 'evento' ? 'text-orange' : 'text-blue'} ${price === free ? 'text-sm' : ''}`}>{price}</span>
     </button>
   )
 }
@@ -589,56 +596,61 @@ function ItemCard({
 }) {
   const ev = item.event
   const ex = item.exp
+  const lang = useLang()
+  const t = useT()
+  const lp = useLp()
+  const locale = lang === 'en' ? 'en-GB' : 'it-IT'
   const km = me ? distanceKm(item, me) : null
-  const walk = km !== null ? walkLabel(km) : null
+  const walk = km !== null ? walkLabel(km, lang) : null
   const dir = directionsUrl(item.lat, item.lng, item.title)
   const today = useToday()
   const end = ev ? eventEnd(ev) : ''
   const ongoing = !!ev && ev.start < today && end > ev.start
-  const p = ev ? dayParts(ongoing ? end : ev.start) : null
+  const p = ev ? dayParts(ongoing ? end : ev.start, lang) : null
+  const expPath = ex ? experiencePath(ex) : undefined
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-soft" role="dialog" aria-label={item.title} onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
       {ev && p ? (
         <div className="relative flex h-[104px] items-end bg-orange p-4 text-white lg:h-[112px]">
           <div className="leading-none">
-            <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider opacity-90">{ongoing ? 'in corso, fino a' : end !== ev.start ? `dal ${formatShort(ev.start)} al ${formatShort(end)}` : `${p.wdLong}${ev.time ? `, ${ev.time}` : ''}`}</span>
+            <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider opacity-90">{ongoing ? t('in corso, fino a') : end !== ev.start ? t('dal {da} al {a}', { da: formatShort(ev.start, lang), a: formatShort(end, lang) }) : `${p.wdLong}${ev.time ? `, ${ev.time}` : ''}`}</span>
             <span className="font-display text-4xl uppercase">
               {p.day} {p.mon}
             </span>
           </div>
           <img src="/mascotte-hero.webp" alt="" width={110} height={110} className="absolute bottom-0 right-3 h-20 w-20 object-contain" />
-          {ev.featured && <span className="label absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-ink">Da non perdere</span>}
+          {ev.featured && <span className="label absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-ink">{t('Da non perdere')}</span>}
         </div>
       ) : (
         <div className="relative h-[120px] bg-paper">
           <img src={imgSmall(ex?.image) ?? ex?.image} alt="" className="h-full w-full object-cover" draggable={false} />
           {ex && (
             <span className="label absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-ink">
-              <Star size={11} className="text-orange" fill="currentColor" /> {ex.rating.toLocaleString('it-IT')} · {ex.reviews.toLocaleString('it-IT')}
+              <Star size={11} className="text-orange" fill="currentColor" /> {ex.rating.toLocaleString(locale)} · {ex.reviews.toLocaleString(locale)}
             </span>
           )}
         </div>
       )}
       <div className="absolute right-2.5 top-2.5 flex items-center gap-1.5">
-        <button type="button" onClick={onShare} aria-label="Condividi" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-ink">
+        <button type="button" onClick={onShare} aria-label={t('Condividi')} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-ink">
           <Share2 size={15} />
         </button>
-        <button type="button" onClick={onClose} aria-label="Chiudi" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-ink">
+        <button type="button" onClick={onClose} aria-label={t('Chiudi')} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-ink">
           <X size={15} />
         </button>
       </div>
       <div className="p-4">
         <div className="flex items-center justify-between gap-2">
           <p className={`label ${item.kind === 'evento' ? 'text-orange' : 'text-blue'}`}>
-            {CAT_LABEL[item.cat]} · {item.kind === 'evento' ? 'evento' : 'si prenota'}
+            {catLabel(item.cat, lang)} · {item.kind === 'evento' ? t('evento') : t('si prenota')}
           </p>
           {total > 1 && (
             <span className="inline-flex items-center gap-1 text-[11px] text-ink/45 tabular-nums">
-              <button type="button" onClick={onPrev} aria-label="Precedente" className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-paper">
+              <button type="button" onClick={onPrev} aria-label={t('Precedente')} className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-paper">
                 <ChevronLeft size={14} />
               </button>
-              {index + 1} di {total}
-              <button type="button" onClick={onNext} aria-label="Successivo" className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-paper">
+              {t('{n} di {tot}', { n: index + 1, tot: total })}
+              <button type="button" onClick={onNext} aria-label={t('Successivo')} className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-paper">
                 <ChevronRight size={14} />
               </button>
             </span>
@@ -646,36 +658,36 @@ function ItemCard({
         </div>
         <h3 className="mt-1 text-[17px] font-bold leading-snug text-balance">{item.title}</h3>
         <p className="mt-1 text-[13px] text-ink/60">
-          {ev ? [ev.place, ev.area && ev.area !== ev.place ? ev.area : ''].filter(Boolean).join(', ') : `Ritrovo: ${ex?.ritrovo ?? ex?.location}`}
+          {ev ? [ev.place, ev.area && ev.area !== ev.place ? ev.area : ''].filter(Boolean).join(', ') : t('Ritrovo: {luogo}', { luogo: ex?.ritrovo ?? ex?.location ?? '' })}
           {km !== null && (
             <>
               {' · '}
-              <span className="text-ink">{walk ?? distanceLabel(km)}</span>
+              <span className="text-ink">{walk ?? distanceLabel(km, lang)}</span>
             </>
           )}
-          {item.approx && <span className="text-ink/40"> · posizione indicativa</span>}
+          {item.approx && <span className="text-ink/40"> · {t('posizione indicativa')}</span>}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {ev && (
-            <ButtonLink to={eventPath(ev)} size="sm">
-              Dettagli <ArrowRight size={14} />
+            <ButtonLink to={lp(eventPath(ev))} size="sm">
+              {t('Dettagli')} <ArrowRight size={14} />
             </ButtonLink>
           )}
-          {ex && experiencePath(ex) && (
-            <ButtonLink to={experiencePath(ex)!} size="sm" variant="dark">
-              Scheda <ArrowRight size={14} />
+          {ex && expPath && (
+            <ButtonLink to={lp(expPath)} size="sm" variant="dark">
+              {t('Scheda')} <ArrowRight size={14} />
             </ButtonLink>
           )}
           {ex?.affiliateUrl && ex.provider && ex.provider !== 'cosefighe' && (
             <ButtonAnchor href={ex.affiliateUrl} target="_blank" rel="sponsored noopener noreferrer" size="sm" onClick={() => track('prenota', { provider: ex.provider ?? '', title: ex.title, from: 'mappa' })}>
-              Prenota <ArrowUpRight size={14} />
+              {t('Prenota')} <ArrowUpRight size={14} />
             </ButtonAnchor>
           )}
           <ButtonAnchor href={dir} target="_blank" rel="noopener noreferrer" size="sm" variant="secondary" onClick={() => track('mappa_indicazioni', { punto: item.id })}>
-            <Navigation size={14} /> Indicazioni
+            <Navigation size={14} /> {t('Indicazioni')}
           </ButtonAnchor>
         </div>
-        {ex?.provider && ex.provider !== 'cosefighe' && <p className="mt-2 text-[11px] text-ink/40">Si prenota su {PROVIDER_LABEL[ex.provider]}, ai loro prezzi.</p>}
+        {ex?.provider && ex.provider !== 'cosefighe' && <p className="mt-2 text-[11px] text-ink/40">{t('Si prenota su {sito}, ai loro prezzi.', { sito: PROVIDER_LABEL[ex.provider] })}</p>}
       </div>
     </div>
   )

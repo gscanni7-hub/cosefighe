@@ -3,25 +3,30 @@ import { Page } from '../components/Page'
 import { ButtonLink } from '../components/ui/Button'
 import { FloatingImage } from '../components/Decorations'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useLp, useT } from '../i18n/lang'
 
 export default function NotFoundPage() {
-  usePageMeta({ title: 'Pagina non trovata · Cose Fighe', description: 'La pagina che cerchi non esiste.' })
+  const t = useT()
+  const lp = useLp()
+  usePageMeta({ title: t('Pagina non trovata · Cose Fighe'), description: t('La pagina che cerchi non esiste.') })
   return (
     <Page>
       <section className="bg-paper pt-36 pb-24">
         <div className="container-x grid items-center gap-10 md:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <p className="label text-orange">Errore 404</p>
-            <h1 className="mt-4 font-display text-display-xl uppercase">Questa strada non porta da nessuna parte</h1>
+            <p className="label text-orange">{t('Errore 404')}</p>
+            <h1 className="mt-4 font-display text-display-xl uppercase">{t('Questa strada non porta da nessuna parte')}</h1>
             <p className="mt-5 max-w-md text-ink/65">
-              Succede anche nei vicoli di Napoli. Torna alla home o guarda le esperienze.
+              {t('Succede anche nei vicoli di Napoli. Torna alla home o guarda le esperienze.')}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <ButtonLink to="/">
-                <ArrowLeft size={16} /> Home
+              <ButtonLink to={lp('/')}>
+                <ArrowLeft size={16} />
+                {' ' + t('Home')}
               </ButtonLink>
-              <ButtonLink to="/esperienze" variant="secondary">
-                Esperienze <ArrowRight size={16} />
+              <ButtonLink to={lp('/esperienze')} variant="secondary">
+                {t('Esperienze') + ' '}
+                <ArrowRight size={16} />
               </ButtonLink>
             </div>
           </div>

@@ -4,6 +4,8 @@
  * e alla sua categoria. Le foto sono quelle in /img con i crediti in credits.json.
  */
 import type { EventCategory } from '../types'
+import { testiIn } from '../i18n/content'
+import type { Lang } from '../i18n/lang'
 
 export interface GuideItem {
   /** Ancora nella pagina: /cosa-fare#slug */
@@ -248,3 +250,22 @@ export const GUIDE: GuideItem[] = [
     experience: 'Un’ora di canzone napoletana',
   },
 ]
+
+/**
+ * La guida nella lingua della pagina. In inglese titolo, introduzione e voci vengono da src/data/en/testi.json
+ * (chiavi GUIDE_TITLE, GUIDE_INTRO, GUIDE: voci con lo stesso slug dell'italiano, di cui contano title e text;
+ * foto, categoria, esperienza e articolo restano quelli italiani). Senza traduzione, in inglese restituisce null.
+ */
+export function guideIn(lang: Lang): { title: string; intro: string; items: GuideItem[] } | null {
+  if (lang === 'it') return { title: GUIDE_TITLE, intro: GUIDE_INTRO, items: GUIDE }
+  const title = testiIn<string | null>('GUIDE_TITLE', null, lang)
+  const intro = testiIn<string | null>('GUIDE_INTRO', null, lang)
+  const en = testiIn<Partial<GuideItem>[] | null>('GUIDE', null, lang)
+  if (!title || !Array.isArray(en)) return null
+  const bySlug = new Map(en.filter((g) => g.slug).map((g) => [g.slug!, g]))
+  const items = GUIDE.flatMap((g) => {
+    const t = bySlug.get(g.slug)
+    return t?.title && t.text ? [{ ...g, title: t.title, text: t.text }] : []
+  })
+  return items.length ? { title, intro: intro ?? '', items } : null
+}

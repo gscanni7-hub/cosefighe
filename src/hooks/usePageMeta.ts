@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { langOf } from '../i18n/lang'
 
 interface PageMeta {
   title: string
@@ -23,6 +24,7 @@ export function usePageMeta({ title, description, image }: PageMeta) {
     setMeta('name', 'description', description)
     setMeta('property', 'og:title', title)
     setMeta('property', 'og:description', description)
+    setMeta('property', 'og:locale', langOf(window.location.pathname) === 'en' ? 'en_GB' : 'it_IT')
     const canonical = window.location.origin + window.location.pathname
     setMeta('property', 'og:url', canonical)
     let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')

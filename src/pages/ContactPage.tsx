@@ -8,7 +8,9 @@ import { Reveal } from '../components/ui/Reveal'
 import { createLead } from '../lib/db'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useLp, useT } from '../i18n/lang'
 
+/** Argomenti: nel database si salva sempre il testo italiano, in inglese cambia solo l'etichetta. */
 const topics = ["Voglio prenotare un'esperienza", 'Voglio diventare creator', 'Partnership', 'Altro']
 
 const contacts = [
@@ -24,9 +26,11 @@ const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
 export default function ContactPage() {
+  const t = useT()
+  const lp = useLp()
   usePageMeta({
-    title: 'Contatti · Cose Fighe',
-    description: 'Scrivici per prenotare un’esperienza, diventare creator o proporre una partnership. Rispondiamo entro 24 ore nei giorni feriali.',
+    title: t('Contatti · Cose Fighe'),
+    description: t('Scrivici per prenotare un’esperienza, diventare creator o proporre una partnership. Rispondiamo entro 24 ore nei giorni feriali.'),
   })
 
   const [topic, setTopic] = useState('')
@@ -41,9 +45,9 @@ export default function ContactPage() {
 
   const validate = () => {
     const e: Partial<typeof fields> = {}
-    if (!fields.name.trim()) e.name = 'Inserisci il tuo nome'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(fields.email.trim())) e.email = 'Controlla l’indirizzo email'
-    if (fields.message.trim().length < 10) e.message = 'Scrivi almeno una riga'
+    if (!fields.name.trim()) e.name = t('Inserisci il tuo nome')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(fields.email.trim())) e.email = t('Controlla l’indirizzo email')
+    if (fields.message.trim().length < 10) e.message = t('Scrivi almeno una riga')
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -52,7 +56,7 @@ export default function ContactPage() {
     e.preventDefault()
     if (!validate()) return
     if (!isSupabaseConfigured) {
-      const subject = encodeURIComponent(topic ? `${topic} (${fields.name.trim()})` : `Messaggio da ${fields.name.trim()}`)
+      const subject = encodeURIComponent(topic ? `${t(topic)} (${fields.name.trim()})` : t('Messaggio da {nome}', { nome: fields.name.trim() }))
       const body = encodeURIComponent(`${fields.message.trim()}\n\n${fields.name.trim()}\n${fields.email.trim()}`)
       window.location.href = `mailto:ciao@cosefighe.it?subject=${subject}&body=${body}`
       setStatus('done')
@@ -72,10 +76,10 @@ export default function ContactPage() {
   return (
     <Page>
       <PageHero
-        eyebrow="Parliamo"
-        title="Scrivici"
+        eyebrow={t('Parliamo')}
+        title={t('Scrivici')}
 
-        subtitle="Domande, idee, partnership o solo voglia di raccontarci la tua Napoli. Rispondiamo entro 24 ore nei giorni feriali."
+        subtitle={t('Domande, idee, partnership o solo voglia di raccontarci la tua Napoli. Rispondiamo entro 24 ore nei giorni feriali.')}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/mascotte-contatti.webp" amplitude={10} />
@@ -87,7 +91,7 @@ export default function ContactPage() {
       <section className="section-y">
         <div className="container-x grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <Reveal className="order-2 md:order-1">
-            <h2 className="heading-lg">Siamo pronti ad ascoltarti</h2>
+            <h2 className="heading-lg">{t('Siamo pronti ad ascoltarti')}</h2>
             <ul className="mt-10 space-y-6">
               {contacts.map((c) => (
                 <li key={c.label} className="flex items-center gap-4">
@@ -95,7 +99,7 @@ export default function ContactPage() {
                     <c.icon size={18} />
                   </span>
                   <div>
-                    <p className="text-xs text-ink/50">{c.label}</p>
+                    <p className="text-xs text-ink/50">{t(c.label)}</p>
                     {c.href ? (
                       <a
                         href={c.href}
@@ -106,7 +110,7 @@ export default function ContactPage() {
                         {c.value}
                       </a>
                     ) : (
-                      <p className="font-medium">{c.value}</p>
+                      <p className="font-medium">{t(c.value)}</p>
                     )}
                   </div>
                 </li>
@@ -114,7 +118,7 @@ export default function ContactPage() {
             </ul>
             <div className="mt-12 border-t border-line pt-6">
               <p className="font-display text-4xl text-ink">24h</p>
-              <p className="mt-1 text-sm text-ink/60">Tempo di risposta nei giorni feriali. Il weekend siamo in giro per Napoli.</p>
+              <p className="mt-1 text-sm text-ink/60">{t('Tempo di risposta nei giorni feriali. Il weekend siamo in giro per Napoli.')}</p>
             </div>
           </Reveal>
 
@@ -128,15 +132,15 @@ export default function ContactPage() {
                   <Check size={28} />
                 </span>
                 <h3 className="mt-6 heading-md">
-                  {isSupabaseConfigured ? 'Messaggio inviato' : 'Quasi fatto'}
+                  {isSupabaseConfigured ? t('Messaggio inviato') : t('Quasi fatto')}
                 </h3>
                 <p className="mt-3 max-w-sm text-ink/65">
                   {isSupabaseConfigured
-                    ? 'Ti rispondiamo entro 24 ore. Nel frattempo esplora le esperienze.'
-                    : 'Si apre la tua app di posta con il messaggio già scritto: invialo e ti rispondiamo entro 24 ore.'}
+                    ? t('Ti rispondiamo entro 24 ore. Nel frattempo esplora le esperienze.')
+                    : t('Si apre la tua app di posta con il messaggio già scritto: invialo e ti rispondiamo entro 24 ore.')}
                 </p>
-                <ButtonLink to="/esperienze" variant="secondary" className="mt-8">
-                  Esplora <ArrowRight size={14} />
+                <ButtonLink to={lp('/esperienze')} variant="secondary" className="mt-8">
+                  {t('Esplora') + ' '}<ArrowRight size={14} />
                 </ButtonLink>
               </div>
             ) : (
@@ -145,33 +149,33 @@ export default function ContactPage() {
                 noValidate
                 className="space-y-6 rounded-3xl border border-line bg-white p-6 md:p-8"
               >
-                <h3 className="heading-md">Il tuo messaggio</h3>
+                <h3 className="heading-md">{t('Il tuo messaggio')}</h3>
                 <fieldset>
-                  <legend className={labelClass}>Di cosa si tratta?</legend>
+                  <legend className={labelClass}>{t('Di cosa si tratta?')}</legend>
                   <div className="flex flex-wrap gap-2">
-                    {topics.map((t) => (
+                    {topics.map((tp) => (
                       <button
-                        key={t}
+                        key={tp}
                         type="button"
-                        onClick={() => setTopic(t)}
-                        aria-pressed={topic === t}
-                        className={`chip ${topic === t ? 'chip-on' : ''}`}
+                        onClick={() => setTopic(tp)}
+                        aria-pressed={topic === tp}
+                        className={`chip ${topic === tp ? 'chip-on' : ''}`}
                       >
-                        {t}
+                        {t(tp)}
                       </button>
                     ))}
                   </div>
                 </fieldset>
                 <div>
                   <label htmlFor="ct-name" className={labelClass}>
-                    Nome
+                    {t('Nome')}
                   </label>
                   <input
                     id="ct-name"
                     autoComplete="name"
                     value={fields.name}
                     onChange={(e) => set('name', e.target.value)}
-                    placeholder="Il tuo nome"
+                    placeholder={t('Il tuo nome')}
                     aria-invalid={!!errors.name}
                     className={inputClass}
                   />
@@ -179,7 +183,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="ct-email" className={labelClass}>
-                    Email
+                    {t('Email')}
                   </label>
                   <input
                     id="ct-email"
@@ -188,7 +192,7 @@ export default function ContactPage() {
                     autoComplete="email"
                     value={fields.email}
                     onChange={(e) => set('email', e.target.value)}
-                    placeholder="la-tua@email.it"
+                    placeholder={t('la-tua@email.it')}
                     aria-invalid={!!errors.email}
                     className={inputClass}
                   />
@@ -196,14 +200,14 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="ct-message" className={labelClass}>
-                    Messaggio
+                    {t('Messaggio')}
                   </label>
                   <textarea
                     id="ct-message"
                     rows={5}
                     value={fields.message}
                     onChange={(e) => set('message', e.target.value)}
-                    placeholder="Raccontaci tutto..."
+                    placeholder={t('Raccontaci tutto...')}
                     aria-invalid={!!errors.message}
                     className={`${inputClass} resize-none`}
                   />
@@ -211,7 +215,7 @@ export default function ContactPage() {
                 </div>
                 {status === 'error' && (
                   <p role="alert" className="rounded-2xl bg-error/5 px-4 py-3 text-sm text-error">
-                    Non siamo riusciti a inviare il messaggio. Riprova tra poco oppure scrivici a{' '}
+                    {t('Non siamo riusciti a inviare il messaggio. Riprova tra poco oppure scrivici a')}{' '}
                     <a href="mailto:ciao@cosefighe.it" className="underline">
                       ciao@cosefighe.it
                     </a>
@@ -219,7 +223,7 @@ export default function ContactPage() {
                   </p>
                 )}
                 <Button type="submit" size="lg" className="w-full" disabled={status === 'sending'}>
-                  {status === 'sending' ? 'Invio in corso...' : 'Invia messaggio'} <Send size={16} />
+                  {status === 'sending' ? t('Invio in corso...') : t('Invia messaggio')} <Send size={16} />
                 </Button>
               </form>
             )}

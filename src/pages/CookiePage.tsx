@@ -1,6 +1,20 @@
 import { LegalPage } from './LegalPage'
+import { CookieBodyEn } from './CookieEn'
+import { useLang } from '../i18n/lang'
 
 export default function CookiePage() {
+  const lang = useLang()
+  if (lang === 'en')
+    return (
+      <LegalPage
+        title="Cookies"
+        kicker="Notice"
+        updated="13 September 2026"
+        description="Which cookies and similar technologies the Cose Fighe website uses."
+      >
+        <CookieBodyEn />
+      </LegalPage>
+    )
   return (
     <LegalPage
       title="Cookie"

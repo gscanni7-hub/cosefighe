@@ -6,12 +6,49 @@ import { ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
-import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
+import { CATEGORIES, categoryIn, categoryListIn } from '../data/categories'
 import { CATEGORY_TEXTS } from '../data/categorieTesti'
 import { relatedForCategory } from '../data/correlati'
 import { usePageMeta } from '../hooks/usePageMeta'
 import NotFoundPage from './NotFoundPage'
+import { useLang, useLp, useT } from '../i18n/lang'
+import { hasArticleEn, localizeArticle, testiIn } from '../i18n/content'
 import type { Category } from '../types'
+
+/** Testo con segnaposto diviso in pezzi come nel JSX di prima, così l'HTML italiano resta identico. */
+const parts = (text: string, vars: Record<string, string | number>) =>
+  text
+    .split(/(\{\w+\})/)
+    .filter(Boolean)
+    .map((p) => (/^\{\w+\}$/.test(p) ? vars[p.slice(1, -1)] : p))
+
+/** Titoli e descrizioni in inglese, con le parole che cercano gli stranieri. */
+const SEO_EN: Record<string, { title: string; description: string }> = {
+  food: {
+    title: 'Naples food tours and street food · Cose Fighe',
+    description: 'Naples food tours picked one by one: street food in the old town, pizza tours, a winery lunch on Vesuvius and aperitivo in Piazza Bellini. Platform prices.',
+  },
+  outdoor: {
+    title: 'Boat trips and day trips from Naples · Cose Fighe',
+    description: 'Boat trips on the Bay of Naples and day trips to the Amalfi Coast, Capri, Pompeii and Vesuvius, picked one by one, with honest notes on how each day goes.',
+  },
+  sport: {
+    title: 'Snorkelling and bike tours in Naples · Cose Fighe',
+    description: 'Active things to do in Naples: snorkelling over the sunken Roman villas of Baia and Posillipo, and bike and e-bike tours from the seafront to the old town.',
+  },
+  arte: {
+    title: 'Underground Naples, Veiled Christ and art tours',
+    description: 'Art and history tours in Naples: the Veiled Christ, underground Naples, the catacombs, Herculaneum and the old town with a local guide, picked one by one.',
+  },
+  laboratori: {
+    title: 'Pizza making and cooking classes in Naples · Cose Fighe',
+    description: 'Pizza making classes, fresh pasta and tiramisù workshops in Naples with local chefs and pizzaioli: three hours at the counter, then you eat what you made.',
+  },
+  spettacoli: {
+    title: 'Live Neapolitan music and shows in Naples · Cose Fighe',
+    description: 'Live Neapolitan song in Naples: an hour of the classics sung without microphones, with tarantella and mandolin, in a small room. Picked one by one.',
+  },
+}
 
 const categoryImages: Record<string, string> = {
   food: '/food.webp',
@@ -22,26 +59,36 @@ const categoryImages: Record<string, string> = {
   spettacoli: '/spettacoli.webp',
 }
 
-function CategoryView({ cat }: { cat: Category }) {
+function CategoryView({ cat: catIt }: { cat: Category }) {
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  // In inglese: etichette tradotte e solo le esperienze tradotte.
+  const cat = categoryIn(catIt, lang)
   const experiences = cat.experiences
 
-  usePageMeta({
-    title: `${cat.label} a Napoli · Cose Fighe`,
-    description: `${cat.subtitle}. ${cat.experiences.length} esperienze ${cat.label.toLowerCase()} a Napoli, scelte una per una.`,
-    image: categoryImages[cat.slug],
-  })
+  usePageMeta(
+    lang === 'en' && SEO_EN[cat.slug]
+      ? { ...SEO_EN[cat.slug], image: categoryImages[cat.slug] }
+      : {
+          title: `${cat.label} a Napoli · Cose Fighe`,
+          description: `${cat.subtitle}. ${cat.experiences.length} esperienze ${cat.label.toLowerCase()} a Napoli, scelte una per una.`,
+          image: categoryImages[cat.slug],
+        },
+  )
 
-  const others = CATEGORY_LIST.filter((c) => c.slug !== cat.slug)
-  const texts = CATEGORY_TEXTS[cat.slug]
-  const reads = relatedForCategory(cat.slug)
+  const others = categoryListIn(lang).filter((c) => c.slug !== cat.slug)
+  const texts = testiIn('CATEGORY_TEXTS', CATEGORY_TEXTS, lang)[cat.slug]
+  const readsIt = relatedForCategory(cat.slug)
+  const reads = lang === 'it' ? readsIt : readsIt.filter(hasArticleEn).map((a) => localizeArticle(a, lang))
 
   return (
     <Page>
       <PageHero
-        back={{ to: '/esperienze', label: 'Tutte le categorie' }}
+        back={{ to: lp('/esperienze'), label: t('Tutte le categorie') }}
         eyebrow={cat.subtitle}
         title={cat.label}
-        subtitle={`${experiences.length} esperienze a Napoli, scelte da chi la città la vive.`}
+        subtitle={t(lang === 'en' && experiences.length === 1 ? '{n} esperienza a Napoli, scelta da chi la città la vive.' : '{n} esperienze a Napoli, scelte da chi la città la vive.', { n: experiences.length })}
         aside={
           <div className="mx-auto w-[200px] overflow-hidden rounded-[2rem] md:ml-auto md:w-[280px]" style={{ backgroundColor: cat.accent }} aria-hidden="true">
             <img src={categoryImages[cat.slug]} alt="" width={900} height={900} className="h-full w-full object-cover" />
@@ -63,11 +110,11 @@ function CategoryView({ cat }: { cat: Category }) {
           </div>
           {reads.length > 0 && (
             <Reveal className="mt-14 border-t border-line pt-8">
-              <p className="label text-ink/50">Guide utili</p>
+              <p className="label text-ink/50">{t('Guide utili')}</p>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {reads.map((a) => (
                   <li key={a.slug}>
-                    <ButtonLink to={`/blog/${a.slug}`} variant="secondary" size="sm">
+                    <ButtonLink to={lp(`/blog/${a.slug}`)} variant="secondary" size="sm">
                       {a.title.split(':')[0]} <ArrowRight size={14} />
                     </ButtonLink>
                   </li>
@@ -76,11 +123,11 @@ function CategoryView({ cat }: { cat: Category }) {
             </Reveal>
           )}
           <Reveal className="mt-8 border-t border-line pt-8">
-            <p className="label text-ink/50">Altre categorie</p>
+            <p className="label text-ink/50">{t('Altre categorie')}</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {others.map((c) => (
                 <li key={c.slug}>
-                  <ButtonLink to={`/categoria/${c.slug}`} variant="secondary" size="sm">
+                  <ButtonLink to={lp(`/categoria/${c.slug}`)} variant="secondary" size="sm">
                     {c.label} <ArrowRight size={14} />
                   </ButtonLink>
                 </li>
@@ -94,9 +141,9 @@ function CategoryView({ cat }: { cat: Category }) {
         <section className="section-y border-t border-line bg-white">
           <div className="container-x">
             <Reveal>
-              <h2 className="heading-lg">Domande frequenti</h2>
+              <h2 className="heading-lg">{t('Domande frequenti')}</h2>
               <p className="mt-3 max-w-xl text-ink/60">
-                Su {cat.label.toLowerCase()} a Napoli, le cose che ci chiedono più spesso.
+                {parts(t('Su {c} a Napoli, le cose che ci chiedono più spesso.'), { c: lang === 'en' ? cat.label : cat.label.toLowerCase() })}
               </p>
             </Reveal>
             <div className="mt-10 grid gap-x-12 gap-y-10 md:grid-cols-2">
@@ -112,10 +159,10 @@ function CategoryView({ cat }: { cat: Category }) {
       )}
 
       <NextStep
-        title="Cosa succede in città in questi giorni?"
-        text="Feste, mercati, concerti e mostre a Napoli, giorno per giorno. Scegli le date e guarda cosa c'è."
-        primary={{ to: '/cosa-fare', label: 'Cosa fare a Napoli' }}
-        secondary={{ to: '/esperienze', label: 'Tutte le esperienze' }}
+        title={t('Cosa succede in città in questi giorni?')}
+        text={t("Feste, mercati, concerti e mostre a Napoli, giorno per giorno. Scegli le date e guarda cosa c'è.")}
+        primary={{ to: lp('/cosa-fare'), label: t('Cosa fare a Napoli') }}
+        secondary={{ to: lp('/esperienze'), label: t('Tutte le esperienze') }}
       />
     </Page>
   )

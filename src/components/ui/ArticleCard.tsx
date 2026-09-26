@@ -4,10 +4,16 @@ import { ArrowRight } from 'lucide-react'
 import type { Article } from '../../types'
 import { Sticker } from './Sticker'
 import { CARD_SIZES, imgSrcSet } from '../../lib/img'
+import { useLang, useLp, useT, type Lang } from '../../i18n/lang'
+import { localizeArticle } from '../../i18n/content'
 
-const formatDate = (iso: string) => new Date(iso).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
+const formatDate = (iso: string, lang: Lang) => new Date(iso).toLocaleDateString(lang === 'en' ? 'en-GB' : 'it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
 
-export function ArticleCard({ article, index = 0, featured = false }: { article: Article; index?: number; featured?: boolean }) {
+export function ArticleCard({ article: source, index = 0, featured = false }: { article: Article; index?: number; featured?: boolean }) {
+  const lang = useLang()
+  const t = useT()
+  const lp = useLp()
+  const article = localizeArticle(source, lang)
   return (
     <motion.article
       initial={{ y: 12 }}
@@ -17,7 +23,7 @@ export function ArticleCard({ article, index = 0, featured = false }: { article:
       className="h-full"
     >
       <Link
-        to={`/blog/${article.slug}`}
+        to={lp(`/blog/${source.slug}`)}
         viewTransition
         className={`group flex h-full overflow-hidden rounded-3xl border border-line bg-white transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-soft ${
           featured ? 'flex-col md:flex-row' : 'flex-col'
@@ -40,7 +46,7 @@ export function ArticleCard({ article, index = 0, featured = false }: { article:
           <div className="flex items-center gap-3">
             <Sticker tone="cream">{article.category}</Sticker>
             <span className="text-xs text-ink/50">
-              {formatDate(article.date)} · {article.readingTime} min
+              {formatDate(article.date, lang)} · {t('{n} min', { n: article.readingTime })}
             </span>
           </div>
           <h3 className={`mt-4 font-semibold leading-snug ${featured ? 'heading-lg' : 'text-[17px]'}`}>
@@ -48,7 +54,7 @@ export function ArticleCard({ article, index = 0, featured = false }: { article:
           </h3>
           <p className={`mt-3 text-ink/60 ${featured ? 'max-w-prose text-base' : 'line-clamp-3 text-sm'}`}>{article.excerpt}</p>
           <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition-colors group-hover:text-orange">
-            Leggi <ArrowRight size={14} />
+            {t('Leggi')} <ArrowRight size={14} />
           </span>
         </div>
       </Link>

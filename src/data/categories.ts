@@ -1,5 +1,7 @@
 import type { Category, DbExperience, Experience } from '../types'
 import generated from './generated.json'
+import { hasExperienceEn, localizeCategory, localizeExperience } from '../i18n/content'
+import type { Lang } from '../i18n/lang'
 
 /** Le sei categorie. Le esperienze arrivano dal database a ogni build (generated.json). */
 const STATIC_CATEGORIES: Record<string, Category> = {
@@ -103,3 +105,15 @@ export const CATEGORY_LIST: Category[] = Object.values(CATEGORIES)
 
 /** Vero se almeno una categoria mostra esperienze dal database. */
 export const HAS_DB_EXPERIENCES = dbExperiences.length > 0
+
+/**
+ * Una categoria nella lingua voluta: in inglese etichetta, sottotitolo e testi tradotti,
+ * e solo le esperienze che hanno la traduzione (già tradotte). In italiano è la stessa categoria.
+ */
+export function categoryIn(cat: Category, lang: Lang): Category {
+  if (lang === 'it') return cat
+  return { ...localizeCategory(cat, lang), experiences: cat.experiences.filter(hasExperienceEn).map((e) => localizeExperience(e, lang)) }
+}
+
+/** Le sei categorie nella lingua voluta (vedi categoryIn). */
+export const categoryListIn = (lang: Lang): Category[] => (lang === 'it' ? CATEGORY_LIST : CATEGORY_LIST.map((c) => categoryIn(c, lang)))

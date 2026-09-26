@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowUpRight, X } from 'lucide-react'
 import { nextCoseFigheEvent } from '../data/events'
 import { formatLong } from '../lib/dates'
 import { useToday } from '../hooks/useToday'
 import { track } from '../lib/track'
+import { useLang, useT } from '../i18n/lang'
+import { hasEventEn, localizeEvent } from '../i18n/content'
 
 const SESSION_KEY = 'cf_promo_seen'
 const DISMISS_KEY = 'cf_promo_dismissed'
@@ -37,7 +39,11 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
  */
 export function PromoToast() {
   const today = useToday()
-  const event = nextCoseFigheEvent(today)
+  const lang = useLang()
+  const t = useT()
+  // In inglese solo se l'evento è tradotto.
+  const next = nextCoseFigheEvent(today)
+  const event = useMemo(() => (next && (lang === 'it' || hasEventEn(next)) ? localizeEvent(next, lang) : undefined), [next, lang])
   const [stage, setStage] = useState<'hidden' | 'notice' | 'card'>('hidden')
 
   useEffect(() => {
@@ -79,14 +85,14 @@ export function PromoToast() {
   }
   const title = event.title.split(':')[0]
   const place = event.place.split(',')[0]
-  const where = title.toLowerCase().includes(place.toLowerCase().replace(/^(il|la|lo|l’|i|gli|le)\s+/i, '')) ? '' : ` a ${place}`
-  const message = `Ciao! ${capitalize(formatLong(event.start))} c’è ${title}${where}. Ti teniamo un posto?`
+  const where = title.toLowerCase().includes(place.toLowerCase().replace(/^(il|la|lo|l’|i|gli|le|the)\s+/i, '')) ? '' : ` ${t('a {luogo}', { luogo: place })}`
+  const message = t('Ciao! {quando} c’è {titolo}{dove}. Ti teniamo un posto?', { quando: capitalize(formatLong(event.start, lang)), titolo: title, dove: where })
 
   if (stage === 'notice') {
     return (
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:justify-end sm:px-6 sm:pb-6">
         <div className="promo-in pointer-events-auto relative w-full max-w-[380px] rounded-2xl border border-white/70 bg-white/85 p-3 pr-10 shadow-[0_18px_40px_-18px_rgba(17,17,17,0.4)] backdrop-blur-xl">
-          <button type="button" onClick={close} aria-label="Chiudi" className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full text-ink/45 transition-colors hover:bg-ink/[0.06] hover:text-ink">
+          <button type="button" onClick={close} aria-label={t('Chiudi')} className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full text-ink/45 transition-colors hover:bg-ink/[0.06] hover:text-ink">
             <X size={14} />
           </button>
           <button type="button" onClick={openCard} className="flex w-full items-start gap-3 text-left">
@@ -101,7 +107,7 @@ export function PromoToast() {
                     <span className="promo-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-70" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-orange" />
                   </span>
-                  adesso
+                  {t('adesso')}
                 </span>
               </span>
               <span className="mt-0.5 block text-sm leading-snug text-ink/75">{message}</span>
@@ -111,8 +117,9 @@ export function PromoToast() {
       </div>
     )
   }
-  const time = event.time ? event.time.replace(/\s*–.*$/, '').replace(/^dalle\s+/i, '') : ''
-  const when = `${capitalize(formatLong(event.start))}${time ? `, dalle ${time}` : ''}`
+  const time = event.time ? event.time.replace(/\s*–.*$/, '').replace(/^(dalle|from)\s+/i, '') : ''
+  const day = capitalize(formatLong(event.start, lang))
+  const when = time ? t('{giorno}, dalle {ora}', { giorno: day, ora: time }) : day
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:justify-end sm:px-6 sm:pb-6" role="status" aria-live="polite">
@@ -120,12 +127,12 @@ export function PromoToast() {
         <button
           type="button"
           onClick={close}
-          aria-label="Chiudi"
+          aria-label={t('Chiudi')}
           className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-ink/[0.06] text-ink/60 transition-colors hover:bg-ink/10 hover:text-ink"
         >
           <X size={15} />
         </button>
-        <span className="label inline-flex items-center rounded-full bg-blue px-2.5 py-1 text-white">Evento Cose Fighe</span>
+        <span className="label inline-flex items-center rounded-full bg-blue px-2.5 py-1 text-white">{t('Evento Cose Fighe')}</span>
         <p className="label mt-3 text-ink/50">{when}</p>
         <p className="mt-1 font-display text-[1.6rem] uppercase leading-[0.95] tracking-tight">{event.title.split(':')[0]}</p>
         <p className="mt-2 text-sm text-ink/65">
@@ -141,11 +148,11 @@ export function PromoToast() {
               onClick={() => track('promo_prenota', { event: event.slug })}
               className="inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-orange px-4 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgba(255,85,0,0.55)] transition-transform hover:-translate-y-0.5"
             >
-              Prenota il posto <ArrowUpRight size={15} />
+              {t('Prenota il posto')} <ArrowUpRight size={15} />
             </a>
           ) : null}
           <button type="button" onClick={close} className="whitespace-nowrap text-sm font-medium text-ink/55 hover:text-ink">
-            Non ora
+            {t('Non ora')}
           </button>
         </div>
         <img src="/cose-beve.webp" alt="" width={220} height={220} aria-hidden="true" className="pointer-events-none absolute -bottom-2 -right-3 w-[6.25rem] select-none sm:w-[7.5rem]" />

@@ -1,7 +1,39 @@
 import credits from '../data/credits.json'
 import { LegalPage } from './LegalPage'
+import { PrivacyBodyEn } from './PrivacyEn'
+import { useLang } from '../i18n/lang'
+
+/** Autori e licenze delle fotografie (uguale nelle due lingue, cambia solo «autore non indicato»). */
+function Credits({ unknown }: { unknown: string }) {
+  return (
+    <p className="text-sm leading-relaxed text-ink/60">
+      {Object.entries(credits as Record<string, { title: string; page: string; artist: string; license: string }>)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, c], i, arr) => (
+          <span key={key}>
+            <a href={c.page} target="_blank" rel="noopener noreferrer">
+              {c.title.replace(/^File:/, '')}
+            </a>{' '}
+            ({c.artist || unknown}, {c.license}){i < arr.length - 1 ? ' · ' : ''}
+          </span>
+        ))}
+    </p>
+  )
+}
 
 export default function PrivacyPage() {
+  const lang = useLang()
+  if (lang === 'en')
+    return (
+      <LegalPage
+        title="Privacy"
+        kicker="Notice"
+        updated="13 September 2026"
+        description="How Cose Fighe collects and uses the personal data you send through the forms on this website."
+      >
+        <PrivacyBodyEn credits={<Credits unknown="author not credited" />} />
+      </LegalPage>
+    )
   return (
     <LegalPage
       title="Privacy"
@@ -74,18 +106,7 @@ export default function PrivacyPage() {
           Le fotografie delle esperienze e degli articoli provengono da Wikimedia Commons e sono usate secondo le rispettive licenze
           libere; le illustrazioni della mascotte sono di Cose Fighe. Autori e licenze:
         </p>
-        <p className="text-sm leading-relaxed text-ink/60">
-          {Object.entries(credits as Record<string, { title: string; page: string; artist: string; license: string }>)
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([key, c], i, arr) => (
-              <span key={key}>
-                <a href={c.page} target="_blank" rel="noopener noreferrer">
-                  {c.title.replace(/^File:/, '')}
-                </a>{' '}
-                ({c.artist || 'autore non indicato'}, {c.license}){i < arr.length - 1 ? ' · ' : ''}
-              </span>
-            ))}
-        </p>
+        <Credits unknown="autore non indicato" />
       </section>
     </LegalPage>
   )

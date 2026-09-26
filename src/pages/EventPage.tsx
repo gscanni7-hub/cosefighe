@@ -6,7 +6,7 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { CATEGORIES, CATEGORY_LIST } from '../data/categories'
-import { EVENT_CATEGORY_LABELS, eventDateLabel, eventEnd, eventPath, eventPriceNumber, eventsAlongside, findEvent, isFreeEvent } from '../data/events'
+import { EVENT_CATEGORY_LABELS, eventCategoryLabel, eventDateLabel, eventEnd, eventPath, eventPriceNumber, eventsAlongside, findEvent, isFreeEvent } from '../data/events'
 import { articleBySlug } from '../data/correlati'
 import { dayParts, eachDay, formatLong, formatRange, formatShort, weekday } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -14,6 +14,8 @@ import { useToday } from '../hooks/useToday'
 import { track } from '../lib/track'
 import { DoveBox } from '../components/mappa/DoveBox'
 import { eventToItem } from '../lib/mappa'
+import { itSlug, useLang, useLp, useT, type Lang } from '../i18n/lang'
+import { hasArticleEn, hasEventEn, hasExperienceEn, localizeArticle, localizeCategory, localizeEvent, localizeExperience } from '../i18n/content'
 import type { CityEvent, EventCategory, Experience } from '../types'
 import NotFoundPage from './NotFoundPage'
 
@@ -47,18 +49,26 @@ interface Read {
 }
 
 /** Fino a 4 esperienze che si fanno nei giorni dell'evento, della stessa categoria quando ce n'è una. */
-function experiencesFor(e: CityEvent, limit = 4): { exp: Experience; label: string }[] {
+function experiencesFor(e: CityEvent, limit = 4, lang: Lang = 'it'): { exp: Experience; label: string }[] {
   const slug = EXPERIENCE_CATEGORY[e.category]
   const pool = slug
     ? (CATEGORIES[slug]?.experiences ?? []).map((exp) => ({ exp, label: CATEGORIES[slug].label }))
     : CATEGORY_LIST.flatMap((c) => c.experiences.map((exp) => ({ exp, label: c.label }))).sort((a, b) => b.exp.reviews - a.exp.reviews)
   // Bastano i primi sette giorni: coprono tutta la settimana.
   const weekdays = new Set(eachDay(e.start, eventEnd(e)).slice(0, 7).map(weekday))
-  return pool.filter(({ exp }) => !exp.days || exp.days.some((d) => weekdays.has(d))).slice(0, limit)
+  const found = pool.filter(({ exp }) => (lang === 'it' || hasExperienceEn(exp)) && (!exp.days || exp.days.some((d) => weekdays.has(d)))).slice(0, limit)
+  if (lang === 'it') return found
+  // In inglese: titolo ed etichetta tradotti (l'etichetta dalla categoria delle esperienze, altrimenti da quella degli eventi).
+  return found.map(({ exp, label }) => {
+    const c = CATEGORY_LIST.find((x) => x.label === label)
+    const cEn = c ? localizeCategory(c, lang) : undefined
+    return { exp: localizeExperience(exp, lang), label: cEn && cEn !== c ? cEn.label : c ? eventCategoryLabel((c.slug in EVENT_CATEGORY_LABELS ? c.slug : 'citta') as EventCategory, lang) : label }
+  })
 }
 
 /** Due letture utili: l'articolo degli eventi del mese se c'è, la guida gratis per gli eventi gratis, poi la categoria e il weekend. */
-function readsFor(e: CityEvent, limit = 2): Read[] {
+function readsFor(e: CityEvent, limit = 2, lang: Lang = 'it'): Read[] {
+  if (lang === 'en') return readsForEn(e, limit)
   const p = dayParts(e.start)
   const slugs = [`eventi-napoli-${p.monLong}-${e.start.slice(0, 4)}`]
   if (isFreeEvent(e)) slugs.push('cosa-fare-a-napoli-gratis')
@@ -74,6 +84,25 @@ function readsFor(e: CityEvent, limit = 2): Read[] {
   return out.slice(0, limit)
 }
 
+/** Le letture in inglese: gli stessi articoli, solo quelli tradotti. Gli indirizzi restano italiani (li traduce lp()). */
+function readsForEn(e: CityEvent, limit: number): Read[] {
+  const p = dayParts(e.start)
+  const slugs = [`eventi-napoli-${p.monLong}-${e.start.slice(0, 4)}`]
+  if (isFreeEvent(e)) slugs.push('cosa-fare-a-napoli-gratis')
+  const hour = Number(e.time?.match(/(\d{1,2})[:.]\d{2}/)?.[1] ?? -1)
+  if (hour >= 18) slugs.push('cosa-fare-a-napoli-la-sera')
+  slugs.push(ARTICLE_BY_CATEGORY[e.category])
+  const out: Read[] = []
+  for (const s of slugs) {
+    const it = articleBySlug(s)
+    if (!it || !hasArticleEn(it)) continue
+    const a = localizeArticle(it, 'en')
+    if (!out.some((r) => r.to === `/blog/${a.slug}`)) out.push({ to: `/blog/${a.slug}`, title: a.title, note: `${a.readingTime} min read` })
+  }
+  out.push({ to: '/cosa-fare/weekend', title: 'Things to do in Naples this weekend', note: 'Saturday and Sunday’s programme, updated every morning' })
+  return out.slice(0, limit)
+}
+
 /** L'orario in una frase: «alle 21:00», «dalle 19:00 alle 23:30», oppure com'è scritto. */
 function timePhrase(time: string): string {
   const t = time.trim()
@@ -84,12 +113,89 @@ function timePhrase(time: string): string {
   return /^(dalle|dalla|dal|fino|ore|sera|mattina|pomeriggio)/i.test(t) ? t : `con questi orari: ${t}`
 }
 
-/** Prezzo corto per il riquadro: «Gratis», «€10», «€2,50». Se non si ricava, niente. */
-function shortPrice(e: CityEvent): string | undefined {
-  if (isFreeEvent(e)) return 'Gratis'
+/** Prezzo corto per il riquadro: «Gratis», «€10», «€2,50» (in inglese «Free», «€2.50»). Se non si ricava, niente. Si calcola sull'evento italiano. */
+function shortPrice(e: CityEvent, lang: Lang = 'it'): string | undefined {
+  if (isFreeEvent(e)) return lang === 'en' ? 'Free' : 'Gratis'
   const n = eventPriceNumber(e)
   if (n === undefined) return undefined
-  return '€' + (n % 1 ? n.toFixed(2).replace('.', ',') : String(n))
+  return '€' + (n % 1 ? (lang === 'en' ? n.toFixed(2) : n.toFixed(2).replace('.', ',')) : String(n))
+}
+
+/** Un orario inglese leggibile: «20:30» → «8.30pm», «9:00» → «9am». */
+function clockEn(hhmm: string): string {
+  const m = hhmm.match(/^(\d{1,2})[:.](\d{2})$/)
+  if (!m) return hhmm
+  const h = Number(m[1]) % 24
+  const min = m[2]
+  if (h === 0 && min === '00') return 'midnight'
+  if (h === 12 && min === '00') return 'midday'
+  const h12 = h % 12 || 12
+  return `${h12}${min === '00' ? '' : '.' + min}${h < 12 ? 'am' : 'pm'}`
+}
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const low = (s: string) => s.charAt(0).toLowerCase() + s.slice(1)
+
+/**
+ * L'orario in inglese: un orario solo o una fascia diventano un pezzo di frase («starting at 9pm», «from 6pm to 10.30pm»),
+ * il resto una frase a sé («Times: weekends.», «Various times, 80-minute show.»).
+ */
+function timeEn(time: string, single: boolean): { inline?: string; sentence?: string } {
+  const t = time.trim()
+  const T = '(\\d{1,2}(?:[:.]\\d{2})?\\s*(?:am|pm)|\\d{1,2}[:.]\\d{2}|midday|midnight)'
+  const one = t.match(new RegExp(`^${T}$`, 'i'))
+  if (one) return single ? { inline: `starting at ${clockEn(one[1])}` } : { sentence: `Each day it starts at ${clockEn(one[1])}.` }
+  const range = t.match(new RegExp(`^${T}\\s*(?:[–-]|to)\\s*${T}$`, 'i'))
+  if (range) return single ? { inline: `from ${clockEn(range[1])} to ${clockEn(range[2])}` } : { sentence: `Hours: ${clockEn(range[1])}–${clockEn(range[2])}.` }
+  const end = /[.!?]$/.test(t) ? '' : '.'
+  return { sentence: /^(times?|various|several|different|check)\b/i.test(t) ? `${cap(t)}${end}` : `Times: ${t}${end}` }
+}
+
+/** Il luogo dentro una frase: «at Teatro Bellini (Old Town)», «in Naples, city course», «across various neighbourhoods of Naples». */
+function whereEn(e: CityEvent): string {
+  if (!e.place) return 'in Naples'
+  let area = e.area && e.area !== e.place && e.area !== 'Naples' && !e.place.includes(e.area) ? e.area : ''
+  // «Serino» con zona «Serino (Avellino)»: tra parentesi basta la provincia.
+  const m = area.match(/^(.+?) \((.+)\)$/)
+  if (m && e.place.includes(m[1])) area = m[2]
+  const place = area ? `${e.place} (${area})` : e.place
+  if (/^Naples\b/.test(place)) return `in ${place}`
+  if (/\bacross\b/i.test(place) || /^(museums|venues|churches|sites)\b/i.test(place)) return `at ${low(place)}`
+  if (/^vineyards\b/i.test(place)) return `in ${low(place)}`
+  if (/^(various|several|different|more than|over)\b/i.test(place)) return `across ${low(place)}`
+  return `at ${place}`
+}
+
+/** Il prezzo in inglese, come frase. Il «gratis» si ricava dall'evento italiano. */
+function priceEn(it: CityEvent, e: CityEvent): string {
+  const p = e.price?.trim()
+  if (isFreeEvent(it)) {
+    const rest = (p ?? '').replace(/^free\b[\s,:;–-]*/i, '').replace(/^entry\b\s*/i, '').trim()
+    if (!rest) return 'It’s free to get in.'
+    if (/^with\b/i.test(rest)) return `It’s free ${rest}${/[.!?]$/.test(rest) ? '' : '.'}`
+    return `It’s free to get in (${low(rest)}).`
+  }
+  if (!p) return 'The organiser hasn’t published a price, so check the official site before you head out.'
+  const end = /[.!?]$/.test(p) ? '' : '.'
+  return /^(€|\d|from\b)/i.test(p) ? `Tickets: ${low(p)}${end}` : `${cap(p)}${end}`
+}
+
+/** I fatti in prosa, in inglese: scritti per chi viene da fuori, non tradotti parola per parola. */
+function factsProseEn(it: CityEvent, e: CityEvent, today: string): string[] {
+  const end = eventEnd(e)
+  const single = end === e.start
+  const time = e.time ? timeEn(e.time, single) : {}
+  const when = single ? `It’s on ${formatLong(e.start, 'en')}` : `It runs from ${formatLong(e.start, 'en')} to ${formatLong(end, 'en')}`
+  const first = `${when} ${whereEn(e)}${time.inline ? `, ${time.inline}` : ''}.${time.sentence ? ' ' + time.sentence : ''}`
+  const days = eachDay(e.start, end).length
+  let tip: string
+  if (end < today) tip = 'This date has passed: keep it in mind for next year, and see the live programme below for what’s on now.'
+  else if (e.start === today) tip = single ? 'It’s today, so if you fancy it, decide now.' : 'It starts today and runs for a while, so there’s no rush.'
+  else if (single) tip = `It’s one day only, ${formatShort(e.start, 'en')}: if it appeals, put it in your diary.`
+  else if (days > 7) tip = `It runs for ${days} days, so you have until ${formatLong(end, 'en')}, though weekends are the busiest.`
+  else tip = `It’s on for ${days} days in a row: pick the one when you have least else planned.`
+  const source = 'The details come from the organiser’s website and our team checks them. Times and prices can change, so the official site has the final word.'
+  return [first, `${priceEn(it, e)} ${tip}`, source]
 }
 
 /** I fatti in prosa: data, orario, luogo, prezzo e un consiglio su quando andare. */
@@ -113,22 +219,40 @@ function factsProse(e: CityEvent, today: string): string[] {
   return [first, `${price} ${tip}`, source]
 }
 
-function EventView({ event }: { event: CityEvent }) {
+function EventView({ event: it }: { event: CityEvent }) {
   const today = useToday()
+  const t = useT()
+  const lp = useLp()
+  const lang = useLang()
+  const en = lang === 'en'
+  // `it` è l'evento italiano (prezzo, gratis, orario per le letture si ricavano da lì); `event` è quello da mostrare.
+  const event = localizeEvent(it, lang)
   const end = eventEnd(event)
   const single = end === event.start
   const past = end < today
-  const dateLabel = single ? capitalize(formatLong(event.start)) : `${formatRange(event.start, end)}, da ${formatLong(event.start)} a ${formatLong(end)}`
-  const price = shortPrice(event)
-  const alongside = eventsAlongside(event, today, 6)
-  const experiences = experiencesFor(event)
-  const reads = readsFor(event)
+  const dateLabel = single
+    ? capitalize(formatLong(event.start, lang))
+    : t('{range}, da {from} a {to}', { range: formatRange(event.start, end, lang), from: formatLong(event.start, lang), to: formatLong(end, lang) })
+  const price = shortPrice(it, lang)
+  const alongside = eventsAlongside(it, today, en ? 30 : 6)
+    .filter((o) => !en || hasEventEn(o))
+    .slice(0, 6)
+    .map((o) => localizeEvent(o, lang))
+  const experiences = experiencesFor(it, 4, lang)
+  const reads = readsFor(it, 2, lang)
   const programme = past ? '/cosa-fare' : `/cosa-fare?dal=${event.start}&al=${end}`
 
-  usePageMeta({
-    title: `${event.title} · ${eventDateLabel(event)} · Cose Fighe`,
-    description: `${event.blurb} Data, orario, luogo e prezzo, e cosa fare a Napoli negli stessi giorni.`.trim().slice(0, 158),
-  })
+  usePageMeta(
+    en
+      ? {
+          title: `${event.title} · ${eventDateLabel(event, 'en')} · Cose Fighe`,
+          description: `${event.blurb} Date, time, venue and price, plus what else is on in Naples on the same days.`.trim().slice(0, 158),
+        }
+      : {
+          title: `${event.title} · ${eventDateLabel(event)} · Cose Fighe`,
+          description: `${event.blurb} Data, orario, luogo e prezzo, e cosa fare a Napoli negli stessi giorni.`.trim().slice(0, 158),
+        },
+  )
 
   const onSite = () => track('evento_sito', { event: event.slug })
 
@@ -137,17 +261,17 @@ function EventView({ event }: { event: CityEvent }) {
       {/* Testata: percorso, categoria, titolo e i fatti in una riga. */}
       <section className="bg-sand pb-10 pt-24 md:pb-14 md:pt-36">
         <div className="container-x">
-          <nav aria-label="Percorso" className="text-sm text-ink/60">
+          <nav aria-label={t('Percorso')} className="text-sm text-ink/60">
             <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
               <li>
-                <Link to="/" viewTransition className="hover:text-ink">
-                  Home
+                <Link to={lp('/')} viewTransition className="hover:text-ink">
+                  {t('Home')}
                 </Link>
               </li>
               <li aria-hidden="true">›</li>
               <li>
-                <Link to="/cosa-fare" viewTransition className="hover:text-ink">
-                  Cosa fare a Napoli
+                <Link to={lp('/cosa-fare')} viewTransition className="hover:text-ink">
+                  {t('Cosa fare a Napoli')}
                 </Link>
               </li>
               <li aria-hidden="true">›</li>
@@ -157,10 +281,10 @@ function EventView({ event }: { event: CityEvent }) {
             </ol>
           </nav>
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            <p className="label text-orange">{EVENT_CATEGORY_LABELS[event.category]}</p>
-            {event.cosefighe && <span className="label rounded-full bg-orange px-2 py-0.5 text-white">Evento Cose Fighe</span>}
-            {event.featured && <span className="label rounded-full bg-orange/10 px-2 py-0.5 text-orange">Da non perdere</span>}
-            {past && <span className="label rounded-full bg-ink/[0.06] px-2 py-0.5 text-ink/60">passato</span>}
+            <p className="label text-orange">{eventCategoryLabel(event.category, lang)}</p>
+            {event.cosefighe && <span className="label rounded-full bg-orange px-2 py-0.5 text-white">{t('Evento Cose Fighe')}</span>}
+            {event.featured && <span className="label rounded-full bg-orange/10 px-2 py-0.5 text-orange">{t('Da non perdere')}</span>}
+            {past && <span className="label rounded-full bg-ink/[0.06] px-2 py-0.5 text-ink/60">{t('passato')}</span>}
           </div>
           <h1 className="mt-3 max-w-4xl font-display text-[clamp(2.1rem,4.2vw,3.6rem)] uppercase leading-[0.98] tracking-tight text-balance">{event.title}</h1>
           <ul className="mt-6 flex max-w-3xl flex-wrap gap-x-6 gap-y-2 text-sm text-ink/70">
@@ -196,11 +320,11 @@ function EventView({ event }: { event: CityEvent }) {
                 <div className="min-w-0 leading-none">
                   {price ? (
                     <>
-                      <span className="text-xs font-medium text-ink/45">{isFreeEvent(event) ? 'ingresso' : 'da'}</span>
+                      <span className="text-xs font-medium text-ink/45">{t(isFreeEvent(it) ? 'ingresso' : 'da')}</span>
                       <span className="ml-1 font-display text-4xl text-orange">{price}</span>
                     </>
                   ) : (
-                    <span className="block text-base font-semibold leading-snug">{event.price || 'Prezzo sul sito ufficiale'}</span>
+                    <span className="block text-base font-semibold leading-snug">{event.price || t('Prezzo sul sito ufficiale')}</span>
                   )}
                   {price && event.price && event.price.toLowerCase() !== price.toLowerCase() && <span className="mt-2 block text-xs leading-snug text-ink/50">{event.price}</span>}
                 </div>
@@ -208,23 +332,23 @@ function EventView({ event }: { event: CityEvent }) {
               </div>
               {past ? (
                 <div className="mt-5 rounded-2xl bg-paper p-4 text-sm">
-                  <p className="font-semibold">Questo evento è passato</p>
-                  <p className="mt-1 text-ink/60">Guarda cosa c’è in programma nei prossimi giorni.</p>
-                  <Link to="/cosa-fare" viewTransition className="mt-2 inline-flex items-center gap-1 font-medium text-orange hover:underline">
-                    Il programma <ArrowRight size={14} />
+                  <p className="font-semibold">{t('Questo evento è passato')}</p>
+                  <p className="mt-1 text-ink/60">{t('Guarda cosa c’è in programma nei prossimi giorni.')}</p>
+                  <Link to={lp('/cosa-fare')} viewTransition className="mt-2 inline-flex items-center gap-1 font-medium text-orange hover:underline">
+                    {`${t('Il programma')} `}<ArrowRight size={14} />
                   </Link>
                 </div>
               ) : event.url ? (
                 <ButtonAnchor href={event.url} target="_blank" rel="noopener noreferrer" onClick={onSite} className="mt-5 w-full">
-                  Sito ufficiale e biglietti <ArrowUpRight size={16} />
+                  {`${t('Sito ufficiale e biglietti')} `}<ArrowUpRight size={16} />
                 </ButtonAnchor>
               ) : null}
-              <ButtonLink to={programme} variant="secondary" className="mt-3 w-full">
-                Tutto il programma <ArrowRight size={16} />
+              <ButtonLink to={lp(programme)} variant="secondary" className="mt-3 w-full">
+                {`${t('Tutto il programma')} `}<ArrowRight size={16} />
               </ButtonLink>
               <ul className="mt-5 space-y-2 text-sm text-ink/60">
                 <li className="flex gap-2">
-                  <CalendarDays size={15} className="mt-0.5 shrink-0" /> {single ? formatLong(event.start) : `dal ${formatShort(event.start)} al ${formatShort(end)}`}
+                  <CalendarDays size={15} className="mt-0.5 shrink-0" /> {single ? formatLong(event.start, lang) : t('dal {from} al {to}', { from: formatShort(event.start, lang), to: formatShort(end, lang) })}
                   {event.time ? `, ${event.time}` : ''}
                 </li>
                 {event.place && (
@@ -236,13 +360,13 @@ function EventView({ event }: { event: CityEvent }) {
               </ul>
             </div>
             {(() => {
-              const item = eventToItem(event)
-              return item ? <DoveBox item={item} place={event.place || 'Napoli'} detail={event.area && event.area !== event.place ? event.area : undefined} /> : null
+              const item = eventToItem(it, lang)
+              return item ? <DoveBox item={item} place={event.place || t('Napoli')} detail={event.area && event.area !== event.place ? event.area : undefined} /> : null
             })()}
             {!past && (
               <p className="mt-4 text-center text-xs text-ink/45">
-                <Link to="/cosa-fare/oggi" viewTransition className="underline underline-offset-4 hover:text-ink">
-                  Cosa fare a Napoli oggi
+                <Link to={lp('/cosa-fare/oggi')} viewTransition className="underline underline-offset-4 hover:text-ink">
+                  {t('Cosa fare a Napoli oggi')}
                 </Link>
               </p>
             )}
@@ -253,8 +377,8 @@ function EventView({ event }: { event: CityEvent }) {
             {event.blurb && <p className="text-lg leading-relaxed text-ink/75 md:text-xl">{event.blurb}</p>}
 
             <Reveal className="mt-10">
-              <h2 className="heading-md">Cose da sapere</h2>
-              {factsProse(event, today).map((p, i) => (
+              <h2 className="heading-md">{t('Cose da sapere')}</h2>
+              {(en ? factsProseEn(it, event, today) : factsProse(event, today)).map((p, i) => (
                 <p key={i} className="mt-4 leading-relaxed text-ink/70">
                   {p}
                 </p>
@@ -263,13 +387,15 @@ function EventView({ event }: { event: CityEvent }) {
 
             {alongside.length > 0 && (
               <Reveal className="mt-12">
-                <h2 className="heading-md">Negli stessi giorni</h2>
-                <p className="mt-2 text-sm text-ink/55">Cos’altro succede a Napoli {single ? formatLong(event.start) : 'in quei giorni'}.</p>
+                <h2 className="heading-md">{t('Negli stessi giorni')}</h2>
+                <p className="mt-2 text-sm text-ink/55">
+                  {en ? (single ? `What else is on in Naples on ${formatLong(event.start, 'en')}.` : 'What else is on in Naples on those days.') : <>Cos’altro succede a Napoli {single ? formatLong(event.start) : 'in quei giorni'}.</>}
+                </p>
                 <ul className="mt-5 divide-y divide-line border-y border-line">
                   {alongside.map((o) => (
                     <li key={o.slug}>
-                      <Link to={eventPath(o)} viewTransition className="group grid grid-cols-[4.5rem_1fr_auto] items-start gap-3 py-3.5">
-                        <span className="pt-0.5 text-sm tabular-nums text-ink/55">{o.end && o.end !== o.start ? `fino al ${formatShort(o.end).replace(/^\w+ /, '')}` : formatShort(o.start)}</span>
+                      <Link to={lp(eventPath(o))} viewTransition className="group grid grid-cols-[4.5rem_1fr_auto] items-start gap-3 py-3.5">
+                        <span className="pt-0.5 text-sm tabular-nums text-ink/55">{o.end && o.end !== o.start ? t('fino al {d}', { d: formatShort(o.end, lang).replace(/^\w+ /, '') }) : formatShort(o.start, lang)}</span>
                         <span className="min-w-0">
                           <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{o.title}</span>
                           <span className="mt-0.5 block text-sm text-ink/55">
@@ -282,18 +408,20 @@ function EventView({ event }: { event: CityEvent }) {
                     </li>
                   ))}
                 </ul>
-                <Link to={programme} viewTransition className="mt-4 inline-flex items-center gap-1 text-sm font-medium underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
-                  Tutto il programma di quei giorni <ArrowRight size={14} />
+                <Link to={lp(programme)} viewTransition className="mt-4 inline-flex items-center gap-1 text-sm font-medium underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+                  {`${t('Tutto il programma di quei giorni')} `}<ArrowRight size={14} />
                 </Link>
               </Reveal>
             )}
 
             {experiences.length > 0 && (
               <Reveal className="mt-12">
-                <h2 className="heading-md">Da prenotare in quei giorni</h2>
+                <h2 className="heading-md">{t('Da prenotare in quei giorni')}</h2>
                 <p className="mt-2 text-sm text-ink/55">
-                  Le esperienze si fanno quasi ogni giorno e si prenotano online, spesso con cancellazione gratuita.
-                  {EXPERIENCE_CATEGORY[event.category] ? ` Queste sono le ${EVENT_CATEGORY_LABELS[event.category].toLowerCase()}, come l’evento.` : ' Queste sono le più richieste.'}
+                  {t('Le esperienze si fanno quasi ogni giorno e si prenotano online, spesso con cancellazione gratuita.')}
+                  {EXPERIENCE_CATEGORY[event.category]
+                    ? ` ${t('Queste sono le {cat}, come l’evento.', { cat: en ? eventCategoryLabel(event.category, lang).toLowerCase() : EVENT_CATEGORY_LABELS[event.category].toLowerCase() })}`
+                    : ` ${t('Queste sono le più richieste.')}`}
                 </p>
                 <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {experiences.map(({ exp, label }, i) => (
@@ -305,11 +433,11 @@ function EventView({ event }: { event: CityEvent }) {
 
             {reads.length > 0 && (
               <Reveal className="mt-12">
-                <h2 className="heading-md">Da leggere</h2>
+                <h2 className="heading-md">{t('Da leggere')}</h2>
                 <ul className="mt-5 divide-y divide-line border-y border-line">
                   {reads.map((r) => (
                     <li key={r.to}>
-                      <Link to={r.to} viewTransition className="group flex items-start justify-between gap-4 py-4">
+                      <Link to={lp(r.to)} viewTransition className="group flex items-start justify-between gap-4 py-4">
                         <span className="min-w-0">
                           <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{r.title}</span>
                           <span className="mt-1 block text-sm text-ink/55">{r.note}</span>
@@ -326,10 +454,10 @@ function EventView({ event }: { event: CityEvent }) {
       </section>
 
       <NextStep
-        title="Cosa fare a Napoli nei giorni in cui ci sei"
-        text="Feste, mercati, concerti e mostre, giorno per giorno, e le esperienze prenotabili in quelle date."
-        primary={{ to: '/cosa-fare', label: 'Il programma' }}
-        secondary={{ to: '/cosa-fare/weekend', label: 'Questo weekend' }}
+        title={t('Cosa fare a Napoli nei giorni in cui ci sei')}
+        text={t('Feste, mercati, concerti e mostre, giorno per giorno, e le esperienze prenotabili in quelle date.')}
+        primary={{ to: lp('/cosa-fare'), label: t('Il programma') }}
+        secondary={{ to: lp('/cosa-fare/weekend'), label: t('Questo weekend') }}
       />
     </Page>
   )
@@ -337,7 +465,9 @@ function EventView({ event }: { event: CityEvent }) {
 
 export default function EventPage() {
   const { slug } = useParams()
-  const event = findEvent(slug ?? '')
-  if (!event) return <NotFoundPage />
+  const lang = useLang()
+  // In inglese l'indirizzo ha lo slug inglese: si cerca sempre per quello italiano, e si mostra solo se l'evento è tradotto.
+  const event = findEvent(lang === 'en' ? itSlug('eventi', slug ?? '') : slug ?? '')
+  if (!event || (lang === 'en' && !hasEventEn(event))) return <NotFoundPage />
   return <EventView key={event.slug} event={event} />
 }

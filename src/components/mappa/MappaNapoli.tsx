@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import maplibregl, { type Map as MLMap, type GeoJSONSource, type StyleSpecification } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { COLORS, LANDMARKS, NAPOLI_CENTER, pinName, pinSvg, type MapItem } from '../../lib/mappa'
+import { COLORS, LANDMARKS, NAPOLI_CENTER, landmarkName, pinName, pinSvg, type MapItem } from '../../lib/mappa'
 import type { EventCategory } from '../../types'
+import { useLang, useT, type Lang } from '../../i18n/lang'
 
 /** Mappe libere di OpenFreeMap (OpenStreetMap): niente chiave, niente cookie. */
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/bright'
@@ -32,7 +33,8 @@ export interface MappaNapoliProps {
 }
 
 /** Colori del sito sopra lo stile "bright": carta sabbia, mare blu, strade bianche, senza negozi e fermate. */
-function brandStyle(map: MLMap) {
+function brandStyle(map: MLMap, lang: Lang) {
+  const nameField = lang === 'en' ? 'name:en' : 'name:it'
   const P = (id: string, prop: string, v: unknown) => map.getLayer(id) && map.setPaintProperty(id, prop, v)
   const L = (id: string, prop: string, v: unknown) => map.getLayer(id) && map.setLayoutProperty(id, prop, v)
   P('background', 'background-color', '#fff7f1')
@@ -61,11 +63,11 @@ function brandStyle(map: MLMap) {
     L(id, 'text-transform', 'uppercase')
     L(id, 'text-letter-spacing', 0.1)
     L(id, 'text-font', ['Noto Sans Bold'])
-    L(id, 'text-field', ['coalesce', ['get', 'name:it'], ['get', 'name']])
+    L(id, 'text-field', ['coalesce', ['get', nameField], ['get', 'name']])
   }
   for (const id of ['water_name_point_label', 'water_name_line_label']) {
     P(id, 'text-color', COLORS.evento === '#ff5500' ? '#0055ff' : '#0055ff')
-    L(id, 'text-field', ['coalesce', ['get', 'name:it'], ['get', 'name']])
+    L(id, 'text-field', ['coalesce', ['get', nameField], ['get', 'name']])
   }
   for (const id of ['highway-name-major', 'highway-name-minor', 'highway-name-path']) {
     P(id, 'text-color', '#7a6a5e')
@@ -105,16 +107,16 @@ const itemsGeoJson = (items: MapItem[], selectedId: string | null | undefined, h
   })),
 })
 
-const landmarksGeoJson = (): GeoJSON.FeatureCollection => ({
+const landmarksGeoJson = (lang: Lang): GeoJSON.FeatureCollection => ({
   type: 'FeatureCollection',
   features: LANDMARKS.map((lm) => ({
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [lm.lng, lm.lat] },
-    properties: { name: lm.name.toUpperCase(), icon: `lm-${lm.file}`, minZoom: lm.minZoom, size: lm.size / 180, priority: lm.priority },
+    properties: { name: landmarkName(lm, lang).toUpperCase(), icon: `lm-${lm.file}`, minZoom: lm.minZoom, size: lm.size / 180, priority: lm.priority },
   })),
 })
 
-function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | undefined, interactive: boolean) {
+function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | undefined, interactive: boolean, lang: Lang) {
   // Edifici in 3D leggeri quando si è molto vicini, prima di tutte le scritte.
   const firstSymbol = (map.getStyle() as StyleSpecification).layers.find((l) => l.type === 'symbol')?.id
   if (map.getSource('openmaptiles') && !map.getLayer('edifici-3d'))
@@ -134,7 +136,7 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
       },
       firstSymbol,
     )
-  map.addSource('monumenti', { type: 'geojson', data: landmarksGeoJson() })
+  map.addSource('monumenti', { type: 'geojson', data: landmarksGeoJson(lang) })
   // Fasce di zoom: da lontano solo i grandi (Vesuvio, Capri, Pompei, isole), poi castelli e piazze, da vicino teatro e galleria.
   // Le collisioni le gestisce la mappa: quando due si toccano resta quello con priorità più alta, l'altro compare zoomando.
   for (const [suffix, min, max] of [['lontano', 0, 11], ['citta', 11, 12.5], ['medio', 12.5, 14], ['vicino', 14, 99]] as const) {
@@ -212,6 +214,8 @@ function addLayers(map: MLMap, items: MapItem[], selectedId: string | null | und
 
 /** La mappa di Napoli: motore MapLibre, stile nostro, monumenti disegnati e segnaposto per categoria. */
 export default function MappaNapoli({ items, selectedId, onSelect, me, focus, interactive = true, className = '', paddingBottom = 0, hoveredId, onHover, onMove, onError }: MappaNapoliProps) {
+  const lang = useLang()
+  const t = useT()
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MLMap | null>(null)
   const readyRef = useRef(false)
@@ -246,7 +250,7 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
       interactive,
       pitchWithRotate: interactive,
       fadeDuration: 150,
-      locale: { 'NavigationControl.ZoomIn': 'Avvicina', 'NavigationControl.ZoomOut': 'Allontana', 'NavigationControl.ResetBearing': 'Riallinea a nord' },
+      locale: { 'NavigationControl.ZoomIn': t('Avvicina'), 'NavigationControl.ZoomOut': t('Allontana'), 'NavigationControl.ResetBearing': t('Riallinea a nord') },
     })
     mapRef.current = map
     if (import.meta.env.DEV) (window as unknown as { __mappa?: MLMap }).__mappa = map
@@ -256,12 +260,12 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
     map.touchZoomRotate.enableRotation()
 
     map.on('load', async () => {
-      brandStyle(map)
+      brandStyle(map, lang)
       // L'attribuzione parte chiusa anche su telefono: si apre con la (i).
       el.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show')
       await loadImages(map)
       if (!mapRef.current) return
-      addLayers(map, itemsRef.current, selectedRef.current, interactive)
+      addLayers(map, itemsRef.current, selectedRef.current, interactive, lang)
       readyRef.current = true
       if (!focus && itemsRef.current.length && interactive) fitTo(map, itemsRef.current, paddingBottom)
       if (!interactive) return
@@ -357,7 +361,7 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
     if (!meMarker.current) {
       const el = document.createElement('div')
       el.className = 'mappa-me'
-      el.innerHTML = '<img src="/mappa/sei-qui.webp" alt="Sei qui" width="72" height="72"><span></span>'
+      el.innerHTML = `<img src="/mappa/sei-qui.webp" alt="${t('Sei qui')}" width="72" height="72"><span></span>`
       meMarker.current = new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([me.lng, me.lat]).addTo(map)
     } else meMarker.current.setLngLat([me.lng, me.lat])
   }, [me])
@@ -369,7 +373,7 @@ export default function MappaNapoli({ items, selectedId, onSelect, me, focus, in
     map.flyTo({ center: [focus.lng, focus.lat], zoom: focus.zoom ?? Math.max(map.getZoom(), 14.5), padding: { bottom: paddingBottom }, duration: 700, essential: true })
   }, [focus, paddingBottom])
 
-  return <div ref={containerRef} className={`mappa-napoli h-full w-full ${className}`} aria-label="Mappa di Napoli" role="region" />
+  return <div ref={containerRef} className={`mappa-napoli h-full w-full ${className}`} aria-label={t('Mappa di Napoli')} role="region" />
 }
 
 function fitTo(map: MLMap, items: MapItem[], paddingBottom: number) {

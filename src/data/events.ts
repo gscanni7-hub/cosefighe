@@ -58,6 +58,20 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
   citta: 'In città',
 }
 
+/** Le stesse etichette in inglese, per le pagine /en. */
+export const EVENT_CATEGORY_LABELS_EN: Record<EventCategory, string> = {
+  food: 'Food',
+  outdoor: 'Outdoor',
+  sport: 'Sport',
+  arte: 'Art',
+  laboratori: 'Workshops',
+  spettacoli: 'Shows',
+  citta: 'Around town',
+}
+
+/** L'etichetta di una categoria di eventi nella lingua della pagina. */
+export const eventCategoryLabel = (c: EventCategory, lang: 'it' | 'en' = 'it'): string => (lang === 'en' ? EVENT_CATEGORY_LABELS_EN : EVENT_CATEGORY_LABELS)[c]
+
 export const EVENT_CATEGORIES = Object.keys(EVENT_CATEGORY_LABELS) as EventCategory[]
 
 export function eventEnd(e: CityEvent): string {
@@ -131,10 +145,10 @@ export function eventsForPages(today: string, days = 0): CityEvent[] {
   return EVENTS.filter((e) => eventEnd(e) >= limit)
 }
 
-/** «24 ottobre 2026» per un giorno solo, «fino al 10 ottobre 2026» per mostre e rassegne. */
-export function eventDateLabel(e: CityEvent): string {
+/** «24 ottobre 2026» per un giorno solo, «fino al 10 ottobre 2026» per mostre e rassegne (in inglese «24 October 2026», «until 10 October 2026»). */
+export function eventDateLabel(e: CityEvent, lang: 'it' | 'en' = 'it'): string {
   const end = eventEnd(e)
-  const p = dayParts(end)
+  const p = dayParts(end, lang)
   const label = `${p.day} ${p.monLong} ${end.slice(0, 4)}`
-  return end === e.start ? label : `fino al ${label}`
+  return end === e.start ? label : `${lang === 'en' ? 'until' : 'fino al'} ${label}`
 }

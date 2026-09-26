@@ -5,6 +5,8 @@ import { ArrowRight, MapPin, Menu, X } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
 import { preloadMappa } from '../lib/mappaPreload'
+import { track } from '../lib/track'
+import { langOf, otherLangPath, useLp, useT, type Lang } from '../i18n/lang'
 
 const navItems = [
   { label: 'Esperienze', to: '/esperienze' },
@@ -14,11 +16,50 @@ const navItems = [
   { label: 'Contatti', to: '/contatti' },
 ]
 
+/** Selettore IT | EN: porta alla stessa pagina nell'altra lingua. light: su fondo bianco; dark: nel piè di pagina. */
+export function LangSwitch({ tone = 'light', className = '' }: { tone?: 'light' | 'dark'; className?: string }) {
+  const { pathname, search } = useLocation()
+  const t = useT()
+  const lang = langOf(pathname)
+  const to = otherLangPath(pathname) + search
+  const dark = tone === 'dark'
+  const base = 'flex h-7 min-w-[32px] items-center justify-center rounded-full px-2 text-xs font-semibold tracking-wide transition-colors'
+  const item = (l: Lang) => {
+    const label = l === 'en' ? 'English' : 'Italiano'
+    if (l === lang)
+      return (
+        <span lang={l} aria-label={label} aria-current="true" className={`${base} ${dark ? 'bg-white text-ink' : 'bg-ink text-white'}`}>
+          {l.toUpperCase()}
+        </span>
+      )
+    return (
+      <Link
+        to={to}
+        hrefLang={l}
+        lang={l}
+        aria-label={label}
+        onClick={() => track('lingua', { a: l })}
+        className={`${base} ${dark ? 'text-white/70 hover:text-white' : 'text-ink/70 hover:bg-cream hover:text-ink'}`}
+      >
+        {l.toUpperCase()}
+      </Link>
+    )
+  }
+  return (
+    <div role="group" aria-label={t('Lingua')} className={`inline-flex items-center gap-0.5 rounded-full border p-0.5 ${dark ? 'border-white/25' : 'border-line bg-white'} ${className}`}>
+      {item('it')}
+      {item('en')}
+    </div>
+  )
+}
+
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState(false)
   const location = useLocation()
+  const t = useT()
+  const lp = useLp()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -40,12 +81,15 @@ export const Navbar = () => {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  const isActive = (to: string) => (to === '/' ? location.pathname === '/' : location.pathname.startsWith(to))
+  const isActive = (it: string) => {
+    const to = lp(it)
+    return to === '/' ? location.pathname === '/' : location.pathname.startsWith(to)
+  }
 
   return (
     <>
       <a href="#main" className="skip-link">
-        Vai al contenuto
+        {t('Vai al contenuto')}
       </a>
       <header
         className={`fixed top-0 z-50 w-full transition-[background-color,box-shadow,padding] duration-300 ease-out-quart ${
@@ -53,7 +97,7 @@ export const Navbar = () => {
         }`}
       >
         <div className="container-x flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-          <Link to="/" viewTransition className="shrink-0" aria-label="Cose Fighe, home">
+          <Link to={lp('/')} viewTransition className="shrink-0" aria-label={t('Cose Fighe, home')}>
             <img
               src="/logo-mark.webp"
               alt=""
@@ -63,31 +107,31 @@ export const Navbar = () => {
             />
           </Link>
 
-          <nav aria-label="Principale" className="hidden lg:block">
+          <nav aria-label={t('Principale')} className="hidden lg:block">
             <ul className="flex items-center gap-0.5 rounded-full border border-line bg-white p-1">
               {navItems.map((item) => {
                 const active = isActive(item.to)
                 return (
                   <li key={item.to}>
                     <Link
-                      to={item.to}
+                      to={lp(item.to)}
                       viewTransition
                       aria-current={active ? 'page' : undefined}
                       className={`block rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                         active ? 'bg-ink text-white' : 'text-ink/75 hover:bg-cream hover:text-ink'
                       }`}
                     >
-                      {item.label}
+                      {t(item.label)}
                     </Link>
                   </li>
                 )
               })}
               <li>
                 <Link
-                  to="/mappa"
+                  to={lp('/mappa')}
                   viewTransition
-                  aria-label="La mappa di Napoli"
-                  title="La mappa"
+                  aria-label={t('La mappa di Napoli')}
+                  title={t('La mappa')}
                   onMouseEnter={preloadMappa}
                   onTouchStart={preloadMappa}
                   aria-current={isActive('/mappa') ? 'page' : undefined}
@@ -96,20 +140,24 @@ export const Navbar = () => {
                   <MapPin size={16} />
                 </Link>
               </li>
+              <li className="ml-1 pr-0.5">
+                <LangSwitch />
+              </li>
             </ul>
           </nav>
 
           <div className="flex items-center justify-end gap-3">
             <div className="hidden lg:block">
               <ButtonLink to="/contatti" size="sm">
-                Scrivici <ArrowRight size={14} />
+                {t('Scrivici')} <ArrowRight size={14} />
               </ButtonLink>
             </div>
+            <LangSwitch className="lg:hidden" />
             <button
               type="button"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-ink transition-colors hover:bg-cream lg:hidden"
               onClick={() => setOpen(!open)}
-              aria-label={open ? 'Chiudi il menu' : 'Apri il menu'}
+              aria-label={open ? t('Chiudi il menu') : t('Apri il menu')}
               aria-expanded={open}
               aria-controls="mobile-menu"
             >
@@ -122,7 +170,7 @@ export const Navbar = () => {
           {open && (
             <motion.nav
               id="mobile-menu"
-              aria-label="Menu"
+              aria-label={t('Menu')}
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
@@ -131,9 +179,9 @@ export const Navbar = () => {
             >
               <ul className="overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-soft">
                 <li>
-                  <Link to="/mappa" viewTransition onTouchStart={preloadMappa} onMouseEnter={preloadMappa} className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
+                  <Link to={lp('/mappa')} viewTransition onTouchStart={preloadMappa} onMouseEnter={preloadMappa} className="mb-1 flex w-full items-center gap-3 rounded-2xl bg-sand px-4 py-3.5 text-left text-base font-semibold text-ink">
                     <MapPin size={18} className="text-orange" />
-                    La mappa di Napoli
+                    {t('La mappa di Napoli')}
                   </Link>
                 </li>
                 {navItems.map((item) => {
@@ -141,14 +189,14 @@ export const Navbar = () => {
                   return (
                     <li key={item.to}>
                       <Link
-                        to={item.to}
+                        to={lp(item.to)}
                         viewTransition
                         aria-current={active ? 'page' : undefined}
                         className={`flex items-center justify-between rounded-2xl px-4 py-3.5 text-base font-semibold transition-colors ${
                           active ? 'bg-ink text-white' : 'hover:bg-cream'
                         }`}
                       >
-                        {item.label}
+                        {t(item.label)}
                         <ArrowRight size={16} className={active ? 'text-white/70' : 'text-ink/40'} />
                       </Link>
                     </li>
@@ -156,7 +204,7 @@ export const Navbar = () => {
                 })}
                 <li className="px-2 pb-1 pt-3">
                   <ButtonLink to="/contatti" className="w-full">
-                    Scrivici <ArrowRight size={16} />
+                    {t('Scrivici')} <ArrowRight size={16} />
                   </ButtonLink>
                 </li>
               </ul>
