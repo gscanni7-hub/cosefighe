@@ -146,7 +146,7 @@ function timeEn(time: string, single: boolean): { inline?: string; sentence?: st
   const one = t.match(new RegExp(`^${T}$`, 'i'))
   if (one) return single ? { inline: `starting at ${clockEn(one[1])}` } : { sentence: `Each day it starts at ${clockEn(one[1])}.` }
   const range = t.match(new RegExp(`^${T}\\s*(?:[–-]|to)\\s*${T}$`, 'i'))
-  if (range) return single ? { inline: `from ${clockEn(range[1])} to ${clockEn(range[2])}` } : { sentence: `Hours: ${clockEn(range[1])}–${clockEn(range[2])}.` }
+  if (range) return single ? { inline: `from ${clockEn(range[1])} to ${clockEn(range[2])}` } : { sentence: `Hours: ${clockEn(range[1])}-${clockEn(range[2])}.` }
   const end = /[.!?]$/.test(t) ? '' : '.'
   return { sentence: /^(times?|various|several|different|check)\b/i.test(t) ? `${cap(t)}${end}` : `Times: ${t}${end}` }
 }

@@ -117,7 +117,7 @@ export function PromoToast() {
       </div>
     )
   }
-  const time = event.time ? event.time.replace(/\s*–.*$/, '').replace(/^(dalle|from)\s+/i, '') : ''
+  const time = event.time ? event.time.replace(/\s*[–-].*$/, '').replace(/^(dalle|from)\s+/i, '') : ''
   const day = capitalize(formatLong(event.start, lang))
   const when = time ? t('{giorno}, dalle {ora}', { giorno: day, ora: time }) : day
 

@@ -9,3 +9,4 @@ Chi scrive per il sito, persona o agente, scrive così.
 - Descrizioni delle esperienze: 2-3 frasi. Prima cosa si fa, poi cosa si porta a casa, poi un consiglio pratico.
 - Articoli del blog: apertura senza preamboli, sezioni con titoli semplici, un "consiglio da local" per sezione dove ha senso, chiusura con un rimando a un'esperienza o al programma della città. Mai testo copiato, mai elenchi di dieci cose messe lì.
 - Parole da non usare: fighissimo, imperdibile, must, top, autentico (lo dimostrano i dettagli, non l'aggettivo).
+- Niente trattini lunghi (— e –), in nessun campo: né nei testi, né negli orari, né nelle date. Nelle frasi si usano virgola, due punti o punto; negli intervalli il trattino normale: "19:30-23:30", "16-18 ottobre", "€8-10".

@@ -59,13 +59,13 @@ export function dayParts(iso: string, lang: L = 'it') {
   return { day: d.getDate(), wd: W(lang)[d.getDay()], wdLong: WL(lang)[d.getDay()], mon: M(lang)[d.getMonth()], monLong: ML(lang)[d.getMonth()], month: d.getMonth() }
 }
 
-/** "19 set" oppure "19 – 21 set" oppure "30 set – 2 ott" (in inglese con i mesi inglesi) */
+/** "19 set" oppure "19-21 set" oppure "30 set - 2 ott" (in inglese con i mesi inglesi) */
 export function formatRange(from: string, to: string, lang: L = 'it'): string {
   if (from === to) return formatShort(from, lang)
   const a = fromISO(from)
   const b = fromISO(to)
-  if (a.getMonth() === b.getMonth()) return `${a.getDate()} – ${b.getDate()} ${M(lang)[a.getMonth()]}`
-  return `${a.getDate()} ${M(lang)[a.getMonth()]} – ${b.getDate()} ${M(lang)[b.getMonth()]}`
+  if (a.getMonth() === b.getMonth()) return `${a.getDate()}-${b.getDate()} ${M(lang)[a.getMonth()]}`
+  return `${a.getDate()} ${M(lang)[a.getMonth()]} - ${b.getDate()} ${M(lang)[b.getMonth()]}`
 }
 
 /** Elenco dei giorni tra due date, estremi inclusi. */

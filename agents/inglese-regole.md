@@ -25,10 +25,10 @@ Obiettivo: premendo EN tutto il sito è in inglese, perfetto, senza mai una paro
 7. In italiano il risultato deve essere IDENTICO a prima: non cambiare testi, classi, struttura.
 
 ## Stile dell'inglese
-- Inglese britannico naturale, da persona del posto che accompagna un amico: frasi corte, concrete, calde, un filo di ironia. Niente "hidden gem", "must-see", "unforgettable", "authentic", "immerse yourself", niente punti esclamativi.
-- Non si traduce parola per parola: si riscrive per uno straniero (spiega cosa sono sfogliatella, frittatina, Circumvesuviana, "coperto" quando serve; misure e orari chiari: "9am–7pm", "Sat 3 Oct").
+- Inglese britannico naturale, da persona del posto che accompagna un amico: frasi corte, concrete, calde, un filo di ironia. Niente "hidden gem", "must-see", "unforgettable", "authentic", "immerse yourself", niente punti esclamativi. Niente trattini lunghi (— e –): negli intervalli il trattino normale ("9am-7pm", "16-18 October").
+- Non si traduce parola per parola: si riscrive per uno straniero (spiega cosa sono sfogliatella, frittatina, Circumvesuviana, "coperto" quando serve; misure e orari chiari: "9am-7pm", "Sat 3 Oct").
 - Nomi propri e piatti restano in italiano (Spaccanapoli, Quartieri Spagnoli, babà, sfogliatella), con una glossa la prima volta se serve.
-- Titoli SEO: parole che cercano gli stranieri ("things to do in Naples", "Naples food tour", "day trip to Pompeii from Naples"). Title ≤ 60 caratteri, description 140–155.
+- Titoli SEO: parole che cercano gli stranieri ("things to do in Naples", "Naples food tour", "day trip to Pompeii from Naples"). Title ≤ 60 caratteri, description 140-155.
 - Slug inglesi: minuscolo, parole con trattini, significativi (`naples-street-food-tour-old-town`), unici.
 
 ## Da non fare

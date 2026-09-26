@@ -26,12 +26,12 @@ type DurationKey = 'short' | 'medium' | 'long'
 
 const PRICE: { key: PriceKey; label: string; test: (n: number) => boolean }[] = [
   { key: 'low', label: 'Fino a €30', test: (n) => n <= 30 },
-  { key: 'mid', label: '€30 – 60', test: (n) => n > 30 && n <= 60 },
+  { key: 'mid', label: '€30-60', test: (n) => n > 30 && n <= 60 },
   { key: 'high', label: 'Oltre €60', test: (n) => n > 60 },
 ]
 const DURATION: { key: DurationKey; label: string; test: (h: number) => boolean }[] = [
   { key: 'short', label: 'Fino a 2 ore', test: (h) => h <= 2 },
-  { key: 'medium', label: '2 – 4 ore', test: (h) => h > 2 && h <= 4 },
+  { key: 'medium', label: '2-4 ore', test: (h) => h > 2 && h <= 4 },
   { key: 'long', label: 'Mezza giornata o più', test: (h) => h > 4 },
 ]
 
