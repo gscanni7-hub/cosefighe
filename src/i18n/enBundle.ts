@@ -16,9 +16,9 @@ import testi from '../data/en/testi.json'
 
 const bundle: EnBundle = {
   ui: { ...comune, ...home, ...esperienze, ...cosafare, ...eventi, ...mappa, ...blog, ...pagine },
-  experiences: experiences as EnBundle['experiences'],
-  events: events as EnBundle['events'],
-  articles: articles as EnBundle['articles'],
+  experiences: experiences as unknown as EnBundle['experiences'],
+  events: events as unknown as EnBundle['events'],
+  articles: articles as unknown as EnBundle['articles'],
   categories: categories as EnBundle['categories'],
   testi: testi as EnBundle['testi'],
 }
