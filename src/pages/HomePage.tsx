@@ -13,7 +13,7 @@ import { CATEGORY_LIST, categoryListIn } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { GUIDE_LABELS, guideArticles } from '../data/correlati'
 import { eventPath, upcomingEvents } from '../data/events'
-import { DATE_PRESETS, addDays, dayParts } from '../lib/dates'
+import { DATE_PRESETS, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
 import { preloadMappa } from '../lib/mappaPreload'
@@ -150,65 +150,18 @@ const Hero = () => {
           <p className="rise mt-6 max-w-lg text-lg leading-relaxed text-ink/65" style={{ animationDelay: '0.28s' }}>
             {t('Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.')}
           </p>
-          <div className="rise mt-8" style={{ animationDelay: '0.34s' }}>
-            <QuandoBox />
-            <Link to={lp('/esperienze')} className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
-              {t('Oppure esplora tutte le esperienze') + ' '}
-              <ArrowRight size={16} />
-            </Link>
+          <div className="rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.34s' }}>
+            <ButtonLink to={lp('/esperienze')} size="lg">
+              {t('Esplora le esperienze') + ' '}
+              <ArrowRight size={18} />
+            </ButtonLink>
+            <ButtonLink to={lp('/cosa-fare')} variant="secondary" size="lg">
+              {t('Cosa fare a Napoli')}
+            </ButtonLink>
           </div>
         </div>
       </div>
     </section>
-  )
-}
-
-/** «Quando sei a Napoli?»: due date e si va al programma di quei giorni (Cosa fare, con eventi ed esperienze). */
-function QuandoBox() {
-  const t = useT()
-  const lp = useLp()
-  const navigate = useNavigate()
-  const today = useToday()
-  const [from, setFrom] = useState<string | null>(null)
-  const [to, setTo] = useState<string | null>(null)
-  const a = from ?? today
-  const b = to && to >= a ? to : addDays(a, 2)
-  const go = (f: string, l: string) => navigate(lp(`/cosa-fare?dal=${f}&al=${l}`))
-  const field = 'mt-1 block w-full min-w-0 bg-transparent text-[15px] font-semibold text-ink outline-none'
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        go(a, b)
-      }}
-      className="max-w-xl rounded-[1.75rem] border border-line bg-white p-3 shadow-card"
-    >
-      <p className="px-2 pt-1 font-semibold">{t('Quando sei a Napoli?')}</p>
-      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_1fr_auto]">
-        <label className="rounded-2xl bg-paper px-3 py-2">
-          <span className="label text-ink/60">{t('Arrivo')}</span>
-          <input type="date" value={a} min={today} onChange={(e) => e.target.value && setFrom(e.target.value)} className={field} />
-        </label>
-        <label className="rounded-2xl bg-paper px-3 py-2">
-          <span className="label text-ink/60">{t('Partenza')}</span>
-          <input type="date" value={b} min={a} onChange={(e) => e.target.value && setTo(e.target.value)} className={field} />
-        </label>
-        <Button type="submit" size="lg" className="col-span-2 sm:col-span-1">
-          {t('Cosa c’è') + ' '}
-          <ArrowRight size={18} />
-        </Button>
-      </div>
-      <div className="mt-2 flex flex-wrap gap-2 px-1 pb-1">
-        {DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => {
-          const r = p.range(today)
-          return (
-            <button key={p.key} type="button" onClick={() => go(r.from, r.to)} className="chip">
-              {t(p.label)}
-            </button>
-          )
-        })}
-      </div>
-    </form>
   )
 }
 
