@@ -16,18 +16,14 @@
  */
 import type { Article, CityEvent, Experience } from '../types'
 import type { Lang } from './lang'
-import expEn from '../data/en/experiences.json'
-import eventsEn from '../data/en/events.json'
-import articlesEn from '../data/en/articles.json'
-import categoriesEn from '../data/en/categories.json'
-import testiEn from '../data/en/testi.json'
+import { EN } from './enData'
 
 type ExpEn = Partial<Record<'slugIt' | 'slug' | 'title' | 'tag' | 'duration' | 'group' | 'location' | 'included' | 'cancellation' | 'ritrovo', string>>
-const EXP = expEn as Record<string, ExpEn>
-const EV = eventsEn as Record<string, Partial<Record<'slug' | 'title' | 'blurb' | 'time' | 'place' | 'area' | 'price', string>>>
-const AR = articlesEn as Record<string, { slug?: string; title?: string; excerpt?: string; category?: string; tags?: string[] }>
-const CAT = categoriesEn as Record<string, Record<string, unknown>>
-const TESTI = testiEn as Record<string, unknown>
+type EvEn = Partial<Record<'slug' | 'title' | 'blurb' | 'time' | 'place' | 'area' | 'price', string>>
+// Letti al momento della chiamata: i dati inglesi arrivano dopo (vedi enData.ts).
+const EXP = new Proxy({}, { get: (_, k: string) => EN.experiences[k] }) as Record<string, ExpEn | undefined>
+const EV = new Proxy({}, { get: (_, k: string) => EN.events[k] }) as Record<string, EvEn | undefined>
+const AR = new Proxy({}, { get: (_, k: string) => EN.articles[k] }) as Record<string, (typeof EN.articles)[string] | undefined>
 
 const pick = <T,>(en: T | undefined, it: T): T => (en === undefined || en === null || en === '' ? it : en)
 
@@ -66,7 +62,7 @@ export function localizeEvent(e: CityEvent, lang: Lang): CityEvent {
 export const hasEventEn = (e: CityEvent) => !!EV[e.slug]?.title
 /** Slug inglese di un evento (per l'indirizzo /en/events/...). */
 export const eventSlugEn = (e: CityEvent) => EV[e.slug]?.slug ?? e.slug
-export const eventBySlugEn = (slugEn: string) => Object.entries(EV).find(([, v]) => v.slug === slugEn)?.[0]
+export const eventBySlugEn = (slugEn: string) => Object.entries(EN.events).find(([, v]) => v.slug === slugEn)?.[0]
 
 export function localizeArticle(a: Article, lang: Lang): Article {
   if (lang === 'it') return a
@@ -76,17 +72,17 @@ export function localizeArticle(a: Article, lang: Lang): Article {
 }
 export const hasArticleEn = (a: Article) => !!AR[a.slug]?.title
 export const articleSlugEn = (slugIt: string) => AR[slugIt]?.slug ?? slugIt
-export const articleBySlugEn = (slugEn: string) => Object.entries(AR).find(([, v]) => v.slug === slugEn)?.[0]
+export const articleBySlugEn = (slugEn: string) => Object.entries(EN.articles).find(([, v]) => v.slug === slugEn)?.[0]
 
 /** Campi di una categoria (etichetta, sottotitolo, testi introduttivi, domande): quelli tradotti sostituiscono gli italiani. */
 export function localizeCategory<C extends { slug: string }>(c: C, lang: Lang): C {
   if (lang === 'it') return c
-  const en = CAT[c.slug]
+  const en = EN.categories[c.slug]
   return en ? ({ ...c, ...en } as C) : c
 }
 
 /** Un testo lungo di un modulo dati (es. testiIn('guida', GUIDE, lang)): stessa forma dell'italiano. */
 export function testiIn<T>(key: string, it: T, lang: Lang): T {
   if (lang === 'it') return it
-  return (TESTI[key] as T | undefined) ?? it
+  return (EN.testi[key] as T | undefined) ?? it
 }

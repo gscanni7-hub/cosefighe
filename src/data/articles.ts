@@ -4,7 +4,7 @@ import generated from './generated.json'
 /**
  * Gli articoli del blog arrivano dal database a ogni build (scripts/fetch-content.mjs).
  * Qui c'è solo l'indice: titolo, estratto, copertina, data. I testi completi stanno in
- * generated-bodies.json e li carica soltanto la pagina dell'articolo (vedi articleBodies.ts),
+ * generated-bodies.json e li carica soltanto la pagina dell'articolo (vedi data/split.ts),
  * così il resto del sito non li scarica.
  */
 function fromDb(a: DbArticle): Article {

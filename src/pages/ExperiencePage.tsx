@@ -7,12 +7,13 @@ import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
 import { NextStep } from '../components/ui/NextStep'
 import { findExperiencePage, hasTexts, type ExperiencePage as PageData } from '../data/schede'
-import { schedaTexts } from '../data/schedeTesti'
+import { useSplit } from '../data/split'
+import type { Scheda } from '../data/schede'
 import { relatedForExperience } from '../data/correlati'
 import credits from '../data/credits.json'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { track } from '../lib/track'
-import { seoTitle } from '../seo'
+import { seoTitle } from '../lib/seoTitle'
 import { DoveBox } from '../components/mappa/DoveBox'
 import { experienceToItem } from '../lib/mappa'
 import { useSaved } from '../lib/saved'
@@ -20,7 +21,7 @@ import { PROVIDER_LABEL } from '../types'
 import NotFoundPage from './NotFoundPage'
 import { itSlug, useLang, useLp, useT, type Lang } from '../i18n/lang'
 import { hasArticleEn, hasExperienceEn, localizeArticle, localizeCategory, localizeExperience } from '../i18n/content'
-import { localizeScheda } from '../i18n/schede'
+import { localizeScheda, type SchedaEn } from '../i18n/schede'
 
 const WEEKDAYS = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab']
 const LANGS: Record<string, string> = { it: 'italiano', en: 'inglese', fr: 'francese', es: 'spagnolo', de: 'tedesco', pt: 'portoghese', ru: 'russo', ja: 'giapponese', zh: 'cinese', nl: 'olandese' }
@@ -60,8 +61,10 @@ function ExperienceView({ page }: { page: PageData }) {
   const itTitle = page.exp.title
   const exp = localizeExperience(page.exp, lang)
   const category = localizeCategory(page.category, lang)
-  const schedaIt = schedaTexts(exp.providerId)
-  const schedaLoc = localizeScheda(exp.providerId, schedaIt, lang)
+  // I testi lunghi arrivano uno per scheda (vedi data/split.ts): già pronti al primo caricamento, al volo navigando.
+  const schedaIt = useSplit<Scheda>('schede-it', exp.providerId) ?? undefined
+  const schedaEn = useSplit<SchedaEn>('schede-en', lang === 'en' ? exp.providerId : undefined)
+  const schedaLoc = localizeScheda(schedaIt, schedaEn, lang)
   // In inglese, senza traduzione dei testi lunghi, meglio niente testi che testi in italiano.
   const scheda = lang === 'en' && schedaLoc === schedaIt ? undefined : schedaLoc
   const { has, toggle } = useSaved()
@@ -298,7 +301,7 @@ function ExperienceView({ page }: { page: PageData }) {
 
       {bookable && (
         <div
-          aria-hidden={!barVisible}
+          inert={!barVisible}
           className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur transition-transform duration-300 ease-out-quart lg:hidden ${
             barVisible ? 'translate-y-0' : 'pointer-events-none translate-y-full'
           }`}

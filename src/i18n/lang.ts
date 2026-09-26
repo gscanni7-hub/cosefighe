@@ -9,21 +9,10 @@
  * - I contenuti (esperienze, eventi, articoli, categorie) hanno la loro versione in src/data/en/*.json.
  */
 import { useLocation } from 'react-router'
-import comune from './ui/comune.json'
-import home from './ui/home.json'
-import esperienze from './ui/esperienze.json'
-import cosafare from './ui/cosafare.json'
-import eventi from './ui/eventi.json'
-import mappa from './ui/mappa.json'
-import blog from './ui/blog.json'
-import pagine from './ui/pagine.json'
-import expEn from '../data/en/experiences.json'
-import eventsEn from '../data/en/events.json'
-import articlesEn from '../data/en/articles.json'
+import slugsEn from '../data/split/slugs.json'
+import { EN } from './enData'
 
 export type Lang = 'it' | 'en'
-
-const UI_EN: Record<string, string> = { ...comune, ...home, ...esperienze, ...cosafare, ...eventi, ...mappa, ...blog, ...pagine }
 
 /** La lingua di un indirizzo. */
 export const langOf = (pathname: string): Lang => (pathname === '/en' || pathname.startsWith('/en/') ? 'en' : 'it')
@@ -36,7 +25,7 @@ export function useLang(): Lang {
 /** Traduce un testo dell'interfaccia. Senza traduzione resta l'italiano (e la build lo segnala). */
 export function translate(text: string, lang: Lang): string {
   if (lang === 'it') return text
-  return UI_EN[text] ?? text
+  return EN.ui[text] ?? text
 }
 
 /** Testo con segnaposto: t('{n} esperienze', { n: 12 }). */
@@ -77,33 +66,25 @@ const PREFIX: [string, string][] = [
   ['/categoria/', '/en/category/'],
 ]
 
-type SlugMap = Record<string, { slug?: string }>
-/** Slug inglesi: esperienze per slug italiano (vedi slugEnOfExperience), eventi e articoli per slug italiano. */
-const EXP_BY_IT_SLUG: Record<string, string> = {}
-const EXP_BY_EN_SLUG: Record<string, string> = {}
-for (const v of Object.values(expEn as Record<string, { slugIt?: string; slug?: string }>)) {
-  if (v.slug && v.slugIt) {
-    EXP_BY_IT_SLUG[v.slugIt] = v.slug
-    EXP_BY_EN_SLUG[v.slug] = v.slugIt
-  }
-}
-const mapOf = (m: SlugMap) => {
-  const fwd: Record<string, string> = {}
-  const back: Record<string, string> = {}
-  for (const [it, v] of Object.entries(m)) if (v.slug) (fwd[it] = v.slug), (back[v.slug] = it)
-  return { fwd, back }
-}
-const EV = mapOf(eventsEn as SlugMap)
-const AR = mapOf(articlesEn as SlugMap)
+/** Slug inglesi per slug italiano (generati da scripts/dividi-dati.mjs, leggeri: servono anche sulle pagine italiane). */
+const SLUGS = slugsEn as Record<'experiences' | 'events' | 'articles', Record<string, string>>
+const back = (m: Record<string, string>) => Object.fromEntries(Object.entries(m).map(([it, en]) => [en, it]))
+const EXP = { fwd: SLUGS.experiences, back: back(SLUGS.experiences) }
+const EV = { fwd: SLUGS.events, back: back(SLUGS.events) }
+const AR = { fwd: SLUGS.articles, back: back(SLUGS.articles) }
 
 function slugTo(prefixIt: string, slug: string, lang: Lang): string {
   const table =
-    prefixIt === '/esperienze/' ? (lang === 'en' ? EXP_BY_IT_SLUG : EXP_BY_EN_SLUG)
+    prefixIt === '/esperienze/' ? (lang === 'en' ? EXP.fwd : EXP.back)
     : prefixIt === '/eventi/' ? (lang === 'en' ? EV.fwd : EV.back)
     : prefixIt === '/blog/' ? (lang === 'en' ? AR.fwd : AR.back)
     : {}
   return table[slug] ?? slug
 }
+
+const LIST_EN: Record<string, string> = { '/esperienze/': '/en/experiences', '/eventi/': '/en/things-to-do', '/blog/': '/en/blog' }
+const hasEnSlug = (prefixIt: string, slug: string) =>
+  !!(prefixIt === '/esperienze/' ? EXP.fwd : prefixIt === '/eventi/' ? EV.fwd : AR.fwd)[slug]
 
 /** Lo slug italiano di una pagina, dato lo slug che si trova nell'indirizzo (in inglese o già italiano). */
 export function itSlug(kind: 'esperienze' | 'eventi' | 'blog', slug: string): string {
@@ -120,7 +101,13 @@ export function localizePath(path: string, lang: Lang): string {
   if (!bare.startsWith('/') || bare.startsWith('/admin')) return path
   if (lang === 'en') {
     if (STATIC_PATHS[bare]) return STATIC_PATHS[bare] + rest
-    for (const [it, en] of PREFIX) if (bare.startsWith(it)) return en + slugTo(it, bare.slice(it.length), 'en') + rest
+    for (const [it, en] of PREFIX) {
+      if (!bare.startsWith(it)) continue
+      const slug = bare.slice(it.length)
+      // Pagina senza versione inglese (es. un tour solo in italiano): si va all'elenco inglese.
+      if (it !== '/categoria/' && !hasEnSlug(it, slug)) return LIST_EN[it]
+      return en + slugTo(it, slug, 'en') + rest
+    }
     return '/en' + bare + rest
   }
   if (STATIC_BACK[bare]) return STATIC_BACK[bare] + rest

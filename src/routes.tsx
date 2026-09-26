@@ -1,5 +1,7 @@
-import { lazy, Suspense, type ReactNode } from 'react'
-import { Link, Outlet, ScrollRestoration, isRouteErrorResponse, useRouteError, type RouteObject } from 'react-router'
+import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react'
+import { Link, Outlet, ScrollRestoration, isRouteErrorResponse, useLocation, useRouteError, type RouteObject } from 'react-router'
+import { langOf } from './i18n/lang'
+import { enLoaded, loadEn } from './i18n/enData'
 import { MotionConfig } from 'motion/react'
 import { AdminProvider } from './context/AdminContext'
 import HomePage from './pages/HomePage'
@@ -31,12 +33,21 @@ const AdminFallback = () => (
   <div className="flex min-h-screen items-center justify-center bg-paper font-sans text-sm text-ink/50">Caricamento del pannello...</div>
 )
 
-const RootLayout = () => (
-  <>
-    <ScrollRestoration />
-    <Outlet />
-  </>
-)
+const RootLayout = () => {
+  // Passando all'inglese dentro il sito, si aspetta che arrivino i suoi dati (pacchetto a parte, vedi i18n/enData.ts).
+  const en = langOf(useLocation().pathname) === 'en'
+  const [, bump] = useState(0)
+  const ready = !en || enLoaded()
+  useEffect(() => {
+    if (!ready) void loadEn().then(() => bump((n) => n + 1))
+  }, [ready])
+  return (
+    <>
+      <ScrollRestoration />
+      {ready && <Outlet />}
+    </>
+  )
+}
 
 const admin = (el: ReactNode) => <Suspense fallback={<AdminFallback />}>{el}</Suspense>
 

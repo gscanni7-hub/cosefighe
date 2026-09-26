@@ -1,7 +1,6 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Navigation } from 'lucide-react'
 import { ButtonAnchor, ButtonLink } from '../ui/Button'
-import { useHydrated } from '../../hooks/useHydrated'
 import { directionsUrl, type MapItem } from '../../lib/mappa'
 import { track } from '../../lib/track'
 import { useLp, useT } from '../../i18n/lang'
@@ -10,13 +9,22 @@ const MappaNapoli = lazy(() => import('./MappaNapoli'))
 
 /** Il riquadro «Dove» delle schede: mappa piccola col segnaposto, indirizzo, indicazioni. */
 export function DoveBox({ item, place, detail }: { item: MapItem; place: string; detail?: string }) {
-  const hydrated = useHydrated()
+  // Il motore della mappa è pesante: si scarica solo quando il riquadro sta per entrare nello schermo.
+  const box = useRef<HTMLDivElement>(null)
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = box.current
+    if (!el || near) return
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setNear(true), { rootMargin: '600px 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [near])
   const t = useT()
   const lp = useLp()
   return (
     <div className="card mt-4 overflow-hidden">
-      <div className="relative h-40 bg-sand">
-        {hydrated ? (
+      <div ref={box} className="relative h-40 bg-sand">
+        {near ? (
           <Suspense fallback={null}>
             <MappaNapoli items={[item]} selectedId={item.id} interactive={false} focus={{ lng: item.lng, lat: item.lat + 0.0005, zoom: 15 }} />
           </Suspense>

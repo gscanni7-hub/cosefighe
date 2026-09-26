@@ -9,3 +9,4 @@ dist-ssr
 dist-dev
 dist-ssr-dev
 agents/log
+src/data/split

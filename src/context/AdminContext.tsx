@@ -22,12 +22,26 @@ const AdminContext = createContext<AdminContextValue>({
   logout: async () => {},
 })
 
+/** Vero se in questo browser c'è una sessione di Supabase salvata (cioè qualcuno è entrato nel pannello). */
+function hasStoredSession(): boolean {
+  try {
+    return Object.keys(localStorage).some((k) => k.startsWith('sb-') && k.endsWith('-auth-token'))
+  } catch {
+    return false
+  }
+}
+
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false)
   const [ready, setReady] = useState(mode !== 'supabase')
 
   useEffect(() => {
     if (mode !== 'supabase') return
+    // Chi non è mai entrato nel pannello non scarica la libreria di Supabase: il login la carica quando serve.
+    if (!hasStoredSession()) {
+      setReady(true)
+      return
+    }
     let unsubscribe: (() => void) | undefined
     getSupabase().then((supabase) => {
       if (!supabase) return
@@ -46,7 +60,9 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     const supabase = await getSupabase()
     if (!supabase) return 'Supabase non disponibile.'
     const { error } = await supabase.auth.signInWithPassword({ email: email ?? '', password })
-    return error ? 'Email o password non corretti.' : null
+    if (error) return 'Email o password non corretti.'
+    setIsAdmin(true)
+    return null
   }
 
   const logout = async () => {

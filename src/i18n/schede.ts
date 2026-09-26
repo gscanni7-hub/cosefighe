@@ -1,14 +1,10 @@
-/** Testi lunghi delle schede in inglese: li importa solo la pagina della scheda, come schedeTesti.ts per l'italiano. */
+/** Testi lunghi delle schede in inglese sopra quelli italiani (i file arrivano uno per scheda, vedi data/split.ts). */
 import type { Scheda } from '../data/schede'
 import type { Lang } from './lang'
-import schedeEn from '../data/en/schede.json'
 
-type SchedaEn = { intro?: string; cosaSiFa?: string[]; perChi?: string; consiglio?: string; faq?: { q: string; a: string }[] }
-const EN = schedeEn as Record<string, SchedaEn>
-
-export function localizeScheda(providerId: string | undefined, scheda: Scheda | undefined, lang: Lang): Scheda | undefined {
-  if (lang === 'it' || !providerId || !scheda) return scheda
-  const en = EN[providerId]
+export type SchedaEn = { intro?: string; cosaSiFa?: string[]; perChi?: string; consiglio?: string; faq?: { q: string; a: string }[] }
+export function localizeScheda(scheda: Scheda | undefined, en: SchedaEn | null | undefined, lang: Lang): Scheda | undefined {
+  if (lang === 'it' || !scheda) return scheda
   if (!en) return scheda
   return {
     ...scheda,

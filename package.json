@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "node scripts/fetch-content.mjs && node scripts/unisci-traduzioni.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "dev": "node scripts/unisci-traduzioni.mjs && node scripts/dividi-dati.mjs && vite",
+    "build": "node scripts/fetch-content.mjs && node scripts/unisci-traduzioni.mjs && node scripts/dividi-dati.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "build:client": "vite build",

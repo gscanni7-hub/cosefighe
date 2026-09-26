@@ -7,8 +7,7 @@ import { ButtonLink } from '../components/ui/Button'
 import { Sticker } from '../components/ui/Sticker'
 import { ArticleCard } from '../components/ui/ArticleCard'
 import { getArticleBySlug, getRelatedArticles } from '../data/articles'
-import { articleBody } from '../data/articleBodies'
-import { articleBodyEn } from '../data/articleBodiesEn'
+import { useSplit } from '../data/split'
 import { usePageMeta } from '../hooks/usePageMeta'
 import type { Article, ArticleSection } from '../types'
 import { CATEGORIES } from '../data/categories'
@@ -303,13 +302,16 @@ export default function BlogArticlePage() {
   const lp = useLp()
   // Le pagine cercano sempre per slug italiano (in /en/blog/... lo slug nell'indirizzo è quello inglese).
   const meta = getArticleBySlug(itSlug('blog', slug ?? ''))
+  // Il testo arriva un articolo alla volta (vedi data/split.ts): già pronto al primo caricamento, al volo navigando.
+  const bodyIt = useSplit<ArticleSection[]>('bodies-it', meta?.slug)
+  const bodyEn = useSplit<ArticleSection[]>('bodies-en', lang === 'en' ? meta?.slug : undefined)
   if (!meta) return <Navigate to={lp('/blog')} replace />
   if (lang === 'en') {
-    const bodyEn = articleBodyEn(meta.slug)
+    if (bodyEn === undefined) return null
     // Senza traduzione completa (titolo e testo) si va all'articolo italiano: mai testo italiano in una pagina inglese.
-    if (!hasArticleEn(meta) || !bodyEn) return <Navigate to={`/blog/${meta.slug}`} replace />
+    if (!hasArticleEn(meta) || !bodyEn?.length) return <Navigate to={`/blog/${meta.slug}`} replace />
     return <ArticleView key={meta.slug} article={{ ...localizeArticle(meta, 'en'), body: bodyEn }} />
   }
-  const article = { ...meta, body: articleBody(meta.slug) }
+  const article = { ...meta, body: bodyIt ?? [] }
   return <ArticleView key={article.slug} article={article} />
 }

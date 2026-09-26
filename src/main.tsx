@@ -4,6 +4,7 @@ import { createBrowserRouter, matchRoutes, RouterProvider } from 'react-router'
 import './index.css'
 import { AppProviders, routes } from './routes'
 import { startTracking } from './lib/track'
+import { preloadPath } from './data/split'
 
 async function boot() {
   // Le pagine caricate a parte (scheda, articolo, privacy) vanno risolte prima dell'aggancio,
@@ -17,6 +18,9 @@ async function boot() {
       }),
     )
   }
+
+  // Testi della pagina (scheda, articolo) e, su /en, l'inglese: pronti prima dell'aggancio.
+  await preloadPath(window.location.pathname)
 
   const router = createBrowserRouter(routes)
   const root = document.getElementById('root')!
