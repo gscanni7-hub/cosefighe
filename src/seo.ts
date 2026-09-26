@@ -88,8 +88,10 @@ const breadcrumbs = (items: { name: string; path: string }[]) => ({
 const priceNumber = (p: string) => Number(p.replace(/[^\d,.]/g, '').replace(',', '.')) || undefined
 
 const experienceProduct = (exp: Experience, categoryLabel: string) => ({
-  '@type': 'Product',
+  // Product per il prezzo e le stelle nei risultati, TouristTrip perché è un'attività turistica.
+  '@type': ['Product', 'TouristTrip'],
   name: exp.title,
+  touristType: categoryLabel,
   image: abs(exp.image),
   description: `${categoryLabel} a Napoli, ${exp.location}. ${exp.duration}. ${exp.included}.`,
   brand: { '@type': 'Brand', name: SITE_NAME },
