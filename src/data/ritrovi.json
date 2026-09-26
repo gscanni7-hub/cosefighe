@@ -377,6 +377,12 @@
   "label": "Via San Carlo, 17, 80132 Napoli NA",
   "source": "viator"
  },
+ "viator:299918P1": {
+  "lat": 40.611946,
+  "lng": 14.343427,
+  "label": "Fermata bus EAV/SITA, Largo Vescovado, 80061 Massa Lubrense NA",
+  "source": "viator"
+ },
  "viator:308572P2": {
   "lat": 40.805857,
   "lng": 14.348997,

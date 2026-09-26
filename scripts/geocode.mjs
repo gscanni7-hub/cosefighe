@@ -108,11 +108,12 @@ function creaGeocoder(cache, opzioni) {
     if (attesa > 0) await new Promise((r) => setTimeout(r, attesa))
     ultimaRichiesta = Date.now()
     try {
-      const url = `${NOMINATIM}?format=json&limit=1&countrycodes=it&q=${encodeURIComponent(testo)}`
+      // Solo Campania: senza il riquadro «Scala» finiva a Brindisi e «Serino» in una traversa di Barra.
+      const url = `${NOMINATIM}?format=json&limit=1&countrycodes=it&viewbox=13.75,41.55,15.85,39.95&bounded=1&q=${encodeURIComponent(testo)}`
       const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(TIMEOUT_MS) })
       if (!res.ok) throw new Error(`Nominatim ${res.status}`)
       const [primo] = await res.json()
-      if (!primo) {
+      if (!primo || Number(primo.lat) < 39.95 || Number(primo.lat) > 41.55 || Number(primo.lon) < 13.75 || Number(primo.lon) > 15.85) {
         falliti.add(chiave)
         return null
       }

@@ -23,6 +23,12 @@
   "label": "Arena Flegrea, Mostra d'Oltremare (viale Kennedy 54)",
   "source": "manuale"
  },
+ "avella": {
+  "lat": 40.9597,
+  "lng": 14.6005,
+  "label": "Avella (AV)",
+  "source": "manuale"
+ },
  "bacoli": {
   "lat": 40.7983,
   "lng": 14.0787,
@@ -36,6 +42,12 @@
   "label": "Bagnoli",
   "source": "manuale",
   "approx": true
+ },
+ "bagnoli irpino": {
+  "lat": 40.8303,
+  "lng": 15.0689,
+  "label": "Bagnoli Irpino (AV)",
+  "source": "manuale"
  },
  "baia": {
   "lat": 40.8181,
@@ -221,6 +233,12 @@
   "label": "Parco Archeologico di Cuma",
   "source": "manuale"
  },
+ "cusano mutri": {
+  "lat": 41.3375,
+  "lng": 14.5087,
+  "label": "Cusano Mutri (BN), centro storico",
+  "source": "manuale"
+ },
  "duomo di napoli": {
   "lat": 40.8524,
   "lng": 14.2582,
@@ -320,6 +338,12 @@
   "label": "Maschio Angioino (Castel Nuovo)",
   "source": "manuale"
  },
+ "massa lubrense": {
+  "lat": 40.6119,
+  "lng": 14.3434,
+  "label": "Massa Lubrense, Largo Vescovado",
+  "source": "manuale"
+ },
  "mergellina": {
   "lat": 40.8275,
   "lng": 14.2201,
@@ -395,12 +419,24 @@
   "source": "manuale",
   "approx": true
  },
+ "napoli napoli": {
+  "lat": 40.83588,
+  "lng": 14.24877,
+  "label": "Napoli, Campania, Italia",
+  "source": "nominatim"
+ },
  "napoli percorso cittadino": {
   "lat": 40.847,
   "lng": 14.2516,
   "label": "Napoli, Piazza del Gesù (centro)",
   "source": "manuale",
   "approx": true
+ },
+ "oliveto citra": {
+  "lat": 40.6889,
+  "lng": 15.2303,
+  "label": "Oliveto Citra (SA)",
+  "source": "manuale"
  },
  "palapartenope": {
   "lat": 40.8207,
@@ -654,6 +690,18 @@
   "label": "Ristorante della Piscina, Mostra d'Oltremare",
   "source": "manuale"
  },
+ "rivottoli serino": {
+  "lat": 40.838,
+  "lng": 14.883,
+  "label": "Rivottoli, Serino (AV)",
+  "source": "manuale"
+ },
+ "roccamonfina": {
+  "lat": 41.2878,
+  "lng": 13.9803,
+  "label": "Roccamonfina (CE)",
+  "source": "manuale"
+ },
  "rotonda diaz": {
   "lat": 40.8317,
   "lng": 14.2305,
@@ -673,6 +721,12 @@
   "label": "Santa Lucia, Via Santa Lucia",
   "source": "manuale",
   "approx": true
+ },
+ "scala costiera amalfitana": {
+  "lat": 40.6554,
+  "lng": 14.606,
+  "label": "Scala (SA), Costiera Amalfitana",
+  "source": "manuale"
  },
  "scavi di ercolano": {
   "lat": 40.8063,
