@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import type { Article } from '../../types'
 import { Sticker } from './Sticker'
+import { CARD_SIZES, imgSrcSet } from '../../lib/img'
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
 
@@ -25,6 +26,8 @@ export function ArticleCard({ article, index = 0, featured = false }: { article:
         <div className={`relative overflow-hidden bg-cream ${featured ? 'aspect-[16/10] md:aspect-auto md:w-1/2' : 'aspect-[16/10]'}`}>
           <img
             src={article.coverImage}
+            srcSet={imgSrcSet(article.coverImage)}
+            sizes={featured ? '(min-width: 768px) 50vw, 100vw' : CARD_SIZES}
             alt={article.title}
             width={1000}
             height={625}

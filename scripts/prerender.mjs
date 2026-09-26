@@ -5,7 +5,7 @@
  * il contenuto già renderizzato, titolo, descrizione, canonical, Open Graph
  * e dati strutturati. Rigenera anche la sitemap.
  */
-import { mkdir, readFile, writeFile, copyFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -15,7 +15,8 @@ const { render, publicPaths, routeSeo, SITE_URL } = await import(join(root, proc
 
 const template = await readFile(join(dist, 'index.html'), 'utf8')
 // Guscio vuoto per gli indirizzi non pre-generati (404, admin, query dinamiche).
-await copyFile(join(dist, 'index.html'), join(dist, 'app.html'))
+// È raggiungibile anche come /app: noindex, altrimenti Google la vede come un doppione della home.
+await writeFile(join(dist, 'app.html'), template.replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>'))
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 const abs = (p) => (p.startsWith('http') ? p : SITE_URL + p)

@@ -8,6 +8,7 @@ import { experiencePath } from '../../data/schede'
 import { DATE_PRESETS, dayParts, formatShort } from '../../lib/dates'
 import { useToday } from '../../hooks/useToday'
 import { track } from '../../lib/track'
+import { imgSmall } from '../../lib/img'
 import { PROVIDER_LABEL, type EventCategory } from '../../types'
 
 export interface MapViewProps {
@@ -552,7 +553,7 @@ function ListRow({ item, me, selected, hovered, onClick, onHover }: { item: MapI
           </span>
         </span>
       ) : (
-        <img src={ex?.image} alt="" width={52} height={52} loading="lazy" className="h-[52px] w-[52px] rounded-xl object-cover" />
+        <img src={imgSmall(ex?.image) ?? ex?.image} alt="" width={52} height={52} loading="lazy" className="h-[52px] w-[52px] rounded-xl object-cover" />
       )}
       <span className="min-w-0">
         <span className="line-clamp-2 text-[13.5px] font-semibold leading-snug">{item.title}</span>
@@ -610,7 +611,7 @@ function ItemCard({
         </div>
       ) : (
         <div className="relative h-[120px] bg-paper">
-          <img src={ex?.image} alt="" className="h-full w-full object-cover" draggable={false} />
+          <img src={imgSmall(ex?.image) ?? ex?.image} alt="" className="h-full w-full object-cover" draggable={false} />
           {ex && (
             <span className="label absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-ink">
               <Star size={11} className="text-orange" fill="currentColor" /> {ex.rating.toLocaleString('it-IT')} · {ex.reviews.toLocaleString('it-IT')}

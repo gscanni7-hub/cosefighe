@@ -69,7 +69,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.08}>
             <div className="overflow-hidden rounded-[2rem] bg-cream" aria-hidden="true">
-              <img src="/img/napoli-skyline.webp" alt="" width={1000} height={667} className="img-warm aspect-[4/3] w-full object-cover" />
+              <img src="/img/napoli-skyline.webp" alt="Napoli dall'alto: il porto e il Vesuvio" width={1000} height={667} className="img-warm aspect-[4/3] w-full object-cover" />
             </div>
           </Reveal>
         </div>

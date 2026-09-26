@@ -6,6 +6,7 @@ import { track } from '../../lib/track'
 import { Sticker } from './Sticker'
 import { useSaved } from '../../lib/saved'
 import { experiencePath } from '../../data/schede'
+import { CARD_SIZES, imgSrcSet } from '../../lib/img'
 
 interface ExperienceCardProps {
   exp: Experience
@@ -23,6 +24,8 @@ const groupMax = (group: string) => {
 
 export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: ExperienceCardProps) {
   const row = layout === 'row'
+  // In riga la foto occupa 2/5 della card da tablet in su.
+  const sizes = row ? '(min-width: 768px) 400px, 100vw' : CARD_SIZES
   const max = groupMax(exp.group)
   const { has, toggle } = useSaved()
   const saved = has(exp.title)
@@ -51,6 +54,8 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           <Link to={page} viewTransition aria-label={`Scheda di "${exp.title}"`} className="block h-full w-full">
             <img
               src={exp.image}
+              srcSet={imgSrcSet(exp.image)}
+              sizes={sizes}
               alt={exp.title}
               width={800}
               height={600}
@@ -63,6 +68,8 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
           <a {...linkProps} data-track={`prenota:${exp.title}`} aria-label={`Prenota "${exp.title}" su ${providerLabel}`} className="block h-full w-full">
             <img
               src={exp.image}
+              srcSet={imgSrcSet(exp.image)}
+              sizes={sizes}
               alt={exp.title}
               width={800}
               height={600}
@@ -74,6 +81,8 @@ export function ExperienceCard({ exp, category, index = 0, layout = 'column' }: 
         ) : (
           <img
             src={exp.image}
+            srcSet={imgSrcSet(exp.image)}
+            sizes={sizes}
             alt={exp.title}
             width={800}
             height={600}
