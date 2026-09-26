@@ -1,0 +1,371 @@
+{
+ "omaggio-battiato-villa-pignatelli-2026": {
+  "slug": "franco-battiato-tribute-concert-villa-pignatelli-2026",
+  "title": "A tribute to Franco Battiato at Villa Pignatelli",
+  "blurb": "Quartetto d'Arti, with voice, violin, cello and guitars, plays the songs of the much-loved Italian songwriter Franco Battiato in the concert Perché sei un essere speciale. It's on a Sunday morning, so afterwards you can wander down for a stroll in the Villa Comunale park.",
+  "time": "11am",
+  "place": "Villa Pignatelli, Neoclassical Veranda",
+  "area": "Chiaia",
+  "price": "€10"
+ },
+ "barocco-italiano-florio-porta-del-parco-2026": {
+  "slug": "antonio-florio-italian-baroque-concert-bagnoli-2026",
+  "title": "Antonio Florio and the Italian Baroque at the Auditorium Porta del Parco",
+  "blurb": "Antonio Florio conducts the Ensemble ScarlattiLab in concertos by Scarlatti, Vivaldi, Valentini and Corelli, with Giacomo Lapegna on bassoon. A Saturday afternoon in Bagnoli, part of the Musica Urbana series.",
+  "time": "6pm",
+  "place": "Auditorium Porta del Parco",
+  "area": "Bagnoli",
+  "price": "Tickets on the website"
+ },
+ "accademia-scala-scarlatti-conservatorio-2026": {
+  "slug": "la-scala-academy-orchestra-conservatory-naples-2026",
+  "title": "The Accademia della Scala orchestra opens the Scarlatti season at the Conservatory",
+  "blurb": "The young players of the Teatro alla Scala Academy, with conductor Marco Angius and pianist Ruben Micieli, play Mozart, Beethoven's Second Piano Concerto and Stravinsky's Dumbarton Oaks. Tickets are €20, or €12 if you're under 30.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "raiz-love-songs-conservatorio-2026": {
+  "slug": "raiz-idr-neapolitan-love-songs-conservatory-2026",
+  "title": "Raiz and IDR, Love Songs at the Conservatorio San Pietro a Majella",
+  "blurb": "The voice of Almamegretta teams up with the New York ensemble of Marco Cappelli and Jim Pugliese for Neapolitan love songs, from the old repertoire to today, in a world premiere. Part of the Associazione Scarlatti season, €20.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "mozart-haydn-porta-del-parco-2026": {
+  "slug": "mozart-haydn-string-quartet-bagnoli-2026",
+  "title": "Mozart and Papa Haydn at the Auditorium Porta del Parco",
+  "blurb": "The string quartet Musica Nova à Quattro plays Haydn and Mozart's Quartet in D minor. A Saturday afternoon concert, the last October date of the Musica Urbana series.",
+  "time": "6pm",
+  "place": "Auditorium Porta del Parco",
+  "area": "Bagnoli",
+  "price": "Tickets on the website"
+ },
+ "solisti-aquilani-sciortino-conservatorio-2026": {
+  "slug": "solisti-aquilani-orazio-sciortino-mozart-conservatory-2026",
+  "title": "I Solisti Aquilani and Orazio Sciortino at the Conservatorio San Pietro a Majella",
+  "blurb": "Orazio Sciortino plays and conducts Mozart's Piano Concerto K 449, then the orchestra takes on Schoenberg's Verklärte Nacht (Transfigured Night). Single tickets are €20 at the box office before the concert.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "trio-hermes-barbieri-chiesa-anglicana-2026": {
+  "slug": "trio-hermes-goya-beethoven-anglican-church-naples-2026",
+  "title": "Trio Hermes and Guido Barbieri on Goya and Beethoven at the Anglican Church",
+  "blurb": "Violin, cello and piano, with Guido Barbieri telling the parallel lives of Goya and Beethoven. The church on via San Pasquale has warm, intimate acoustics, €20.",
+  "time": "8.30pm",
+  "place": "Chiesa Anglicana (Anglican Church)",
+  "area": "Chiaia",
+  "price": "€20"
+ },
+ "kainrath-zilberstein-conservatorio-2026": {
+  "slug": "julian-kainrath-lilya-zilberstein-violin-piano-recital-2026",
+  "title": "Julian Kainrath and Lilya Zilberstein at the Conservatorio San Pietro a Majella",
+  "blurb": "The young violinist Julian Kainrath and pianist Lilya Zilberstein play sonatas by Grieg, Brahms and Prokofiev, with pieces from Romeo and Juliet. Part of the Associazione Scarlatti season, €20.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "avion-travel-nos-cortile-statue-2026": {
+  "slug": "avion-travel-orchestra-concert-federico-ii-courtyard-2026",
+  "title": "Avion Travel and the Nuova Orchestra Scarlatti in the Cortile delle Statue",
+  "blurb": "The Italian band Avion Travel with the orchestra conducted by Angelo Valori, moving between Paisiello, Piazzolla and their own songs in symphonic dress. It's the last night of the UniMusic festival, with €10 tickets online or at the box office an hour before.",
+  "time": "7.30pm",
+  "place": "Cortile delle Statue (Courtyard of the Statues), Università Federico II",
+  "area": "Old Town",
+  "price": "€10"
+ },
+ "classical-world-music-piscinola-2026": {
+  "slug": "free-classical-concert-metro-station-scampia-2026",
+  "title": "Classical World Music inside Piscinola-Scampia metro station",
+  "blurb": "The Nuova Orchestra Scarlatti, conducted by Gaetano Russo, and singer Rossella Costa play everything from Rossini to pop inside the Line 1 metro station. Free entry, part of the Fiori musicali per le periferie series that takes music to the city's outskirts.",
+  "time": "7.30pm",
+  "place": "Piscinola-Scampia metro station",
+  "area": "Scampia",
+  "price": "Free"
+ },
+ "filarmonica-calabria-cilea-conservatorio-2026": {
+  "slug": "calabria-philharmonic-cilea-free-concert-conservatory-2026",
+  "title": "The Orchestra Filarmonica della Calabria plays Cilea at the Conservatory",
+  "blurb": "Filippo Arlia conducts the Calabrian orchestra, with Sergio Messina on violin and Francesco Mariozzi on cello, in an all-Francesco Cilea programme. Free entry, in the most beautiful hall of the Conservatory.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "balance-trio-conservatorio-2026": {
+  "slug": "balance-trio-piazzolla-free-concert-conservatory-2026",
+  "title": "Balance Trio, Piazzolla and friends at the Conservatorio San Pietro a Majella",
+  "blurb": "Saxophone, cello and piano for music by Elizondo, Glinka and Piazzolla. A free 6pm concert, nicely timed before an aperitivo in piazza Bellini.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "organo-in-scena-conservatorio-2026": {
+  "slug": "free-monday-organ-concerts-conservatory-naples-2026",
+  "title": "L'organo in scena, Monday organ concerts at the Conservatorio San Pietro a Majella",
+  "blurb": "Six Mondays with different organists for the Conservatory's bicentenary, from Napoli è porosa on 5 October until mid-December. Free entry; the October and November dates are 5, 12 and 26 October and 9 and 23 November.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "parthenope-market-santissima-settembre-2026": {
+  "slug": "parthenope-vintage-market-santissima-quartieri-spagnoli-2026",
+  "title": "Parthenope Market at La Santissima, vintage and makers in the Quartieri Spagnoli",
+  "blurb": "Stalls of vintage clothes, vinyl, handmade jewellery and small Neapolitan makers, inside the former Trinità delle Monache convent complex, with music all day. Come in the morning: entry is free until 2pm and the best pieces are still there.",
+  "time": "from 10am",
+  "place": "La Santissima Community Hub, vico Trinità delle Monache",
+  "area": "Quartieri Spagnoli / Montesanto",
+  "price": "Free until 2pm, then €3"
+ },
+ "domenica-al-museo-napoli-ottobre-novembre-2026-10-04": {
+  "slug": "free-museum-sunday-naples-state-museums-2026-10-04",
+  "title": "Domenica al Museo, free entry to Naples' state museums",
+  "blurb": "On the first Sunday of the month, entry is free at the Archaeological Museum (MANN), Capodimonte, Palazzo Reale and the museums up in Vomero, no ticket to pay. Arrive at opening time or after 3pm, and if you can, pair San Martino with Castel Sant'Elmo, which are just a few steps apart.",
+  "time": "individual museum hours (usually 8.30/9am-7.30pm)",
+  "place": "MANN, Capodimonte, Palazzo Reale, Certosa di San Martino, Castel Sant'Elmo, Villa Floridiana, Museo Pignatelli, Girolamini",
+  "area": "Naples, various areas",
+  "price": "Free"
+ },
+ "domenica-al-museo-napoli-ottobre-novembre-2026-11-01": {
+  "slug": "free-museum-sunday-naples-state-museums-2026-11-01",
+  "title": "Domenica al Museo, free entry to Naples' state museums",
+  "blurb": "On the first Sunday of the month, entry is free at the Archaeological Museum (MANN), Capodimonte, Palazzo Reale and the museums up in Vomero, no ticket to pay. Arrive at opening time or after 3pm, and if you can, pair San Martino with Castel Sant'Elmo, which are just a few steps apart.",
+  "time": "individual museum hours (usually 8.30/9am-7.30pm)",
+  "place": "MANN, Capodimonte, Palazzo Reale, Certosa di San Martino, Castel Sant'Elmo, Villa Floridiana, Museo Pignatelli, Girolamini",
+  "area": "Naples, various areas",
+  "price": "Free"
+ },
+ "domenica-al-museo-pompei-ercolano-2026-10-04": {
+  "slug": "free-sunday-pompeii-herculaneum-excavations-2026-10-04",
+  "title": "Domenica al Museo at the Pompeii and Herculaneum excavations, free entry",
+  "blurb": "Pompeii and Herculaneum open for free on the first Sunday of the month, and at Herculaneum that also covers Villa Sora in Torre del Greco. It's the busiest day of the month: set off early on the Circumvesuviana train and start with Herculaneum, which is easy to see in half a day.",
+  "time": "from 9am, closing follows the park's seasonal hours",
+  "place": "Parco Archeologico di Pompei and Parco Archeologico di Ercolano",
+  "area": "Pompeii / Herculaneum",
+  "price": "Free"
+ },
+ "domenica-al-museo-pompei-ercolano-2026-11-01": {
+  "slug": "free-sunday-pompeii-herculaneum-excavations-2026-11-01",
+  "title": "Domenica al Museo at the Pompeii and Herculaneum excavations, free entry",
+  "blurb": "Pompeii and Herculaneum open for free on the first Sunday of the month, and at Herculaneum that also covers Villa Sora in Torre del Greco. It's the busiest day of the month: set off early on the Circumvesuviana train and start with Herculaneum, which is easy to see in half a day.",
+  "time": "from 9am, closing follows the park's seasonal hours",
+  "place": "Parco Archeologico di Pompei and Parco Archeologico di Ercolano",
+  "area": "Pompeii / Herculaneum",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-09-27": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-09-27",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-04": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-04",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-11": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-11",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-18": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-18",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-25": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-25",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-01": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-01",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-08": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-08",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-15": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-15",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-09-26": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-09-26",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-03": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-03",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-10": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-10",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-17": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-17",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-24": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-24",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-31": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-31",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-07": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-07",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-14": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-14",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-21": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-21",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-09-26": {
+  "slug": "farmers-market-posillipo-saturday-2026-09-26",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-03": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-03",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-10": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-10",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-17": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-17",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-24": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-24",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-31": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-31",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ }
+}

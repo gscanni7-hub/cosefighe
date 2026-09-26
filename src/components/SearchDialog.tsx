@@ -81,8 +81,12 @@ function search(q: string, lang: Lang, t: T): Hit[] {
     }
   }
   const today = todayISO()
-  for (const it of EVENTS) {
+  // Gli appuntamenti ricorrenti (un evento per data, stesso titolo) compaiono una volta sola: la data più vicina.
+  const seenTitles = new Set<string>()
+  for (const it of [...EVENTS].sort((a, b) => a.start.localeCompare(b.start))) {
     if (eventEnd(it) < today) continue
+    if (seenTitles.has(it.title)) continue
+    seenTitles.add(it.title)
     if (en && !hasEventEn(it)) continue
     const e = localizeEvent(it, lang)
     const s = score([e.title, e.place, e.area, t(EVENT_CATEGORY_LABELS[e.category]), e.blurb])

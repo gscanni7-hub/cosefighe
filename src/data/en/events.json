@@ -1,4 +1,22 @@
 {
+ "accademia-scala-scarlatti-conservatorio-2026": {
+  "slug": "la-scala-academy-orchestra-conservatory-naples-2026",
+  "title": "The Accademia della Scala orchestra opens the Scarlatti season at the Conservatory",
+  "blurb": "The young players of the Teatro alla Scala Academy, with conductor Marco Angius and pianist Ruben Micieli, play Mozart, Beethoven's Second Piano Concerto and Stravinsky's Dumbarton Oaks. Tickets are €20, or €12 if you're under 30.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "ad-1656-peste-palazzo-diomede-carafa-2026": {
+  "slug": "naples-plague-1656-video-installation-palazzo-carafa-2026",
+  "title": "A.D. 1656, the Naples plague in a video installation at Palazzo Carafa",
+  "blurb": "A friar's chronicle of the 1656 plague and Micco Spadaro's painting of piazza Mercatello become an immersive story, inside a palazzo on Spaccanapoli. Entry is in groups of 25 at 9.30am, 10.30am and 11.30am, Monday to Friday, plus special openings on 3 and 4 October.",
+  "time": "9.30am-12.30pm",
+  "place": "Palazzo Diomede Carafa, via San Biagio dei Librai 121",
+  "area": "Old Town",
+  "price": "Free"
+ },
  "aiello-tour-club-casa-della-musica-2026": {
   "slug": "aiello-club-tour-casa-della-musica-2026",
   "title": "Aiello, club tour at the Casa della Musica",
@@ -24,6 +42,24 @@
   "place": "Teatro Bellini",
   "area": "Old Town"
  },
+ "anita-rachvelishvili-san-carlo-2026": {
+  "slug": "anita-rachvelishvili-mezzo-soprano-recital-san-carlo-2026",
+  "title": "Anita Rachvelishvili in recital at the Teatro di San Carlo",
+  "blurb": "The Georgian mezzo-soprano, with Vincenzo Scalera at the piano, sings songs by Tchaikovsky and Rachmaninov, Tosti and De Falla, plus \"Stride la vampa\" from Il Trovatore. On a budget, there are listening-only places at €15, and the balcony starts at €20.",
+  "time": "7pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "from €15"
+ },
+ "anna-tatangelo-casa-della-musica-2026": {
+  "slug": "anna-tatangelo-concert-casa-della-musica-2026",
+  "title": "Anna Tatangelo at the Casa della Musica",
+  "blurb": "Anna Tatangelo in concert in the hall of the Palapartenope complex, a rescheduled date. If you already had a ticket, it's still valid.",
+  "time": "9pm",
+  "place": "Casa della Musica",
+  "area": "Fuorigrotta",
+  "price": "Tickets on the website"
+ },
  "arriva-lucilla-palapartenope-2026": {
   "slug": "arriva-lucilla-family-show-palapartenope-2026",
   "title": "Arriva Lucilla, a family show at the Palapartenope",
@@ -31,6 +67,69 @@
   "time": "6pm",
   "place": "Teatro Palapartenope",
   "area": "Fuorigrotta"
+ },
+ "artecinema-2026": {
+  "slug": "artecinema-contemporary-art-film-festival-naples-2026",
+  "title": "Artecinema, the festival of films on contemporary art",
+  "blurb": "Four days of documentaries about contemporary artists and architects, opening at the San Carlo with screenings at the Augusteo. The Augusteo is free; for the San Carlo, tickets are on Vivaticket.",
+  "time": "times vary",
+  "place": "Teatro Augusteo and Teatro di San Carlo",
+  "area": "Chiaia and San Ferdinando",
+  "price": "Free"
+ },
+ "avion-travel-nos-cortile-statue-2026": {
+  "slug": "avion-travel-orchestra-concert-federico-ii-courtyard-2026",
+  "title": "Avion Travel and the Nuova Orchestra Scarlatti in the Cortile delle Statue",
+  "blurb": "The Italian band Avion Travel with the orchestra conducted by Angelo Valori, moving between Paisiello, Piazzolla and their own songs in symphonic dress. It's the last night of the UniMusic festival, with €10 tickets online or at the box office an hour before.",
+  "time": "7.30pm",
+  "place": "Cortile delle Statue (Courtyard of the Statues), Università Federico II",
+  "area": "Old Town",
+  "price": "€10"
+ },
+ "balance-trio-conservatorio-2026": {
+  "slug": "balance-trio-piazzolla-free-concert-conservatory-2026",
+  "title": "Balance Trio, Piazzolla and friends at the Conservatorio San Pietro a Majella",
+  "blurb": "Saxophone, cello and piano for music by Elizondo, Glinka and Piazzolla. A free 6pm concert, nicely timed before an aperitivo in piazza Bellini.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "ballata-dei-gigli-di-barra-2026": {
+  "slug": "ballata-dei-gigli-barra-festival-naples-2026",
+  "title": "Ballata dei Gigli di Barra, the dancing towers festival",
+  "blurb": "Eight towers of wood and papier-mâché, more than 25 metres tall, dance on the shoulders of hundreds of bearers from morning until late at night. Go in the evening, when the crews (paranze) compete with music, and on Monday 28 from 8pm it's the turn of the women's and children's towers.",
+  "time": "9am-2pm, from 6pm",
+  "place": "Streets and squares of the Barra district",
+  "area": "Barra",
+  "price": "Free"
+ },
+ "barocco-italiano-florio-porta-del-parco-2026": {
+  "slug": "antonio-florio-italian-baroque-concert-bagnoli-2026",
+  "title": "Antonio Florio and the Italian Baroque at the Auditorium Porta del Parco",
+  "blurb": "Antonio Florio conducts the Ensemble ScarlattiLab in concertos by Scarlatti, Vivaldi, Valentini and Corelli, with Giacomo Lapegna on bassoon. A Saturday afternoon in Bagnoli, part of the Musica Urbana series.",
+  "time": "6pm",
+  "place": "Auditorium Porta del Parco",
+  "area": "Bagnoli",
+  "price": "Tickets on the website"
+ },
+ "basso-napoletano-galleria-toledo-2026": {
+  "slug": "basso-napoletano-marco-sgrosso-galleria-toledo-2026",
+  "title": "Basso napoletano by Marco Sgrosso at Galleria Toledo",
+  "blurb": "Voice and double bass, Marco Sgrosso and Felice Del Gaudio, in a jam session of Neapolitan words from Eduardo onwards. It opens Galleria Toledo's 35th anniversary season, Sunday at 6pm.",
+  "time": "8.30pm",
+  "place": "Galleria Toledo",
+  "area": "Quartieri Spagnoli",
+  "price": "Tickets on the website"
+ },
+ "beethoven-kreutzer-san-carlo-2026": {
+  "slug": "beethoven-kreutzer-septets-chamber-concert-san-carlo-2026",
+  "title": "Beethoven and Kreutzer septets at the Teatro di San Carlo",
+  "blurb": "Seven musicians from the San Carlo orchestra set Beethoven's Septet op. 20 against Conradin Kreutzer's, in the same key and for the same instruments. An hour of chamber music on a Sunday afternoon, €18 for any seat.",
+  "time": "6pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "€18"
  },
  "biagio-antonacci-teatro-grande-pompei-2026": {
   "slug": "biagio-antonacci-unplugged-pompeii-2026",
@@ -40,6 +139,15 @@
   "place": "Teatro Grande, Parco Archeologico di Pompei",
   "area": "Pompeii",
   "price": "Tickets online"
+ },
+ "biasiucci-archetipi-reggia-caserta-2026": {
+  "slug": "archetipi-antonio-biasiucci-photography-reggia-di-caserta-2026",
+  "title": "Archetipi, Antonio Biasiucci at the Reggia di Caserta",
+  "blurb": "Over 300 photographs and installations by Antonio Biasiucci, from steam to bread to volcanoes, along the Gran Galleria of the Royal Apartments. It's included in the Reggia ticket, and the palace is closed on Tuesdays.",
+  "time": "8.30am",
+  "place": "Reggia di Caserta, Gran Galleria",
+  "area": "Caserta",
+  "price": "€18"
  },
  "bit-fest-sound-innovation-2026": {
   "slug": "bit-fest-sound-innovation-teatro-bellini-2026",
@@ -76,6 +184,24 @@
   "area": "Old Town",
   "price": "from €39"
  },
+ "buccirosso-qualcosa-e-andato-storto-sannazaro-2026": {
+  "slug": "qualcosa-e-andato-storto-buccirosso-sannazaro-2026",
+  "title": "Qualcosa è andato storto by Carlo Buccirosso at the Teatro Sannazaro",
+  "blurb": "Carlo Buccirosso writes, directs and plays a small-town lawyer swept up in the quarrels of his entire extended family. Four performances, Sunday at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Sannazaro",
+  "area": "Chiaia",
+  "price": "Tickets on the website"
+ },
+ "cafe-chantant-sannazaro-ottobre-2026": {
+  "slug": "cafe-chantant-lara-sansone-teatro-sannazaro-october-2026",
+  "title": "Café Chantant My World by Lara Sansone at the Teatro Sannazaro",
+  "blurb": "Lara Sansone's show with the Sannazaro's orchestra and dancers, comic sketches and songs from Naples' belle époque. Only three nights in October, then it's back around Christmas.",
+  "time": "9pm",
+  "place": "Teatro Sannazaro",
+  "area": "Chiaia",
+  "price": "Tickets on the website"
+ },
  "calici-e-jazz-luna-piena-vesuvio-2026": {
   "slug": "full-moon-wine-and-jazz-vesuvius-vineyards-2026",
   "title": "Wine and jazz under the full moon in the vineyards of Vesuvius",
@@ -85,12 +211,300 @@
   "area": "Vesuvius",
   "price": "€55.90 (reduced €25.90)"
  },
+ "campagna-amica-piazza-bovio-domenica-2026-09-27": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-09-27",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-10-04": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-10-04",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-10-11": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-10-11",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-10-18": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-10-18",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-10-25": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-10-25",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-11-01": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-11-01",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-11-08": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-11-08",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-bovio-domenica-2026-11-15": {
+  "slug": "naples-sunday-farmers-market-piazza-bovio-2026-11-15",
+  "title": "Campagna Amica farmers’ market in piazza Bovio, every Sunday",
+  "blurb": "On Sundays local producers set up their stalls in front of the old Stock Exchange, a short walk from the port and the University. You will find mozzarella and other dairy, vegetables from the surrounding countryside, pulses and preserves, and the Università metro stop is right there.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Giovanni Bovio (piazza della Borsa)",
+  "area": "Port / City centre",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-09-26": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-09-26",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-03": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-03",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-10": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-10",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-17": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-17",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-24": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-24",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-10-31": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-10-31",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-07": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-07",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-14": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-14",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-piazza-mercadante-sabato-2026-11-21": {
+  "slug": "farmers-market-piazza-mercadante-saturday-2026-11-21",
+  "title": "Campagna Amica farmers' market in piazza Mercadante, Saturdays on corso Vittorio Emanuele",
+  "blurb": "Every Saturday, Coldiretti farmers set up their stalls in piazza Mercadante: seasonal fruit and veg, buffalo mozzarella, cured meats, honey, wine and wood-fired bread. Bring a big bag, and once autumn arrives try the chestnuts and friarielli, the slightly bitter local greens.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Saverio Mercadante, corso Vittorio Emanuele",
+  "area": "Chiaia / Corso Vittorio Emanuele",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-09-26": {
+  "slug": "farmers-market-posillipo-saturday-2026-09-26",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-03": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-03",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-10": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-10",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-17": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-17",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-24": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-24",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-10-31": {
+  "slug": "farmers-market-posillipo-saturday-2026-10-31",
+  "title": "Campagna Amica farmers' market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls run by Campania farmers, selling vegetables, cheese, olive oil and baked sweets. After your shopping, walk down towards Marechiaro for a coffee with a sea view.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-11-07": {
+  "slug": "posillipo-farmers-market-saturday-campagna-amica-2026-11-07",
+  "title": "Campagna Amica farmers’ market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls from Campanian farmers selling vegetables, cheese, olive oil and home-baked sweets. Once you have done your shopping, walk down to Marechiaro for a coffee looking out over the sea.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-11-14": {
+  "slug": "posillipo-farmers-market-saturday-campagna-amica-2026-11-14",
+  "title": "Campagna Amica farmers’ market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls from Campanian farmers selling vegetables, cheese, olive oil and home-baked sweets. Once you have done your shopping, walk down to Marechiaro for a coffee looking out over the sea.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campagna-amica-posillipo-sabato-2026-11-21": {
+  "slug": "posillipo-farmers-market-saturday-campagna-amica-2026-11-21",
+  "title": "Campagna Amica farmers’ market in Posillipo, Saturdays in piazza Salvatore Di Giacomo",
+  "blurb": "On Saturday mornings the little square in Posillipo fills with stalls from Campanian farmers selling vegetables, cheese, olive oil and home-baked sweets. Once you have done your shopping, walk down to Marechiaro for a coffee looking out over the sea.",
+  "time": "8.30am-1.30pm",
+  "place": "Piazza Salvatore Di Giacomo",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "campanella-schubert-conservatorio-2026": {
+  "slug": "michele-campanella-schubert-recital-conservatorio-2026",
+  "title": "Michele Campanella plays Schubert for the Premio San Pietro a Majella",
+  "blurb": "The Neapolitan pianist receives the award for the Conservatorio's bicentenary and plays Schubert. It's the most anticipated evening of the autumn series, with free entry until places run out.",
+  "time": "6pm",
+  "place": "Sala Scarlatti, Conservatorio San Pietro a Majella, via San Pietro a Majella 35",
+  "area": "Old Town",
+  "price": "Free"
+ },
  "campania-libri-festival-2026": {
   "slug": "campania-libri-festival-2026",
   "title": "Campania Libri Festival, at Palazzo Reale and the Biblioteca Nazionale",
   "blurb": "Four days of talks with authors and publishers, more than 250 events, with a tribute to Roberto De Simone. Entry is free but the programme is packed: pick two or three talks in advance rather than trying to see everything. Mostly in Italian, and a good chance to see writers in person without buying a ticket.",
   "place": "Palazzo Reale and Biblioteca Nazionale Vittorio Emanuele III",
   "area": "Old Town",
+  "price": "Free"
+ },
+ "cassius-duel-club-2026": {
+  "slug": "cassius-french-touch-duel-club-agnano-2026",
+  "title": "Cassius at the Duel Club",
+  "blurb": "The French touch of Cassius, the only Italian stop on a tour that takes in Dublin, London and Manchester. Doors at 9.30pm and limited capacity.",
+  "time": "9.30pm",
+  "place": "Duel Club",
+  "area": "Agnano",
+  "price": "Tickets on the website"
+ },
+ "classical-world-music-piscinola-2026": {
+  "slug": "free-classical-concert-metro-station-scampia-2026",
+  "title": "Classical World Music inside Piscinola-Scampia metro station",
+  "blurb": "The Nuova Orchestra Scarlatti, conducted by Gaetano Russo, and singer Rossella Costa play everything from Rossini to pop inside the Line 1 metro station. Free entry, part of the Fiori musicali per le periferie series that takes music to the city's outskirts.",
+  "time": "7.30pm",
+  "place": "Piscinola-Scampia metro station",
+  "area": "Scampia",
+  "price": "Free"
+ },
+ "clerici-krylov-san-carlo-2026": {
+  "slug": "sergej-krylov-paganini-violin-concerto-san-carlo-2026",
+  "title": "Sergej Krylov plays Paganini at the Teatro di San Carlo",
+  "blurb": "The violinist Sergej Krylov takes on Paganini's Concerto No. 1, then Umberto Clerici conducts Schubert's Sixth. A Wednesday concert, an hour and a half without an interval, with listening-only places at €15.",
+  "time": "7pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "from €15"
+ },
+ "colpi-di-scena-blues-noir-2026": {
+  "slug": "blues-noir-open-air-show-centro-direzionale-2026",
+  "title": "Blues Noir at the Centro Direzionale, part of Colpi di Scena",
+  "blurb": "Paolo Cresta tells the dark legends of the blues with a jazz trio, outdoors among the skyscrapers. It's free, but you need to book on Eventbrite.",
+  "time": "7pm",
+  "place": "Arena and Amphitheatre of the Centro Direzionale, Isola E2",
+  "area": "Centro Direzionale",
+  "price": "Free"
+ },
+ "colpi-di-scena-sant-anna-alle-paludi-2026": {
+  "slug": "colpi-di-scena-theatre-sant-anna-alle-paludi-church-2026",
+  "title": "Colpi di Scena at Sant'Anna alle Paludi: Oracoli Napoli and Il giorno dei morti",
+  "blurb": "On Saturday an immersive performance about the mysteries of Partenope, the city's ancient siren, and on Sunday Maurizio de Giovanni's noir with Commissario Ricciardi brought to the stage. Two evenings in a little-known church near the station, free with booking on Eventbrite.",
+  "time": "7pm",
+  "place": "Chiesa di Sant'Anna alle Paludi, corso Arnaldo Lucci 124",
+  "area": "Vasto",
   "price": "Free"
  },
  "corrado-augias-il-mio-900-augusteo-2026": {
@@ -110,6 +524,114 @@
   "place": "Mostra d’Oltremare, pavilions 5-6",
   "area": "Fuorigrotta",
   "price": "€10 online, €12 on the door"
+ },
+ "dada-fiabe-donna-ruvia-trianon-2026": {
+  "slug": "dada-le-fiabe-di-donna-ruvia-concert-trianon-2026",
+  "title": "Dadà, Le fiabe di donna Ruvia at the Teatro Trianon Viviani",
+  "blurb": "A concert-show by Dadà, a singer-songwriter from the new Neapolitan scene, somewhere between songwriting and contemporary sounds. Saturday at 9pm, Sunday afternoon at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "Tickets on the website"
+ },
+ "domenica-al-museo-napoli-ottobre-novembre-2026-10-04": {
+  "slug": "free-museum-sunday-naples-state-museums-2026-10-04",
+  "title": "Domenica al Museo, free entry to Naples' state museums",
+  "blurb": "On the first Sunday of the month, entry is free at the Archaeological Museum (MANN), Capodimonte, Palazzo Reale and the museums up in Vomero, no ticket to pay. Arrive at opening time or after 3pm, and if you can, pair San Martino with Castel Sant'Elmo, which are just a few steps apart.",
+  "time": "individual museum hours (usually 8.30/9am-7.30pm)",
+  "place": "MANN, Capodimonte, Palazzo Reale, Certosa di San Martino, Castel Sant'Elmo, Villa Floridiana, Museo Pignatelli, Girolamini",
+  "area": "Naples, various areas",
+  "price": "Free"
+ },
+ "domenica-al-museo-napoli-ottobre-novembre-2026-11-01": {
+  "slug": "free-museum-sunday-naples-state-museums-2026-11-01",
+  "title": "Domenica al Museo, free entry to Naples' state museums",
+  "blurb": "On the first Sunday of the month, entry is free at the Archaeological Museum (MANN), Capodimonte, Palazzo Reale and the museums up in Vomero, no ticket to pay. Arrive at opening time or after 3pm, and if you can, pair San Martino with Castel Sant'Elmo, which are just a few steps apart.",
+  "time": "individual museum hours (usually 8.30/9am-7.30pm)",
+  "place": "MANN, Capodimonte, Palazzo Reale, Certosa di San Martino, Castel Sant'Elmo, Villa Floridiana, Museo Pignatelli, Girolamini",
+  "area": "Naples, various areas",
+  "price": "Free"
+ },
+ "domenica-al-museo-pompei-ercolano-2026-10-04": {
+  "slug": "free-sunday-pompeii-herculaneum-excavations-2026-10-04",
+  "title": "Domenica al Museo at the Pompeii and Herculaneum excavations, free entry",
+  "blurb": "Pompeii and Herculaneum open for free on the first Sunday of the month, and at Herculaneum that also covers Villa Sora in Torre del Greco. It's the busiest day of the month: set off early on the Circumvesuviana train and start with Herculaneum, which is easy to see in half a day.",
+  "time": "from 9am, closing follows the park's seasonal hours",
+  "place": "Parco Archeologico di Pompei and Parco Archeologico di Ercolano",
+  "area": "Pompeii / Herculaneum",
+  "price": "Free"
+ },
+ "domenica-al-museo-pompei-ercolano-2026-11-01": {
+  "slug": "free-sunday-pompeii-herculaneum-excavations-2026-11-01",
+  "title": "Domenica al Museo at the Pompeii and Herculaneum excavations, free entry",
+  "blurb": "Pompeii and Herculaneum open for free on the first Sunday of the month, and at Herculaneum that also covers Villa Sora in Torre del Greco. It's the busiest day of the month: set off early on the Circumvesuviana train and start with Herculaneum, which is easy to see in half a day.",
+  "time": "from 9am, closing follows the park's seasonal hours",
+  "place": "Parco Archeologico di Pompei and Parco Archeologico di Ercolano",
+  "area": "Pompeii / Herculaneum",
+  "price": "Free"
+ },
+ "donne-compositrici-donnaromita-2026": {
+  "slug": "women-composers-concert-santa-maria-donnaromita-2026",
+  "title": "Women composers, sacred and profane, at Santa Maria Donnaromita",
+  "blurb": "A concert of music written by women inside a Baroque church that rarely opens, part of the Destinazione Donna series. Free, but booking on Eventbrite is compulsory.",
+  "time": "6pm",
+  "place": "Chiesa di Santa Maria Donnaromita, via Paladino",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "dorazio-nuti-villa-pignatelli-2026": {
+  "slug": "dorazio-nuti-violin-piano-villa-pignatelli-2026",
+  "title": "Francesco D'Orazio and Giampaolo Nuti at Villa Pignatelli",
+  "blurb": "Violin and piano on a Sunday morning, from Beethoven to Stravinsky, Schnittke and Pärt, in the museum's veranda on the Riviera di Chiaia. Book by phone with Maggio della Musica, there are 199 seats.",
+  "time": "11am",
+  "place": "Villa Pignatelli, Neoclassical Veranda",
+  "area": "Chiaia",
+  "price": "€10"
+ },
+ "dove-liana-duel-club-2026": {
+  "slug": "dove-liana-live-duel-club-agnano-2026",
+  "title": "Dov'è Liana live at the Duel Club",
+  "blurb": "The project that brought Italodance back to the dance floor, for a night of Mediterranean sounds at the club in Agnano. Tickets on Dice, best bought in advance.",
+  "time": null,
+  "place": "Duel Club",
+  "area": "Agnano",
+  "price": "Tickets on the website"
+ },
+ "drag-ring-priscilla-teatro-nuovo-2026": {
+  "slug": "drag-ring-priscilla-drag-show-teatro-nuovo-2026",
+  "title": "Drag Ring with Priscilla at the Teatro Nuovo",
+  "blurb": "Lip sync battles between drag queens hosted by Priscilla, with routines prepared to a playlist they receive in advance. One night only, Saturday at 9pm.",
+  "time": "9pm",
+  "place": "Teatro Nuovo",
+  "area": "Quartieri Spagnoli",
+  "price": "Tickets on the website"
+ },
+ "e-grande-essere-piccoli-teatro-dei-piccoli-2026": {
+  "slug": "kids-circus-theatre-weekends-teatro-dei-piccoli-2026",
+  "title": "È grande essere piccoli: circus, theatre and music at the Teatro dei Piccoli",
+  "blurb": "At weekends the theatre and gardens of the Mostra d'Oltremare fill up with soap bubbles, clowns, circus acts and concerts for children. Tickets are cheap and entry is until places run out, so get there a quarter of an hour early.",
+  "time": "5pm",
+  "place": "Teatro dei Piccoli, Mostra d'Oltremare, viale Usodimare",
+  "area": "Fuorigrotta",
+  "price": "€5"
+ },
+ "emigranti-bellini-2026": {
+  "slug": "emigranti-mrozek-play-teatro-bellini-2026",
+  "title": "Emigranti by Mrożek at the Teatro Bellini",
+  "blurb": "Valerio Santoro and Claudio Casadio play the two emigrants shut in a basement in Sławomir Mrożek's play, directed by Leo Muscato. There's a Wednesday matinee at 5.30pm, handy if you'd rather not make it a late one.",
+  "time": "8.45pm",
+  "place": "Teatro Bellini",
+  "area": "Old Town",
+  "price": "Tickets on the website"
+ },
+ "est-festival-napoli-est-2026": {
+  "slug": "est-arts-festival-east-naples-nest-theatre-2026",
+  "title": "EST, the East Naples arts festival with Di Leva and Lanzetta",
+  "blurb": "Francesco Di Leva and Adriano Pantaleo's theatre brings funk, jazz and comedy to San Giovanni, closing with a reading by Peppe Lanzetta on 4 October. Everything is free with booking on Eventbrite, and it's an easy ride on the Circumvesuviana, the local train line.",
+  "time": "8.30pm",
+  "place": "NEST Napoli Est Teatro and Centro Asterix",
+  "area": "San Giovanni a Teduccio",
+  "price": "Free"
  },
  "fabrizio-moro-casa-della-musica-2026": {
   "slug": "fabrizio-moro-casa-della-musica-2026",
@@ -147,6 +669,51 @@
   "area": "Old Town",
   "price": "€8-€10"
  },
+ "fiabe-d-autunno-orto-botanico-2026": {
+  "slug": "fiabe-d-autunno-family-theatre-botanical-garden-2026",
+  "title": "Fiabe d'Autunno, walking fairy-tale theatre at the Botanical Garden",
+  "blurb": "Every Saturday and Sunday morning the company I Teatrini leads children and parents through the trees inside a fairy tale, from the Pied Piper to Oz to the Ugly Duckling. Booking is compulsory, with a maximum of 80 children per show, and it's cancelled if it rains.",
+  "time": "11am",
+  "place": "Real Orto Botanico, via Foria 223",
+  "area": "San Carlo all'Arena",
+  "price": "€9"
+ },
+ "figlio-della-tempesta-trianon-2026": {
+  "slug": "figlio-della-tempesta-armando-punzo-trianon-2026",
+  "title": "Il figlio della tempesta by Armando Punzo at the Teatro Trianon Viviani",
+  "blurb": "Armando Punzo and Andrea Salvadori with the Compagnia della Fortezza, the group that has been making theatre inside Volterra prison for over thirty years. Two performances, Saturday evening and Sunday at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "Tickets on the website"
+ },
+ "filarmonica-calabria-cilea-conservatorio-2026": {
+  "slug": "calabria-philharmonic-cilea-free-concert-conservatory-2026",
+  "title": "The Orchestra Filarmonica della Calabria plays Cilea at the Conservatory",
+  "blurb": "Filippo Arlia conducts the Calabrian orchestra, with Sergio Messina on violin and Francesco Mariozzi on cello, in an all-Francesco Cilea programme. Free entry, in the most beautiful hall of the Conservatory.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "fratelli-de-filippo-rubini-diana-2026": {
+  "slug": "i-fratelli-de-filippo-sergio-rubini-teatro-diana-2026",
+  "title": "I fratelli De Filippo by Sergio Rubini at the Teatro Diana",
+  "blurb": "Sergio Rubini stages Eduardo, Peppino and Titina, the famous Neapolitan theatre siblings, from Maurizio Giammusso's book, with Susy Del Giudice, Marianna Fontana and music by Nicola Piovani. Two weeks in Vomero, with a Wednesday matinee.",
+  "time": "9pm",
+  "place": "Teatro Diana",
+  "area": "Vomero",
+  "price": "Tickets on the website"
+ },
+ "fratellina-piccolo-bellini-2026": {
+  "slug": "fratellina-spiro-scimone-play-piccolo-bellini-2026",
+  "title": "Fratellina by Spiro Scimone at the Piccolo Bellini",
+  "blurb": "Scimone and Sframeli, the Messina duo behind Italy's home-grown theatre of the absurd, return with four actors and sets by Lino Fiorito. Wednesday's show is at 6pm, Saturday's at 7.30pm and Sunday's at 6.30pm.",
+  "time": "9pm",
+  "place": "Piccolo Bellini",
+  "area": "Old Town",
+  "price": "from €15"
+ },
  "frizza-kavakos-san-carlo-2026": {
   "slug": "frizza-kavakos-teatro-di-san-carlo-2026",
   "title": "Frizza and Kavakos at the Teatro di San Carlo",
@@ -162,6 +729,33 @@
   "place": "Piccolo Bellini",
   "area": "Old Town"
  },
+ "giochi-di-zucca-mostra-d-oltremare-2026": {
+  "slug": "pumpkin-patch-for-kids-mostra-d-oltremare-2026",
+  "title": "Giochi di Zucca, the pumpkin patch at the Mostra d'Oltremare",
+  "blurb": "A month of pumpkin picking and autumn-themed games for children around the lake at the Mostra. At weekends it stays open until 9pm, and it's worth buying tickets online to skip the queue.",
+  "time": "10am-8pm",
+  "place": "Laghetto Fasilides, Mostra d'Oltremare, viale Kennedy 64",
+  "area": "Fuorigrotta",
+  "price": "€17"
+ },
+ "giornata-del-caffe-gambrinus-2026": {
+  "slug": "coffee-day-gran-caffe-gambrinus-naples-2026",
+  "title": "Coffee Day at the Gran Caffè Gambrinus",
+  "blurb": "In the Hall of Mirrors you can taste coffees from different countries and see old roasters, grinders and coffee pots. You need a free ticket, downloadable from the Gambrinus website.",
+  "time": "4.30pm-7.30pm",
+  "place": "Gran Caffè Gambrinus, Salone degli Specchi, via Chiaia 1",
+  "area": "San Ferdinando",
+  "price": "Free"
+ },
+ "giornate-fai-autunno-napoli-2026": {
+  "slug": "fai-autumn-days-naples-open-heritage-sites-2026",
+  "title": "Giornate FAI d’Autunno: sites usually closed open up in Naples and Campania",
+  "blurb": "For one weekend, volunteers from FAI (Italy’s National Trust) open palaces, churches and gardens that stay shut the rest of the year, with short guided visits often led by students. Check the list as soon as it comes out and aim for the lesser-known places, where the queues are shorter.",
+  "time": "times vary by site",
+  "place": "Various sites in Naples and the surrounding province (list on the FAI website)",
+  "area": "Naples and province",
+  "price": "donation"
+ },
  "giro-giro-napoli-bambini": {
   "slug": "giro-giro-napoli-free-visits-for-kids",
   "title": "Giro Giro Napoli: free visits for children",
@@ -170,6 +764,24 @@
   "place": "Museums and cultural sites across Naples",
   "price": "Free"
  },
+ "gli-anni-capitolo-3-madre-2026": {
+  "slug": "gli-anni-capitolo-3-exhibition-museo-madre-2026",
+  "title": "Gli anni. Capitolo 3 at the Museo Madre",
+  "blurb": "Works by Clemente, Pipilotti Rist, Kabakov, Fischli and others, each tied to the year it was first shown in Campania. The museum is closed on Tuesdays, and at weekends guided tours are included in the ticket.",
+  "time": "10am",
+  "place": "Museo Madre",
+  "area": "Old Town",
+  "price": "€8"
+ },
+ "halloween-tour-centro-antico-2026": {
+  "slug": "halloween-ghost-walk-naples-old-town-2026",
+  "title": "Halloween night tour of the old town",
+  "blurb": "A walk of almost two hours through dark legends, esotericism and ghost stories, with a horror finale and a drink in a bar in the centre. Fancy dress is welcome, and 15 to 17-year-olds pay €16.",
+  "time": "9pm",
+  "place": "Meeting point piazza Museo 19, in front of the MANN",
+  "area": "Old Town",
+  "price": "€20"
+ },
  "homo-ridens-palapartenope-2026": {
   "slug": "homo-ridens-roberto-ciufoli-palapartenope-2026",
   "title": "Homo Ridens, Roberto Ciufoli's comedy show",
@@ -177,6 +789,24 @@
   "time": "9pm",
   "place": "Teatro Palapartenope",
   "area": "Fuorigrotta"
+ },
+ "il-giovane-verdi-san-carlo-2026": {
+  "slug": "young-verdi-mass-teatro-di-san-carlo-2026",
+  "title": "Il giovane Verdi, the youthful Mass at the Teatro di San Carlo",
+  "blurb": "The San Carlo orchestra and chorus, conducted by Fabrizio Cassi, perform the Mass and sinfonias written by a Verdi barely out of his teens, in a critical edition. It lasts an hour and a half with an interval, and listening-only places cost €15.",
+  "time": "7pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "from €15"
+ },
+ "il-medico-dei-pazzi-galleria-toledo-2026": {
+  "slug": "il-medico-dei-pazzi-scarpetta-galleria-toledo-2026",
+  "title": "Il medico dei pazzi by Scarpetta at Galleria Toledo",
+  "blurb": "Laura Angiulli directs Eduardo Scarpetta's farce with Agostino Chiummariello and a large cast, sets by Rosario Squillace. Almost a month of performances, Fridays at 9pm and Sundays at 6pm.",
+  "time": "8.30pm",
+  "place": "Galleria Toledo",
+  "area": "Quartieri Spagnoli",
+  "price": "Tickets on the website"
  },
  "il-nero-di-bagnoli-2026": {
   "slug": "black-truffle-festival-bagnoli-irpino-2026",
@@ -187,6 +817,33 @@
   "area": "Bagnoli Irpino (Avellino)",
   "price": "Free entry"
  },
+ "il-presidente-teatro-nuovo-2026": {
+  "slug": "il-presidente-filippo-nigro-teatro-nuovo-2026",
+  "title": "Il presidente with Filippo Nigro at the Teatro Nuovo",
+  "blurb": "Fabrizio Arcuri and Filippo Nigro restage Davide Carnevali's play, rewritten for the occasion, with plenty of direct contact with the audience. Friday at 6.30pm, Saturday at 7pm, Sunday afternoon.",
+  "time": "9pm",
+  "place": "Teatro Nuovo",
+  "area": "Quartieri Spagnoli",
+  "price": "Tickets on the website"
+ },
+ "il-sosia-schubert-villa-pignatelli-2026": {
+  "slug": "il-sosia-schubert-piano-four-hands-villa-pignatelli-2026",
+  "title": "Il Sosia, the short life of Schubert at Villa Pignatelli",
+  "blurb": "Piano four hands by Marco Schiavo and Sergio Marchegiani with Stefano Valanzuolo narrating, the life of Schubert told through music. A Sunday matinee for €10, booking required.",
+  "time": "11am",
+  "place": "Villa Pignatelli, Neoclassical Veranda",
+  "area": "Chiaia",
+  "price": "€10"
+ },
+ "immacolata-concezione-bellini-2026": {
+  "slug": "immacolata-concezione-vucciria-teatro-bellini-2026",
+  "title": "Immacolata Concezione by Vuccirìa Teatro at the Teatro Bellini",
+  "blurb": "Joele Anastasi and the Sicilian company Vuccirìa stage three rituals about love, with Eduardo Scarpetta in the cast. On Wednesday there's a 5.30pm matinee; at the weekend it starts at 7pm on Saturday and 6pm on Sunday.",
+  "time": "8.45pm",
+  "place": "Teatro Bellini",
+  "area": "Old Town",
+  "price": "Tickets on the website"
+ },
  "isgro-canto-napoli-capodimonte": {
   "slug": "emilio-isgro-canto-napoli-capodimonte",
   "title": "Emilio Isgrò, “Canto Napoli” at Capodimonte",
@@ -195,6 +852,15 @@
   "place": "Museo e Real Bosco di Capodimonte",
   "area": "Capodimonte",
   "price": "Museum ticket"
+ },
+ "isolympia-belvedere-san-martino-2026": {
+  "slug": "isolympia-neapolis-games-san-martino-viewpoint-2026",
+  "title": "Isolympia, the games of Neapolis at the San Martino viewpoint",
+  "blurb": "The ancient games founded by Augustus return as a festival of sport, dance, music and talks with a view over the bay. Take the Montesanto funicular up and stay on the viewpoint for sunset.",
+  "time": "times vary",
+  "place": "Belvedere di San Martino",
+  "area": "Vomero",
+  "price": "Free"
  },
  "italian-urban-games-2026": {
   "slug": "italian-urban-games-naples-2026",
@@ -214,6 +880,42 @@
   "area": "Bagnoli",
   "price": "Tickets online"
  },
+ "kainrath-zilberstein-conservatorio-2026": {
+  "slug": "julian-kainrath-lilya-zilberstein-violin-piano-recital-2026",
+  "title": "Julian Kainrath and Lilya Zilberstein at the Conservatorio San Pietro a Majella",
+  "blurb": "The young violinist Julian Kainrath and pianist Lilya Zilberstein play sonatas by Grieg, Brahms and Prokofiev, with pieces from Romeo and Juliet. Part of the Associazione Scarlatti season, €20.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "kid-yugi-palapartenope-2026": {
+  "slug": "kid-yugi-rap-concert-palapartenope-2026",
+  "title": "Kid Yugi at the Teatro Palapartenope",
+  "blurb": "The rapper from Puglia brings his platinum album Anche gli eroi muoiono to the indoor arenas. The Palapartenope is a short walk from the Edenlandia stop on the Cumana train, easy for getting home.",
+  "time": "9pm",
+  "place": "Teatro Palapartenope",
+  "area": "Fuorigrotta",
+  "price": "Tickets on the website"
+ },
+ "korper-al-nuovo-teatro-nuovo-2026": {
+  "slug": "korper-al-nuovo-dance-teatro-nuovo-2026",
+  "title": "Körper al Nuovo, four nights of dance at the Teatro Nuovo",
+  "blurb": "A dance season curated by Körper, with Compagnie Linga, Zappalà Danza 2, Luna Cenere's Shoes On and the young dancers of Körper Young. Watch the times: on Saturday 17th it starts at 7pm, on Sunday 18th at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Nuovo",
+  "area": "Quartieri Spagnoli",
+  "price": "Tickets on the website"
+ },
+ "la-cara-dei-vecchi-piccolo-bellini-2026": {
+  "slug": "la-cara-dei-vecchi-monologue-piccolo-bellini-2026",
+  "title": "La cara dei vecchi at the Piccolo Bellini",
+  "blurb": "A monologue by Elvira Buonocore performed by Anna Carla Broegg, directed by Pino Carbone with music by Antonio Maiuri and Marco Messina. On Tuesday and Wednesday tickets cost €15, from Thursday €20.",
+  "time": "9pm",
+  "place": "Piccolo Bellini",
+  "area": "Old Town",
+  "price": "from €15"
+ },
  "la-cenerentola-san-carlo-2026": {
   "slug": "la-cenerentola-rossini-teatro-di-san-carlo-2026",
   "title": "La Cenerentola at the Teatro di San Carlo",
@@ -222,6 +924,69 @@
   "place": "Teatro di San Carlo",
   "area": "Old Town",
   "price": "from €20"
+ },
+ "la-mort-i-la-primavera-bellini-2026": {
+  "slug": "la-mort-i-la-primavera-la-veronal-dance-teatro-bellini-2026",
+  "title": "La mort i la primavera by Marcos Morau and La Veronal at the Bellini",
+  "blurb": "The Catalan company La Veronal turns Mercè Rodoreda's novel into dance, with Marcos Morau's striking choreography. Just three performances: Friday at 8.45pm, Saturday at 7pm, Sunday at 6pm.",
+  "time": "8.45pm",
+  "place": "Teatro Bellini",
+  "area": "Old Town",
+  "price": "Tickets on the website"
+ },
+ "la-vasca-bonaiuto-mercadante-2026": {
+  "slug": "la-vasca-anna-bonaiuto-teatro-mercadante-2026",
+  "title": "La vasca with Anna Bonaiuto at the Teatro Mercadante",
+  "blurb": "Anna Bonaiuto performs Franco Marcoaldi's play, directed by Andrea Renzi. There are several 5pm matinees, handy if you finish work in the centre.",
+  "time": "8.30pm",
+  "place": "Teatro Mercadante",
+  "area": "Municipio",
+  "price": "from €13"
+ },
+ "lda-aka7even-casa-della-musica-2026": {
+  "slug": "lda-aka7even-concert-casa-della-musica-2026",
+  "title": "LDA and Aka7even at the Casa della Musica",
+  "blurb": "The duo behind Poesie clandestine play their joint album and hits from their own repertoires, with a few nods to Neapolitan song. One of three indoor dates this autumn.",
+  "time": "9pm",
+  "place": "Casa della Musica",
+  "area": "Fuorigrotta",
+  "price": "Tickets on the website"
+ },
+ "legend-the-show-palapartenope-2026": {
+  "slug": "legend-the-show-michael-jackson-tribute-palapartenope-2026",
+  "title": "Legend The Show, Michael Jackson with orchestra at the Teatro Palapartenope",
+  "blurb": "A Michael Jackson show with live band, orchestra and dancers, led by Wendel Gama and with Jennifer Batten, the guitarist who actually played with him. A night out for families, it finishes around 11pm.",
+  "time": "9pm",
+  "place": "Teatro Palapartenope",
+  "area": "Fuorigrotta",
+  "price": "Tickets on the website"
+ },
+ "lisola-san-ferdinando-2026": {
+  "slug": "lisola-donadio-nappi-teatro-san-ferdinando-2026",
+  "title": "L'isola with Cristina Donadio and Bianca Nappi at the Teatro San Ferdinando",
+  "blurb": "Two mothers in a hospital waiting room, forced to tell each other everything: Juan Carlos Rubio's play, directed by Marcello Cotugno. Saturday at 7pm, Sunday at 6pm, gallery seats from €13.",
+  "time": "8.30pm",
+  "place": "Teatro San Ferdinando",
+  "area": "Foria",
+  "price": "from €13"
+ },
+ "living-collapse-madre-2026": {
+  "slug": "living-collapse-nativity-scene-exhibition-museo-madre-2026",
+  "title": "Living Collapse, the nativity scene through contemporary eyes at the Museo Madre",
+  "blurb": "The second exhibition of the Premio Meridiana: three artists from Campania rethink the tradition of the presepe, the Neapolitan nativity scene, starting from Jimmie Durham's Presepio. It's covered by the same €8 ticket as the other exhibitions.",
+  "time": "10am",
+  "place": "Museo Madre",
+  "area": "Old Town",
+  "price": "€8"
+ },
+ "maccio-capatonda-bellini-2026": {
+  "slug": "maccio-capatonda-stage-debut-teatro-bellini-2026",
+  "title": "Maccio Capatonda's stage debut at the Bellini",
+  "blurb": "A play about a play: a desperate theatre company talks the Italian comedian Maccio Capatonda into going on stage to save the theatre, with his alter ego appearing on video. Four nights and tickets go fast: the cheapest seats in the third tier start at €30 plus booking fee.",
+  "time": "8.45pm",
+  "place": "Teatro Bellini",
+  "area": "Old Town",
+  "price": "from €30"
  },
  "malika-ayane-augusteo-2026": {
   "slug": "malika-ayane-concert-augusteo-2026",
@@ -311,6 +1076,15 @@
   "area": "Old Town",
   "price": "€8, concessions €4"
  },
+ "mastelloni-solo-tiny-sannazaro-2026": {
+  "slug": "leopoldo-mastelloni-solo-show-tiny-sannazaro-2026",
+  "title": "Leopoldo Mastelloni tells Mastelloni at the Teatro TINy Sannazaro",
+  "blurb": "Alone on stage, Leopoldo Mastelloni revisits the characters of a career spanning Eduardo, Viviani and Patroni Griffi. A small room with few seats, Saturday at 7pm and Sunday at 6pm.",
+  "time": "9pm",
+  "place": "Teatro TINy Sannazaro",
+  "area": "Chiaia",
+  "price": "Tickets on the website"
+ },
  "mavi-teatro-augusteo-2026": {
   "slug": "mavi-concert-teatro-augusteo-2026",
   "title": "Mavi in concert at the Augusteo",
@@ -319,6 +1093,213 @@
   "place": "Teatro Augusteo",
   "area": "Old Town",
   "price": "€26-€34.50"
+ },
+ "mercatino-posillipo-giovedi-2026-10-01": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-10-01",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-10-08": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-10-08",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-10-15": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-10-15",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-10-22": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-10-22",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-10-29": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-10-29",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-11-05": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-11-05",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-11-12": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-11-12",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercatino-posillipo-giovedi-2026-11-19": {
+  "slug": "posillipo-thursday-street-market-parco-virgiliano-2026-11-19",
+  "title": "Posillipo street market, Thursday mornings by the Parco Virgiliano",
+  "blurb": "On Thursdays viale Virgilio is lined with stalls selling clothes, including end-of-line designer pieces, bags, homeware and plants. After a wander, head up into the Parco Virgiliano for the view over Nisida and Capri.",
+  "time": "7am-1pm",
+  "place": "Viale Virgilio, at the entrance to the Parco Virgiliano",
+  "area": "Posillipo",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-09-27": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-09-27",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-04": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-04",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-11": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-11",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-18": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-18",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-10-25": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-10-25",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-01": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-01",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-08": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-08",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-antiquariato-ippodromo-agnano-2026-11-15": {
+  "slug": "antiques-market-agnano-racecourse-sunday-2026-11-15",
+  "title": "Antiques market at the Agnano racecourse, every Sunday morning",
+  "blurb": "More than two hundred stalls across the racecourse grounds: period furniture, records, postcards, silverware, second-hand clothes and plenty to rummage through. Parking is free and the good pieces are gone by 9am, so go early and bring cash.",
+  "time": "6am-2pm",
+  "place": "Ippodromo di Agnano (Agnano racecourse), via Raffaele Ruggiero",
+  "area": "Agnano",
+  "price": "Free"
+ },
+ "mercato-della-terra-boscoreale-2026-10-11": {
+  "slug": "slow-food-farmers-market-boscoreale-vesuvius-2026-10-11",
+  "title": "Slow Food Mercato della Terra in Boscoreale, in piazza Vargas",
+  "blurb": "Farmers from the villages around Vesuvius bring piennolo tomatoes, wine, pulses, olive oil and fruit to the square, with a workshop on the product of the month at around 11am. You get there on the Circumvesuviana local train and, if you have time, you can pair it with a visit to Villa Regina and the Antiquarium.",
+  "time": "9am-1pm",
+  "place": "Piazza Vargas",
+  "area": "Boscoreale",
+  "price": "Free"
+ },
+ "mercato-della-terra-boscoreale-2026-11-08": {
+  "slug": "slow-food-farmers-market-boscoreale-vesuvius-2026-11-08",
+  "title": "Slow Food Mercato della Terra in Boscoreale, in piazza Vargas",
+  "blurb": "Farmers from the villages around Vesuvius bring piennolo tomatoes, wine, pulses, olive oil and fruit to the square, with a workshop on the product of the month at around 11am. You get there on the Circumvesuviana local train and, if you have time, you can pair it with a visit to Villa Regina and the Antiquarium.",
+  "time": "9am-1pm",
+  "place": "Piazza Vargas",
+  "area": "Boscoreale",
+  "price": "Free"
+ },
+ "mercato-della-terra-piano-di-sorrento-2026-10-11": {
+  "slug": "slow-food-farmers-market-piano-di-sorrento-2026-10-11",
+  "title": "Slow Food Mercato della Terra in Piano di Sorrento, second Sunday of the month",
+  "blurb": "Under the Art Nouveau iron canopy of the town’s covered market, only small producers from the Sorrento peninsula sell bread, olive oil, cheese, eggs, preserves and vegetables picked the day before. At 11am there is a free tasting workshop on the product of the month, and it is worth staying for.",
+  "time": "9am-1pm",
+  "place": "Covered market in piazza della Repubblica",
+  "area": "Piano di Sorrento",
+  "price": "Free"
+ },
+ "mercato-della-terra-piano-di-sorrento-2026-11-08": {
+  "slug": "slow-food-farmers-market-piano-di-sorrento-2026-11-08",
+  "title": "Slow Food Mercato della Terra in Piano di Sorrento, second Sunday of the month",
+  "blurb": "Under the Art Nouveau iron canopy of the town’s covered market, only small producers from the Sorrento peninsula sell bread, olive oil, cheese, eggs, preserves and vegetables picked the day before. At 11am there is a free tasting workshop on the product of the month, and it is worth staying for.",
+  "time": "9am-1pm",
+  "place": "Covered market in piazza della Repubblica",
+  "area": "Piano di Sorrento",
+  "price": "Free"
+ },
+ "mozart-haydn-porta-del-parco-2026": {
+  "slug": "mozart-haydn-string-quartet-bagnoli-2026",
+  "title": "Mozart and Papa Haydn at the Auditorium Porta del Parco",
+  "blurb": "The string quartet Musica Nova à Quattro plays Haydn and Mozart's Quartet in D minor. A Saturday afternoon concert, the last October date of the Musica Urbana series.",
+  "time": "6pm",
+  "place": "Auditorium Porta del Parco",
+  "area": "Bagnoli",
+  "price": "Tickets on the website"
+ },
+ "musica-urbana-ramin-bahrami-bagnoli-2026": {
+  "slug": "ramin-bahrami-bach-piano-recital-bagnoli-2026",
+  "title": "Ramin Bahrami opens Musica Urbana at the Bagnoli Auditorium",
+  "blurb": "The Bach pianist par excellence plays two Partitas and opens a classical music series on the city's edge. Under-30s pay €5, tickets on Azzurroservice.",
+  "time": "6pm",
+  "place": "Auditorium Porta del Parco, via Diocleziano 341",
+  "area": "Bagnoli",
+  "price": "€10"
+ },
+ "napoli-cuba-solo-andata-conservatorio-2026": {
+  "slug": "naples-cuba-latin-jazz-conservatorio-san-pietro-a-majella-2026",
+  "title": "Napoli Cuba solo andata at the Conservatorio di San Pietro a Majella",
+  "blurb": "Latin jazz with Giulio Martino, Marco Sannini and Giovanni Imparato on percussion, joined by students from the jazz course. Entry is free until places run out, in the Conservatorio's finest hall, so arrive early.",
+  "time": "6pm",
+  "place": "Sala Scarlatti, Conservatorio San Pietro a Majella, via San Pietro a Majella 35",
+  "area": "Old Town",
+  "price": "Free"
  },
  "nayt-noi-individui-tour-2026": {
   "slug": "nayt-noi-individui-tour-palapartenope-2026",
@@ -336,6 +1317,15 @@
   "place": "MAV, CasaCinema Napoli and Cinema Vittoria",
   "area": "San Giorgio a Cremano, Vomero, Arenella",
   "price": "Free"
+ },
+ "neanche-parenti-piccolo-bellini-2026": {
+  "slug": "neanche-parenti-new-play-piccolo-bellini-2026",
+  "title": "Neanche parenti at the Piccolo Bellini",
+  "blurb": "A new play written and directed by Gabriele Russo and Arianna D'Angiò, running for almost a month in the Bellini's small studio theatre. Tickets are cheaper on Tuesdays and Wednesdays, and on Sundays it starts at 6.30pm.",
+  "time": "9pm",
+  "place": "Piccolo Bellini",
+  "area": "Old Town",
+  "price": "from €15"
  },
  "neapolis-marathon-2026": {
   "slug": "neapolis-marathon-2026",
@@ -370,6 +1360,15 @@
   "area": "Chiaia",
   "price": "€20, booking required"
  },
+ "oktober-festival-edenlandia-2026": {
+  "slug": "oktober-festival-edenlandia-last-weekend-2026",
+  "title": "Oktober Festival at Edenlandia, final weekend",
+  "blurb": "Bavarian beer, German food and vintage fairground rides, with live Neapolitan music under the big tent in the evening. Entry to the park is free with an online ticket; the tent with the shows costs €10.",
+  "time": "8.30pm",
+  "place": "Edenlandia, viale Kennedy 76",
+  "area": "Fuorigrotta",
+  "price": "Free"
+ },
  "oktoberdays-palapartenope-2-2026": {
   "slug": "oktoberdays-palapartenope-second-weekend-2026",
   "title": "OktoberDays at the Palapartenope, second weekend",
@@ -377,6 +1376,15 @@
   "place": "Palapartenope, via Barbagallo 115",
   "area": "Fuorigrotta",
   "price": "Tickets online"
+ },
+ "omaggio-battiato-villa-pignatelli-2026": {
+  "slug": "franco-battiato-tribute-concert-villa-pignatelli-2026",
+  "title": "A tribute to Franco Battiato at Villa Pignatelli",
+  "blurb": "Quartetto d'Arti, with voice, violin, cello and guitars, plays the songs of the much-loved Italian songwriter Franco Battiato in the concert Perché sei un essere speciale. It's on a Sunday morning, so afterwards you can wander down for a stroll in the Villa Comunale park.",
+  "time": "11am",
+  "place": "Villa Pignatelli, Neoclassical Veranda",
+  "area": "Chiaia",
+  "price": "€10"
  },
  "open-house-napoli-2026": {
   "slug": "open-house-naples-2026",
@@ -386,12 +1394,75 @@
   "area": "Naples and Campi Flegrei",
   "price": "Free"
  },
+ "oren-nona-beethoven-san-carlo-2026": {
+  "slug": "beethoven-ninth-symphony-daniel-oren-san-carlo-2026",
+  "title": "Beethoven's Ninth conducted by Daniel Oren at the Teatro di San Carlo",
+  "blurb": "Daniel Oren on the podium, with the theatre's orchestra and chorus and four soloists including Michele Pertusi, for Symphony No. 9, Ode to Joy and all. Seventy-five minutes without an interval and only two nights, so book early.",
+  "time": "7pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "from €15"
+ },
+ "organo-in-scena-conservatorio-2026": {
+  "slug": "free-monday-organ-concerts-conservatory-naples-2026",
+  "title": "L'organo in scena, Monday organ concerts at the Conservatorio San Pietro a Majella",
+  "blurb": "Six Mondays with different organists for the Conservatory's bicentenary, from Napoli è porosa on 5 October until mid-December. Free entry; the October and November dates are 5, 12 and 26 October and 9 and 23 November.",
+  "time": "6pm",
+  "place": "Conservatorio San Pietro a Majella, Sala Scarlatti",
+  "area": "Old Town",
+  "price": "Free"
+ },
  "ornella-vanoni-pacifico-bellini-2026": {
   "slug": "ornella-vanoni-pacifico-diario-sentimentale-bellini-2026",
   "title": "Diario sentimentale di una donna libera, at the Bellini",
   "blurb": "The songwriter Pacifico tells the story of Ornella Vanoni through the songs he wrote for her, more a diary than a tribute. On at the Bellini from 20 to 25 October, in Italian. Best for those who already know Vanoni and want to hear her story from someone who worked with her.",
   "place": "Teatro Bellini",
   "area": "Old Town"
+ },
+ "otello-diana-2026": {
+  "slug": "othello-giacomo-giorgio-pasotti-teatro-diana-2026",
+  "title": "Otello with Giacomo Giorgio and Giorgio Pasotti at the Teatro Diana",
+  "blurb": "Giacomo Giorgio, known from the TV series Mare fuori, plays Othello, and Giorgio Pasotti directs a script by Dacia Maraini. On Saturdays there are two shows, at 5.30pm and 9pm.",
+  "time": "9pm",
+  "place": "Teatro Diana",
+  "area": "Vomero",
+  "price": "Tickets on the website"
+ },
+ "ozpetek-ruoli-secondari-diana-2026": {
+  "slug": "ruoli-secondari-ferzan-ozpetek-teatro-diana-2026",
+  "title": "Ruoli secondari by Ferzan Ozpetek at the Teatro Diana",
+  "blurb": "The new show written and directed by Ferzan Ozpetek, after bringing his films Mine vaganti and Magnifica presenza to the stage. On Saturdays choose between 5.30pm and 9pm, on Sundays it's 6pm.",
+  "time": "9pm",
+  "place": "Teatro Diana",
+  "area": "Vomero",
+  "price": "Tickets on the website"
+ },
+ "palazzo-reale-apertura-serale-2-ottobre-2026": {
+  "slug": "palazzo-reale-late-opening-stargazing-2026-10-02",
+  "title": "Late opening at the Palazzo Reale with stargazing from the Belvedere",
+  "blurb": "The Palazzo Reale stays open until midnight for €5, and for another €5 you can go up to the Belvedere and look at the sky through the telescopes of the Capodimonte Observatory. The same evening Villa Pignatelli is open until 11.30pm for €3.",
+  "time": "8pm",
+  "place": "Palazzo Reale",
+  "area": "Piazza del Plebiscito",
+  "price": "€5"
+ },
+ "parthenope-market-santissima-settembre-2026": {
+  "slug": "parthenope-vintage-market-santissima-quartieri-spagnoli-2026",
+  "title": "Parthenope Market at La Santissima, vintage and makers in the Quartieri Spagnoli",
+  "blurb": "Stalls of vintage clothes, vinyl, handmade jewellery and small Neapolitan makers, inside the former Trinità delle Monache convent complex, with music all day. Come in the morning: entry is free until 2pm and the best pieces are still there.",
+  "time": "from 10am",
+  "place": "La Santissima Community Hub, vico Trinità delle Monache",
+  "area": "Quartieri Spagnoli / Montesanto",
+  "price": "Free until 2pm, then €3"
+ },
+ "peppe-barra-buonasera-sannazaro-2026": {
+  "slug": "peppe-barra-buonasera-a-tutti-teatro-sannazaro-2026",
+  "title": "Peppe Barra in Buonasera a tutti at the Teatro Sannazaro",
+  "blurb": "A recital by Peppe Barra mixing songs, stories and masks, talking straight to the audience. Three nights on via Chiaia, and on Sunday it starts at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Sannazaro",
+  "area": "Chiaia",
+  "price": "Tickets on the website"
  },
  "pessoa-luna-park-castel-sant-elmo-2026": {
   "slug": "pessoa-luna-park-castel-sant-elmo-2026",
@@ -408,6 +1479,24 @@
   "blurb": "Colbert's pop lobsters among the Roman houses, during normal opening hours. They split opinion: some find them brilliant, others out of place. Making up your own mind costs nothing extra.",
   "place": "Parco Archeologico di Pompei",
   "price": "Included in the Pompeii ticket"
+ },
+ "pieranunzi-bill-evans-villa-di-donato-2026": {
+  "slug": "enrico-pieranunzi-bill-evans-jazz-villa-di-donato-2026",
+  "title": "Enrico Pieranunzi plays Bill Evans at Villa di Donato",
+  "blurb": "One of the great European jazz pianists pays tribute to Bill Evans in the salon of an 18th-century villa, with cocktails before the concert. Places are limited, so call or email the villa to book.",
+  "time": "7.30pm",
+  "place": "Villa di Donato, via Macedonia 12",
+  "area": "Sant'Eframo",
+  "price": "€40"
+ },
+ "pinocchio-iodice-trianon-2026": {
+  "slug": "pinocchio-davide-iodice-teatro-trianon-2026",
+  "title": "Pinocchio, che cos'è una persona? by Davide Iodice at the Teatro Trianon Viviani",
+  "blurb": "The show by Davide Iodice's Scuola elementare del teatro, winner of a special Ubu award (Italy's top theatre prize), with disabled and non-disabled actors. Friday and Saturday at 9pm, Sunday at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "Tickets on the website"
  },
  "premio-carosone-arena-flegrea-2026": {
   "slug": "premio-carosone-arena-flegrea-2026",
@@ -426,6 +1515,33 @@
   "place": "Parco Vergiliano a Piedigrotta",
   "area": "Mergellina",
   "price": "Free, booking required"
+ },
+ "raiz-love-songs-conservatorio-2026": {
+  "slug": "raiz-idr-neapolitan-love-songs-conservatory-2026",
+  "title": "Raiz and IDR, Love Songs at the Conservatorio San Pietro a Majella",
+  "blurb": "The voice of Almamegretta teams up with the New York ensemble of Marco Cappelli and Jim Pugliese for Neapolitan love songs, from the old repertoire to today, in a world premiere. Part of the Associazione Scarlatti season, €20.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "ricordando-severino-canino-conservatorio-2026": {
+  "slug": "bruno-canino-flute-piano-concert-conservatorio-2026",
+  "title": "Ricordando Severino: Bruno Canino and Salvatore Lombardi at the Conservatorio",
+  "blurb": "A tribute to the flautist Severino Gazzelloni, with Salvatore Lombardi on flute and the veteran Bruno Canino at the piano, playing Marcello, Mozart and Donizetti. Free entry until places run out.",
+  "time": "6pm",
+  "place": "Sala Scarlatti, Conservatorio San Pietro a Majella, via San Pietro a Majella 35",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "romeo-juliet-project-piccolo-bellini-2026": {
+  "slug": "romeo-juliet-project-lindsay-kemp-dance-piccolo-bellini-2026",
+  "title": "Romeo & Juliet project by Lindsay Kemp at the Piccolo Bellini",
+  "blurb": "The dancers of Borderlinedanza, led by Daniela Maccari, revive Lindsay Kemp's dance theatre to music by Nino Rota, Purcell and Puccini. Just three nights in the small hall: Saturday starts at 7.30pm, Sunday at 6.30pm.",
+  "time": "9pm",
+  "place": "Piccolo Bellini",
+  "area": "Old Town",
+  "price": "€20"
  },
  "sagra-castagna-fungo-porcino-roccamonfina-2026": {
   "slug": "chestnut-and-porcini-festival-roccamonfina-2026",
@@ -471,6 +1587,15 @@
   "area": "Fuorigrotta",
   "price": "Tickets on presale"
  },
+ "scuola-napoletana-russia-san-carlo-2026": {
+  "slug": "neapolitan-school-in-russia-chamber-music-san-carlo-2026",
+  "title": "La Scuola Napoletana in Russia, chamber music at the Teatro di San Carlo",
+  "blurb": "An hour of arias and capriccios by Paisiello, Araja and Sebastiani, the Neapolitan composers the 18th century took to the court of St Petersburg, with the orchestra's musicians and the Academy's singers. One price of €18 in every section, so go for the stalls.",
+  "time": "7pm",
+  "place": "Teatro di San Carlo",
+  "area": "Toledo",
+  "price": "€18"
+ },
  "se-io-fossi-federico-salvatore-2026": {
   "slug": "se-io-fossi-federico-salvatore-charity-concert-2026",
   "title": "Se io fossi Federico Salvatore, charity concert",
@@ -479,6 +1604,15 @@
   "place": "Teatro Augusteo",
   "area": "Old Town",
   "price": "€27-€52"
+ },
+ "serafino-gubbio-ridotto-mercadante-2026": {
+  "slug": "serafino-gubbio-pirandello-ridotto-mercadante-2026",
+  "title": "Quaderni di Serafino Gubbio operatore at the Ridotto del Mercadante",
+  "blurb": "Flavio Capuzzo Dolcetta adapts Pirandello's novel about cinema and the man reduced to turning a camera handle, in the Ridotto's intimate studio. Saturday at 7pm, Sunday at 6pm.",
+  "time": "8.30pm",
+  "place": "Ridotto del Teatro Mercadante",
+  "area": "Municipio",
+  "price": "Tickets on the website"
  },
  "serate-nella-grande-pompei-2026": {
   "slug": "pompeii-evenings-night-openings-2026",
@@ -489,6 +1623,15 @@
   "area": "Pompeii",
   "price": "€7 per site"
  },
+ "serena-rossi-serenata-diana-2026": {
+  "slug": "serena-rossi-serenata-a-napoli-teatro-diana-2026",
+  "title": "Serena Rossi in Serenata a Napoli at the Teatro Diana",
+  "blurb": "Serena Rossi tells and sings Naples as a siren and a female city, in a show directed by Cristina Redini. Three weeks of performances, with matinees on Wednesdays at 5.45pm and Sundays at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Diana",
+  "area": "Vomero",
+  "price": "Tickets on the website"
+ },
  "social-park-parco-del-poggio-2026": {
   "slug": "social-park-parco-del-poggio-2026",
   "title": "Social Park vol. III at Parco del Poggio: the last Sunday in the park",
@@ -497,6 +1640,78 @@
   "place": "Parco del Poggio, viale Poggio di Capodimonte 53",
   "area": "Colli Aminei",
   "price": "Free, booking online"
+ },
+ "solisti-aquilani-sciortino-conservatorio-2026": {
+  "slug": "solisti-aquilani-orazio-sciortino-mozart-conservatory-2026",
+  "title": "I Solisti Aquilani and Orazio Sciortino at the Conservatorio San Pietro a Majella",
+  "blurb": "Orazio Sciortino plays and conducts Mozart's Piano Concerto K 449, then the orchestra takes on Schoenberg's Verklärte Nacht (Transfigured Night). Single tickets are €20 at the box office before the concert.",
+  "time": "8.30pm",
+  "place": "Conservatorio San Pietro a Majella",
+  "area": "Old Town",
+  "price": "€20"
+ },
+ "spinacorona-anteprima-carmine-2026": {
+  "slug": "spinacorona-beethoven-first-symphony-carmine-church-2026",
+  "title": "Spinacorona preview: Beethoven's First Symphony at the Carmine",
+  "blurb": "The Orchestra della Toscana and pianist Michele Campanella open the tenth Spinacorona with Beethoven's First Symphony and Triple Concerto. There's no booking: doors open half an hour before, so arrive early if you want a seat.",
+  "time": "9.30pm",
+  "place": "Basilica del Carmine Maggiore, piazza del Carmine",
+  "area": "Mercato",
+  "price": "Free"
+ },
+ "spinacorona-passeggiate-musicali-2026": {
+  "slug": "spinacorona-free-beethoven-concerts-old-town-2026",
+  "title": "Spinacorona: ten free Beethoven concerts in the old town",
+  "blurb": "Three days of musical walks all devoted to Beethoven, from a piano in San Giovanni a Mare to the Diabelli Variations at the Trinità dei Pellegrini. Pick two or three stops close together and stroll between concerts; doors open half an hour before each one.",
+  "time": "times vary",
+  "place": "Churches and palazzi of the old town, from San Giovanni a Mare to the SS. Annunziata",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "tavola-rotonda-cavalier-bideri-conservatorio-2026": {
+  "slug": "neapolitan-song-bideri-concert-conservatorio-2026",
+  "title": "Neapolitan song and the publisher Bideri at the Conservatorio",
+  "blurb": "A concert tells the story of the golden age of Neapolitan song through the publisher Bideri, with a soprano, a singer and the Conservatorio ensemble. Free entry, and seats fill up fast.",
+  "time": "6pm",
+  "place": "Sala Scarlatti, Conservatorio San Pietro a Majella, via San Pietro a Majella 35",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "teardo-bargeld-trianon-2026": {
+  "slug": "teho-teardo-blixa-bargeld-concert-trianon-2026",
+  "title": "Teho Teardo and Blixa Bargeld in concert at the Teatro Trianon Viviani",
+  "blurb": "The composer Teho Teardo and the voice of Einstürzende Neubauten, who also played with Nick Cave, perform together with strings, electronics and song. A single date in Forcella, tickets on Vivaticket.",
+  "time": "9pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "Tickets on the website"
+ },
+ "terme-suburbane-ercolano-visite-2026": {
+  "slug": "herculaneum-suburban-baths-restoration-tours-2026",
+  "title": "Suburban Baths of Herculaneum: guided tours of the restoration site",
+  "blurb": "Every Saturday groups of 15 put on hard hats and go into the Roman baths overlooking the ancient beach, normally closed to the public. The ticket includes the excavations too, and under-18s go free.",
+  "time": "9.30am-4.30pm",
+  "place": "Parco Archeologico di Ercolano, corso Resina 187",
+  "area": "Herculaneum",
+  "price": "€21"
+ },
+ "tesoro-san-gennaro-serata-novembre-2026": {
+  "slug": "treasure-of-san-gennaro-after-hours-tour-november-2026",
+  "title": "Un Tesoro di serata: after-hours tour of the Treasure of San Gennaro",
+  "blurb": "The second autumn evening to see the gifts to the saint and the sacristies without the daytime crowds, finishing with an aperitivo in the courtyard. Book a few weeks ahead, as the groups are small.",
+  "time": "7.30pm",
+  "place": "Museo del Tesoro di San Gennaro, via Duomo 149",
+  "area": "Old Town",
+  "price": "€25"
+ },
+ "tesoro-san-gennaro-serata-ottobre-2026": {
+  "slug": "treasure-of-san-gennaro-after-hours-tour-october-2026",
+  "title": "Un Tesoro di serata: after-hours tour of the Treasure of San Gennaro",
+  "blurb": "With the museum closed, a guide takes you past the mitre, the necklace of San Gennaro, the Royal Chapel and Mimmo Jodice's photographs, followed by an aperitivo in the courtyard. Places are few and booking is only on the website; children up to 12 go free.",
+  "time": "7.30pm",
+  "place": "Museo del Tesoro di San Gennaro, via Duomo 149",
+  "area": "Old Town",
+  "price": "€25"
  },
  "tour-del-giallo-piazza-mercato-2026": {
   "slug": "crime-fiction-walk-piazza-mercato-2026",
@@ -516,6 +1731,222 @@
   "area": "Vomero",
   "price": "Free"
  },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-09-26": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-09-26",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-10-03": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-10-03",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-10-10": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-10-10",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-10-17": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-10-17",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-10-24": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-10-24",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-10-31": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-10-31",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-11-07": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-11-07",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-11-14": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-11-14",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-quartieri-spagnoli-insolitaguida-sabato-2026-11-21": {
+  "slug": "quartieri-spagnoli-walking-tour-murals-street-food-saturday-2026-11-21",
+  "title": "Quartieri Spagnoli walking tour with Insolitaguida: murals, street shrines, wine and cuoppo",
+  "blurb": "A two-hour walk from the little square by Pizzeria Brandi to the Pignasecca market, past the Maradona mural, vico Totò and the neighbourhood’s street shrines. The price includes a coffee, a cuoppo (a paper cone of fried snacks) and a glass of red, so go easy on breakfast.",
+  "time": "10am-12pm",
+  "place": "Quartieri Spagnoli, meeting point given when you book",
+  "area": "Quartieri Spagnoli",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-09-27": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-09-27",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-10-04": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-10-04",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-10-11": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-10-11",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-10-18": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-10-18",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-10-25": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-10-25",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-11-01": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-11-01",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-11-08": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-11-08",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "tour-rione-sanita-insolitaguida-domenica-2026-11-15": {
+  "slug": "rione-sanita-walking-tour-insolitaguida-sunday-2026-11-15",
+  "title": "Rione Sanità walking tour with Insolitaguida: street art, baroque and fiocco di neve",
+  "blurb": "Two hours on foot taking in Palazzo dello Spagnolo, Palazzo San Felice, the Borgo dei Vergini and the basilica of Santa Maria della Sanità, with a coffee and a fiocco di neve (a cream-filled brioche) from Poppella included. Wear comfortable shoes and book a few days ahead, as the groups fill up.",
+  "time": "10am-12pm",
+  "place": "Meeting point at Porta San Gennaro",
+  "area": "Rione Sanità",
+  "price": "€15"
+ },
+ "trianondanza-2026": {
+  "slug": "trianondanza-contemporary-dance-festival-trianon-2026",
+  "title": "TrianonDanza 2026 at the Teatro Trianon Viviani",
+  "blurb": "A contemporary dance season with companies from Campania, from Gabriella Stazio to Körper Young and Fabrizio Varriale, almost every night until mid-October. One price of €5 for everything, so you can take a chance on a name you've never heard of.",
+  "time": "8pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "€5"
+ },
+ "trio-hermes-barbieri-chiesa-anglicana-2026": {
+  "slug": "trio-hermes-goya-beethoven-anglican-church-naples-2026",
+  "title": "Trio Hermes and Guido Barbieri on Goya and Beethoven at the Anglican Church",
+  "blurb": "Violin, cello and piano, with Guido Barbieri telling the parallel lives of Goya and Beethoven. The church on via San Pasquale has warm, intimate acoustics, €20.",
+  "time": "8.30pm",
+  "place": "Chiesa Anglicana (Anglican Church)",
+  "area": "Chiaia",
+  "price": "€20"
+ },
+ "txt-festival-mercadante-2026": {
+  "slug": "txt-festival-martin-crimp-mercadante-san-ferdinando-2026",
+  "title": "TXT Festival with Martin Crimp at the Mercadante and San Ferdinando",
+  "blurb": "Four days of European playwriting with Martin Crimp as guest: readings, his opera Written on Skin, shows in the Ridotto studio and, after midnight, DJ sets and after-show parties with free entry. Check the programme night by night, as some tickets cover two shows back to back.",
+  "time": "7pm",
+  "place": "Teatro Mercadante and Teatro San Ferdinando",
+  "area": "Municipio",
+  "price": "Tickets on the website"
+ },
+ "ultimo-nastro-krapp-mercadante-2026": {
+  "slug": "krapps-last-tape-press-conference-carpentieri-mercadante-2026",
+  "title": "L'ultimo nastro di Krapp and Press Conference with Renato Carpentieri at the Mercadante",
+  "blurb": "Roberto Andò pairs Beckett and Pinter in a double bill about memory and power, carried entirely by Renato Carpentieri. On weekdays the side boxes cost €13, and there are 5pm matinees.",
+  "time": "8.30pm",
+  "place": "Teatro Mercadante",
+  "area": "Municipio",
+  "price": "from €13"
+ },
+ "uri-caine-villa-pignatelli-2026": {
+  "slug": "uri-caine-solo-piano-villa-pignatelli-2026",
+  "title": "Uri Caine solo piano at Villa Pignatelli",
+  "blurb": "The American pianist Uri Caine plays solo, with a programme called Change, moving between jazz and new takes on the classics. An evening with 199 seats, reduced to €15 for over-65s and under-26s.",
+  "time": "8pm",
+  "place": "Villa Pignatelli, Neoclassical Veranda",
+  "area": "Chiaia",
+  "price": "€20"
+ },
+ "us-navy-top-brass-conservatorio-2026": {
+  "slug": "us-navy-top-brass-quintet-conservatorio-naples-2026",
+  "title": "Top Brass, the US Navy band's quintet at the Conservatorio",
+  "blurb": "The brass quintet of the US Naval Forces in Europe plays swing, marches and modern arrangements in the Conservatorio's hall. An hour of light, well-played music, with free entry.",
+  "time": "6pm",
+  "place": "Sala Scarlatti, Conservatorio San Pietro a Majella, via San Pietro a Majella 35",
+  "area": "Old Town",
+  "price": "Free"
+ },
+ "uscita-di-emergenza-san-ferdinando-2026": {
+  "slug": "uscita-di-emergenza-santanelli-teatro-san-ferdinando-2026",
+  "title": "Uscita di emergenza by Santanelli at the Teatro San Ferdinando",
+  "blurb": "Vincenzo Ferrera and Nando Paone in Manlio Santanelli's classic about two men stuck in a crumbling house after the earthquake. Seats up in the gallery start at €13 on weekdays.",
+  "time": "9pm",
+  "place": "Teatro San Ferdinando",
+  "area": "Foria",
+  "price": "from €13"
+ },
  "vendemmiamo-la-catalanesca-2026": {
   "slug": "catalanesca-grape-harvest-vesuvius-2026",
   "title": "Harvesting Catalanesca: picking, tasting and lunch in the vineyard",
@@ -525,12 +1956,30 @@
   "area": "Vesuvius",
   "price": "See the organiser"
  },
+ "venere-vs-adone-trianon-2026": {
+  "slug": "venere-vs-adone-enzo-cosimi-dance-trianon-2026",
+  "title": "Venere vs Adone by Enzo Cosimi at the Teatro Trianon Viviani",
+  "blurb": "Dance theatre by Enzo Cosimi that moves through a world of images from Andy Warhol to Marlene Dumas. Saturday at 9pm, Sunday at 6pm.",
+  "time": "9pm",
+  "place": "Teatro Trianon Viviani",
+  "area": "Forcella",
+  "price": "Tickets on the website"
+ },
  "vespero-napoletano-2026": {
   "slug": "vespero-napoletano-slow-tourism-festival-2026",
   "title": "Vespero Napoletano, the slow tourism festival",
   "blurb": "Walks, workshops, concerts and roving performances put on by the City of Naples, every weekend until 24 October.",
   "place": "Various neighbourhoods of Naples",
   "price": "Free, while places last"
+ },
+ "videomapping-castel-dell-ovo-2026": {
+  "slug": "castel-dell-ovo-projection-mapping-americas-cup-finale-2026",
+  "title": "Projection mapping on Castel dell'Ovo for the America's Cup finale",
+  "blurb": "After the regatta prize-giving at the Rotonda Diaz, the castle's façade lights up with three minutes of projections on the history of Naples and the sea. Find a spot on the seafront facing Megaride a few minutes early, as the show is short.",
+  "time": "8.30pm",
+  "place": "Castel dell'Ovo, via Eldorado",
+  "area": "Santa Lucia",
+  "price": "Free"
  },
  "vinicio-capossela-augusteo-2026": {
   "slug": "vinicio-capossela-e-morte-non-avra-dominio-augusteo-2026",
@@ -541,6 +1990,15 @@
   "area": "Old Town",
   "price": "from €35.10"
  },
+ "voyageur-ibrahim-mahama-piazza-municipio-2026": {
+  "slug": "voyageur-ibrahim-mahama-boats-installation-piazza-municipio-2026",
+  "title": "Voyageur, Ibrahim Mahama's three boats in piazza Municipio",
+  "blurb": "Three wooden boats built in Ghana, up to 8 metres high, rise out of the paving in front of the port like shipwrecks. Stop by at sunset as you come out of Municipio metro station; you can walk all the way round them.",
+  "time": "all day",
+  "place": "Piazza Municipio",
+  "area": "San Ferdinando",
+  "price": "Free"
+ },
  "willie-peyote-casa-della-musica-2026": {
   "slug": "willie-peyote-casa-della-musica-2026",
   "title": "Willie Peyote in concert at the Casa della Musica",
@@ -548,6 +2006,24 @@
   "time": "9pm",
   "place": "Casa della Musica",
   "area": "Fuorigrotta"
+ },
+ "wine-spot-scavi-ercolano-17-ottobre-2026": {
+  "slug": "herculaneum-by-night-wine-and-jazz-2026-10-17",
+  "title": "Wine Spot agli Scavi: a second night of wine and jazz at Herculaneum",
+  "blurb": "A repeat of the night walk among the Roman houses, glass in hand, with live music. There are 650 places each evening, so buy your ticket on CoopCulture before you set off.",
+  "time": "8.15pm-11.30pm",
+  "place": "Parco Archeologico di Ercolano, corso Resina 187",
+  "area": "Herculaneum",
+  "price": "€30"
+ },
+ "wine-spot-scavi-ercolano-3-ottobre-2026": {
+  "slug": "herculaneum-by-night-wine-and-jazz-2026-10-03",
+  "title": "Wine Spot agli Scavi: Herculaneum by night with wine and jazz",
+  "blurb": "The excavations stay open in the evening with the Roman houses lit up, tastings of Vesuvius wines led by sommeliers and an acoustic jazz set. Bring a light jacket; under-12s go free.",
+  "time": "8.15pm-11.30pm",
+  "place": "Parco Archeologico di Ercolano, corso Resina 187",
+  "area": "Herculaneum",
+  "price": "€30"
  },
  "yunchan-lim-san-carlo-2026": {
   "slug": "yunchan-lim-piano-recital-san-carlo-2026",

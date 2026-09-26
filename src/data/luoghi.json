@@ -49,11 +49,23 @@
   "label": "Bagnoli Irpino (AV)",
   "source": "manuale"
  },
+ "bagnoli napoli": {
+  "lat": 40.81732,
+  "lng": 14.16704,
+  "label": "Bagnoli, Municipalità 10, Coroglio",
+  "source": "nominatim"
+ },
  "baia": {
   "lat": 40.8181,
   "lng": 14.0717,
   "label": "Porto di Baia",
   "source": "manuale"
+ },
+ "barra napoli": {
+  "lat": 40.83995,
+  "lng": 14.31987,
+  "label": "Barra, Municipalità 6, Napoli",
+  "source": "nominatim"
  },
  "basilica di santa lucia a mare": {
   "lat": 40.8323,
@@ -66,6 +78,12 @@
   "lng": 14.332,
   "label": "Basilica di Santa Maria della Neve, Piazza Aprea, Ponticelli",
   "source": "manuale"
+ },
+ "belvedere di san martino vomero": {
+  "lat": 40.84411,
+  "lng": 14.24086,
+  "label": "Belvedere San Martino, Largo San Martino, Vomero",
+  "source": "nominatim"
  },
  "bicycle house": {
   "lat": 40.8523,
@@ -149,6 +167,12 @@
   "source": "manuale",
   "approx": true
  },
+ "centro direzionale napoli": {
+  "lat": 40.85805,
+  "lng": 14.2816,
+  "label": "Centro Direzionale, Viale Umberto Terracini, Centro Direzionale di Napoli",
+  "source": "nominatim"
+ },
  "centro e colline": {
   "lat": 40.847,
   "lng": 14.2516,
@@ -163,6 +187,12 @@
   "source": "manuale",
   "approx": true
  },
+ "centro storico napoli": {
+  "lat": 40.92849,
+  "lng": 14.20164,
+  "label": "Centro storico, Giugliano in Campania, Napoli",
+  "source": "nominatim"
+ },
  "certosa e museo di san martino": {
   "lat": 40.8437,
   "lng": 14.2413,
@@ -176,12 +206,36 @@
   "source": "manuale",
   "approx": true
  },
+ "chiaia corso vittorio emanuele napoli": {
+  "lat": 40.83907,
+  "lng": 14.2341,
+  "label": "Funicolare di Chiaia, Corso Vittorio Emanuele, Chiaia",
+  "source": "nominatim"
+ },
+ "chiaia napoli": {
+  "lat": 40.83527,
+  "lng": 14.22827,
+  "label": "Chiaia, Municipalità 1, Napoli",
+  "source": "nominatim"
+ },
+ "chiesa anglicana chiaia": {
+  "lat": 40.83497,
+  "lng": 14.23574,
+  "label": "Chiesa anglicana, 15b, Via San Pasquale a Chiaia",
+  "source": "nominatim"
+ },
  "chiesa della ss annunziata": {
   "lat": 40.7883,
   "lng": 14.3667,
   "label": "Chiesa della SS. Annunziata, Torre del Greco",
   "source": "manuale",
   "approx": true
+ },
+ "chiesa di sant anna alle paludi corso arnaldo lucci 124 vasto": {
+  "lat": 40.84985,
+  "lng": 14.2742,
+  "label": "Chiesa di Sant'Anna alle Paludi, Corso Arnaldo Lucci, Rione Vasto",
+  "source": "nominatim"
  },
  "chiesa di sant anna di palazzo": {
   "lat": 40.838,
@@ -194,6 +248,12 @@
   "lng": 14.2525,
   "label": "Chiesa di Santa Maria Donnalbina, Via Donnalbina",
   "source": "manuale"
+ },
+ "chiesa di santa maria donnaromita via paladino": {
+  "lat": 40.84805,
+  "lng": 14.25627,
+  "label": "Chiesa di Santa Maria Donnaromita, Via Giovanni Paladino, Porto",
+  "source": "nominatim"
  },
  "chiesa di santo strato": {
   "lat": 40.8042,
@@ -213,6 +273,12 @@
   "label": "Colli Aminei",
   "source": "manuale",
   "approx": true
+ },
+ "conservatorio san pietro a majella": {
+  "lat": 40.84924,
+  "lng": 14.25263,
+  "label": "Conservatorio di Musica San Pietro a Majella, Vico San Pietro a Majella, San Lorenzo",
+  "source": "nominatim"
  },
  "cortile delle statue": {
   "lat": 40.8474,
@@ -239,11 +305,23 @@
   "label": "Cusano Mutri (BN), centro storico",
   "source": "manuale"
  },
+ "duel club": {
+  "lat": 40.82821,
+  "lng": 14.15473,
+  "label": "Duel Club, 2a, Via Antiniana",
+  "source": "nominatim"
+ },
  "duomo di napoli": {
   "lat": 40.8524,
   "lng": 14.2582,
   "label": "Duomo di Napoli, Via Duomo",
   "source": "manuale"
+ },
+ "ercolano napoli": {
+  "lat": 40.80631,
+  "lng": 14.36093,
+  "label": "Ercolano, Napoli, Campania",
+  "source": "nominatim"
  },
  "ex base nato": {
   "lat": 40.8216,
@@ -276,6 +354,12 @@
   "source": "manuale",
   "approx": true
  },
+ "fuorigrotta napoli": {
+  "lat": 40.83418,
+  "lng": 14.19154,
+  "label": "Fuorigrotta, Tangenziale di Napoli, Rione Lauro",
+  "source": "nominatim"
+ },
  "galleria borbonica": {
   "lat": 40.8341,
   "lng": 14.2452,
@@ -287,6 +371,12 @@
   "lng": 14.2493,
   "label": "Galleria Principe di Napoli",
   "source": "manuale"
+ },
+ "galleria toledo quartieri spagnoli": {
+  "lat": 40.84328,
+  "lng": 14.24559,
+  "label": "Galleria Toledo, 34, Via Concezione a Montecalvario",
+  "source": "nominatim"
  },
  "galleria umberto i": {
   "lat": 40.8384,
@@ -300,6 +390,12 @@
   "label": "Golfo di Napoli, partenza dal Molo Beverello",
   "source": "manuale",
   "approx": true
+ },
+ "ippodromo di agnano via raffaele ruggiero agnano": {
+  "lat": 40.8355,
+  "lng": 14.16915,
+  "label": "Ippodromo di Agnano, Via Raffaele Ruggiero, Agnano",
+  "source": "nominatim"
  },
  "ischia": {
   "lat": 40.7443,
@@ -344,6 +440,12 @@
   "label": "Massa Lubrense, Largo Vescovado",
   "source": "manuale"
  },
+ "mercato napoli": {
+  "lat": 40.84836,
+  "lng": 14.27193,
+  "label": "Mercato, Municipalità 2, Napoli",
+  "source": "nominatim"
+ },
  "mergellina": {
   "lat": 40.8275,
   "lng": 14.2201,
@@ -387,6 +489,12 @@
   "label": "Mostra d'Oltremare, Fuorigrotta",
   "source": "manuale"
  },
+ "municipio napoli": {
+  "lat": 40.83939,
+  "lng": 14.25284,
+  "label": "Municipio, Piazza Municipio, San Ferdinando",
+  "source": "nominatim"
+ },
  "musei e luoghi della cultura di napoli": {
   "lat": 40.847,
   "lng": 14.2516,
@@ -419,6 +527,12 @@
   "source": "manuale",
   "approx": true
  },
+ "napoli e provincia napoli": {
+  "lat": 40.74508,
+  "lng": 14.51231,
+  "label": "Autostrada A3 Napoli-Salerno, Mariconda, Pompei",
+  "source": "nominatim"
+ },
  "napoli napoli": {
   "lat": 40.83588,
   "lng": 14.24877,
@@ -443,6 +557,12 @@
   "lng": 14.1779,
   "label": "Palapartenope, Via Barbagallo 115",
   "source": "manuale"
+ },
+ "palazzo diomede carafa via san biagio dei librai 121": {
+  "lat": 40.84879,
+  "lng": 14.2568,
+  "label": "Palazzo Diomede Carafa, Via San Biagio dei Librai, Pendino",
+  "source": "nominatim"
  },
  "palazzo reale": {
   "lat": 40.8367,
@@ -522,6 +642,12 @@
   "label": "Piazza Garibaldi",
   "source": "manuale"
  },
+ "piazza giovanni bovio piazza della borsa": {
+  "lat": 40.84377,
+  "lng": 14.25498,
+  "label": "Caffè Della Borsa, Piazza Giovanni Bovio, Rione Carità",
+  "source": "nominatim"
+ },
  "piazza mercato": {
   "lat": 40.845,
   "lng": 14.2643,
@@ -540,6 +666,12 @@
   "label": "Piazza Museo",
   "source": "manuale"
  },
+ "piazza salvatore di giacomo posillipo": {
+  "lat": 40.80407,
+  "lng": 14.20134,
+  "label": "Piazza Salvatore di Giacomo, Posillipo, Municipalità 1",
+  "source": "nominatim"
+ },
  "piazza san domenico maggiore": {
   "lat": 40.8482,
   "lng": 14.2547,
@@ -551,6 +683,12 @@
   "lng": 14.2296,
   "label": "Piazza Vanvitelli, Vomero",
   "source": "manuale"
+ },
+ "piazza vargas boscoreale": {
+  "lat": 40.77003,
+  "lng": 14.47444,
+  "label": "Boscoreale, Piazza Vargas, Boscoreale",
+  "source": "nominatim"
  },
  "piazzetta matilde serao": {
   "lat": 40.8382,
@@ -634,6 +772,12 @@
   "label": "Marechiaro, Posillipo",
   "source": "manuale"
  },
+ "posillipo napoli": {
+  "lat": 40.81021,
+  "lng": 14.20244,
+  "label": "Posillipo, Municipalità 1, Napoli",
+  "source": "nominatim"
+ },
  "positano": {
   "lat": 40.6281,
   "lng": 14.4849,
@@ -659,6 +803,18 @@
   "label": "Quartieri Spagnoli",
   "source": "manuale",
   "approx": true
+ },
+ "quartieri spagnoli montesanto napoli": {
+  "lat": 40.84529,
+  "lng": 14.24491,
+  "label": "Commissariato Napoli Montecalvario, 21, Via Santa Lucia al Monte",
+  "source": "nominatim"
+ },
+ "quartieri spagnoli napoli": {
+  "lat": 40.84148,
+  "lng": 14.24642,
+  "label": "Quartieri Spagnoli, Montecalvario, Municipalità 2",
+  "source": "nominatim"
  },
  "ravello": {
   "lat": 40.6533,
@@ -708,12 +864,36 @@
   "label": "Rotonda Diaz, Lungomare Caracciolo",
   "source": "manuale"
  },
+ "san carlo all arena napoli": {
+  "lat": 40.87388,
+  "lng": 14.26278,
+  "label": "San Carlo all'Arena, Municipalità 3, Napoli",
+  "source": "nominatim"
+ },
+ "san ferdinando napoli": {
+  "lat": 40.83409,
+  "lng": 14.24676,
+  "label": "San Ferdinando, Municipalità 1, Napoli",
+  "source": "nominatim"
+ },
  "san giorgio a cremano": {
   "lat": 40.8306,
   "lng": 14.3362,
   "label": "San Giorgio a Cremano",
   "source": "manuale",
   "approx": true
+ },
+ "san giovanni a teduccio napoli": {
+  "lat": 40.83797,
+  "lng": 14.30686,
+  "label": "San Giovanni a Teduccio, Municipalità 6, Napoli",
+  "source": "nominatim"
+ },
+ "sant eframo napoli": {
+  "lat": 40.86541,
+  "lng": 14.2616,
+  "label": "Vico Sant'Eframo Vecchio, San Carlo all'Arena, Municipalità 3",
+  "source": "nominatim"
  },
  "santa lucia": {
   "lat": 40.8323,
@@ -727,6 +907,12 @@
   "lng": 14.606,
   "label": "Scala (SA), Costiera Amalfitana",
   "source": "manuale"
+ },
+ "scampia napoli": {
+  "lat": 40.89999,
+  "lng": 14.24105,
+  "label": "Scampia, Municipalità 8, Napoli",
+  "source": "nominatim"
  },
  "scavi di ercolano": {
   "lat": 40.8063,
@@ -801,11 +987,35 @@
   "label": "Teatro Grande, Scavi di Pompei",
   "source": "manuale"
  },
+ "teatro mercadante municipio": {
+  "lat": 40.8399,
+  "lng": 14.25433,
+  "label": "Teatro Mercadante, 46, Piazza Municipio",
+  "source": "nominatim"
+ },
+ "teatro nuovo quartieri spagnoli": {
+  "lat": 40.84239,
+  "lng": 14.24752,
+  "label": "Teatro Nuovo, 16, Via Montecalvario",
+  "source": "nominatim"
+ },
  "teatro palapartenope": {
   "lat": 40.8207,
   "lng": 14.1779,
   "label": "Teatro Palapartenope, Via Barbagallo 115",
   "source": "manuale"
+ },
+ "teatro san ferdinando": {
+  "lat": 40.857,
+  "lng": 14.26335,
+  "label": "Teatro San Ferdinando, Via Titina De Filippo, Borgo Sant'Antonio Abate",
+  "source": "nominatim"
+ },
+ "teatro sannazaro": {
+  "lat": 40.83606,
+  "lng": 14.24335,
+  "label": "Teatro Sannazaro, Largo Sant'Orsola, Pizzofalcone",
+  "source": "nominatim"
  },
  "teatro trianon": {
   "lat": 40.8504,
