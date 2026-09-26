@@ -181,4 +181,28 @@ COSA PUÒ CORREGGERE DA SOLO
 - Link interni rotti, alt mancanti, descrizioni mancanti.
 - Tutto il resto solo nel rapporto.`,
   },
+  {
+    id: 'traduci-inglese',
+    name: 'Traduttore',
+    role: 'Versione inglese',
+    mission: 'Traduce in inglese ogni esperienza, evento e articolo nuovo, così la versione /en resta completa.',
+    duties: [
+      'Cerca i contenuti pubblicati che non hanno ancora la versione inglese.',
+      'Li traduce nella voce del sito, in inglese britannico, con titoli pensati per chi cerca da fuori.',
+      'Salta i tour che non si fanno in inglese: nella versione inglese non compaiono.',
+      'Controlla i file e pubblica: il sito si rigenera da solo.',
+    ],
+    needs: ['Le regole di stile in agents/inglese-regole.md'],
+    produces: 'Le traduzioni nuove online sotto /en, di solito il giorno stesso.',
+    command: '/traduci-inglese',
+    defaultCadence: 'giornaliera',
+    reportsTo: 'Lavora da solo; nel riepilogo trovi cosa ha tradotto.',
+    defaultRules: `STILE
+- Inglese britannico, voce del posto, frasi corte. Niente punti esclamativi, niente trattini lunghi.
+- Nomi propri e piatti in italiano, con una breve spiegazione la prima volta.
+
+COSA NON TRADURRE
+- Tour che non si fanno in inglese (tranne gli spettacoli).
+- Eventi già finiti.`,
+  },
 ]
