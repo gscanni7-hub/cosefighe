@@ -50,8 +50,12 @@ export function localizeExperience<E extends Experience>(exp: E, lang: Lang): E 
   }
 }
 
-/** Vero se l'esperienza ha la traduzione (senza, nella versione inglese non si mostra). */
-export const hasExperienceEn = (exp: Experience) => !!(exp.providerId && EXP[exp.providerId]?.title)
+/** Esperienze senza l'inglese tra le lingue che restano comunque (spettacoli di musica: non serve capire la guida). */
+const SENZA_GUIDA = new Set(['71024P23'])
+/** Vero se l'esperienza ha la traduzione e si può fare in inglese (senza, nella versione inglese non si mostra). */
+export const hasExperienceEn = (exp: Experience) =>
+  !!(exp.providerId && EXP[exp.providerId]?.title) &&
+  (!exp.languages?.length || exp.languages.includes('en') || SENZA_GUIDA.has(exp.providerId!))
 
 export function localizeEvent(e: CityEvent, lang: Lang): CityEvent {
   if (lang === 'it') return e

@@ -58,17 +58,6 @@
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Via Lucullo, 106, 80070 Bacoli NA"
  },
- "561524": {
-  "slugIt": "capodimonte-con-uno-storico-dellarte-caravaggio-e-raffaello",
-  "slug": "capodimonte-museum-tour-caravaggio-raphael",
-  "title": "Capodimonte Museum with an art historian: Caravaggio and Raphael",
-  "tag": "Small groups",
-  "duration": "2 hours",
-  "location": "Porta Grande, Capodimonte",
-  "included": "Entry ticket + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Porta Grande, Bosco e Museo di Capodimonte"
- },
  "590725": {
   "slugIt": "palazzo-reale-e-il-borgo-di-santa-lucia-in-piccolo-gruppo",
   "slug": "royal-palace-naples-santa-lucia-walking-tour",
@@ -219,17 +208,6 @@
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Via San Paolo, 26, 80138 Napoli NA"
  },
- "833595": {
-  "slugIt": "cristo-velato-con-ingresso-garantito-in-trentacinque-minuti",
-  "slug": "cristo-velato-sansevero-chapel-guaranteed-entry",
-  "title": "Cristo Velato (Veiled Christ): guaranteed entry and 35-minute tour",
-  "tag": "Most popular",
-  "duration": "35 min",
-  "location": "Piazza San Domenico Maggiore",
-  "included": "Ticket + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "San Domenico obelisk"
- },
  "87860": {
   "slugIt": "street-food-nel-centro-storico-con-una-guida-del-posto",
   "slug": "naples-street-food-tour-old-town-local-guide",
@@ -250,7 +228,7 @@
   "location": "Quartieri Spagnoli",
   "included": "Priority entry + guide",
   "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Vico S. Anna di Palazzo, 52, 08132 Napoli NA"
+  "ritrovo": "Vico S. Anna di Palazzo, 52, 80132 Napoli NA"
  },
  "888244": {
   "slugIt": "vino-baba-e-murales-tra-porta-san-gennaro-e-la-sanita",
@@ -262,17 +240,6 @@
   "included": "Pizza, mozzarella, sfogliatella + wine and limoncello",
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Porta San Gennaro, Via Foria 2, 80137 Napoli"
- },
- "919794": {
-  "slugIt": "certosa-di-san-martino-e-castel-santelmo-la-citta-dallalto",
-  "slug": "certosa-san-martino-castel-sant-elmo-tour",
-  "title": "Certosa di San Martino and Castel Sant’Elmo: Naples from above",
-  "tag": "Small groups",
-  "duration": "2 hours",
-  "location": "Largo San Martino",
-  "included": "Certosa and castle entry + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Largo S. Martino, 6, 80129 Napoli NA"
  },
  "937692": {
   "slugIt": "pompei-con-guida-archeologa-biglietto-e-pullman-da-napoli",

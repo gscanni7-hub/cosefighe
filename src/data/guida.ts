@@ -265,7 +265,8 @@ export function guideIn(lang: Lang): { title: string; intro: string; items: Guid
   const bySlug = new Map(en.filter((g) => g.slug).map((g) => [g.slug!, g]))
   const items = GUIDE.flatMap((g) => {
     const t = bySlug.get(g.slug)
-    return t?.title && t.text ? [{ ...g, title: t.title, text: t.text }] : []
+    // In inglese la voce può proporre un'altra esperienza (quella di serie non si fa in inglese).
+    return t?.title && t.text ? [{ ...g, title: t.title, text: t.text, experience: t.experience ?? g.experience }] : []
   })
   return items.length ? { title, intro: intro ?? '', items } : null
 }

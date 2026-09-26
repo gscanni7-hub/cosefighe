@@ -76,17 +76,6 @@
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "P.za Dante, 80135 Napoli NA"
  },
- "152196": {
-  "slugIt": "il-miglio-sacro-tre-ore-nel-rione-sanita",
-  "slug": "miglio-sacro-sanita-district-walking-tour",
-  "title": "Miglio Sacro: 3-hour walking tour of the Sanità district",
-  "tag": "Small groups",
-  "duration": "3 hours",
-  "location": "Rione Sanità",
-  "included": "Entry to all 7 stops",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Catacombe di San Gennaro"
- },
  "165716": {
   "slugIt": "vesuvio-e-pompei-in-un-giorno-con-pizza-sulle-pendici",
   "slug": "vesuvius-pompeii-day-trip-pizza-lunch",
@@ -108,17 +97,6 @@
   "location": "Galleria Principe di Napoli",
   "included": "Concert + drink",
   "cancellation": "Free cancellation up to 24 hours before"
- },
- "218085": {
-  "slugIt": "spaccanapoli-il-chiostro-di-santa-chiara-e-il-cristo-velato",
-  "slug": "spaccanapoli-walking-tour-veiled-christ-santa-chiara",
-  "title": "Spaccanapoli walking tour with the Veiled Christ and Santa Chiara",
-  "tag": "Most popular",
-  "duration": "2.5 hours",
-  "location": "Piazza del Gesù",
-  "included": "Guide + entry to Sansevero and Santa Chiara",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Piazza del Gesù Nuovo, 7, 80134 Napoli NA"
  },
  "220821": {
   "slugIt": "pompei-ed-ercolano-in-un-giorno-con-un-archeologo-in-treno-tra-i-siti",
@@ -207,7 +185,7 @@
   "location": "Quartieri Spagnoli",
   "included": "Priority entry + guide",
   "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Vico S. Anna di Palazzo, 52, 08132 Napoli NA"
+  "ritrovo": "Vico S. Anna di Palazzo, 52, 80132 Napoli NA"
  },
  "436379": {
   "slugIt": "impasta-stendi-inforna-lezione-di-pizza-e-tiramisu",
@@ -320,17 +298,6 @@
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Rione Alto"
  },
- "561524": {
-  "slugIt": "capodimonte-con-uno-storico-dellarte-caravaggio-e-raffaello",
-  "slug": "capodimonte-museum-tour-caravaggio-raphael",
-  "title": "Capodimonte Museum with an art historian: Caravaggio and Raphael",
-  "tag": "Small groups",
-  "duration": "2 hours",
-  "location": "Porta Grande, Capodimonte",
-  "included": "Entry ticket + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Porta Grande, Bosco e Museo di Capodimonte"
- },
  "590725": {
   "slugIt": "palazzo-reale-e-il-borgo-di-santa-lucia-in-piccolo-gruppo",
   "slug": "royal-palace-naples-santa-lucia-walking-tour",
@@ -398,17 +365,6 @@
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Naplesbay Cooking Lab, Via delle Zite, 30, 80139 Napoli NA"
  },
- "833595": {
-  "slugIt": "cristo-velato-con-ingresso-garantito-in-trentacinque-minuti",
-  "slug": "cristo-velato-sansevero-chapel-guaranteed-entry",
-  "title": "Cristo Velato (Veiled Christ): guaranteed entry and 35-minute tour",
-  "tag": "Most popular",
-  "duration": "35 min",
-  "location": "Piazza San Domenico Maggiore",
-  "included": "Ticket + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "San Domenico obelisk"
- },
  "888244": {
   "slugIt": "vino-baba-e-murales-tra-porta-san-gennaro-e-la-sanita",
   "slug": "sanita-food-tour-porta-san-gennaro-wine-murals",
@@ -419,17 +375,6 @@
   "included": "Pizza, mozzarella, sfogliatella + wine and limoncello",
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Porta San Gennaro, Via Foria 2, 80137 Napoli"
- },
- "919794": {
-  "slugIt": "certosa-di-san-martino-e-castel-santelmo-la-citta-dallalto",
-  "slug": "certosa-san-martino-castel-sant-elmo-tour",
-  "title": "Certosa di San Martino and Castel Sant’Elmo: Naples from above",
-  "tag": "Small groups",
-  "duration": "2 hours",
-  "location": "Largo San Martino",
-  "included": "Certosa and castle entry + guide",
-  "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Largo S. Martino, 6, 80129 Napoli NA"
  },
  "937692": {
   "slugIt": "pompei-con-guida-archeologa-biglietto-e-pullman-da-napoli",
@@ -510,16 +455,6 @@
   "included": "Return minibus + tour leader + water",
   "cancellation": "Free cancellation up to 24 hours before",
   "ritrovo": "Starhotels Terminus"
- },
- "1289947": {
-  "slugIt": "cimitero-delle-fontanelle-le-anime-pezzentelle-nella-cava-di-tufo",
-  "slug": "fontanelle-cemetery-guided-tour-sanita",
-  "title": "Fontanelle Cemetery guided tour: the skull cult in a tuff quarry",
-  "tag": "For everyone",
-  "duration": "40 min",
-  "location": "Rione Sanità",
-  "included": "Entry + guided tour",
-  "cancellation": "Free cancellation up to 24 hours before"
  },
  "1308037": {
   "slugIt": "il-golfo-in-75-minuti-vesuvio-castel-dellovo-posillipo-e-nisida",
@@ -1017,7 +952,7 @@
   "location": "Quartieri Spagnoli",
   "included": "Priority entry + guide",
   "cancellation": "Free cancellation up to 24 hours before",
-  "ritrovo": "Vico S. Anna di Palazzo, 52, 08132 Napoli NA"
+  "ritrovo": "Vico S. Anna di Palazzo, 52, 80132 Napoli NA"
  },
  "9560P3": {
   "slugIt": "tre-ore-di-pedali-tra-lungomare-e-centro-antico",
