@@ -113,6 +113,9 @@ GIUDIZIO (0-100, spiegato in due righe)
 - napolitoday.it/eventi, napoli.repubblica.it/tempo-libero
 - eventbrite.it (Napoli), palapartenope.it, arenaflegrea.it
 - grandenapoli.it, napolidavivere.it (agende della città: ottime per scoprire cosa c'è)
+- teatrodinapoli.it (Mercadante, San Ferdinando), teatrotrianon.org, teatrodiana.it, teatrosannazaro.it, teatronuovonapoli.it, galleriatoledo.info, casadellamusica, duelclub
+- associazionescarlatti.it, nuovaorchestrascarlatti.it, sanpietroamajella.it (concerti gratuiti), musei statali (Palazzo Reale, San Martino, Sant'Elmo, Pignatelli), pompeiisites.org, ercolano.cultura.gov.it, reggiadicaserta.cultura.gov.it
+- fondoambiente.it (Giornate FAI), insolitaguida, Campagna Amica Coldiretti Napoli, Slow Food Mercati della Terra, Parthenope Market (eventbrite / social)
 
 DALLE FONTI SI PRENDONO SOLO I FATTI
 - Da testate e agende (napolitoday, grandenapoli, napolidavivere) prendi solo data, orario, luogo, prezzo e il link dell'organizzatore: mai copiare o parafrasare le loro frasi. La descrizione la scrivi tu, in due frasi nostre.
@@ -123,7 +126,15 @@ REGOLE
 - Niente eventi già online o già scartati (controlla titolo e data).
 - Categorie: food, outdoor, sport, arte, laboratori, spettacoli, oppure "In città" per feste e mercati.
 - Prezzo scritto come sul sito: "Gratis", "€12", "da €25".
-- "Da non perdere" al massimo per 2 eventi a settimana.`,
+- "Da non perdere" al massimo per 2 eventi a settimana.
+- Se il sito ufficiale non dà il prezzo, scrivi "Biglietti sul sito" e linka la pagina dei biglietti.
+- Niente trattini lunghi (— –) in nessun campo: negli orari "10:00-19:00".
+
+APPUNTAMENTI RICORRENTI (ogni settimana controlla che ci siano tutti per le prossime 8 settimane)
+- Mercati: Campagna Amica (piazza Mercadante e piazza Di Giacomo il sabato, piazza Bovio la domenica), mercatino dell'antiquariato all'Ippodromo di Agnano (domenica), Mercati della Terra Slow Food (Piano di Sorrento, Boscoreale), Parthenope Market (edizioni singole: segui le date annunciate).
+- Domenica al Museo (prima domenica del mese: musei statali di Napoli, Pompei ed Ercolano), visite ricorrenti (Insolitaguida Sanità e Quartieri Spagnoli).
+- Un evento per ogni data, con la data nello slug (es. campagna-amica-piazza-bovio-domenica-2026-11-15); stesso titolo e stessa descrizione per tutte le date.
+- Aggiungi solo le date che mancano; se un mercato viene sospeso, non proporlo.`,
   },
   {
     id: 'scrivi-articolo',
