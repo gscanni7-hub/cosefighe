@@ -119,7 +119,7 @@ export function ExperienceCard({ exp: source, category, index = 0, layout = 'col
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col p-5">
-        <p className="label text-ink/45">
+        <p className="label text-ink/60">
           {category ? `${category} · ` : ''}
           {exp.duration}
         </p>
@@ -150,7 +150,7 @@ export function ExperienceCard({ exp: source, category, index = 0, layout = 'col
             <span className="flex items-center gap-1 font-semibold">
               <Star size={14} className="text-orange" fill="currentColor" />
               {exp.rating.toLocaleString(locale)}
-              <span className="font-normal text-ink/45">({exp.reviews.toLocaleString(locale)})</span>
+              <span className="font-normal text-ink/60">({exp.reviews.toLocaleString(locale)})</span>
             </span>
             {bookable ? (
               <a
@@ -162,15 +162,15 @@ export function ExperienceCard({ exp: source, category, index = 0, layout = 'col
                 {t('Prenota')} <ArrowUpRight size={12} />
               </a>
             ) : (
-              <span className="mt-1 flex items-center gap-1 text-xs text-ink/45">
+              <span className="mt-1 flex items-center gap-1 text-xs text-ink/60">
                 <Clock size={11} /> {t('Prenotazioni in arrivo')}
               </span>
             )}
           </div>
           <div className="text-right leading-none">
-            <span className="text-[11px] font-medium text-ink/45">{t('da')}</span>
+            <span className="text-[11px] font-medium text-ink/60">{t('da')}</span>
             <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
-            <span className="block text-[11px] text-ink/45">{t('a persona')}</span>
+            <span className="block text-[11px] text-ink/60">{t('a persona')}</span>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { ArrowRight, Check, ChevronDown, SlidersHorizontal, X } from 'lucide-rea
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
+import { SearchField } from '../components/ui/SearchField'
 import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { ExperienceCard } from '../components/ui/ExperienceCard'
@@ -87,9 +88,10 @@ function CategorySection({ cat }: { cat: Category }) {
           <ArrowRight size={15} />
         </ButtonLink>
       </Reveal>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+      {/* Su telefono le esperienze scorrono di lato col dito (una categoria = una riga); da computer restano in griglia. */}
+      <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {cat.experiences.map((exp, i) => (
-          <div key={exp.title} className={`h-full ${i > 2 ? 'hidden md:block' : ''}`}>
+          <div key={exp.title} className="h-full w-[82%] shrink-0 snap-start scroll-ml-5 sm:w-[60%] md:w-auto">
             <ExperienceCard exp={exp} category={cat.label} index={i} />
           </div>
         ))}
@@ -108,7 +110,7 @@ function CategorySection({ cat }: { cat: Category }) {
 function Choice<K extends string>({ label, options, value, onChange }: { label: string; options: { key: K; label: string }[]; value: K | null; onChange: (k: K | null) => void }) {
   return (
     <fieldset className="min-w-0">
-      <legend className="label mb-3 text-ink/50">{label}</legend>
+      <legend className="label mb-3 text-ink/60">{label}</legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {
           const on = value === o.key
@@ -204,6 +206,7 @@ export default function ExperiencesPage() {
         eyebrow={t('Cosa vuoi vivere?')}
         title={t('Esperienze a Napoli')}
         subtitle={t('{c} categorie, {n} esperienze scelte da chi la città la vive ogni giorno.', { c: categories.length, n: total })}
+        actions={<SearchField placeholder={t('Cerca un’esperienza, un evento, un posto')} />}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/trekking.webp" amplitude={10} />
@@ -228,7 +231,7 @@ export default function ExperiencesPage() {
                       }}
                     >
                       {cat.label}
-                      <span className="hidden text-ink/40 md:inline">{cat.experiences.length}</span>
+                      <span className="hidden text-ink/60 md:inline">{cat.experiences.length}</span>
                     </a>
                   </li>
                 ))}
@@ -237,7 +240,7 @@ export default function ExperiencesPage() {
 
             <div className="relative flex shrink-0 items-center gap-2 before:pointer-events-none before:absolute before:-left-6 before:top-0 before:h-full before:w-6 before:bg-gradient-to-r before:from-white/0 before:to-white before:content-[''] md:border-l md:border-line md:pl-3 md:before:hidden">
               <label className="chip hidden cursor-pointer gap-1.5 pr-2 md:inline-flex">
-                <span className="text-ink/55">{t('Ordina')}</span>
+                <span className="text-ink/60">{t('Ordina')}</span>
                 <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="max-w-[170px] bg-transparent font-medium text-ink outline-none" aria-label={t('Ordina le esperienze')}>
                   {SORT.map((s) => (
                     <option key={s.key} value={s.key}>
@@ -282,7 +285,7 @@ export default function ExperiencesPage() {
                   <Choice label={t('Prezzo a persona')} options={priceOptions} value={price} onChange={setPrice} />
                   <Choice label={t('Durata')} options={durationOptions} value={duration} onChange={setDuration} />
                   <fieldset className="md:hidden">
-                    <legend className="label mb-3 text-ink/50">{t('Ordina per')}</legend>
+                    <legend className="label mb-3 text-ink/60">{t('Ordina per')}</legend>
                     <div className="flex flex-wrap gap-2">
                       {SORT.map((s) => (
                         <button key={s.key} type="button" aria-pressed={sort === s.key} className={`chip ${sort === s.key ? 'chip-on' : ''}`} onClick={() => setSort(s.key)}>
@@ -326,7 +329,7 @@ export default function ExperiencesPage() {
                   </button>
                 </div>
               </div>
-              <p className="text-sm text-ink/50">
+              <p className="text-sm text-ink/60">
                 {t('Ordinate per') + ' '}
                 <span className="font-medium text-ink/75">{t(sortLabel.label).toLowerCase()}</span>
               </p>

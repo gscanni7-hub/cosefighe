@@ -78,7 +78,7 @@ export function WaitlistForm({ source = 'waitlist', tone = 'light', className = 
           placeholder={t('la-tua@email.it')}
           aria-invalid={invalid}
           aria-describedby={invalid || status === 'error' ? `${id}-msg` : undefined}
-          className={`min-h-[48px] flex-1 rounded-full border bg-white px-5 text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none ${
+          className={`min-h-[48px] flex-1 rounded-full border bg-white px-5 text-[15px] text-ink placeholder:text-ink/60 transition-colors focus:border-ink focus:outline-none ${
             invalid ? 'border-error' : 'border-line'
           }`}
         />

@@ -110,7 +110,7 @@ function CategoryView({ cat: catIt }: { cat: Category }) {
           </div>
           {reads.length > 0 && (
             <Reveal className="mt-14 border-t border-line pt-8">
-              <p className="label text-ink/50">{t('Guide utili')}</p>
+              <p className="label text-ink/60">{t('Guide utili')}</p>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {reads.map((a) => (
                   <li key={a.slug}>
@@ -123,7 +123,7 @@ function CategoryView({ cat: catIt }: { cat: Category }) {
             </Reveal>
           )}
           <Reveal className="mt-8 border-t border-line pt-8">
-            <p className="label text-ink/50">{t('Altre categorie')}</p>
+            <p className="label text-ink/60">{t('Altre categorie')}</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {others.map((c) => (
                 <li key={c.slug}>

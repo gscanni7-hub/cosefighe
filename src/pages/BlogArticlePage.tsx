@@ -181,13 +181,13 @@ function ArticleView({ article }: { article: Article }) {
               />
               <span>
                 <span className="font-semibold">{article.author}</span>
-                <span className="ml-2 text-xs text-ink/50">{t(article.authorRole)}</span>
+                <span className="ml-2 text-xs text-ink/60">{t(article.authorRole)}</span>
               </span>
             </span>
-            <span className="flex items-center gap-1.5 text-ink/55">
+            <span className="flex items-center gap-1.5 text-ink/60">
               <Calendar size={13} /> {date}
             </span>
-            <span className="flex items-center gap-1.5 text-ink/55">
+            <span className="flex items-center gap-1.5 text-ink/60">
               <Clock size={13} /> {article.readingTime}{t(' min di lettura')}
             </span>
           </div>
@@ -229,7 +229,7 @@ function ArticleView({ article }: { article: Article }) {
             <div>
               <p className="label text-orange">{t('Chi ha scritto questo articolo')}</p>
               <p className="mt-1 text-[17px] font-semibold">{article.author}</p>
-              <p className="text-sm text-ink/55">{t(article.authorRole)} @ Cose Fighe</p>
+              <p className="text-sm text-ink/60">{t(article.authorRole)} @ Cose Fighe</p>
             </div>
           </div>
 
@@ -243,7 +243,7 @@ function ArticleView({ article }: { article: Article }) {
         <aside className="mt-12 space-y-6 md:sticky md:top-28 md:mt-0">
           {headings.length > 0 && (
             <nav aria-label={t('In questo articolo')} className="hidden rounded-3xl border border-line bg-white p-6 md:block">
-              <p className="label mb-4 text-ink/50">{t('In questo articolo')}</p>
+              <p className="label mb-4 text-ink/60">{t('In questo articolo')}</p>
               <ol className="space-y-1">
                 {headings.map((h) => (
                   <li key={h.i}>

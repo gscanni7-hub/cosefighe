@@ -34,8 +34,8 @@ export function DoveBox({ item, place, detail }: { item: MapItem; place: string;
         <p className="label text-orange">{t('Dove')}</p>
         <p className="mt-1 font-semibold leading-snug">{place}</p>
         {detail && <p className="mt-0.5 text-sm text-ink/60">{detail}</p>}
-        {item.approx && <p className="mt-0.5 text-xs text-ink/45">{t('Posizione indicativa: il punto esatto arriva con la prenotazione.')}</p>}
-        <p className="mt-1 text-[10px] text-ink/35">{t('Mappa © OpenStreetMap, via OpenFreeMap')}</p>
+        {item.approx && <p className="mt-0.5 text-xs text-ink/60">{t('Posizione indicativa: il punto esatto arriva con la prenotazione.')}</p>}
+        <p className="mt-1 text-[10px] text-ink/60">{t('Mappa © OpenStreetMap, via OpenFreeMap')}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <ButtonAnchor href={directionsUrl(item.lat, item.lng, item.title)} target="_blank" rel="noopener noreferrer" size="sm" variant="dark" onClick={() => track('mappa_indicazioni', { punto: item.id, from: 'scheda' })}>
             <Navigation size={14} /> {t('Indicazioni')}

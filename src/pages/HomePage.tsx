@@ -13,7 +13,7 @@ import { CATEGORY_LIST, categoryListIn } from '../data/categories'
 import { ARTICLES_BY_DATE } from '../data/articles'
 import { GUIDE_LABELS, guideArticles } from '../data/correlati'
 import { eventPath, upcomingEvents } from '../data/events'
-import { DATE_PRESETS, dayParts } from '../lib/dates'
+import { DATE_PRESETS, addDays, dayParts } from '../lib/dates'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useToday } from '../hooks/useToday'
 import { preloadMappa } from '../lib/mappaPreload'
@@ -93,8 +93,9 @@ const Hero = () => {
 
   const mascot = (
     <motion.div
-      initial={{ opacity: 0, y: 60, rotate: 4 }}
-      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      // Visibile da subito (è l'immagine principale per Google): entra solo salendo e raddrizzandosi.
+      initial={{ y: 60, rotate: 4 }}
+      animate={{ y: 0, rotate: 0 }}
       transition={{ duration: 0.9, delay: 0.24, ease }}
       className="relative"
     >
@@ -149,18 +150,65 @@ const Hero = () => {
           <p className="rise mt-6 max-w-lg text-lg leading-relaxed text-ink/65" style={{ animationDelay: '0.28s' }}>
             {t('Tour, laboratori e avventure a Napoli, scelti uno per uno. Prenoti sulle piattaforme, ai loro prezzi.')}
           </p>
-          <div className="rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.34s' }}>
-            <ButtonLink to={lp('/esperienze')} size="lg">
-              {t('Esplora le esperienze') + ' '}
-              <ArrowRight size={18} />
-            </ButtonLink>
-            <ButtonLink to={lp('/cosa-fare')} variant="secondary" size="lg">
-              {t('Cosa fare a Napoli')}
-            </ButtonLink>
+          <div className="rise mt-8" style={{ animationDelay: '0.34s' }}>
+            <QuandoBox />
+            <Link to={lp('/esperienze')} className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+              {t('Oppure esplora tutte le esperienze') + ' '}
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+/** «Quando sei a Napoli?»: due date e si va al programma di quei giorni (Cosa fare, con eventi ed esperienze). */
+function QuandoBox() {
+  const t = useT()
+  const lp = useLp()
+  const navigate = useNavigate()
+  const today = useToday()
+  const [from, setFrom] = useState<string | null>(null)
+  const [to, setTo] = useState<string | null>(null)
+  const a = from ?? today
+  const b = to && to >= a ? to : addDays(a, 2)
+  const go = (f: string, l: string) => navigate(lp(`/cosa-fare?dal=${f}&al=${l}`))
+  const field = 'mt-1 block w-full min-w-0 bg-transparent text-[15px] font-semibold text-ink outline-none'
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        go(a, b)
+      }}
+      className="max-w-xl rounded-[1.75rem] border border-line bg-white p-3 shadow-card"
+    >
+      <p className="px-2 pt-1 font-semibold">{t('Quando sei a Napoli?')}</p>
+      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_1fr_auto]">
+        <label className="rounded-2xl bg-paper px-3 py-2">
+          <span className="label text-ink/60">{t('Arrivo')}</span>
+          <input type="date" value={a} min={today} onChange={(e) => e.target.value && setFrom(e.target.value)} className={field} />
+        </label>
+        <label className="rounded-2xl bg-paper px-3 py-2">
+          <span className="label text-ink/60">{t('Partenza')}</span>
+          <input type="date" value={b} min={a} onChange={(e) => e.target.value && setTo(e.target.value)} className={field} />
+        </label>
+        <Button type="submit" size="lg" className="col-span-2 sm:col-span-1">
+          {t('Cosa c’è') + ' '}
+          <ArrowRight size={18} />
+        </Button>
+      </div>
+      <div className="mt-2 flex flex-wrap gap-2 px-1 pb-1">
+        {DATE_PRESETS.filter((p) => ['oggi', 'weekend', '7'].includes(p.key)).map((p) => {
+          const r = p.range(today)
+          return (
+            <button key={p.key} type="button" onClick={() => go(r.from, r.to)} className="chip">
+              {t(p.label)}
+            </button>
+          )
+        })}
+      </div>
+    </form>
   )
 }
 
@@ -175,7 +223,7 @@ const CategoriesStrip = () => {
         <h2 className="heading-lg">{t('Sei modi di vivere Napoli')}</h2>
         <p className="mt-3 text-ink/60">{t('Dal cibo di strada ai laboratori artigiani: ogni categoria è curata da chi Napoli la conosce davvero.')}</p>
       </div>
-      <p className="hidden text-sm text-ink/45 lg:block">{t('Trascina per scorrere')}</p>
+      <p className="hidden text-sm text-ink/60 lg:block">{t('Trascina per scorrere')}</p>
     </div>
     <DragScroll
       ariaLabel={t('Categorie')}
@@ -203,9 +251,9 @@ const CategoriesStrip = () => {
           </div>
           <div className="mt-3 flex items-baseline justify-between gap-2 md:mt-4">
             <h3 className="text-base font-bold lg:text-lg">{cat.label}</h3>
-            <span className="shrink-0 text-xs text-ink/45 md:text-sm">{cat.experiences.length}</span>
+            <span className="shrink-0 text-xs text-ink/60 md:text-sm">{cat.experiences.length}</span>
           </div>
-          <p className="mt-1 hidden text-sm text-ink/55 lg:block">{cat.subtitle}</p>
+          <p className="mt-1 hidden text-sm text-ink/60 lg:block">{cat.subtitle}</p>
         </Link>
       ))}
     </DragScroll>
@@ -374,7 +422,7 @@ const BlogTeaser = () => {
       )}
       {guides.length > 0 && (
         <Reveal className="mt-10 border-t border-line pt-8">
-          <p className="label text-ink/50">{t('Le guide')}</p>
+          <p className="label text-ink/60">{t('Le guide')}</p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {guides.map((a) => (
               <li key={a.slug}>

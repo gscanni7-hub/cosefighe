@@ -29,7 +29,7 @@ const perks = [
 ]
 
 const inputClass =
-  'w-full min-h-[48px] rounded-2xl border border-line bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none'
+  'w-full min-h-[48px] rounded-2xl border border-line bg-white px-4 py-3 font-sans text-[15px] text-ink placeholder:text-ink/60 transition-colors focus:border-ink focus:outline-none'
 const labelClass = 'mb-2 block text-sm font-medium text-ink/70'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
@@ -292,7 +292,7 @@ export default function CreatorPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 text-sm text-ink/55">
+            <p className="mt-8 text-sm text-ink/60">
               {t('Domande prima di candidarti?')}{' '}
               <ButtonAnchor href="mailto:ciao@cosefighe.it" variant="link" className="ml-1">
                 {t('Scrivici') + ' '}<ArrowRight size={14} />

@@ -45,7 +45,7 @@ export function ArticleCard({ article: source, index = 0, featured = false }: { 
         <div className={`flex flex-1 flex-col p-5 ${featured ? 'md:justify-center md:p-10' : ''}`}>
           <div className="flex items-center gap-3">
             <Sticker tone="cream">{article.category}</Sticker>
-            <span className="text-xs text-ink/50">
+            <span className="text-xs text-ink/60">
               {formatDate(article.date, lang)} · {t('{n} min', { n: article.readingTime })}
             </span>
           </div>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
-import { ArrowRight, Calendar, Newspaper, Search, Ticket, X } from 'lucide-react'
+import { ArrowRight, Calendar, MapPin, Newspaper, Search, Ticket, X } from 'lucide-react'
 import { CATEGORY_LIST } from '../data/categories'
 import { EVENTS, EVENT_CATEGORY_LABELS, eventEnd, eventPath } from '../data/events'
 import { ARTICLES_BY_DATE } from '../data/articles'
@@ -8,6 +8,7 @@ import { formatShort, todayISO } from '../lib/dates'
 import { experiencePath } from '../data/schede'
 import { localizePath, useLang, useT, type Lang } from '../i18n/lang'
 import { hasArticleEn, hasEventEn, hasExperienceEn, localizeArticle, localizeCategory, localizeEvent, localizeExperience } from '../i18n/content'
+import { LANDMARKS, landmarkName } from '../lib/mappa'
 
 interface SearchDialogProps {
   open: boolean
@@ -23,11 +24,32 @@ const norm = (s: string) =>
     .replace(/[̀-ͯ]/g, '')
 
 interface Hit {
-  kind: 'esperienza' | 'evento' | 'articolo'
+  kind: 'esperienza' | 'evento' | 'articolo' | 'luogo'
   title: string
   meta: string
   to: string
   score: number
+}
+
+/** Distanza tra due parole (quante lettere cambiare), per perdonare un errore di battitura. */
+function edits(a: string, b: string): number {
+  if (Math.abs(a.length - b.length) > 1) return 2
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)])
+  for (let j = 1; j <= b.length; j++) d[0][j] = j
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1))
+  return d[a.length][b.length]
+}
+
+/**
+ * Una parola cercata trova il testo se c'è così com'è, se c'è la sua radice (catacombe → catacomba,
+ * concerti → concerto) oppure, dalle 5 lettere in su, una parola con un solo errore (vesuvo → vesuvio).
+ */
+function matches(word: string, text: string, tokens: string[]): boolean {
+  if (text.includes(word)) return true
+  if (word.length >= 5 && text.includes(word.slice(0, -1))) return true
+  if (word.length >= 5) return tokens.some((t) => edits(word, t) <= 1)
+  return false
 }
 
 type T = ReturnType<typeof useT>
@@ -38,10 +60,12 @@ function search(q: string, lang: Lang, t: T): Hit[] {
   if (!words.length) return []
   const score = (fields: string[]) => {
     const text = norm(fields.join(' '))
+    const tokens = text.split(/[^a-z0-9]+/)
+    const first = norm(fields[0])
     let s = 0
     for (const w of words) {
-      if (!text.includes(w)) return 0
-      s += norm(fields[0]).includes(w) ? 3 : 1
+      if (!matches(w, text, tokens)) return 0
+      s += first.includes(w) || first.includes(w.slice(0, -1)) ? 3 : 1
     }
     return s
   }
@@ -70,11 +94,16 @@ function search(q: string, lang: Lang, t: T): Hit[] {
     const s = score([a.title, a.excerpt, a.tags.join(' '), a.category])
     if (s) hits.push({ kind: 'articolo', title: a.title, meta: `Blog · ${a.category}`, to: localizePath(`/blog/${a.slug}`, lang), score: s })
   }
+  for (const lm of LANDMARKS) {
+    const name = landmarkName(lm, lang)
+    const s = score([name, lm.name])
+    if (s) hits.push({ kind: 'luogo', title: name, meta: t('sulla mappa, con eventi ed esperienze intorno'), to: localizePath('/mappa', lang), score: s + 2 })
+  }
   return hits.sort((a, b) => b.score - a.score).slice(0, 12)
 }
 
-const ICON = { esperienza: Ticket, evento: Calendar, articolo: Newspaper }
-const LABEL = { esperienza: 'Esperienza', evento: 'Evento', articolo: 'Articolo' }
+const ICON = { esperienza: Ticket, evento: Calendar, articolo: Newspaper, luogo: MapPin }
+const LABEL = { esperienza: 'Esperienza', evento: 'Evento', articolo: 'Articolo', luogo: 'Luogo' }
 
 /** Ricerca in tutto il sito: esperienze, eventi in programma, articoli. Si apre anche con ⌘K / Ctrl+K. */
 export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
@@ -94,8 +123,13 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
       }
       if (e.key === 'Escape' && open) onClose()
     }
+    const onAsk = () => onOpen()
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener('cf:cerca', onAsk)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('cf:cerca', onAsk)
+    }
   }, [open, onClose, onOpen])
 
   useEffect(() => {
@@ -117,7 +151,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
     <div className="fixed inset-0 z-[70] flex items-start justify-center bg-ink/40 p-4 pt-[12vh] backdrop-blur-sm" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div role="dialog" aria-modal="true" aria-label={t('Cerca nel sito')} className="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-soft">
         <div className="flex items-center gap-3 border-b border-line px-5">
-          <Search size={18} className="shrink-0 text-ink/45" />
+          <Search size={18} className="shrink-0 text-ink/60" />
           <input
             ref={inputRef}
             id="ricerca-sito"
@@ -125,7 +159,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={t("Cerca un'esperienza, un evento, un articolo")}
-            className="h-14 min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink/40"
+            className="h-14 min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink/60"
             autoComplete="off"
           />
           <button type="button" onClick={onClose} aria-label={t('Chiudi la ricerca')} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/60 hover:bg-paper hover:text-ink">
@@ -134,7 +168,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
         </div>
         <div className="max-h-[60vh] overflow-y-auto p-2">
           {q.trim().length < 2 ? (
-            <div className="px-4 py-6 text-sm text-ink/55">
+            <div className="px-4 py-6 text-sm text-ink/60">
               <p>{t('Prova con “pizza”, “barca”, “Sanità”, “MANN” o il nome di un quartiere.')}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(lang === 'en' ? ['pizza', 'boat', 'underground', 'Vesuvius', 'concert', 'exhibition'] : ['pizza', 'barca', 'sotterranea', 'Vesuvio', 'concerto', 'mostre']).map((s) => (
@@ -145,7 +179,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
               </div>
             </div>
           ) : hits.length === 0 ? (
-            <p className="px-4 py-6 text-sm text-ink/55">{t('Niente con “{q}”. Prova con una parola sola o guarda tutte le esperienze.', { q })}</p>
+            <p className="px-4 py-6 text-sm text-ink/60">{t('Niente con “{q}”. Prova con una parola sola o guarda tutte le esperienze.', { q })}</p>
           ) : (
             <ul>
               {hits.map((h) => {
@@ -158,7 +192,7 @@ export function SearchDialog({ open, onClose, onOpen }: SearchDialogProps) {
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium">{h.title}</span>
-                        <span className="block truncate text-sm text-ink/55">
+                        <span className="block truncate text-sm text-ink/60">
                           {t(LABEL[h.kind])} · {h.meta}
                         </span>
                       </span>

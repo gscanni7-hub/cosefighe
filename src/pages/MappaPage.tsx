@@ -88,12 +88,12 @@ export default function MappaPage() {
                     <Link to={lp(eventPath(it.event!))} viewTransition className="group flex items-start justify-between gap-4 py-3">
                       <span className="min-w-0">
                         <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{it.title}</span>
-                        <span className="mt-0.5 block text-sm text-ink/55">
+                        <span className="mt-0.5 block text-sm text-ink/60">
                           {it.event!.place}
                           {it.event!.area && it.event!.area !== it.event!.place ? `, ${it.event!.area}` : ''} · {catLabel(it.cat, lang)}
                         </span>
                       </span>
-                      <ArrowRight size={16} className="mt-1 shrink-0 text-ink/40 transition-transform group-hover:translate-x-0.5" />
+                      <ArrowRight size={16} className="mt-1 shrink-0 text-ink/60 transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   </li>
                 ))}
@@ -114,7 +114,7 @@ export default function MappaPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-xs leading-relaxed text-ink/50">{t('Mappa di base: OpenStreetMap, servita da OpenFreeMap, senza cookie. I disegni sono nostri.')}</p>
+              <p className="mt-5 text-xs leading-relaxed text-ink/60">{t('Mappa di base: OpenStreetMap, servita da OpenFreeMap, senza cookie. I disegni sono nostri.')}</p>
             </div>
           </aside>
         </div>
@@ -127,7 +127,7 @@ function MapPlaceholder() {
   const t = useT()
   return (
     <div className="flex h-full w-full items-center justify-center bg-sand">
-      <div className="flex items-center gap-3 text-sm text-ink/55">
+      <div className="flex items-center gap-3 text-sm text-ink/60">
         <img src="/mascotte-binocolo.webp" alt="" width={64} height={64} className="h-16 w-16 object-contain" />
         {t('La mappa sta arrivando…')}
       </div>

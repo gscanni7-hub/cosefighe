@@ -46,7 +46,7 @@ function Fact({ icon, label, value }: { icon: React.ReactNode; label: string; va
     <div className="flex items-start gap-3">
       <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-paper text-ink/60">{icon}</span>
       <div className="min-w-0">
-        <p className="label text-ink/45">{label}</p>
+        <p className="label text-ink/60">{label}</p>
         <p className="mt-0.5 text-sm font-medium leading-snug">{value}</p>
       </div>
     </div>
@@ -130,7 +130,7 @@ function ExperienceView({ page }: { page: PageData }) {
               <span className="inline-flex items-center gap-1 font-semibold text-ink">
                 <Star size={14} className="text-orange" fill="currentColor" />
                 {exp.rating.toLocaleString(locale)}
-                <span className="font-normal text-ink/45">
+                <span className="font-normal text-ink/60">
                   ({exp.reviews.toLocaleString(locale)}
                   {' ' + t(lang === 'en' && exp.reviews === 1 ? 'recensione' : 'recensioni')}
                   {provider ? ' ' + t('su {p}', { p: provider }) : ''})
@@ -146,7 +146,7 @@ function ExperienceView({ page }: { page: PageData }) {
               <img src={exp.image} alt={exp.title} width={1200} height={900} fetchPriority="high" decoding="async" className="aspect-[4/3] w-full object-cover" />
             </div>
             {credit?.artist && (
-              <figcaption className="mt-2 text-right text-[11px] text-ink/40">
+              <figcaption className="mt-2 text-right text-[11px] text-ink/60">
                 {t('Foto:') + ' '}
                 {credit.artist}
                 {credit.license ? `, ${credit.license}` : ''} ·{' '}
@@ -204,7 +204,7 @@ function ExperienceView({ page }: { page: PageData }) {
             <Reveal className="mt-10">
               <h2 className="heading-md">{t('Cosa è incluso')}</h2>
               <p className="mt-4 text-lg leading-relaxed text-ink/75">{exp.included}.</p>
-              <p className="mt-3 text-sm text-ink/55">
+              <p className="mt-3 text-sm text-ink/60">
                 {parts(t('Prezzo, disponibilità e dettagli sono quelli di {p}, aggiornati. Se prenoti da qui, a noi resta una piccola commissione, a te non costa niente di più.'), {
                   p: provider || t('la piattaforma partner'),
                 })}
@@ -233,9 +233,9 @@ function ExperienceView({ page }: { page: PageData }) {
                       <Link to={lp(`/blog/${a.slug}`)} viewTransition className="group flex items-start justify-between gap-4 py-4">
                         <span className="min-w-0">
                           <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{a.title}</span>
-                          <span className="mt-1 block text-sm text-ink/55">{parts(t('{n} minuti di lettura'), { n: a.readingTime })}</span>
+                          <span className="mt-1 block text-sm text-ink/60">{parts(t('{n} minuti di lettura'), { n: a.readingTime })}</span>
                         </span>
-                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/40 transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/60 transition-transform group-hover:translate-x-0.5" />
                       </Link>
                     </li>
                   ))}
@@ -249,9 +249,9 @@ function ExperienceView({ page }: { page: PageData }) {
             <div className="card p-6">
               <div className="flex items-end justify-between gap-3">
                 <div className="leading-none">
-                  <span className="text-xs font-medium text-ink/45">{t('da')}</span>
+                  <span className="text-xs font-medium text-ink/60">{t('da')}</span>
                   <span className="ml-1 font-display text-4xl text-orange">{exp.price}</span>
-                  <span className="mt-1 block text-xs text-ink/45">{t('a persona')}</span>
+                  <span className="mt-1 block text-xs text-ink/60">{t('a persona')}</span>
                 </div>
                 <button
                   type="button"
@@ -269,7 +269,7 @@ function ExperienceView({ page }: { page: PageData }) {
                   <ArrowUpRight size={16} />
                 </ButtonAnchor>
               ) : (
-                <p className="mt-5 text-sm text-ink/55">{t('Prenotazioni in arrivo.')}</p>
+                <p className="mt-5 text-sm text-ink/60">{t('Prenotazioni in arrivo.')}</p>
               )}
               <ul className="mt-5 space-y-2 text-sm text-ink/60">
                 <li className="flex gap-2">
@@ -290,7 +290,7 @@ function ExperienceView({ page }: { page: PageData }) {
               const item = experienceToItem(exp, category.slug)
               return item ? <DoveBox item={item} place={exp.ritrovo ? exp.ritrovo.split(",")[0] : exp.location} detail={exp.ritrovo ? t('Punto di ritrovo: {r}', { r: exp.ritrovo.replace(/^[^,]+,\s*/, "") }) : t("Punto di partenza")} /> : null
             })()}
-            <p className="mt-4 text-center text-xs text-ink/45">
+            <p className="mt-4 text-center text-xs text-ink/60">
               <Link to={lp('/cosa-fare')} viewTransition className="underline underline-offset-4 hover:text-ink">
                 {t('Cosa succede a Napoli in questi giorni')}
               </Link>
@@ -308,9 +308,9 @@ function ExperienceView({ page }: { page: PageData }) {
         >
           <div className="container-x flex items-center justify-between gap-4">
             <div className="min-w-0 leading-tight">
-              <span className="text-xs font-medium text-ink/45">{t('da')}</span>
+              <span className="text-xs font-medium text-ink/60">{t('da')}</span>
               <span className="ml-1 font-display text-2xl text-orange">{exp.price}</span>
-              <span className="block truncate text-[11px] text-ink/50">{exp.cancellation || t('a persona')}</span>
+              <span className="block truncate text-[11px] text-ink/60">{exp.cancellation || t('a persona')}</span>
             </div>
             <ButtonAnchor href={exp.affiliateUrl} target="_blank" rel="sponsored noopener noreferrer" onClick={onBook} className="shrink-0">
               {t('Prenota') + ' '}

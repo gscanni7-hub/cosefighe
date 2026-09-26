@@ -316,7 +316,7 @@ export default function MapView({ items, range, category, embedded = false, init
           <div className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-64px)] flex-col gap-2 lg:left-4 lg:top-4">
             <div className="relative">
               <label className="flex h-11 w-[270px] max-w-full items-center gap-2 rounded-full bg-white px-3.5 shadow-soft">
-                <Search size={15} className="shrink-0 text-ink/45" />
+                <Search size={15} className="shrink-0 text-ink/60" />
                 <input
                   id="mappa-cerca"
                   type="search"
@@ -328,11 +328,11 @@ export default function MapView({ items, range, category, embedded = false, init
                   onFocus={() => setSearchOpen(true)}
                   onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
                   placeholder={t('Cerca un posto o un evento')}
-                  className="min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink/40 md:text-sm"
+                  className="min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink/60 md:text-sm"
                   autoComplete="off"
                 />
                 {query && (
-                  <button type="button" onClick={() => setQuery('')} aria-label={t('Cancella')} className="flex h-8 w-8 items-center justify-center text-ink/45">
+                  <button type="button" onClick={() => setQuery('')} aria-label={t('Cancella')} className="flex h-8 w-8 items-center justify-center text-ink/60">
                     <X size={14} />
                   </button>
                 )}
@@ -371,7 +371,7 @@ export default function MapView({ items, range, category, embedded = false, init
                         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${it.kind === 'evento' ? 'bg-orange' : 'bg-blue'}`} />
                         <span className="min-w-0">
                           <span className="block truncate font-medium">{it.title}</span>
-                          <span className="block truncate text-xs text-ink/50">{it.event?.place ?? it.exp?.location}</span>
+                          <span className="block truncate text-xs text-ink/60">{it.event?.place ?? it.exp?.location}</span>
                         </span>
                       </button>
                     </li>
@@ -470,7 +470,7 @@ export default function MapView({ items, range, category, embedded = false, init
               <span aria-hidden className="mx-auto block h-1 w-10 rounded-full bg-line" />
               <div className="mt-2 flex items-baseline justify-between gap-3">
                 <h2 className="font-display text-lg uppercase">{me ? t('Vicino a te') : range ? t('In questi giorni') : preset === 'oggi' ? t('In città oggi') : preset === 'weekend' ? t('Questo weekend') : t('I prossimi {n} giorni', { n: preset })}</h2>
-                <span className="text-xs text-ink/50 tabular-nums">
+                <span className="text-xs text-ink/60 tabular-nums">
                   {lang === 'en' && nEv === 1 ? t('1 evento') : t('{n} eventi', { n: nEv })} · {lang === 'en' && nEx === 1 ? t('1 esperienza') : t('{n} esperienze', { n: nEx })}
                 </span>
               </div>
@@ -491,7 +491,7 @@ export default function MapView({ items, range, category, embedded = false, init
           ) : (
             <header className="flex items-baseline justify-between gap-3 border-b border-line px-4 py-3">
               <h2 className="font-display text-xl uppercase">{me ? t('Vicino a te') : range ? t('In questi giorni') : preset === 'oggi' ? t('In città oggi') : preset === 'weekend' ? t('Questo weekend') : t('I prossimi {n} giorni', { n: preset })}</h2>
-              <span className="text-xs text-ink/45 tabular-nums">
+              <span className="text-xs text-ink/60 tabular-nums">
                 {lang === 'en' && nEv === 1 ? t('1 evento') : t('{n} eventi', { n: nEv })} · {lang === 'en' && nEx === 1 ? t('1 esperienza') : t('{n} esperienze', { n: nEx })}
               </span>
             </header>
@@ -564,7 +564,7 @@ function ListRow({ item, me, selected, hovered, onClick, onHover }: { item: MapI
       )}
       <span className="min-w-0">
         <span className="line-clamp-2 text-[13.5px] font-semibold leading-snug">{item.title}</span>
-        <span className="mt-0.5 block truncate text-xs text-ink/55">{meta}</span>
+        <span className="mt-0.5 block truncate text-xs text-ink/60">{meta}</span>
       </span>
       <span className={`font-display text-lg ${item.kind === 'evento' ? 'text-orange' : 'text-blue'} ${price === free ? 'text-sm' : ''}`}>{price}</span>
     </button>
@@ -645,7 +645,7 @@ function ItemCard({
             {catLabel(item.cat, lang)} · {item.kind === 'evento' ? t('evento') : t('si prenota')}
           </p>
           {total > 1 && (
-            <span className="inline-flex items-center gap-1 text-[11px] text-ink/45 tabular-nums">
+            <span className="inline-flex items-center gap-1 text-[11px] text-ink/60 tabular-nums">
               <button type="button" onClick={onPrev} aria-label={t('Precedente')} className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-paper">
                 <ChevronLeft size={14} />
               </button>
@@ -665,7 +665,7 @@ function ItemCard({
               <span className="text-ink">{walk ?? distanceLabel(km, lang)}</span>
             </>
           )}
-          {item.approx && <span className="text-ink/40"> · {t('posizione indicativa')}</span>}
+          {item.approx && <span className="text-ink/60"> · {t('posizione indicativa')}</span>}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {ev && (
@@ -687,7 +687,7 @@ function ItemCard({
             <Navigation size={14} /> {t('Indicazioni')}
           </ButtonAnchor>
         </div>
-        {ex?.provider && ex.provider !== 'cosefighe' && <p className="mt-2 text-[11px] text-ink/40">{t('Si prenota su {sito}, ai loro prezzi.', { sito: PROVIDER_LABEL[ex.provider] })}</p>}
+        {ex?.provider && ex.provider !== 'cosefighe' && <p className="mt-2 text-[11px] text-ink/60">{t('Si prenota su {sito}, ai loro prezzi.', { sito: PROVIDER_LABEL[ex.provider] })}</p>}
       </div>
     </div>
   )

@@ -8,7 +8,9 @@
  "Avvisatemi quando aprono le prenotazioni.": "Please let me know when bookings open.",
  "Blog": "Blog",
  "Cerca nel sito": "Search the site",
+ "Cerca un evento, un posto, un’esperienza": "Search for an event, a place, an experience",
  "Cerca un'esperienza, un evento, un articolo": "Search experiences, events, articles",
+ "Cerca un’esperienza, un evento, un posto": "Search for an experience, an event, a place",
  "Chiudi": "Close",
  "Chiudi il menu": "Close menu",
  "Chiudi la ricerca": "Close search",
@@ -37,6 +39,7 @@
  "Leggi": "Read",
  "Lingua": "Language",
  "Lista d'attesa Cose Fighe": "Cose Fighe waiting list",
+ "Luogo": "Place",
  "Menu": "Menu",
  "Napoli, Campania": "Naples, Campania",
  "Niente con “{q}”. Prova con una parola sola o guarda tutte le esperienze.": "Nothing for “{q}”. Try a single word, or browse all the experiences.",
@@ -67,6 +70,7 @@
  "da": "from",
  "da {prezzo}": "from {prezzo}",
  "fino a {n} persone": "up to {n} people",
+ "sulla mappa, con eventi ed esperienze intorno": "on the map, with events and experiences nearby",
  "{giorno}, dalle {ora}": "{giorno}, from {ora}",
  "{n} min": "{n} min read"
 }

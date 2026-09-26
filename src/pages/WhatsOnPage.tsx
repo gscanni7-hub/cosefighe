@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, ChevronDown, SlidersHorizontal, X } from 'luc
 import { Page } from '../components/Page'
 import { FloatingImage } from '../components/Decorations'
 import { PageHero } from '../components/ui/PageHero'
+import { SearchField } from '../components/ui/SearchField'
 import { Button, ButtonLink } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
 import { Segmented } from '../components/ui/Segmented'
@@ -94,7 +95,7 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
   const ongoing = multi && shownOn > event.start
   const body = (
     <>
-      <span className="text-sm tabular-nums text-ink/55 md:pt-0.5">{event.time || (multi ? t('tutto il giorno') : '')}</span>
+      <span className="text-sm tabular-nums text-ink/60 md:pt-0.5">{event.time || (multi ? t('tutto il giorno') : '')}</span>
       <span className="min-w-0">
         <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="font-semibold leading-snug">{event.title}</span>
@@ -105,11 +106,11 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
         <span className="mt-1 block text-sm text-ink/60">
           {event.place}
           {event.area && event.area !== event.place ? `, ${event.area}` : ''}
-          <span className="text-ink/35"> · </span>
+          <span className="text-ink/60"> · </span>
           {eventCategoryLabel(event.category, lang)}
           {multi && (
             <>
-              <span className="text-ink/35"> · </span>
+              <span className="text-ink/60"> · </span>
               {`${t('fino a')} `}{formatShort(event.end!, lang)}
             </>
           )}
@@ -118,7 +119,7 @@ function EventRow({ event, shownOn }: { event: CityEvent; shownOn: string }) {
       </span>
       <span className="flex items-center justify-between gap-3 text-sm md:flex-col md:items-end md:justify-start">
         <span className="font-medium text-ink">{event.price}</span>
-        <span className="inline-flex items-center gap-1 text-ink/45 transition-colors group-hover:text-orange">
+        <span className="inline-flex items-center gap-1 text-ink/60 transition-colors group-hover:text-orange">
           {`${t('Dettagli')} `}<ArrowRight size={14} />
         </span>
       </span>
@@ -343,6 +344,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
         eyebrow={copy.eyebrow}
         title={copy.title}
         subtitle={copy.subtitle}
+        actions={<SearchField placeholder={t('Cerca un evento, un posto, un’esperienza')} />}
         aside={
           <div className="relative mx-auto w-[180px] md:ml-auto md:w-[260px]" aria-hidden="true">
             <FloatingImage src="/mascotte-binocolo.webp" amplitude={10} />
@@ -360,7 +362,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
             label={t('Quando')}
             className="min-w-0 flex-1 md:max-w-full md:flex-none"
           />
-          <div className="hidden items-center gap-2 text-sm text-ink/55 md:flex">
+          <div className="hidden items-center gap-2 text-sm text-ink/60 md:flex">
             <label className="inline-flex items-center gap-1.5">
               {t('dal')}
               <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
@@ -395,7 +397,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                 </option>
               ))}
             </select>
-            <ChevronDown size={14} className="pointer-events-none absolute right-3 text-ink/50" />
+            <ChevronDown size={14} className="pointer-events-none absolute right-3 text-ink/60" />
           </label>
           <button
             type="button"
@@ -423,8 +425,8 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                 <X size={16} />
               </button>
             </div>
-            <p className="label mb-3 text-ink/50">{t('Giorni')}</p>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-ink/55">
+            <p className="label mb-3 text-ink/60">{t('Giorni')}</p>
+            <div className="flex flex-wrap items-center gap-2 text-sm text-ink/60">
               <label className="inline-flex items-center gap-1.5">
                 {t('dal')}
                 <input type="date" className={input} value={range.from} min={today} onChange={(e) => e.target.value && update({ from: e.target.value, to: e.target.value > range.to ? e.target.value : range.to })} />
@@ -434,7 +436,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                 <input type="date" className={input} value={range.to} min={range.from} onChange={(e) => e.target.value && update({ to: e.target.value, from: e.target.value < range.from ? e.target.value : range.from })} />
               </label>
             </div>
-            <p className="label mb-3 mt-6 text-ink/50">{t('Categoria')}</p>
+            <p className="label mb-3 mt-6 text-ink/60">{t('Categoria')}</p>
             <div className="flex flex-wrap gap-2">
               <button type="button" aria-pressed={!category} className={`chip ${!category ? 'chip-on' : ''}`} onClick={() => update({ cat: null })}>
                 {t('Tutte')}
@@ -474,14 +476,14 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
 
           {mapView ? (
             <div className="-mx-5 h-[calc(100dvh-140px)] min-h-[480px] overflow-hidden border-y border-line sm:mx-0 sm:rounded-[2rem] sm:border">
-              <Suspense fallback={<div className="flex h-full items-center justify-center bg-sand text-sm text-ink/55">{t('La mappa sta arrivando…')}</div>}>
+              <Suspense fallback={<div className="flex h-full items-center justify-center bg-sand text-sm text-ink/60">{t('La mappa sta arrivando…')}</div>}>
                 <MapView items={mapItems} range={range} category={category} embedded />
               </Suspense>
             </div>
           ) : null}
           <Reveal className={mapView ? 'hidden' : ''}>
             <h2 className="heading-lg">
-              {nEvents > 0 ? t(nEvents === 1 ? '{n} evento' : '{n} eventi', { n: nEvents }) : t('Nessun evento')} <span className="text-ink/40">{rangeLabel}</span>
+              {nEvents > 0 ? t(nEvents === 1 ? '{n} evento' : '{n} eventi', { n: nEvents }) : t('Nessun evento')} <span className="text-ink/60">{rangeLabel}</span>
             </h2>
             <p className="mt-2 text-ink/60">
               {nDays === 1 ? formatLong(range.from, lang) : t('{n} giorni, da {from} a {to}', { n: nDays, from: formatLong(range.from, lang), to: formatLong(range.to, lang) })}
@@ -508,27 +510,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
               }
             />
           ) : (
-            <div className="mt-10 flex flex-col gap-10">
-              {groups.map((g) => {
-                const p = dayParts(g.day, lang)
-                return (
-                  <section key={g.day} aria-label={`${p.wdLong} ${p.day} ${p.monLong}`}>
-                    <h3 className="mb-3 flex items-baseline gap-2 text-lg font-semibold">
-                      <span className="capitalize">{p.wdLong}</span> {p.day} {en ? p.mon : p.monLong}
-                      {g.day === today && <span className="label rounded-full bg-blue/10 px-2 py-0.5 text-blue">{t('oggi')}</span>}
-                      <span className="ml-auto text-sm font-normal text-ink/45">
-                        {g.items.length} {t(g.items.length === 1 ? 'evento' : 'eventi')}
-                      </span>
-                    </h3>
-                    <div className="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-white">
-                      {g.items.map((e) => (
-                        <EventRow key={e.slug} event={e} shownOn={g.day} />
-                      ))}
-                    </div>
-                  </section>
-                )
-              })}
-            </div>
+            <DayList key={`${range.from}-${range.to}-${category ?? ""}`} groups={groups} today={today} />
           )}
         </div>
       </section>
@@ -589,7 +571,7 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                   <li key={g.slug} id={g.slug} className="grid grid-cols-[4.5rem_1fr] gap-4 md:grid-cols-[6rem_1fr] md:gap-5">
                     <img src={g.image} alt={g.title} loading="lazy" decoding="async" width={96} height={96} className="aspect-square w-full rounded-2xl object-cover" />
                     <div className="min-w-0">
-                      <p className="label text-ink/45">
+                      <p className="label text-ink/60">
                         {i + 1} · {cat?.label ?? g.category}
                         {g.free ? ` · ${t('gratis')}` : ''}
                       </p>
@@ -608,12 +590,12 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
                           </a>
                         )}
                         {cat && (
-                          <Link to={lp(`/categoria/${cat.slug}`)} viewTransition className="text-ink/55 underline decoration-ink/25 underline-offset-4 hover:text-ink">
+                          <Link to={lp(`/categoria/${cat.slug}`)} viewTransition className="text-ink/60 underline decoration-ink/25 underline-offset-4 hover:text-ink">
                             {en ? t('Tutte le esperienze {cat}', { cat: cat.label.toLowerCase() }) : <>Tutte le esperienze {cat.label.toLowerCase()}</>}
                           </Link>
                         )}
                         {g.article && article && (
-                          <Link to={lp(`/blog/${g.article}`)} viewTransition className="text-ink/55 underline decoration-ink/25 underline-offset-4 hover:text-ink">
+                          <Link to={lp(`/blog/${g.article}`)} viewTransition className="text-ink/60 underline decoration-ink/25 underline-offset-4 hover:text-ink">
                             {`${t('Approfondisci')}: `}{article.title.split(':')[0]}
                           </Link>
                         )}
@@ -652,6 +634,75 @@ export default function WhatsOnPage({ fixed }: { fixed?: FixedRange }) {
         </section>
       )}
     </Page>
+  )
+}
+
+/** Primi eventi di ogni giorno visibili; gli altri restano nella pagina (per Google) ma si aprono con «Mostra tutti». */
+const FIRST = 6
+
+/** Il programma giorno per giorno, con le linguette dei giorni in alto (Tutti, Oggi, Sab 27…). */
+function DayList({ groups, today }: { groups: { day: string; items: CityEvent[] }[]; today: string }) {
+  const t = useT()
+  const lang = useLang()
+  const en = lang === 'en'
+  const [only, setOnly] = useState<string | null>(null)
+  const [open, setOpen] = useState<Set<string>>(() => new Set())
+  const shown = only ? groups.filter((g) => g.day === only) : groups
+  return (
+    <>
+      {groups.length > 1 && (
+        <div role="tablist" aria-label={t('Giorni')} className="-mx-5 mt-6 flex gap-2 overflow-x-auto px-5 py-0.5 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
+          <button type="button" role="tab" aria-selected={!only} onClick={() => setOnly(null)} className={`chip shrink-0 ${!only ? 'chip-on' : ''}`}>
+            {t('Tutti i giorni')}
+          </button>
+          {groups.map((g) => {
+            const p = dayParts(g.day, lang)
+            const on = only === g.day
+            return (
+              <button key={g.day} type="button" role="tab" aria-selected={on} onClick={() => setOnly(on ? null : g.day)} className={`chip shrink-0 gap-1.5 ${on ? 'chip-on' : ''}`}>
+                <span className="capitalize">{g.day === today ? t('Oggi') : `${p.wd} ${p.day}`}</span>
+                <span className={on ? 'text-white/70' : 'text-ink/60'}>{g.items.length}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+      <div className="mt-8 flex flex-col gap-10">
+        {shown.map((g) => {
+          const p = dayParts(g.day, lang)
+          const all = open.has(g.day) || !!only
+          const hiddenCount = all ? 0 : Math.max(0, g.items.length - FIRST)
+          return (
+            <section key={g.day} aria-label={`${p.wdLong} ${p.day} ${p.monLong}`}>
+              <h3 className="mb-3 flex items-baseline gap-2 text-lg font-semibold">
+                <span className="capitalize">{p.wdLong}</span> {p.day} {en ? p.mon : p.monLong}
+                {g.day === today && <span className="label rounded-full bg-blue/10 px-2 py-0.5 text-blue">{t('oggi')}</span>}
+                <span className="ml-auto text-sm font-normal text-ink/60">
+                  {g.items.length} {t(g.items.length === 1 ? 'evento' : 'eventi')}
+                </span>
+              </h3>
+              <div className="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-white">
+                {g.items.map((e, i) => (
+                  <div key={e.slug} className={!all && i >= FIRST ? 'hidden' : undefined}>
+                    <EventRow event={e} shownOn={g.day} />
+                  </div>
+                ))}
+              </div>
+              {hiddenCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setOpen((s) => new Set(s).add(g.day))}
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
+                >
+                  {t(hiddenCount === 1 ? 'Mostra un altro evento' : 'Mostra altri {n} eventi', { n: hiddenCount })}
+                  <ChevronDown size={15} />
+                </button>
+              )}
+            </section>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

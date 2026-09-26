@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, MapPin, Menu, X } from 'lucide-react'
+import { ArrowRight, MapPin, Menu, Search, X } from 'lucide-react'
 import { ButtonLink } from './ui/Button'
 import { SearchDialog } from './SearchDialog'
 import { preloadMappa } from '../lib/mappaPreload'
@@ -184,6 +184,19 @@ export const Navbar = () => {
                     {t('La mappa di Napoli')}
                   </Link>
                 </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false)
+                      setSearch(true)
+                    }}
+                    className="mb-1 flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-left text-base font-semibold text-ink"
+                  >
+                    <Search size={18} className="text-ink/60" />
+                    {t('Cerca nel sito')}
+                  </button>
+                </li>
                 {navItems.map((item) => {
                   const active = isActive(item.to)
                   return (
@@ -197,7 +210,7 @@ export const Navbar = () => {
                         }`}
                       >
                         {t(item.label)}
-                        <ArrowRight size={16} className={active ? 'text-white/70' : 'text-ink/40'} />
+                        <ArrowRight size={16} className={active ? 'text-white/70' : 'text-ink/60'} />
                       </Link>
                     </li>
                   )

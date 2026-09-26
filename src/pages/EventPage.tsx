@@ -320,13 +320,13 @@ function EventView({ event: it }: { event: CityEvent }) {
                 <div className="min-w-0 leading-none">
                   {price ? (
                     <>
-                      <span className="text-xs font-medium text-ink/45">{t(isFreeEvent(it) ? 'ingresso' : 'da')}</span>
+                      <span className="text-xs font-medium text-ink/60">{t(isFreeEvent(it) ? 'ingresso' : 'da')}</span>
                       <span className="ml-1 font-display text-4xl text-orange">{price}</span>
                     </>
                   ) : (
                     <span className="block text-base font-semibold leading-snug">{event.price || t('Prezzo sul sito ufficiale')}</span>
                   )}
-                  {price && event.price && event.price.toLowerCase() !== price.toLowerCase() && <span className="mt-2 block text-xs leading-snug text-ink/50">{event.price}</span>}
+                  {price && event.price && event.price.toLowerCase() !== price.toLowerCase() && <span className="mt-2 block text-xs leading-snug text-ink/60">{event.price}</span>}
                 </div>
                 <img src="/mascotte-binocolo.webp" alt="" width={96} height={96} decoding="async" className="h-16 w-16 shrink-0 object-contain md:h-20 md:w-20" />
               </div>
@@ -364,7 +364,7 @@ function EventView({ event: it }: { event: CityEvent }) {
               return item ? <DoveBox item={item} place={event.place || t('Napoli')} detail={event.area && event.area !== event.place ? event.area : undefined} /> : null
             })()}
             {!past && (
-              <p className="mt-4 text-center text-xs text-ink/45">
+              <p className="mt-4 text-center text-xs text-ink/60">
                 <Link to={lp('/cosa-fare/oggi')} viewTransition className="underline underline-offset-4 hover:text-ink">
                   {t('Cosa fare a Napoli oggi')}
                 </Link>
@@ -388,22 +388,22 @@ function EventView({ event: it }: { event: CityEvent }) {
             {alongside.length > 0 && (
               <Reveal className="mt-12">
                 <h2 className="heading-md">{t('Negli stessi giorni')}</h2>
-                <p className="mt-2 text-sm text-ink/55">
+                <p className="mt-2 text-sm text-ink/60">
                   {en ? (single ? `What else is on in Naples on ${formatLong(event.start, 'en')}.` : 'What else is on in Naples on those days.') : <>Cos’altro succede a Napoli {single ? formatLong(event.start) : 'in quei giorni'}.</>}
                 </p>
                 <ul className="mt-5 divide-y divide-line border-y border-line">
                   {alongside.map((o) => (
                     <li key={o.slug}>
                       <Link to={lp(eventPath(o))} viewTransition className="group grid grid-cols-[4.5rem_1fr_auto] items-start gap-3 py-3.5">
-                        <span className="pt-0.5 text-sm tabular-nums text-ink/55">{o.end && o.end !== o.start ? t('fino al {d}', { d: formatShort(o.end, lang).replace(/^\w+ /, '') }) : formatShort(o.start, lang)}</span>
+                        <span className="pt-0.5 text-sm tabular-nums text-ink/60">{o.end && o.end !== o.start ? t('fino al {d}', { d: formatShort(o.end, lang).replace(/^\w+ /, '') }) : formatShort(o.start, lang)}</span>
                         <span className="min-w-0">
                           <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{o.title}</span>
-                          <span className="mt-0.5 block text-sm text-ink/55">
+                          <span className="mt-0.5 block text-sm text-ink/60">
                             {o.place}
                             {o.price ? ` · ${o.price}` : ''}
                           </span>
                         </span>
-                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/40 transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/60 transition-transform group-hover:translate-x-0.5" />
                       </Link>
                     </li>
                   ))}
@@ -417,7 +417,7 @@ function EventView({ event: it }: { event: CityEvent }) {
             {experiences.length > 0 && (
               <Reveal className="mt-12">
                 <h2 className="heading-md">{t('Da prenotare in quei giorni')}</h2>
-                <p className="mt-2 text-sm text-ink/55">
+                <p className="mt-2 text-sm text-ink/60">
                   {t('Le esperienze si fanno quasi ogni giorno e si prenotano online, spesso con cancellazione gratuita.')}
                   {EXPERIENCE_CATEGORY[event.category]
                     ? ` ${t('Queste sono le {cat}, come l’evento.', { cat: en ? eventCategoryLabel(event.category, lang).toLowerCase() : EVENT_CATEGORY_LABELS[event.category].toLowerCase() })}`
@@ -440,9 +440,9 @@ function EventView({ event: it }: { event: CityEvent }) {
                       <Link to={lp(r.to)} viewTransition className="group flex items-start justify-between gap-4 py-4">
                         <span className="min-w-0">
                           <span className="block font-semibold leading-snug transition-colors group-hover:text-orange">{r.title}</span>
-                          <span className="mt-1 block text-sm text-ink/55">{r.note}</span>
+                          <span className="mt-1 block text-sm text-ink/60">{r.note}</span>
                         </span>
-                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/40 transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRight size={16} className="mt-1 shrink-0 text-ink/60 transition-transform group-hover:translate-x-0.5" />
                       </Link>
                     </li>
                   ))}

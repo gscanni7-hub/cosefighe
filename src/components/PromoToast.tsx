@@ -92,7 +92,7 @@ export function PromoToast() {
     return (
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:justify-end sm:px-6 sm:pb-6">
         <div className="promo-in pointer-events-auto relative w-full max-w-[380px] rounded-2xl border border-white/70 bg-white/85 p-3 pr-10 shadow-[0_18px_40px_-18px_rgba(17,17,17,0.4)] backdrop-blur-xl">
-          <button type="button" onClick={close} aria-label={t('Chiudi')} className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full text-ink/45 transition-colors hover:bg-ink/[0.06] hover:text-ink">
+          <button type="button" onClick={close} aria-label={t('Chiudi')} className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full text-ink/60 transition-colors hover:bg-ink/[0.06] hover:text-ink">
             <X size={14} />
           </button>
           <button type="button" onClick={openCard} className="flex w-full items-start gap-3 text-left">
@@ -102,7 +102,7 @@ export function PromoToast() {
             <span className="min-w-0">
               <span className="flex items-baseline gap-2">
                 <span className="text-sm font-semibold">Cose Fighe</span>
-                <span className="flex items-center gap-1.5 text-xs text-ink/45">
+                <span className="flex items-center gap-1.5 text-xs text-ink/60">
                   <span className="relative flex h-2 w-2" aria-hidden="true">
                     <span className="promo-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-70" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-orange" />
@@ -133,7 +133,7 @@ export function PromoToast() {
           <X size={15} />
         </button>
         <span className="label inline-flex items-center rounded-full bg-blue px-2.5 py-1 text-white">{t('Evento Cose Fighe')}</span>
-        <p className="label mt-3 text-ink/50">{when}</p>
+        <p className="label mt-3 text-ink/60">{when}</p>
         <p className="mt-1 font-display text-[1.6rem] uppercase leading-[0.95] tracking-tight">{event.title.split(':')[0]}</p>
         <p className="mt-2 text-sm text-ink/65">
           {event.place.split(',')[0]}
@@ -151,7 +151,7 @@ export function PromoToast() {
               {t('Prenota il posto')} <ArrowUpRight size={15} />
             </a>
           ) : null}
-          <button type="button" onClick={close} className="whitespace-nowrap text-sm font-medium text-ink/55 hover:text-ink">
+          <button type="button" onClick={close} className="whitespace-nowrap text-sm font-medium text-ink/60 hover:text-ink">
             {t('Non ora')}
           </button>
         </div>
